@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+        
+
+    <!-- 扫描controller（controller层注入） -->
+    <context:component-scan base-package="com.resto.geekpos.web.controller"/>
+	<!-- websocket 测试 -->
+	<context:component-scan base-package="com.resto.geekpos.web.websocket"/>
+
+
+	<!-- 启用AOP配置 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"> </aop:aspectj-autoproxy>
+	
+    <!-- 会自动注册DefaultAnnotationHandlerMapping与AnnotationMethodHandlerAdapter 两个bean,是spring MVC为@Controllers分发请求所必须的 -->
+    <!-- 指定自己定义的validator -->
+    <!--<mvc:annotation-driven validator="validator"/>-->
+
+    <!-- 以下 validator ConversionService 在使用 mvc:annotation-driven 会 自动注册 -->
+    <!--<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">-->
+        <!--<property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>-->
+        <!--&lt;!&ndash; 如果不加默认到 使用classpath下的 ValidationMessages.properties &ndash;&gt;-->
+        <!--<property name="validationMessageSource" ref="messageSource"/>-->
+    <!--</bean>-->
+
+    <!-- 国际化的消息资源文件（本系统中主要用于显示/错误消息定制） -->
+    <!--<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">-->
+        <!--<property name="basenames">-->
+            <!--<list>-->
+                <!--&lt;!&ndash; 在web环境中一定要定位到classpath 否则默认到当前web应用下找 &ndash;&gt;-->
+                <!--<value>classpath:messages</value>-->
+                <!--<value>classpath:org/hibernate/validator/ValidationMessages</value>-->
+            <!--</list>-->
+        <!--</property>-->
+        <!--<property name="useCodeAsDefaultMessage" value="false"/>-->
+        <!--<property name="defaultEncoding" value="UTF-8"/>-->
+        <!--<property name="cacheSeconds" value="60"/>-->
+    <!--</bean>-->
+
+    <mvc:interceptors>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
+        <mvc:interceptor>
+            <mvc:mapping path="/waitModel/getQCode"/>
+            <!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->
+            <bean class="com.resto.geekpos.web.listeners.QCodeInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/waitModel/getQRCodeJump"/>
+            <mvc:mapping path="/waitModel/addGetNumber"/>
+            <!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->
+            <bean class="com.resto.geekpos.web.listeners.JumpQueueInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="defaultLocale" value="zh_CN"/>
+    </bean>
+
+    <!-- 支持返回json(避免IE在ajax请求时，返回json出现下载 ) -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="mappingJacksonHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="mappingJacksonHttpMessageConverter"
+          class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/plain;charset=UTF-8</value>
+                <value>application/json;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>
+    <!-- 支持返回json -->
+
+    <!-- 对模型视图添加前后缀 -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/views/" p:suffix=".jsp"/>
+
+    <!-- 配置springMVC处理上传文件的信息 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="maxUploadSize" value="10485760000"/>
+        <property name="maxInMemorySize" value="40960"/>
+    </bean>
+
+    <!--&lt;!&ndash; 启用shrio授权注解拦截方式 &ndash;&gt;-->
+    <!--<aop:config proxy-target-class="true"></aop:config>-->
+    <!--<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">-->
+        <!--<property name="securityManager" ref="securityManager"/>-->
+    <!--</bean>-->
+
+</beans>

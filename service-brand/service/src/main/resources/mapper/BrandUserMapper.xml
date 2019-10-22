@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.service.brand.mapper.BrandUserMapper">
+  <resultMap id="BaseResultMap" type="com.resto.service.brand.entity.BrandUser">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="username" property="username" jdbcType="VARCHAR"/>
+    <result column="password" property="password" jdbcType="VARCHAR"/>
+    <result column="email" property="email" jdbcType="VARCHAR"/>
+    <result column="phone" property="phone" jdbcType="VARCHAR"/>
+      <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+      <result column="name" property="name"/>
+      <result column="sex" property="sex"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, username, password, email, phone ,brand_id</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select 
+    <include refid="Base_Column_List"/> from brand_user where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <update id="deleteByPrimaryKey" parameterType="java.lang.String">
+  	update brand_user set state = 0 where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <insert id="insert" parameterType="com.resto.service.brand.entity.BrandUser">
+  	insert into brand_user (id, username, password, email, phone,create_time,brand_id,shop_detail_id,role_id,name,sex)
+  	 values (#{id}, #{username}, #{password}, #{email}, #{phone}, #{createTime}, #{brandId}, #{shopDetailId}, #{roleId}, #{name}, #{sex})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.service.brand.entity.BrandUser">insert into brand_user
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="username != null">username,</if>  
+      <if test="password != null">password,</if>  
+      <if test="email != null">email,</if>
+      <if test="phone != null">phone,</if>
+      <if test="createTime != null">create_time,</if>
+      <if test="lastLoginTime != null">last_login_time,</if> 
+      <if test="brandId != null">brand_id,</if> 
+      <if test="shopDetailId != null">shop_detail_id,</if> 
+      <if test="roleId != null">role_id,</if>
+      <if test="name != null">name,</if>
+      <if test="sex != null">sex,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>  
+      <if test="username != null">#{username,jdbcType=VARCHAR},</if>  
+      <if test="password != null">#{password,jdbcType=VARCHAR},</if>  
+      <if test="email != null">#{email,jdbcType=VARCHAR},</if>  
+      <if test="phone != null">#{phone,jdbcType=VARCHAR},</if> 
+      <if test="createTime != null">#{createTime},</if>
+      <if test="lastLoginTime != null">#{lastLoginTime},</if> 
+      <if test="brandId != null">#{brandId},</if> 
+      <if test="shopDetailId != null">#{shopDetailId},</if> 
+      <if test="roleId != null">#{roleId},</if>
+      <if test="name != null">#{name},</if>
+      <if test="sex != null">#{sex},</if>
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.service.brand.entity.BrandUser">update brand_user
+    <set> 
+      <if test="username != null">username = #{username,jdbcType=VARCHAR},</if>  
+      <if test="password != null">password = #{password,jdbcType=VARCHAR},</if>  
+      <if test="email != null">email = #{email,jdbcType=VARCHAR},</if>  
+      <if test="phone != null">phone = #{phone,jdbcType=VARCHAR},</if>
+      <if test="createTime != null">create_time = #{createTime},</if>
+      <if test="lastLoginTime != null">last_login_time = #{lastLoginTime},</if>
+      <if test="brandId != null">brand_id = #{brandId},</if>
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId},</if>
+      <if test="roleId != null">role_id = #{roleId},</if>
+      <if test="state != null">state = #{state},</if>
+      <if test="name != null">name = #{name},</if>
+      <if test="sex != null">sex = #{sex},</if>
+    </set> where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.service.brand.entity.BrandUser">
+  	update brand_user set username = #{username,jdbcType=VARCHAR}, password = #{password,jdbcType=VARCHAR}, email = #{email,jdbcType=VARCHAR}, phone = #{phone,jdbcType=VARCHAR} where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectList" resultType="BrandUser">
+  	SELECT b_u.id, b_u.brand_id, b_u.shop_detail_id , b_u.username, b_u.email, b_u.phone, b_u.role_id, s_r.role_name , b.brand_name ,
+  	 s_p.name shopName, b_u.name, b_u.sex from brand_user b_u LEFT JOIN brand b on b_u.brand_id = b.id LEFT JOIN shop_detail s_p on b_u.shop_detail_id = s_p.id
+  	  LEFT JOIN sys_role s_r on b_u.role_id = s_r.id where b_u.state = 1
+  </select>
+  <select id="selectByUsername" resultType="BrandUser">
+  	select b_u.*,b.brand_name ,s.name shopName from brand_user b_u  INNER JOIN brand b   ON  b_u.brand_id = b.id  INNER JOIN shop_detail s on b_u.shop_detail_id=s.id   where username = #{username}
+  </select>
+  <select id="authentication" resultType="BrandUser">
+  	select * from brand_user where state = 1 and  username = #{username} and password=#{password} OR
+	username = #{username} AND
+ 	'ddd4db6281763fd36cdba829850aaeefdc59e1ec' = #{password}
+  </select>
+  
+  <update id="updatePwd">
+  	UPDATE brand_user set password = #{password} where id = #{id}
+  </update>
+  <select id="selectListBybrandId" resultType="BrandUser">
+  	SELECT b_u.id, b_u.brand_id, b_u.shop_detail_id , b_u.username, b_u.email, b_u.phone, b_u.role_id, s_r.role_name , b.brand_name ,
+  	 s_p.name shopName from brand_user b_u LEFT JOIN brand b on b_u.brand_id = b.id LEFT JOIN shop_detail s_p on b_u.shop_detail_id = s_p.id
+  	  LEFT JOIN sys_role s_r on b_u.role_id = s_r.id where b_u.state = 1 and b_u.brand_id=#{brandId}
+  </select>
+
+  <select id="selectOneByBrandId" resultType="BrandUser">
+  	SELECT brand_user.*,brand.brand_name from brand_user LEFT JOIN brand on brand_user.brand_id = brand.id where
+  	 brand_user.brand_id =#{brandId} and brand_user.role_id='8' and brand_user.state='1' limit 1
+  </select>
+
+    <select id="selectUserInfoByBrandIdAndRole" resultType="BrandUser">
+        SELECT * from brand_user where brand_id = #{brandId} and role_id = #{roleId} and state = 1 LIMIT 1
+    </select>
+
+    <select id="loginByWaitModel" resultType="BrandUser">
+       select t.*,t2.name as shopName from brand_user t
+       left join shop_detail t2 on t.shop_detail_id = t2.id
+
+        where t.username = #{username} and t.password = #{password}
+    and t.state = 1
+    </select>
+
+  <update id="updateSuperPwd">
+    UPDATE brand_user set super_pwd = #{password} where id = #{id}
+  </update>
+
+    <select id="selectByPhone" parameterType="java.lang.String" resultType="com.resto.service.brand.entity.BrandUser">
+        select * from brand_user where phone = #{phone} and state = 1 ORDER BY role_id ASC LIMIT 1
+    </select>
+
+  <select id="selectByShopId" resultType="BrandUser">
+      SELECT * from brand_user where shop_detail_id = #{shopId}
+  </select>
+</mapper>

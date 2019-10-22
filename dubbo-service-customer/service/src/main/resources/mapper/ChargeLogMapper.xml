@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.service.customer.mapper.ChargeLogMapper">
+  <resultMap id="BaseResultMap" type="com.resto.api.customer.entity.ChargeLog">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="operation_phone" jdbcType="VARCHAR" property="operationPhone" />
+    <result column="customer_phone" jdbcType="VARCHAR" property="customerPhone" />
+    <result column="shop_detail_id" jdbcType="VARCHAR" property="shopDetailId" />
+    <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
+    <result column="charge_money" jdbcType="DECIMAL" property="chargeMoney" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="charge_order_id" jdbcType="VARCHAR" property="chargeOrderId" />
+  </resultMap>
+</mapper>

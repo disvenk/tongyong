@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.OrderBeforeMapper">
+
+    <select id="getOrderNoPay" resultType="OrderBefore">
+        select * from tb_order_before where state = 0
+        and shop_detail_id = #{shopId} and table_number = #{tableNumber}
+        <if test="customerId != null">
+            and customer_id = #{customerId}
+        </if>
+    </select>
+
+    <insert id="insertSelective" parameterType="com.resto.shop.web.model.OrderBefore">
+        insert into tb_order_before
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tableNumber != null">table_number,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="shopDetailId != null">shop_detail_id,</if>
+            <if test="orderId != null">order_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tableNumber != null">#{tableNumber},</if>
+            <if test="customerId != null">#{customerId},</if>
+            <if test="shopDetailId != null">#{shopDetailId},</if>
+            <if test="orderId != null">#{orderId},</if>
+        </trim>
+    </insert>
+
+
+    <update id="updateState">
+        update tb_order_before
+        set state = #{state}
+        where order_id = #{orderId}
+    </update>
+
+
+</mapper>

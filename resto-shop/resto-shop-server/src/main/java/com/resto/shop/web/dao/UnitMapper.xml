@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.shop.web.dao.UnitMapper">
+
+    <resultMap id="UnitResultMap" type="com.resto.shop.web.model.Unit">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="sort" property="sort"/>
+        <result column="choice_type" property="choiceType"/>
+        <result column="is_used" property="isUsed"/>
+        <result column="open_article_library" property="openArticleLibrary" jdbcType="BIT"/>
+        <collection property="details" javaType="List" ofType="com.resto.shop.web.model.UnitDetail">
+            <id column="detail_id" property="id"/>
+            <result column="detail_name" property="name"/>
+            <result column="detail_sort" property="sort"/>
+            <result column="detail_used" property="isUsed"/>
+            <result column="detail_price" property="price"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="getUnits" resultMap="UnitResultMap">
+        select t.id ,t.name,t.sort,t2.id as detail_id,t2.name as detail_name,t2.sort as detail_sort
+           from tb_unit t
+        left join tb_unit_detail t2 on t2.unit_id = t.id
+        where t.shop_detail_id = #{shopId}
+    </select>
+
+    <select id="getBrandUnits" resultMap="UnitResultMap">
+        select t.id ,t.name,t.sort,t2.id as detail_id,t2.name as detail_name,t2.sort as detail_sort
+        from tb_unit t
+        left join tb_unit_detail t2 on t2.unit_id = t.id
+        where t.shop_detail_id = #{shopId} AND t.open_article_library=1
+    </select>
+
+    <select id="getUnitsPackage" resultMap="UnitResultMap">
+        select t.id ,t.name,t.sort,t2.id as detail_id,t2.name as detail_name,t2.sort as detail_sort
+        from tb_unit t
+        left join tb_unit_detail t2 on t2.unit_id = t.id
+        where t.shop_detail_id =-1 AND t.open_article_library=1
+    </select>
+
+    <select id="getAnUnitsPackage" resultMap="UnitResultMap">
+        SELECT id,`name` FROM tb_unit WHERE id=#{unitId} AND open_article_library=1
+    </select>
+
+    <select id="selectUnitDetailByKey" resultType="com.resto.shop.web.model.UnitDetail">
+        SELECT id,`name` FROM tb_unit_detail WHERE id=#{unitDetailId}
+    </select>
+
+    <select id="getUnitsByArticleId" resultMap="UnitResultMap">
+        select t.id ,t.name,t.sort,t2.id as detail_id,t2.name as detail_name,t2.sort as detail_sort,
+        (select count(1) from tb_article_unit_new where unit_id = t.id and article_id = #{articleId})
+        as is_used
+        from tb_unit t
+        left join tb_unit_detail t2 on t2.unit_id = t.id
+
+        where t.shop_detail_id = #{shopId}
+    </select>
+
+
+
+    <insert id="insertSelective">
+        insert into tb_unit
+        (id,name,shop_detail_id,sort,open_article_library)
+        values(#{id},#{name},#{shopId},#{sort},#{openArticleLibrary})
+    </insert>
+
+
+    <insert id="insertFamily">
+        insert into tb_unit_family
+        (id,unit_id,name,sort,type)
+        values (#{family.id},#{unitId},#{family.name},#{family.sort},#{family.type})
+    </insert>
+
+    <insert id="insertDetail">
+        insert into tb_unit_detail
+        (id,unit_id,name,sort)
+        values(#{detail.id},#{unitId},#{detail.name},#{detail.sort})
+    </insert>
+
+    <delete id="deleteByPrimaryKey">
+        delete from tb_unit where id = #{id}
+    </delete>
+
+    <select id="getUnitById" resultMap="UnitResultMap">
+         select t.id ,t.name,t.sort,t.open_article_library,t2.id as detail_id,t2.name as detail_name,t2.sort as detail_sort
+           from tb_unit t
+         left join tb_unit_detail t2 on t2.unit_id = t.id
+         where t.id = #{id} order by t2.sort
+    </select>
+
+    <update id="updateByPrimaryKeySelective">
+        update tb_unit
+        set name = #{name},
+        sort = #{sort},
+        open_article_library = #{openArticleLibrary}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDetail">
+        delete from tb_unit_detail
+        where unit_id = #{unitId}
+    </delete>
+
+    <delete id="deleteFamily">
+        delete from tb_unit_family
+        where unit_id = #{id}
+    </delete>
+
+    <select id="getUnitByArticleid" resultMap="UnitResultMap">
+       select t2.unit_id as id ,t2.choice_type,t2.is_used,
+        t4.name,t4.sort,t5.name as detail_name,t5.id as detail_id,t3.sort as detail_sort
+        ,t3.price as detail_price,t3.is_used as detail_used
+       from tb_article t
+left join tb_article_unit_new t2 on t2.article_id = t.id
+left join tb_article_unit_detail t3 on t3.article_unit_id = t2.id
+left join tb_unit t4 on t2.unit_id = t4.id
+left join tb_unit_detail t5 on t5.id = t3.unit_detail_id
+where t.id = #{articleId} order by t3.sort
+    </select>
+
+    <select id="getUnitByArticleidWechat" resultMap="UnitResultMap">
+        select t2.unit_id as id ,t2.choice_type,t2.is_used,
+        t4.name,t4.sort,t5.name as detail_name,t5.id as detail_id,t3.sort as detail_sort
+        ,t3.price as detail_price,t3.is_used as detail_used
+        from tb_article t
+        left join tb_article_unit_new t2 on t2.article_id = t.id
+        left join tb_article_unit_detail t3 on t3.article_unit_id = t2.id
+        left join tb_unit t4 on t2.unit_id = t4.id
+        left join tb_unit_detail t5 on t5.id = t3.unit_detail_id
+        where t.id = #{articleId} and t3.is_used = 1 order by t3.sort
+    </select>
+
+    <insert id="insertArticleRelation">
+        insert into
+       tb_article_unit_new
+       (id,article_id,unit_id,choice_type,is_used)
+       values
+       (#{id},#{articleId},#{unit.id},#{unit.choiceType},1)
+    </insert>
+
+    <insert id="insertUnitDetailRelation">
+        insert into
+        tb_article_unit_detail
+        (id,unit_detail_id,article_unit_id,price,sort,is_used)
+        values
+        (#{id},#{detail.id},#{relationId},#{detail.price},#{detail.sort},ifnull(#{detail.isUsed},1))
+    </insert>
+
+
+    <delete id="deleteArticleUnit">
+        delete from tb_article_unit_new
+        where article_id = #{articleId}
+    </delete>
+
+    <select id="getUnitNew" resultType="java.lang.String">
+        select id from tb_article_unit_new where unit_id = #{id}
+    </select>
+
+    <delete id="deleteUnit">
+        delete from tb_article_unit_detail where article_unit_id in
+        <foreach collection="ids" separator="," item="id" open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteUnitNew">
+        delete from tb_article_unit_new where unit_id = #{id}
+    </delete>
+
+    <delete id="deleteUnitMore">
+        delete from tb_article_unit_detail where article_unit_id = #{id}
+        and unit_detail_id not in
+        <foreach collection="details" separator="," item="detail" open="(" close=")">
+            #{detail.id}
+        </foreach>
+    </delete>
+
+    <select id="getUnitByRelation" resultType="java.lang.Integer">
+        select count(1) from tb_article_unit_detail where unit_detail_id = #{detailId}
+        and article_unit_id = #{relationId}
+    </select>
+    
+    <select id="selectUnitDetail" resultType="com.resto.shop.web.model.UnitArticle">
+        select t2.unit_id as id ,t.id as articleId,t2.choice_type as choiceType,t2.is_used as isUsed,
+        t4.name,t4.sort,t5.name as detailName,t5.id as detailId,t5.sort as detailSort
+        ,t3.price as detailPrice,t3.is_used as detailUsed
+        from tb_article t
+        left join tb_article_unit_new t2 on t2.article_id = t.id
+        left join tb_article_unit_detail t3 on t3.article_unit_id = t2.id
+        left join tb_unit t4 on t2.unit_id = t4.id
+        left join tb_unit_detail t5 on t5.id = t3.unit_detail_id
+        where t4.name is not null and t.shop_detail_id = #{id} order by t4.sort desc,t5.sort
+    </select>
+
+    <select id="selectUnitByShopId" resultType="Unit">
+        SELECT * from tb_unit where shop_detail_id = #{shopId}
+    </select>
+
+    <select id="selectUnitDetailByShopId" resultType="UnitDetail">
+        SELECT ud.* from tb_unit u LEFT JOIN tb_unit_detail ud on u.id = ud.unit_id where u.shop_detail_id = #{shopId}
+    </select>
+</mapper>

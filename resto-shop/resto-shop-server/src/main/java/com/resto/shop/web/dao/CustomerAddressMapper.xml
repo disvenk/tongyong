@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.CustomerAddressMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.CustomerAddress" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="mobile_no" property="mobileNo" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="address_reality" property="addressReality" jdbcType="VARCHAR" />
+    <result column="label" property="label" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="DOUBLE" />
+    <result column="latitude" property="latitude" jdbcType="DOUBLE" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, sex, mobile_no, address, address_reality,label,state, customer_id,longitude,latitude, create_time,
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_customer_address
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectOneList" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM tb_customer_address WHERE state=1 AND customer_id = #{customer_id,jdbcType=VARCHAR}
+    UNION ALL
+    SELECT <include refid="Base_Column_List" /> FROM tb_customer_address WHERE state!=1 AND customer_id = #{customer_id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_customer_address
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.CustomerAddress" >
+    insert into tb_customer_address (id, name, sex, 
+      mobile_no, address, address_reality, 
+      state, customer_id,longitude,latitude, create_time,
+      update_time)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
+      #{mobileNo,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{addressReality,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER}, #{customerId,jdbcType=VARCHAR},#{longitude,jdbcType=DOUBLE},#{latitude,jdbcType=DOUBLE} #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.CustomerAddress" >
+    insert into tb_customer_address
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="mobileNo != null" >
+        mobile_no,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="addressReality != null" >
+        address_reality,
+      </if>
+      <if test="label != null" >
+        label,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="mobileNo != null" >
+        #{mobileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="addressReality != null" >
+        #{addressReality,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null" >
+        #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.CustomerAddress" >
+    update tb_customer_address
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="mobileNo != null" >
+        mobile_no = #{mobileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="addressReality != null" >
+        address_reality = #{addressReality,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null" >
+        lable = #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.CustomerAddress" >
+    update tb_customer_address
+    set name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      mobile_no = #{mobileNo,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      address_reality = #{addressReality,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      customer_id = #{customerId,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      latitude = #{latitude,jdbcType=DOUBLE},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateState">
+    update tb_customer_address
+    set
+    state = 0
+    where customer_id = #{customer_id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+		 xmlns:websocket="http://www.springframework.org/schema/websocket"
+         xsi:schemaLocation="
+         	http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd
+         	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
+        	http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd"
+         id="WebApp_ID" version="3.0">
+    
+    <servlet>
+        <servlet-name>posAction</servlet-name>
+        <servlet-class>com.resto.pos.web.servlet.LogServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>posAction</servlet-name>
+        <url-pattern>/posAction</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Spring -->
+    <!-- 配置Spring配置文件路径 -->
+    <context-param>
+        <param-name>contextClass</param-name>
+        <param-value>
+            org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+        </param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>com.resto.pos.web.config.SpringContextConfig</param-value>
+    </context-param>
+    <!-- 配置Spring上下文监听器 -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!--&lt;!&ndash;    启动socket服务，连接Tv端     已废弃 2017年1月20日 14:49:15    &ndash;&gt;-->
+    <!--<listener>-->
+        <!--<description>tvSocket</description>-->
+        <!--<listener-class>com.resto.pos.web.socket.ServerSocketListener</listener-class>-->
+    <!--</listener>-->
+
+
+    <!-- 配置Spring字符编码过滤器 -->
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <!-- 如果使用 sockjs.js 需要加入此配置 -->
+        <async-supported>true</async-supported>
+    </filter>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!-- 配置加载Logo -->
+	<servlet-mapping>
+	    <servlet-name>default</servlet-name>
+	    <url-pattern>*.png</url-pattern>
+	</servlet-mapping>
+
+    <!-- Spring MVC 核心控制器 DispatcherServlet 配置 -->
+    <servlet>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath*:spring-mvc.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <!-- 首页 -->
+    <welcome-file-list>
+        <welcome-file>index</welcome-file>
+    </welcome-file-list>
+
+    <!-- 错误页 -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/page/404</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/page/500</location>
+    </error-page>
+
+    <session-config>
+        <session-timeout>600</session-timeout>
+    </session-config>
+</web-app>

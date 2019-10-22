@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.service.customer.mapper.CustomerAddressMapper">
+  <resultMap id="BaseResultMap" type="com.resto.api.customer.entity.CustomerAddress">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="mobile_no" jdbcType="VARCHAR" property="mobileNo" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="address_reality" jdbcType="VARCHAR" property="addressReality" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="customer_id" jdbcType="VARCHAR" property="customerId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="longitude" jdbcType="DOUBLE" property="longitude" />
+    <result column="latitude" jdbcType="DOUBLE" property="latitude" />
+  </resultMap>
+
+  <update id="updateState">
+    update tb_customer_address
+    set
+    state = 0
+    where customer_id = #{customer_id,jdbcType=VARCHAR}
+  </update>
+</mapper>

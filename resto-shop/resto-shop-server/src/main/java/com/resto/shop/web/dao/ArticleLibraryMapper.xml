@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.ArticleLibraryMapper">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.ArticleLibrary">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="serial_number" property="serialNumber" jdbcType="INTEGER"/>
+        <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+        <result column="distribution_mode_id" property="distributionModeId" jdbcType="INTEGER"/>
+        <result column="initials" property="initials" jdbcType="VARCHAR"/>
+        <result column="article_family_id" property="articleFamilyId" jdbcType="VARCHAR"/>
+        <result column="article_type" property="articleType" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="photo_type" property="photoType" jdbcType="TINYINT"/>
+        <result column="photo_little" property="photoLittle" jdbcType="VARCHAR"/>
+        <result column="photo_small" property="photoSmall" jdbcType="VARCHAR"/>
+        <result column="photo_super" property="photoSuper" jdbcType="VARCHAR"/>
+        <result column="photo_square_original" property="photoSquareOriginal" jdbcType="VARCHAR"/>
+        <result column="gif_url" property="gifUrl" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="DECIMAL"/>
+        <result column="fans_price" property="fansPrice" jdbcType="DECIMAL"/>
+        <result column="open_catty" property="openCatty" jdbcType="BIT"/>
+        <result column="catty_money" property="cattyMoney" jdbcType="DECIMAL"/>
+        <result column="inventory_warning" property="inventoryWarning" jdbcType="INTEGER"/>
+        <result column="stock_working_day" property="stockWorkingDay" jdbcType="INTEGER"/>
+        <result column="stock_weekend" property="stockWeekend" jdbcType="INTEGER"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="state" property="state" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="unit" property="unit" jdbcType="VARCHAR"/>
+        <result column="show_big" property="showBig" jdbcType="BIT"/>
+        <result column="show_desc" property="showDesc" jdbcType="BIT"/>
+        <result column="control_color" property="controlColor" jdbcType="VARCHAR"/>
+        <result column="likes" property="likes" jdbcType="BIGINT"/>
+        <result column="meal_fee_number" property="mealFeeNumber" jdbcType="INTEGER"/>
+        <result column="recommend_id" property="recommendId" jdbcType="VARCHAR"/>
+        <result column="unit_id" property="unitId" jdbcType="VARCHAR"/>
+        <result column="weight_package_id" property="weightPackageId" jdbcType="BIGINT"/>
+        <result column="recommendation_degree" property="recommendationDegree" jdbcType="VARCHAR"/>
+        <result column="meal_out_time" property="mealOutTime" jdbcType="VARCHAR"/>
+        <result column="article_kind" property="articleKind" jdbcType="VARCHAR"/>
+        <result column="article_label" property="articleLabel" jdbcType="VARCHAR"/>
+        <result column="article_hot" property="articleHot" jdbcType="VARCHAR"/>
+        <result column="article_component" property="articleComponent" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">id, serial_number, brand_id, distribution_mode_id, initials, article_family_id, article_type, name, description, photo_type, photo_little, photo_small, photo_super, photo_square_original, gif_url, price, fans_price, open_catty, catty_money, inventory_warning, stock_working_day, stock_weekend, sort, state, create_time, update_time, create_user, update_user, unit, show_big, show_desc, control_color, likes, meal_fee_number, recommend_id, unit_id, weight_package_id, recommendation_degree, meal_out_time, article_kind, article_label, article_hot, article_component</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select
+        <include refid="Base_Column_List"/>
+        from tb_article_library where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey"
+            parameterType="java.lang.String">delete from tb_article_library where id = #{id,jdbcType=VARCHAR}</delete>
+    <insert id="insert"
+            parameterType="com.resto.shop.web.model.ArticleLibrary">insert into tb_article_library (id, serial_number, brand_id, distribution_mode_id, initials, article_family_id, article_type, name, description, photo_type, photo_little, photo_small, photo_super, photo_square_original, gif_url, price, fans_price, open_catty, catty_money, inventory_warning, stock_working_day, stock_weekend, sort, state, create_time, update_time, create_user, update_user, unit, show_big, show_desc, control_color, likes, meal_fee_number, recommend_id, unit_id, weight_package_id, recommendation_degree, meal_out_time, article_kind, article_label, article_hot, article_component) values (#{id,jdbcType=VARCHAR}, #{serialNumber,jdbcType=INTEGER}, #{brandId,jdbcType=VARCHAR}, #{distributionModeId,jdbcType=INTEGER}, #{initials,jdbcType=VARCHAR}, #{articleFamilyId,jdbcType=VARCHAR}, #{articleType,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{photoType,jdbcType=TINYINT}, #{photoLittle,jdbcType=VARCHAR}, #{photoSmall,jdbcType=VARCHAR}, #{photoSuper,jdbcType=VARCHAR}, #{photoSquareOriginal,jdbcType=VARCHAR}, #{gifUrl,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{fansPrice,jdbcType=DECIMAL}, #{openCatty,jdbcType=BIT}, #{cattyMoney,jdbcType=DECIMAL}, #{inventoryWarning,jdbcType=INTEGER}, #{stockWorkingDay,jdbcType=INTEGER}, #{stockWeekend,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{state,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{showBig,jdbcType=BIT}, #{showDesc,jdbcType=BIT}, #{controlColor,jdbcType=VARCHAR}, #{likes,jdbcType=BIGINT}, #{mealFeeNumber,jdbcType=INTEGER}, #{recommendId,jdbcType=VARCHAR}, #{unitId,jdbcType=VARCHAR}, #{weightPackageId,jdbcType=BIGINT}, #{recommendationDegree,jdbcType=VARCHAR}, #{mealOutTime,jdbcType=VARCHAR}, #{articleKind,jdbcType=VARCHAR}, #{articleLabel,jdbcType=VARCHAR}, #{articleHot,jdbcType=VARCHAR}, #{articleComponent,jdbcType=VARCHAR})</insert>
+    <insert id="insertSelective" parameterType="com.resto.shop.web.model.ArticleLibrary">insert into tb_article_library
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="serialNumber != null">serial_number,</if>
+            <if test="brandId != null">brand_id,</if>
+            <if test="distributionModeId != null">distribution_mode_id,</if>
+            <if test="initials != null">initials,</if>
+            <if test="articleFamilyId != null">article_family_id,</if>
+            <if test="articleType != null">article_type,</if>
+            <if test="name != null">name,</if>
+            <if test="description != null">description,</if>
+            <if test="photoType != null">photo_type,</if>
+            <if test="photoLittle != null">photo_little,</if>
+            <if test="photoSmall != null">photo_small,</if>
+            <if test="photoSuper != null">photo_super,</if>
+            <if test="photoSquareOriginal != null">photo_square_original,</if>
+            <if test="gifUrl != null">gif_url,</if>
+            <if test="price != null">price,</if>
+            <if test="fansPrice != null">fans_price,</if>
+            <if test="openCatty != null">open_catty,</if>
+            <if test="cattyMoney != null">catty_money,</if>
+            <if test="inventoryWarning != null">inventory_warning,</if>
+            <if test="stockWorkingDay != null">stock_working_day,</if>
+            <if test="stockWeekend != null">stock_weekend,</if>
+            <if test="sort != null">sort,</if>
+            <if test="state != null">state,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="unit != null">unit,</if>
+            <if test="showBig != null">show_big,</if>
+            <if test="showDesc != null">show_desc,</if>
+            <if test="controlColor != null">control_color,</if>
+            <if test="likes != null">likes,</if>
+            <if test="mealFeeNumber != null">meal_fee_number,</if>
+            <if test="recommendId != null">recommend_id,</if>
+            <if test="unitId != null">unit_id,</if>
+            <if test="weightPackageId != null">weight_package_id,</if>
+            <if test="recommendationDegree != null">recommendation_degree,</if>
+            <if test="mealOutTime != null">meal_out_time,</if>
+            <if test="articleKind != null">article_kind,</if>
+            <if test="articleLabel != null">article_label,</if>
+            <if test="articleHot != null">article_hot,</if>
+            <if test="articleComponent != null">article_component,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+            <if test="serialNumber != null">#{serialNumber,jdbcType=INTEGER},</if>
+            <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>
+            <if test="distributionModeId != null">#{distributionModeId,jdbcType=INTEGER},</if>
+            <if test="initials != null">#{initials,jdbcType=VARCHAR},</if>
+            <if test="articleFamilyId != null">#{articleFamilyId,jdbcType=VARCHAR},</if>
+            <if test="articleType != null">#{articleType,jdbcType=INTEGER},</if>
+            <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+            <if test="description != null">#{description,jdbcType=VARCHAR},</if>
+            <if test="photoType != null">#{photoType,jdbcType=TINYINT},</if>
+            <if test="photoLittle != null">#{photoLittle,jdbcType=VARCHAR},</if>
+            <if test="photoSmall != null">#{photoSmall,jdbcType=VARCHAR},</if>
+            <if test="photoSuper != null">#{photoSuper,jdbcType=VARCHAR},</if>
+            <if test="photoSquareOriginal != null">#{photoSquareOriginal,jdbcType=VARCHAR},</if>
+            <if test="gifUrl != null">#{gifUrl,jdbcType=VARCHAR},</if>
+            <if test="price != null">#{price,jdbcType=DECIMAL},</if>
+            <if test="fansPrice != null">#{fansPrice,jdbcType=DECIMAL},</if>
+            <if test="openCatty != null">#{openCatty,jdbcType=BIT},</if>
+            <if test="cattyMoney != null">#{cattyMoney,jdbcType=DECIMAL},</if>
+            <if test="inventoryWarning != null">#{inventoryWarning,jdbcType=INTEGER},</if>
+            <if test="stockWorkingDay != null">#{stockWorkingDay,jdbcType=INTEGER},</if>
+            <if test="stockWeekend != null">#{stockWeekend,jdbcType=INTEGER},</if>
+            <if test="sort != null">#{sort,jdbcType=INTEGER},</if>
+            <if test="state != null">#{state,jdbcType=BIGINT},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>
+            <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+            <if test="unit != null">#{unit,jdbcType=VARCHAR},</if>
+            <if test="showBig != null">#{showBig,jdbcType=BIT},</if>
+            <if test="showDesc != null">#{showDesc,jdbcType=BIT},</if>
+            <if test="controlColor != null">#{controlColor,jdbcType=VARCHAR},</if>
+            <if test="likes != null">#{likes,jdbcType=BIGINT},</if>
+            <if test="mealFeeNumber != null">#{mealFeeNumber,jdbcType=INTEGER},</if>
+            <if test="recommendId != null">#{recommendId,jdbcType=VARCHAR},</if>
+            <if test="unitId != null">#{unitId,jdbcType=VARCHAR},</if>
+            <if test="weightPackageId != null">#{weightPackageId,jdbcType=BIGINT},</if>
+            <if test="recommendationDegree != null">#{recommendationDegree,jdbcType=VARCHAR},</if>
+            <if test="mealOutTime != null">#{mealOutTime,jdbcType=VARCHAR},</if>
+            <if test="articleKind != null">#{articleKind,jdbcType=VARCHAR},</if>
+            <if test="articleLabel != null">#{articleLabel,jdbcType=VARCHAR},</if>
+            <if test="articleHot != null">#{articleHot,jdbcType=VARCHAR},</if>
+            <if test="articleComponent != null">#{articleComponent,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.ArticleLibrary">update
+        tb_article_library
+        <set>
+            <if test="serialNumber != null">serial_number = #{serialNumber,jdbcType=INTEGER},</if>
+            <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>
+            <if test="distributionModeId != null">distribution_mode_id = #{distributionModeId,jdbcType=INTEGER},</if>
+            <if test="initials != null">initials = #{initials,jdbcType=VARCHAR},</if>
+            <if test="articleFamilyId != null">article_family_id = #{articleFamilyId,jdbcType=VARCHAR},</if>
+            <if test="articleType != null">article_type = #{articleType,jdbcType=INTEGER},</if>
+            <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>
+            <if test="description != null">description = #{description,jdbcType=VARCHAR},</if>
+            <if test="photoType != null">photo_type = #{photoType,jdbcType=TINYINT},</if>
+            <if test="photoLittle != null">photo_little = #{photoLittle,jdbcType=VARCHAR},</if>
+            <if test="photoSmall != null">photo_small = #{photoSmall,jdbcType=VARCHAR},</if>
+            <if test="photoSuper != null">photo_super = #{photoSuper,jdbcType=VARCHAR},</if>
+            <if test="photoSquareOriginal != null">photo_square_original = #{photoSquareOriginal,jdbcType=VARCHAR},</if>
+            <if test="gifUrl != null">gif_url = #{gifUrl,jdbcType=VARCHAR},</if>
+            <if test="price != null">price = #{price,jdbcType=DECIMAL},</if>
+            <if test="fansPrice != null">fans_price = #{fansPrice,jdbcType=DECIMAL},</if>
+            <if test="openCatty != null">open_catty = #{openCatty,jdbcType=BIT},</if>
+            <if test="cattyMoney != null">catty_money = #{cattyMoney,jdbcType=DECIMAL},</if>
+            <if test="inventoryWarning != null">inventory_warning = #{inventoryWarning,jdbcType=INTEGER},</if>
+            <if test="stockWorkingDay != null">stock_working_day = #{stockWorkingDay,jdbcType=INTEGER},</if>
+            <if test="stockWeekend != null">stock_weekend = #{stockWeekend,jdbcType=INTEGER},</if>
+            <if test="sort != null">sort = #{sort,jdbcType=INTEGER},</if>
+            <if test="state != null">state = #{state,jdbcType=BIGINT},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+            <if test="createUser != null">create_user = #{createUser,jdbcType=VARCHAR},</if>
+            <if test="updateUser != null">update_user = #{updateUser,jdbcType=VARCHAR},</if>
+            <if test="unit != null">unit = #{unit,jdbcType=VARCHAR},</if>
+            <if test="showBig != null">show_big = #{showBig,jdbcType=BIT},</if>
+            <if test="showDesc != null">show_desc = #{showDesc,jdbcType=BIT},</if>
+            <if test="controlColor != null">control_color = #{controlColor,jdbcType=VARCHAR},</if>
+            <if test="likes != null">likes = #{likes,jdbcType=BIGINT},</if>
+            <if test="mealFeeNumber != null">meal_fee_number = #{mealFeeNumber,jdbcType=INTEGER},</if>
+            <if test="recommendId != null">recommend_id = #{recommendId,jdbcType=VARCHAR},</if>
+            <if test="unitId != null">unit_id = #{unitId,jdbcType=VARCHAR},</if>
+            <if test="weightPackageId != null">weight_package_id = #{weightPackageId,jdbcType=BIGINT},</if>
+            <if test="recommendationDegree != null">recommendation_degree = #{recommendationDegree,jdbcType=VARCHAR},
+            </if>
+            <if test="mealOutTime != null">meal_out_time = #{mealOutTime,jdbcType=VARCHAR},</if>
+            <if test="articleKind != null">article_kind = #{articleKind,jdbcType=VARCHAR},</if>
+            <if test="articleLabel != null">article_label = #{articleLabel,jdbcType=VARCHAR},</if>
+            <if test="articleHot != null">article_hot = #{articleHot,jdbcType=VARCHAR},</if>
+            <if test="articleComponent != null">article_component = #{articleComponent,jdbcType=VARCHAR},</if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.resto.shop.web.model.ArticleLibrary">update tb_article_library set serial_number = #{serialNumber,jdbcType=INTEGER}, brand_id = #{brandId,jdbcType=VARCHAR}, distribution_mode_id = #{distributionModeId,jdbcType=INTEGER}, initials = #{initials,jdbcType=VARCHAR}, article_family_id = #{articleFamilyId,jdbcType=VARCHAR}, article_type = #{articleType,jdbcType=INTEGER}, name = #{name,jdbcType=VARCHAR}, description = #{description,jdbcType=VARCHAR}, photo_type = #{photoType,jdbcType=TINYINT}, photo_little = #{photoLittle,jdbcType=VARCHAR}, photo_small = #{photoSmall,jdbcType=VARCHAR}, photo_super = #{photoSuper,jdbcType=VARCHAR}, photo_square_original = #{photoSquareOriginal,jdbcType=VARCHAR}, gif_url = #{gifUrl,jdbcType=VARCHAR}, price = #{price,jdbcType=DECIMAL}, fans_price = #{fansPrice,jdbcType=DECIMAL}, open_catty = #{openCatty,jdbcType=BIT}, catty_money = #{cattyMoney,jdbcType=DECIMAL}, inventory_warning = #{inventoryWarning,jdbcType=INTEGER}, stock_working_day = #{stockWorkingDay,jdbcType=INTEGER}, stock_weekend = #{stockWeekend,jdbcType=INTEGER}, sort = #{sort,jdbcType=INTEGER}, state = #{state,jdbcType=BIGINT}, create_time = #{createTime,jdbcType=TIMESTAMP}, update_time = #{updateTime,jdbcType=TIMESTAMP}, create_user = #{createUser,jdbcType=VARCHAR}, update_user = #{updateUser,jdbcType=VARCHAR}, unit = #{unit,jdbcType=VARCHAR}, show_big = #{showBig,jdbcType=BIT}, show_desc = #{showDesc,jdbcType=BIT}, control_color = #{controlColor,jdbcType=VARCHAR}, likes = #{likes,jdbcType=BIGINT}, meal_fee_number = #{mealFeeNumber,jdbcType=INTEGER}, recommend_id = #{recommendId,jdbcType=VARCHAR}, unit_id = #{unitId,jdbcType=VARCHAR}, weight_package_id = #{weightPackageId,jdbcType=BIGINT}, recommendation_degree = #{recommendationDegree,jdbcType=VARCHAR}, meal_out_time = #{mealOutTime,jdbcType=VARCHAR}, article_kind = #{articleKind,jdbcType=VARCHAR}, article_label = #{articleLabel,jdbcType=VARCHAR}, article_hot = #{articleHot,jdbcType=VARCHAR}, article_component = #{articleComponent,jdbcType=VARCHAR} where id = #{id,jdbcType=VARCHAR}</update>
+    <select id="selectList" resultType="ArticleLibrary">select * from tb_article_library</select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+	*
+    FROM
+	tb_article_library al
+WHERE
+	al.brand_id = #{brandId}
+ORDER BY
+	al.sort ASC;
+    </select>
+
+    <select id="delCheckArticle" resultMap="BaseResultMap">
+        select t4.name from tb_article_library t
+        left join tb_meal_item t2 on t2.article_id = t.id
+        left join tb_meal_attr t3 on t3.id = t2.meal_attr_id
+        left join tb_article_library t4 on t4.id = t3.article_id
+        where t2.article_id = #{id}
+        and t4.state = 1 and t4.article_type = 2
+    </select>
+
+    <select id="getProductsItem" resultType="com.resto.shop.web.model.ArticleLibrary">
+        SELECT
+	    t1.id,t1.`name`,t1.article_family_id articleFamilyId,t2.`name` ,
+	    t1.price,t1.fans_price
+	    AS articleFamilyName
+      FROM
+	    tb_article_library t1
+      LEFT JOIN tb_article_family t2 ON t1.article_family_id=t2.id
+      WHERE
+	article_type = 1
+    </select>
+
+    <update id="addArticleLikes" parameterType="java.lang.String">
+        update tb_article_library set likes = likes + 1 where id = #{id}
+    </update>
+
+</mapper>

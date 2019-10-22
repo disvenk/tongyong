@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.service.shop.mapper.ArticleRecommendMapper">
+    
+    <resultMap id="RecommendResultMap" type="com.resto.service.shop.entity.ArticleRecommend">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="is_used" property="isUsed"/>
+        <result column="count" property="count"/>
+        <result column="print_type" property="printType"/>
+        <result column="kitchen_id" property="kitchenId"/>
+        <result column="choice_type" property="choiceType"/>
+
+        <collection property="articles" javaType="List" ofType="com.resto.service.shop.entity.ArticleRecommendPrice">
+            <id column="article_recommend_price_id" property="id"/>
+            <result column="article_id" property="articleId"/>
+            <result column="article_name" property="articleName"/>
+            <result column="price" property="price"/>
+            <result column="max_count" property="maxCount"/>
+            <result column="sort" property="sort"/>
+            <result column="photo_small" property="imageUrl"/>
+            <result column="article_kitchen_id" property="kitchenId"/>
+            <result column="imageUrl" property="imageUrl"/>
+        </collection>
+
+    </resultMap>
+
+    <insert id="insertSelective" parameterType="ArticleRecommend" >
+       insert into tb_recommend
+       (id,count,name,shop_detail_id,print_type,kitchen_id)
+       values(#{id},#{count},#{name},#{shopId},#{printType},#{kitchenId})
+    </insert>
+
+    <select id="selectByPrimaryKey" resultType="ArticleRecommend">
+        select * from tb_recommend where id = #{id}
+    </select>
+
+    <update id="updateByPrimaryKeySelective">
+        update tb_recommend
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="count != null">
+                count = #{count},
+            </if>
+            <if test="printType != null">
+                print_type = #{printType},
+            </if>
+            <if test="kitchenId != null">
+                kitchen_id = #{kitchenId},
+            </if>
+            <if test="choiceType != null">
+                choice_type = #{choiceType}
+            </if>
+        </set>
+        where id = #{id}
+
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from tb_recommend where id = #{id,jdbcType=VARCHAR}</delete>
+
+    <select id="getRecommendByArticleId" resultMap="RecommendResultMap">
+        select t4.photo_small as imageUrl, t3.article_name,t3.price,t3.article_id,t3.max_count,t2.id,t2.count,t2.name,t2.choice_type, t3.kitchen_id as article_kitchen_id  from tb_article t
+      INNER JOIN tb_recommend t2 on t2.id = t.recommend_id
+      INNER JOIN tb_recommend_article t3 on t3.recommend_id = t2.id
+			INNER JOIN tb_article t4 on t3.article_id = t4.id
+where t2.shop_detail_id = #{shopId} and t.id = #{articleId}
+
+    </select>
+
+</mapper>

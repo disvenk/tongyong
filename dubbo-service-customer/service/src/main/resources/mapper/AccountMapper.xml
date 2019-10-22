@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.service.customer.mapper.AccountMapper">
+  <resultMap id="BaseResultMap" type="com.resto.api.customer.entity.Account">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="remain" jdbcType="DECIMAL" property="remain" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="frozen_remain" jdbcType="DECIMAL" property="frozenRemain" />
+    <collection property="accountLogs" ofType="com.resto.api.customer.entity.AccountLog" javaType="java.util.List">
+      <id column="account_log_id" property="id" jdbcType="VARCHAR" />
+      <result column="money" property="money" jdbcType="DECIMAL" />
+      <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+      <result column="payment_type" property="paymentType" jdbcType="INTEGER" />
+      <result column="account_log_remain" property="remain" jdbcType="DECIMAL" />
+      <result column="remark" property="remark" jdbcType="VARCHAR" />
+      <result column="account_id" property="accountId" jdbcType="VARCHAR" />
+      <result column="source" property="source" jdbcType="INTEGER" />
+      <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+      <result column="freeze_return_date" property="freezeReturnDate"/>
+      <result column="order_id" property="orderId"/>
+    </collection>
+  </resultMap>
+
+  <!-- 根据用户ID查询账户余额 -->
+  <select id="selectAccountByCustomerId" resultType="com.resto.api.customer.entity.Account">
+    SELECT a.* from tb_account a LEFT JOIN tb_customer c on a.id = c.account_id where c.id = #{customerId}
+  </select>
+
+  <select id="selectRebate" resultMap="BaseResultMap">
+    SELECT
+    *, tal.id account_log_id, tal.remain account_log_remain
+    FROM
+    tb_account ta
+    INNER JOIN tb_account_log tal ON ta.id = tal.account_id
+    WHERE
+    tal.payment_type = 3
+  </select>
+
+  <select id="selectAccountByIds" parameterType="java.util.List" resultType="com.resto.api.customer.entity.Account">
+    SELECT
+    *
+    FROM
+    tb_account
+    WHERE
+    id IN
+    <foreach collection="list" item="id" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </select>
+</mapper>

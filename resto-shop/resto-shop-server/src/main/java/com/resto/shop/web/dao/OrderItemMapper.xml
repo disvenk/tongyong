@@ -1,0 +1,1081 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.OrderItemMapper">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.OrderItem">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="article_name" jdbcType="VARCHAR" property="articleName"/>
+        <result column="article_designation" jdbcType="VARCHAR" property="articleDesignation"/>
+        <result column="count" jdbcType="INTEGER" property="count"/>
+        <result column="original_price" jdbcType="DECIMAL" property="originalPrice"/>
+        <result column="unit_price" jdbcType="DECIMAL" property="unitPrice"/>
+        <result column="base_unit_price" jdbcType="DECIMAL" property="baseUnitPrice"/>
+        <result column="final_price" jdbcType="DECIMAL" property="finalPrice"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="pos_discount" jdbcType="VARCHAR" property="posDiscount"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="article_id" jdbcType="VARCHAR" property="articleId"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="meal_item_id" property="mealItemId"/>
+        <result column="recommend_id" property="recommendId"/>
+        <result column="orgin_count" property="orginCount"/>
+        <result column="refund_count" property="refundCount"/>
+        <result column="change_count" property="changeCount"/>
+        <result column="print_fail_flag" property="printFailFlag"/>
+        <result column="meal_fee_number" property="mealFeeNumber"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="weight" property="weight"/>
+        <result column="need_remind" property="needRemind"/>
+        <association property="orderRefundRemark" javaType="com.resto.shop.web.model.OrderRefundRemark">
+            <id column="id1" property="id" jdbcType="BIGINT"/>
+            <result column="article_id1" property="articleId" jdbcType="VARCHAR"/>
+            <result column="order_id1" property="orderId" jdbcType="VARCHAR"/>
+            <result column="refund_remark_id" property="refundRemarkId" jdbcType="INTEGER"/>
+            <result column="refund_remark" property="refundRemark" jdbcType="VARCHAR"/>
+            <result column="remark_supply" property="remarkSupply" jdbcType="VARCHAR"/>
+            <result column="refund_count" property="refundCount" jdbcType="INTEGER"/>
+            <result column="refund_time" property="createTime" jdbcType="TIMESTAMP"/>
+            <result column="shop_id" property="shopId" jdbcType="VARCHAR"/>
+            <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, article_name, article_designation, `count`, original_price, unit_price, base_unit_price, final_price,
+    remark, pos_discount, sort, status, order_id, article_id, `type`, parent_id, create_time, meal_item_id, recommend_id, orgin_count, refund_count,
+    change_count, print_fail_flag, customer_id, weight, need_remind, grant_count
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_order_item
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_order_item
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.resto.shop.web.model.OrderItem">
+    insert into tb_order_item (id, article_name, article_designation, 
+      count, original_price, unit_price, 
+      final_price, remark, sort, 
+      status, order_id, article_id, 
+      `type`, parent_id, create_time,orgin_count,change_count
+      )
+    values (#{id,jdbcType=VARCHAR}, #{articleName,jdbcType=VARCHAR}, #{articleDesignation,jdbcType=VARCHAR}, 
+      #{count,jdbcType=INTEGER}, #{originalPrice,jdbcType=DECIMAL}, #{unitPrice,jdbcType=DECIMAL}, 
+      #{finalPrice,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{articleId,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{parentId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{count,jdbcType=INTEGER},#{changeCount,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.resto.shop.web.model.OrderItem">
+        insert into tb_order_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="articleName != null">
+                article_name,
+            </if>
+            <if test="articleDesignation != null">
+                article_designation,
+            </if>
+            <if test="count != null">
+                `count`,
+            </if>
+            <if test="originalPrice != null">
+                original_price,
+            </if>
+            <if test="unitPrice != null">
+                unit_price,
+            </if>
+            <if test="baseUnitPrice != null">
+                base_unit_price,
+            </if>
+            <if test="finalPrice != null">
+                final_price,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="posDiscount != null">
+                pos_discount,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="articleId != null">
+                article_id,
+            </if>
+            <if test="type != null">
+                `type`,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            create_time,
+            <if test="count != null">
+                orgin_count,
+            </if>
+            <if test="changeCount != null">
+                change_count,
+            </if>
+            <if test="printFailFlag != null">
+                print_fail_flag,
+            </if>
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="weight != null">
+                weight,
+            </if>
+            <if test="needRemind != null">
+                need_remind,
+            </if>
+            <if test="grantCount != null">
+                grant_count,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="articleName != null">
+                #{articleName,jdbcType=VARCHAR},
+            </if>
+            <if test="articleDesignation != null">
+                #{articleDesignation,jdbcType=VARCHAR},
+            </if>
+            <if test="count != null">
+                #{count,jdbcType=INTEGER},
+            </if>
+            <if test="originalPrice != null">
+                #{originalPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="unitPrice != null">
+                #{unitPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="baseUnitPrice != null">
+                #{baseUnitPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="finalPrice != null">
+                #{finalPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="posDiscount != null">
+                #{posDiscount,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="articleId != null">
+                #{articleId,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=VARCHAR},
+            </if>
+            NOW(),
+            <if test="count != null">
+                #{count,jdbcType=INTEGER},
+            </if>
+            <if test="changeCount != null">
+                #{changeCount,jdbcType=INTEGER},
+            </if>
+            <if test="printFailFlag != null">
+                #{printFailFlag},
+            </if>
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="weight != null">
+                #{weight},
+            </if>
+            <if test="needRemind != null">
+                #{needRemind},
+            </if>
+            <if test="grantCount != null">
+                #{grantCount},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertOrUpdateOrderItems">
+        <foreach collection="list" item="item" separator=";">
+            insert into tb_order_item
+            <!-- 循环集合确认列 -->
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="item.id != null">
+                    id,
+                </if>
+                <if test="item.articleName != null">
+                    article_name,
+                </if>
+                <if test="item.articleDesignation != null">
+                    article_designation,
+                </if>
+                <if test="item.count != null">
+                    `count`,
+                </if>
+                <if test="item.originalPrice != null">
+                    original_price,
+                </if>
+                <if test="item.unitPrice != null">
+                    unit_price,
+                </if>
+                <if test="item.baseUnitPrice != null">
+                    base_unit_price,
+                </if>
+                <if test="item.finalPrice != null">
+                    final_price,
+                </if>
+                <if test="item.remark != null">
+                    remark,
+                </if>
+                <if test="item.posDiscount != null">
+                    pos_discount,
+                </if>
+                <if test="item.sort != null">
+                    sort,
+                </if>
+                <if test="item.status != null">
+                    status,
+                </if>
+                <if test="item.orderId != null">
+                    order_id,
+                </if>
+                <if test="item.articleId != null">
+                    article_id,
+                </if>
+                <if test="item.type != null">
+                    `type`,
+                </if>
+                <if test="item.parentId != null">
+                    parent_id,
+                </if>
+                create_time,
+                <if test="item.orginCount != null">
+                    orgin_count,
+                </if>
+                <if test="item.refundCount != null">
+                    refund_count,
+                </if>
+                <if test="item.changeCount != null">
+                    change_count,
+                </if>
+                <if test="item.printFailFlag != null">
+                    print_fail_flag,
+                </if>
+                <if test="item.customerId != null">
+                    customer_id,
+                </if>
+                <if test="item.weight != null">
+                    weight,
+                </if>
+                <if test="item.needRemind != null">
+                    need_remind,
+                </if>
+                <if test="item.grantCount != null">
+                    grant_count,
+                </if>
+            </trim>
+
+            <!-- 循环集合确认数值 -->
+            <trim  prefix="VALUES (" suffix=")" suffixOverrides=",">
+                <if test="item.id != null">
+                    #{item.id,jdbcType=VARCHAR},
+                </if>
+                <if test="item.articleName != null">
+                    #{item.articleName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.articleDesignation != null">
+                    #{item.articleDesignation,jdbcType=VARCHAR},
+                </if>
+                <if test="item.count != null">
+                    #{item.count,jdbcType=INTEGER},
+                </if>
+                <if test="item.originalPrice != null">
+                    #{item.originalPrice,jdbcType=DECIMAL},
+                </if>
+                <if test="item.unitPrice != null">
+                    #{item.unitPrice,jdbcType=DECIMAL},
+                </if>
+                <if test="item.baseUnitPrice != null">
+                    #{item.baseUnitPrice,jdbcType=DECIMAL},
+                </if>
+                <if test="item.finalPrice != null">
+                    #{item.finalPrice,jdbcType=DECIMAL},
+                </if>
+                <if test="item.remark != null">
+                    #{item.remark,jdbcType=VARCHAR},
+                </if>
+                <if test="item.posDiscount != null">
+                    #{item.posDiscount,jdbcType=VARCHAR},
+                </if>
+                <if test="item.sort != null">
+                    #{item.sort,jdbcType=INTEGER},
+                </if>
+                <if test="item.status != null">
+                    #{item.status,jdbcType=INTEGER},
+                </if>
+                <if test="item.orderId != null">
+                    #{item.orderId,jdbcType=VARCHAR},
+                </if>
+                <if test="item.articleId != null">
+                    #{item.articleId,jdbcType=VARCHAR},
+                </if>
+                <if test="item.type != null">
+                    #{item.type,jdbcType=INTEGER},
+                </if>
+                <if test="item.parentId != null">
+                    #{item.parentId,jdbcType=VARCHAR},
+                </if>
+                NOW(),
+                <if test="item.orginCount != null">
+                    #{item.orginCount,jdbcType=INTEGER},
+                </if>
+                <if test="item.refundCount != null">
+                    #{item.refundCount,jdbcType=INTEGER},
+                </if>
+                <if test="item.changeCount != null">
+                    #{item.changeCount,jdbcType=INTEGER},
+                </if>
+                <if test="item.printFailFlag != null">
+                    #{item.printFailFlag},
+                </if>
+                <if test="item.customerId != null">
+                    #{item.customerId},
+                </if>
+                <if test="item.weight != null">
+                    #{item.weight},
+                </if>
+                <if test="item.needRemind != null">
+                    #{item.needRemind},
+                </if>
+                <if test="item.grantCount != null">
+                    #{item.grantCount},
+                </if>
+            </trim>
+            <!-- 如果存在则去执行修改 -->
+            ON DUPLICATE KEY UPDATE
+            <trim  suffix="" suffixOverrides=",">
+                <if test="item.articleName != null">
+                    article_name = #{item.articleName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.articleDesignation != null">
+                    article_designation = #{item.articleDesignation,jdbcType=VARCHAR},
+                </if>
+                <if test="item.count != null">
+                    count = #{item.count,jdbcType=INTEGER},
+                </if>
+                <if test="item.originalPrice != null">
+                    original_price = #{item.originalPrice,jdbcType=DECIMAL},
+                </if>
+                <if test="item.unitPrice != null">
+                    unit_price = #{item.unitPrice,jdbcType=DECIMAL},
+                </if>
+                <if test="item.baseUnitPrice != null">
+                    base_unit_price = #{item.baseUnitPrice,jdbcType=DECIMAL},
+                </if>
+                <if test="item.finalPrice != null">
+                    final_price = #{item.finalPrice,jdbcType=DECIMAL},
+                </if>
+                <if test="item.remark != null">
+                    remark = #{item.remark,jdbcType=VARCHAR},
+                </if>
+                <if test="item.posDiscount != null">
+                    pos_discount = #{item.posDiscount,jdbcType=VARCHAR},
+                </if>
+                <if test="item.sort != null">
+                    sort = #{item.sort,jdbcType=INTEGER},
+                </if>
+                <if test="item.status != null">
+                    status = #{item.status,jdbcType=INTEGER},
+                </if>
+                <if test="item.orderId != null">
+                    order_id = #{item.orderId,jdbcType=VARCHAR},
+                </if>
+                <if test="item.articleId != null">
+                    article_id = #{item.articleId,jdbcType=VARCHAR},
+                </if>
+                <if test="item.type != null">
+                    type = #{item.type,jdbcType=INTEGER},
+                </if>
+                <if test="item.parentId != null">
+                    parent_id = #{item.parentId,jdbcType=VARCHAR},
+                </if>
+                <if test="item.refundCount != null">
+                    refund_count = #{item.refundCount},
+                </if>
+                <if test="item.changeCount != null">
+                    change_count = #{item.changeCount},
+                </if>
+                <if test="item.printFailFlag != null">
+                    print_fail_flag = #{item.printFailFlag},
+                </if>
+                <if test="item.customerId != null">
+                    customer_id = #{item.customerId},
+                </if>
+                <if test="item.weight != null">
+                    weight = #{item.weight},
+                </if>
+                <if test="item.needRemind != null">
+                    need_remind = #{item.needRemind},
+                </if>
+                <if test="item.grantCount != null">
+                    grant_count = #{item.grantCount},
+                </if>
+            </trim>
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.OrderItem">
+        update tb_order_item
+        <set>
+            <if test="articleName != null">
+                article_name = #{articleName,jdbcType=VARCHAR},
+            </if>
+            <if test="articleDesignation != null">
+                article_designation = #{articleDesignation,jdbcType=VARCHAR},
+            </if>
+            <if test="count != null">
+                count = #{count,jdbcType=INTEGER},
+            </if>
+            <if test="originalPrice != null">
+                original_price = #{originalPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="unitPrice != null">
+                unit_price = #{unitPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="baseUnitPrice != null">
+                base_unit_price = #{baseUnitPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="finalPrice != null">
+                final_price = #{finalPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="posDiscount != null">
+                pos_discount = #{posDiscount,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="articleId != null">
+                article_id = #{articleId,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=VARCHAR},
+            </if>
+            <!--<if test="createTime != null">-->
+            <!--create_time = #{createTime,jdbcType=TIMESTAMP},-->
+            <!--</if>-->
+            <if test="refundCount != null">
+                refund_count = #{refundCount} + refund_count,
+            </if>
+            <if test="changeCount != null">
+                change_count = #{changeCount},
+            </if>
+            <if test="printFailFlag != null">
+                print_fail_flag = #{printFailFlag},
+            </if>
+            <if test="customerId != null">
+                customer_id = #{customerId},
+            </if>
+            <if test="weight != null">
+                weight = #{weight},
+            </if>
+            <if test="needRemind != null">
+                need_remind = #{needRemind},
+            </if>
+            <if test="grantCount != null">
+                grant_count = #{grantCount},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.OrderItem">
+    update tb_order_item
+    set article_name = #{articleName,jdbcType=VARCHAR},
+      article_designation = #{articleDesignation,jdbcType=VARCHAR},
+      count = #{count,jdbcType=INTEGER},
+      original_price = #{originalPrice,jdbcType=DECIMAL},
+      unit_price = #{unitPrice,jdbcType=DECIMAL},
+      base_unit_price = #{baseUnitPrice,jdbcType=DECIMAL},
+      final_price = #{finalPrice,jdbcType=DECIMAL},
+      remark = #{remark,jdbcType=VARCHAR},
+      pos_discount = #{posDiscount,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      article_id = #{articleId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      customer_id = #{customerId}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <select id="selectList" resultType="OrderItem">select * from tb_order_item</select>
+
+    <!-- 根据订单ID查询订单项 -->
+    <select id="listByOrderId" resultType="OrderItem">
+        SELECT sum(count) as count,sum(orgin_count) as orgin_count, original_price,unit_price,
+        sum(final_price) as final_price,tb_order_item.*
+        from tb_order_item where order_id = #{orderId}
+        and type not in (3,4)
+        GROUP BY article_id,article_name
+        <if test="typeGroup != null">
+            ,type
+        </if>
+        ORDER BY create_time
+    </select>
+
+    <select id="listByOrderIdPos" resultType="OrderItem">
+        SELECT sum(count) as count,sum(orgin_count) as orgin_count, original_price,unit_price,
+        sum(final_price) as final_price,tb_order_item.*
+        from tb_order_item where order_id = #{orderId}
+        and type not in (3,4)
+        GROUP BY article_id,article_name,id
+        <if test="typeGroup != null">
+            ,type
+        </if>
+        ORDER BY create_time
+    </select>
+
+    <select id="listTotalByOrderId" resultType="OrderItem">
+    SELECT * from tb_order_item where order_id = #{orderId}
+    and type in (3,4)
+    ORDER BY create_time
+  </select>
+
+    <select id="listArticle" resultType="OrderItem">
+        SELECT * from tb_order_item where order_id = #{orderId}
+        ORDER BY create_time
+    </select>
+
+    <select id="listByOrderIds" resultType="OrderItem">
+        SELECT * from tb_order_item where
+        order_id in
+        <foreach collection="list" open="(" separator="," close=")" item="oid">
+            #{oid}
+        </foreach>
+        ORDER BY create_time
+    </select>
+    <insert id="insertBatch">
+        <foreach collection="list" item="item" separator=";">
+            insert into tb_order_item
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="item.id != null">
+                    id,
+                </if>
+                <if test="item.articleName != null">
+                    article_name,
+                </if>
+                <if test="item.articleDesignation != null">
+                    article_designation,
+                </if>
+                <if test="item.count != null">
+                    `count`,
+                </if>
+                <if test="item.originalPrice != null">
+                    original_price,
+                </if>
+                <if test="item.unitPrice != null">
+                    unit_price,
+                </if>
+                <if test="item.baseUnitPrice != null">
+                    base_unit_price,
+                </if>
+                <if test="item.finalPrice != null">
+                    final_price,
+                </if>
+                <if test="item.remark != null">
+                    remark,
+                </if>
+                <if test="item.posDiscount != null">
+                    pos_discount,
+                </if>
+                <if test="item.sort != null">
+                    sort,
+                </if>
+                <if test="item.status != null">
+                    status,
+                </if>
+                <if test="item.orderId != null">
+                    order_id,
+                </if>
+                <if test="item.articleId != null">
+                    article_id,
+                </if>
+                <if test="item.type != null">
+                    `type`,
+                </if>
+                <if test="item.parentId != null">
+                    parent_id,
+                </if>
+                <if test="item.count != null">
+                    orgin_count,
+                </if>
+                <if test="item.changeCount != null">
+                    change_count,
+                </if>
+                <if test="item.printFailFlag != null">
+                    print_fail_flag,
+                </if>
+                <if test="item.customerId != null">
+                    customer_id,
+                </if>
+                <if test="item.weight != null">
+                    weight,
+                </if>
+                <if test="item.needRemind != null">
+                    need_remind,
+                </if>
+                <if test="item.mealItemId != null">
+                    meal_item_id,
+                </if>
+                <if test="item.recommendId != null">
+                    recommend_id,
+                </if>
+                <if test="item.refundCount != null">
+                    refund_count,
+                </if>
+                <if test="item.mealFeeNumber != null">
+                    meal_fee_number,
+                </if>
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="item.id != null">
+                    #{item.id,jdbcType=VARCHAR},
+                </if>
+                <if test="item.articleName != null">
+                    #{item.articleName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.articleDesignation != null">
+                    #{item.articleDesignation,jdbcType=VARCHAR},
+                </if>
+                <if test="item.count != null">
+                    #{item.count,jdbcType=INTEGER},
+                </if>
+                <if test="item.originalPrice != null">
+                    #{item.originalPrice,jdbcType=DECIMAL},
+                </if>
+                <if test="item.unitPrice != null">
+                    #{item.unitPrice,jdbcType=DECIMAL},
+                </if>
+                <if test="item.baseUnitPrice != null">
+                    #{item.baseUnitPrice,jdbcType=DECIMAL},
+                </if>
+                <if test="item.finalPrice != null">
+                    #{item.finalPrice,jdbcType=DECIMAL},
+                </if>
+                <if test="item.remark != null">
+                    #{item.remark,jdbcType=VARCHAR},
+                </if>
+                <if test="item.posDiscount != null">
+                    #{item.posDiscount,jdbcType=VARCHAR},
+                </if>
+                <if test="item.sort != null">
+                    #{item.sort,jdbcType=INTEGER},
+                </if>
+                <if test="item.status != null">
+                    #{item.status,jdbcType=INTEGER},
+                </if>
+                <if test="item.orderId != null">
+                    #{item.orderId,jdbcType=VARCHAR},
+                </if>
+                <if test="item.articleId != null">
+                    #{item.articleId,jdbcType=VARCHAR},
+                </if>
+                <if test="item.type != null">
+                    #{item.type,jdbcType=INTEGER},
+                </if>
+                <if test="item.parentId != null">
+                    #{item.parentId,jdbcType=VARCHAR},
+                </if>
+                <if test="item.count != null">
+                    #{item.count,jdbcType=INTEGER},
+                </if>
+                <if test="item.changeCount != null">
+                    #{item.changeCount,jdbcType=INTEGER},
+                </if>
+                <if test="item.printFailFlag != null">
+                    #{item.printFailFlag},
+                </if>
+                <if test="item.customerId != null">
+                    #{item.customerId},
+                </if>
+                <if test="item.weight != null">
+                    #{item.weight},
+                </if>
+                <if test="item.needRemind != null">
+                    #{item.needRemind},
+                </if>
+                <if test="item.mealItemId != null">
+                    #{item.mealItemId},
+                </if>
+                <if test="item.recommendId != null">
+                    #{item.recommendId},
+                </if>
+                <if test="item.refundCount != null">
+                    #{item.refundCount},
+                </if>
+                <if test="item.mealFeeNumber != null">
+                    #{item.mealFeeNumber},
+                </if>
+            </trim>
+        </foreach>
+    </insert>
+
+    <select id="selectOrderArticleList" resultType="OrderItem">
+  	SELECT
+		left(o.article_id,32) article_id,o.article_name,o.count,o.original_price
+		FROM
+		tb_order_item o
+		LEFT JOIN tb_article a ON  left(o.article_id,32)=a.id
+		WHERE
+		o.ORDER_ID=#{orderId}
+  </select>
+
+    <!-- 根据时间查询 当前店铺的 菜品销售记录 -->
+    <select id="selectSaleArticleByDate" resultType="OrderItem">
+  	SELECT article_name,SUM(count) articleSum from tb_order_item where order_id in
+  	 (SELECT id from tb_order where order_state not in(1,9) and shop_detail_id = #{shopId} and create_time <![CDATA[ >=#{beginDate}
+  	  and create_time <=#{endDate} ]]> )
+  	  GROUP BY article_id
+  </select>
+
+    <select id="getListBySort" resultType="OrderItem">
+        select t.print_sort,t3.* from tb_meal_attr  t
+        INNER JOIN tb_meal_item t2 on t2.meal_attr_id = t.id
+        left join tb_order_item t3 on t3.article_id = t2.article_id
+
+        where  t.article_id =  #{articleid}
+        and t3.parent_id = #{parentid}
+        GROUP BY t3.id
+        order by t.print_sort asc
+  </select>
+
+    <select id="selectCountSum" resultType="int">
+        SELECT SUM(orgin_count) FROM tb_order_item WHERE order_id=#{orderId}
+    </select>
+
+    <select id="selectRefundCount" resultType="int">
+        SELECT SUM(refund_count) FROM tb_order_item WHERE order_id=#{orderId}
+    </select>
+
+    <select id="selectJingCount" resultType="int">
+        SELECT SUM(count) FROM tb_order_item WHERE order_id=#{orderId}
+    </select>
+
+    <select id="selectOrderItems" resultType="java.util.HashMap">
+  	SELECT o.id order_id,o.shop_detail_id shop_id,i.article_name,i.article_id,i.count article_num,date_format(o.create_time,'%Y-%m-%d %H:%i:%s') order_time,c.telephone from tb_order_item i LEFT JOIN
+  	 tb_order o on i.order_id = o.id LEFT JOIN tb_customer c on o.customer_id = c.id
+		where <![CDATA[ o.create_time >= #{beginDate} and o.create_time <= #{endDate}]]> and o.order_state IN (2, 10, 11, 12)
+        AND o.production_status in (2,3,4)
+  </select>
+
+    <select id="listByParentId" resultType="OrderItem">
+    select * from tb_order_item
+    where order_id in (select id from tb_order where
+    if(pay_type = 0, order_state not in (1,9), order_state != 9)
+     and parent_order_id = #{orderId}
+    )
+  </select>
+
+    <update id="updateOrderIdByBeforeId">
+        update tb_order_item set order_id = #{orderId} where order_id = #{beforeId}
+    </update>
+
+    <select id="getOrderItemByRecommendId" resultType="OrderItem">
+    select sum(count) as count,article_name,sum(final_price) as final_price,article_id  from tb_order_item
+    where order_id = #{orderId} and recommend_id = #{recommendId}
+    GROUP BY article_id
+  </select>
+
+
+    <select id="quertItemByOrderId" flushCache="true" resultType="OrderItem">
+    SELECT article_id articleId,orgin_count orginCount,unit_price unitPrice,
+    count count,refund_count refundCount, final_price finalPrice
+      FROM tb_order_item
+      WHERE order_id=#{orderId}
+    </select>
+
+    <update id="refundArticle">
+     update tb_order_item
+     set `count` = `count` - #{count},
+     refund_count = refund_count + #{count},
+     final_price = unit_price * `count`
+     where id = #{id}
+  </update>
+
+    <select id="selectOrderItemByOrderIds" parameterType="java.util.Map"
+            resultType="com.resto.shop.web.model.OrderItem">
+        select  article_id articleId, article_name articleName,
+        SUM(refund_count) refundCount,SUM(count) count,
+        SUM(IF(type = 4, count, 0)) packageNumber,
+        type,meal_fee_number
+        from tb_order_item
+        where order_id in
+        <foreach collection="orderIds" item="orderId" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+        and `status` = 1 and ${count}
+        group by article_name
+    </select>
+
+    <select id="selectOrderItemByOrderId" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select * from tb_order_item
+	where order_id = #{orderId}
+	and `status` = 1 and ${count}
+  </select>
+
+    <select id="selectRefundOrderItem" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select refund_count as count,tb_order_item.*
+        from tb_order_item where id in
+        <foreach collection="orderItemIds" item="orderItemId" open="(" separator="," close=")">
+            #{orderItemId}
+        </foreach>
+        or parent_id in
+        <foreach collection="orderItemIds" item="orderItemId" open="(" separator="," close=")">
+            #{orderItemId}
+        </foreach>
+
+    </select>
+
+    <update id="refundArticleChild">
+    update tb_order_item
+    set count = 0,
+    refund_count = 1,
+    final_price = 0
+    where parent_id = #{parentId}
+    or id = #{parentId}
+  </update>
+
+
+    <select id="getListByParentId" resultType="OrderItem">
+    select * from tb_order_item
+    where parent_id =  #{parentId}
+  </select>
+
+    <select id="getListByRecommendId" resultType="OrderItem">
+        select * from tb_order_item
+        where recommend_id = #{recommendId}
+        and order_id =  #{orderId}
+    </select>
+
+    <select id="selectRefundArticleItem" resultMap="BaseResultMap">
+        select *,tor.create_time refund_time from tb_order_item toi
+        inner join tb_order_refund_remark  tor
+        on toi.article_id = tor.article_id and toi.order_id = tor.order_id
+        where toi.order_id = #{orderId} and toi.refund_count != 0
+    </select>
+
+    <select id="selectByArticleIds" resultType="com.resto.shop.web.model.OrderItem">
+        select * from tb_order_item where id in
+        <foreach collection="array" item="articleId" open="(" separator="," close=")">
+            #{articleId}
+        </foreach>
+    </select>
+
+
+    <select id="getOrderBefore" resultType="OrderItem">
+        select * from tb_order_item where order_id = (
+        select order_id from tb_order_before where state = 0 and table_number = #{tableNumber}
+        and shop_detail_id = #{shopId}
+        <if test="customerId != null">
+            and customer_id = #{customerId}
+        </if>
+        )
+    </select>
+
+    <delete id="posSyncDeleteByOrderId" parameterType="java.lang.String">
+      DELETE FROM tb_order_item where order_id = #{orderId}
+    </delete>
+
+    <select id="posSyncListByOrderId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT * from tb_order_item where order_id = #{orderId}
+    </select>
+
+
+    <insert id="updateOrinsertOrderItem" parameterType="com.resto.shop.web.model.OrderItem">
+        INSERT INTO tb_order_item (
+        id,
+        article_name,
+        article_designation,
+        count,
+        original_price,
+        unit_price,
+        base_unit_price,
+        final_price,
+        remark,
+        pos_discount,
+        sort,
+        status,
+        order_id,
+        article_id,
+        type,
+        parent_id,
+        create_time,
+        meal_item_id,
+        recommend_id,
+        orgin_count,
+        refund_count,
+        meal_fee_number,
+        change_count,
+        print_fail_flag,
+        customer_id,
+        weight,
+        need_remind
+        )
+        VALUES
+        (#{id}, #{articleName}, #{articleDesignation}, #{count}, #{originalPrice},#{unitPrice},#{baseUnitPrice},#{finalPrice},#{remark},#{posDiscount},
+        #{sort},#{status},#{orderId},#{articleId},#{type},#{parentId},#{createTime},#{mealItemId},#{recommendId},#{orginCount},#{refundCount},
+        #{mealFeeNumber},#{changeCount},#{printFailFlag},#{customerId},#{weight},#{needRemind}) ON DUPLICATE KEY UPDATE
+        <if test="articleName != null">
+            article_name=#{articleName},
+        </if>
+        <if test="articleDesignation != null">
+            article_designation=#{articleDesignation},
+        </if>
+        <if test="count != null">
+            count=#{count},
+        </if>
+        <if test="originalPrice != null">
+            original_price=#{originalPrice},
+        </if>
+        <if test="unitPrice != null">
+            unit_price=#{unitPrice},
+        </if>
+        <if test="baseUnitPrice != null">
+            base_unit_price=#{baseUnitPrice},
+        </if>
+        <if test="finalPrice != null">
+            final_price=#{finalPrice},
+        </if>
+        <if test="remark != null">
+            remark=#{remark},
+        </if>
+        <if test="posDiscount != null">
+            pos_discount=#{posDiscount},
+        </if>
+        <if test="sort != null">
+            sort=#{sort},
+        </if>
+        <if test="status != null">
+            status=#{status},
+        </if>
+        <if test="orderId != null">
+            order_id=#{orderId},
+        </if>
+        <if test="articleId != null">
+            article_id=#{articleId},
+        </if>
+        <if test="type != null">
+            type=#{type},
+        </if>
+        <if test="parentId != null">
+            parent_id=#{parentId},
+        </if>
+        <if test="createTime != null">
+            create_time=#{createTime},
+        </if>
+        <if test="mealItemId != null">
+            meal_item_id=#{mealItemId},
+        </if>
+        <if test="recommendId != null">
+            recommend_id=#{recommendId},
+        </if>
+        <if test="orginCount != null">
+            orgin_count=#{orginCount},
+        </if>
+        <if test="refundCount != null">
+            refund_count=#{refundCount},
+        </if>
+        <if test="mealFeeNumber != null">
+            meal_fee_number=#{mealFeeNumber},
+        </if>
+        <if test="changeCount != null">
+            change_count=#{changeCount},
+        </if>
+        <if test="printFailFlag != null">
+            print_fail_flag=#{printFailFlag},
+        </if>
+        <if test="customerId != null">
+            customer_id=#{customerId},
+        </if>
+        <if test="weight != null">
+            weight=#{weight},
+        </if>
+        <if test="needRemind != null">
+            need_remind=#{needRemind}
+        </if>
+    </insert>
+
+    <select id="selectParentItemByOrderId" parameterType="java.lang.String" resultType="com.resto.shop.web.model.OrderItem">
+        SELECT
+            toi.*
+        FROM
+            tb_order td
+        INNER JOIN tb_order_item toi ON td.id = toi.order_id
+        WHERE
+            parent_order_id = #{orderId}
+        AND order_state != 9
+        AND order_state != 1
+    </select>
+
+    <select id="grantArticleList" resultType="com.resto.shop.web.dto.GrantArticleInfoDto">
+        select tod.shop_detail_id,tod.table_number table_no,toi.article_id,toi.article_name,toi.grant_count count,if((toi.base_unit_price is null),toi.unit_price,toi.base_unit_price) unit_price,tod.id order_id,toi.id item_id
+        from tb_order tod
+        LEFT JOIN tb_order_item toi on tod.id=toi.order_id
+        where toi.grant_count>0 and tod.create_time BETWEEN #{beginDate} and #{endDate} and tod.order_state in(2,10,11,12)
+        and tod.production_status in (2,3,4)
+    </select>
+
+    <select id="selectFamilyName" resultType="java.lang.String">
+        select taf.name from tb_article ta INNER JOIN tb_article_family taf on ta.article_family_id=taf.id where ta.id=#{id}
+    </select>
+
+    <select id="selectRefundRemark" resultType="java.lang.String">
+        select refund_remark from tb_order_refund_remark where article_id=#{articleId} and order_id=#{orderId} and type=2
+    </select>
+
+    <select id="getGrantInfo" resultType="com.resto.shop.web.dto.GrantInfoDto">
+       select tod.shop_detail_id,tod.id order_id,toi.create_time order_time,tod.table_number table_no,tod.customer_id,toi.grant_count count,if((toi.base_unit_price is null),toi.unit_price,toi.base_unit_price) unit_price,toi.article_name,
+        toi.final_price signal_Price,toi.create_time grant_time
+        from tb_order tod LEFT JOIN tb_order_item toi on tod.id=toi.order_id
+        where toi.id=#{id}
+    </select>
+
+</mapper>

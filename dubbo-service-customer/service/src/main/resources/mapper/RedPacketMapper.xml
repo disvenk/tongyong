@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.service.customer.mapper.RedPacketMapper">
+  <resultMap id="BaseResultMap" type="com.resto.api.customer.entity.RedPacket">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="red_money" jdbcType="DECIMAL" property="redMoney" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="customer_id" jdbcType="VARCHAR" property="customerId" />
+    <result column="brand_id" jdbcType="VARCHAR" property="brandId" />
+    <result column="shop_detail_id" jdbcType="VARCHAR" property="shopDetailId" />
+    <result column="red_remainder_money" jdbcType="DECIMAL" property="redRemainderMoney" />
+    <result column="red_type" jdbcType="INTEGER" property="redType" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="state" jdbcType="BIT" property="state" />
+  </resultMap>
+
+  <update id="refundRedPacket">
+    update tb_red_packet set red_remainder_money = red_remainder_money + ${payValue}, finish_time = null
+    where id = #{Id}
+  </update>
+</mapper>

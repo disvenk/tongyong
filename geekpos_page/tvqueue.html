@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Geek排号</title>
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/weui.1.1.min.css" />
+		<style type="text/css">
+			html,body {
+				font-family: "微软雅黑";
+				background: #fff;
+				height: 100%;
+				position: relative;
+				overflow-x: hidden;
+			}			
+			.main {
+				position: relative;
+				height: 100%;
+				width: 100%;
+				text-align: center;
+				color: #fff;				
+			}
+			.header {
+				background-color: #000;
+				font-size: 2.5rem;
+				position: relative;
+				height: 8%;
+				display: table;
+				width: 100%;
+				color: #09BB07;
+			}
+			
+			.middle {
+				display: table-cell;
+				vertical-align: middle;
+				width: 100%;
+			}
+			
+			.main-content {
+				position: relative;
+				height: 76%;
+			}
+			
+			.title {
+				position: relative;
+				height: 8%;
+				width: 100%;
+				font-size: 2rem;
+				display: table;
+			}
+			
+			.footer {
+				background-color: #464646;
+				font-size: 2.5rem;
+				position: relative;
+				height: 8%;
+				width: 100%;
+			}
+			.mui-row-middle>[class*=mui-col-] {
+				float: initial;
+			}
+			/** socket 连接状态   begin **/
+			@-webkit-keyframes twinkling{
+			  0% {
+			      opacity: 0; 
+			  }
+			  100% {
+			      opacity: 1; 
+			  }
+			}
+			.round_break {
+				width: 16px;
+				height: 16px;
+				display: inline-block;
+				font-size: 20px;
+				line-heigth: 16px;
+				text-align: center;
+				color: #d9534f;
+				text-decoration: none;
+				-webkit-animation: twinkling 1s infinite ease-in-out;
+			}
+			
+			.numTitle {
+				width: 33.3333%;
+				background-color: #2ecc71;
+			}
+			
+			.waitingTitle {
+				width: 66.6666%;
+				background-color: #3498d8;
+			}
+			
+			.presentNumber {
+				width: 33.3333%;
+				float: left;
+				height: 100%;
+				background-color: #27ae60;
+				font-size: 2rem;
+			}
+			.isWaiting {
+				width: 66.666666%;
+				float: left;
+				height: 100%;
+				background-color: #2980b9;
+				font-size: 2rem;
+			}			
+			.middle-box {
+			    display: table;
+			    height: 33.3333%;
+			    position: relative;
+			    text-align: center;
+			    width: 100%;
+			}			
+			.tableType {
+				font-size: 2rem;
+			}						
+			.tableNumber {
+				font-size: 2rem;
+			}
+			.tableMoney {
+				font-size: 2rem;
+			}
+			/*弹性盒模型多种情况不同排列*/
+			.flex-container {
+			    display: -webkit-flex;
+			    display: flex;
+			    -webkit-flex-wrap: wrap;
+			    flex-wrap: wrap;				
+			    position: relative;
+			    height: 100%;
+			}			
+			
+			.oneBox {
+				width: 100%;
+				height: 100%;
+				border: none;
+			}
+			.twoBox {
+				width: 50%;
+				height: 100%;
+				border-right: 2px solid #3498d8;
+			}
+			.twoBox:last-child {
+				border-right: none;
+			}
+			.threeBox {
+				width: 50%;
+				height: 50%;
+			}
+			.threeBox:first-child {
+				border-right: 2px solid #3498d8;
+			}
+			.threeBox:last-child {
+				position: relative;
+			    bottom: 50%;
+			    left: 50%;
+			    border-top: 2px solid #3498d8;
+			}
+			.fourBox {
+				width: 50%;
+				height: 50%;
+			}
+			.fourBox:first-child {
+				border-right: 2px solid #3498d8;
+				border-bottom: 2px solid #3498d8;
+			}
+			.fourBox:nth-child(2) {
+				border-bottom: 2px solid #3498d8;
+			}
+			.fourBox:nth-child(3) {
+				border-right: 2px solid #3498d8;
+			}
+			.fiveBox {
+				width: 50%;
+				height: 50%;
+				font-size: 1.5rem;
+			}
+			.fiveBox:first-child {
+				border-right: 2px solid #3498d8;
+				border-bottom: 2px solid #3498d8;
+				font-size: 2rem;
+			}
+			.fiveBox:nth-child(2) {
+				border-bottom: 2px solid #3498d8;
+				font-size: 2rem;
+			}
+			.fiveBox:nth-child(3) {
+				border-right: 2px solid #3498d8;
+			}
+			.fiveBox:nth-child(4) {
+				border-right: 2px solid #3498d8;
+			}
+			.sixBox {
+				width: 33.3333%;
+				height: 50%;
+				font-size: 2rem;
+			}
+			.sixBox:first-child {
+				border-right: 2px solid #3498d8;
+				border-bottom: 2px solid #3498d8;
+			}
+			.sixBox:nth-child(2) {
+				border-right: 2px solid #3498d8;
+				border-bottom: 2px solid #3498d8;
+			}
+			.sixBox:nth-child(3) {
+				border-bottom: 2px solid #3498d8;
+			}
+			.sixBox:nth-child(4) {
+				border-right: 2px solid #3498d8;
+			}
+			.sixBox:nth-child(5) {
+				border-right: 2px solid #3498d8;
+			}
+			#animatedLogo {
+				-webkit-animation:gogogo 18s infinite linear ;
+				width: 100%;
+			}
+			@-webkit-keyframes gogogo {
+			    0%{			        
+			        -webkit-transform: translateX(100%);
+			    }
+			    25%{
+			    	-webkit-transform: translateX(60%);
+			    }
+			    50%{
+			    	-webkit-transform: translateX(20%);
+			    }
+			    75%{
+			    	-webkit-transform: translateX(-20%);
+			    }
+			    100%{
+			        -webkit-transform: translateX(-60%);
+			    }
+			
+			}
+		</style>
+	</head>
+	<body>		
+		<div id="app" style="position: relative;height: 100%;display: none;">
+			<div class="main" v-if="shopId">			
+			<!--顶部店铺名称-->
+			<div class="mui-row-middle header">
+				<a class="round_break" v-if="!connStatus">●</a>
+		        <div class="mui-col-xs-12 middle">{{shopInfo.slogan}}</div>     
+		    </div>
+		    <!--标题-->
+			<div class="title">
+				<div class="numTitle middle">当前叫号</div>
+				<div class="waitingTitle middle">正在排队</div>
+			</div>
+			<!--叫号信息区域-->
+		    <div class="mui-row main-content">
+		    	<!--当前叫号信息-->
+		    	<div class="presentNumber">
+					<div v-if="currentQueue" style="background-color: #27ae60;position: relative;height: 100%;">
+						<div class="middle-box tableType">
+							<div class="middle" style="font-size: 2.5rem;">
+								<span>{{getCurrentQueue.tableName}}</span>
+							</div>
+						</div>
+						<div class="middle-box tableNumber">
+							<div class="middle" style="font-size: 6rem;">
+								<span>{{getCurrentQueue.codeValue}}</span>
+							</div>							
+						</div>
+						<div class="middle-box tableMoney" style="font-size: 2.5rem;">
+							<div class="middle">
+								<!--<span>等位红包￥{{getCurrentQueue.finalMoney}}</span>-->
+							</div>				
+						</div>						
+					</div>
+					<div v-else style="background-color: #27ae60;position: relative;height: 100%;">
+						<div class="middle-box" style="height: 100%;">							
+							<div class="middle" style="font-size: 2.5rem;">
+								<span>暂无叫号信息<br/>欢迎取号</span>
+							</div>							
+						</div>
+					</div>
+				</div>
+		        
+	        <!--正在排队信息-->
+	        <template v-if="queueList!=null && queueList.length>0">
+				<div class="isWaiting" v-if="queueList.length == 1 || queueList.length == 2 || queueList.length == 4 || queueList.length == 6">
+					<div class="flex-container">
+						<div class="middle-box" v-for="queue in queueList" 
+							v-bind:class="{oneBox:queueList.length == 1,twoBox:queueList.length == 2,fourBox:queueList.length == 4,sixBox:queueList.length == 6}">								
+							<div class="middle-box" v-if="queueList.length == 1 || queueList.length == 2">
+								<div class="middle" style="font-size: 2.5rem;">
+									<span>{{queue.name}}({{queue.minNumber}}-{{queue.maxNumber}}人)</span>
+								</div>
+							</div>
+							<div class="middle-box" v-if="queueList.length == 4 || queueList.length == 6">
+								<div class="middle">
+									<span>{{queue.name}}({{queue.minNumber}}-{{queue.maxNumber}}人)</span>
+								</div>
+							</div>
+							<div class="middle-box">
+								<div class="middle" v-if="queueList.length == 1 || queueList.length == 2">
+									<span v-if="queue.getNumbers.length>0" style="font-size: 6rem;">{{queue.getNumbers[0].codeValue}}</span>
+									<span style="font-size: 2.5rem;" v-else>暂无取号信息</span>
+								</div>
+								<div class="middle" v-if="queueList.length == 4 || queueList.length == 6">
+									<span v-if="queue.getNumbers.length>0" style="font-size: 2.5rem;">{{queue.getNumbers[0].codeValue}}</span>
+									<span style="font-size: 2.5rem;" v-else>暂无取号信息</span>
+								</div>
+							</div>
+							
+							<div class="middle-box" v-if="queueList.length == 1 || queueList.length == 2">
+								<div class="middle" style="font-size: 2.5rem;">
+									<span>等待桌数 {{queue.getNumbers?queue.getNumbers.length:0}}</span>
+								</div>
+							</div>
+							<div class="middle-box" v-if="queueList.length == 4 || queueList.length == 6">
+								<div class="middle">
+									<span>等待桌数 {{queue.getNumbers?queue.getNumbers.length:0}}</span>
+								</div>
+							</div>							
+						</div>							
+					</div>					
+				</div>
+				
+				<div class="isWaiting" v-if="queueList.length == 3">
+					<div class="flex-container">						
+						<div class="middle-box threeBox" v-for="(index,queue) in queueList" v-if="index<1" style="width: 50%;height: 100%;">								
+							<div class="middle-box" style="font-size: 2.5rem;">
+								<div class="middle">
+									<span>{{queue.name}}({{queue.minNumber}}-{{queue.maxNumber}}人)</span>
+								</div>
+							</div>							
+							<div class="middle-box">
+								<div class="middle">
+									<span v-if="queue.getNumbers.length>0" style="font-size: 6rem;">{{queue.getNumbers[0].codeValue}}</span>
+									<span style="font-size: 2.5rem;" v-else>暂无取号信息</span>
+								</div>
+							</div>							
+							<div class="middle-box" style="font-size: 2.5rem;">
+								<div class="middle">
+									<span>等待桌数 {{queue.getNumbers?queue.getNumbers.length:0}}</span>
+								</div>
+							</div>								
+						</div>
+						<div class="middle-box threeBox" v-for="(index,queue) in queueList" v-if="index>=1" >								
+							<div class="middle-box">
+								<div class="middle">
+									<span>{{queue.name}}({{queue.minNumber}}-{{queue.maxNumber}}人)</span>
+								</div>
+							</div>							
+							<div class="middle-box">
+								<div class="middle" >
+									<span v-if="queue.getNumbers.length>0" style="font-size: 2.5rem;">{{queue.getNumbers[0].codeValue}}</span>
+									<span style="font-size: 2.5rem;" v-else >暂无取号信息</span>
+								</div>
+							</div>							
+							<div class="middle-box">
+								<div class="middle">
+									<span>等待桌数 {{queue.getNumbers?queue.getNumbers.length:0}}</span>
+								</div>
+							</div>								
+						</div>
+					</div>					
+				</div>
+				
+				<div class="isWaiting" v-if="queueList.length == 5">
+					<div class="flex-container">						
+						<div class="middle-box fiveBox" v-for="(index,queue) in queueList" v-if="index<=1" >								
+							<div class="middle-box">
+								<div class="middle">
+									<span>{{queue.name}}({{queue.minNumber}}-{{queue.maxNumber}}人)</span>
+								</div>  
+							</div>							
+							<div class="middle-box">
+								<div class="middle">
+									<span v-if="queue.getNumbers.length>0" style="font-size: 2.5rem;">{{queue.getNumbers[0].codeValue}}</span>
+									<span style="font-size: 2rem;" v-else>暂无取号信息</span>
+								</div>
+							</div>							
+							<div class="middle-box">
+								<div class="middle">
+									<span>等待桌数 {{queue.getNumbers?queue.getNumbers.length:0}}</span>
+								</div>
+							</div>								
+						</div>
+						<div class="middle-box fiveBox" v-for="(index,queue) in queueList" v-if="index>1" style="width: 33.3333%;height: 50%;font-size: 2rem;">								
+							<div class="middle-box">
+								<div class="middle">
+									<span>{{queue.name}}({{queue.minNumber}}-{{queue.maxNumber}}人)</span>
+								</div>
+							</div>							
+							<div class="middle-box">
+								<div class="middle">
+									<span v-if="queue.getNumbers.length>0" style="font-size:2.5rem;">{{queue.getNumbers[0].codeValue}}</span>
+									<span style="font-size: 2rem;" v-else>暂无取号信息</span>
+								</div>
+							</div>							
+							<div class="middle-box">
+								<div class="middle">
+									<span>等待桌数 {{queue.getNumbers?queue.getNumbers.length:0}}</span>
+								</div>
+							</div>								
+						</div>
+					</div>					
+				</div>
+		    			    		    
+			    <div class="isWaiting" v-if="queueList.length>6">
+					<h1>桌号类型有点多了...</h1>
+				</div>
+				
+				</template>
+			    <template v-else>
+					<div class="isWaiting">
+						<div class="middle-box" style="width: 100%;height: 100%;">
+							<div class="middle">
+								<span style="font-size: 5rem;">暂无数据</span>
+							</div>
+						</div>
+					</div>
+				</template>						
+			    
+		    </div>
+		    <!--底部提示区域-->
+		    <div class="mui-row-middle footer" >
+		    	<div id="animatedLogo" style="position: relative;height: 100%;display: table;">
+			        <div class="mui-col-xs-12 middle"  style="text-align: right;word-break:keep-all;white-space:nowrap;">		        	
+			        	<span>{{shopInfo.queueNotice}}</span>
+			        </div>
+		        </div>
+		    </div>
+		    </div>
+		    <!--登录框-->
+		    <template v-else>
+	            <center>
+	            <br /><br />
+	            <h2>排号Tv端登录</h2>
+				<div class="weui-cells weui-cells_form">
+					<div class="weui-cell">
+						<div class="weui-cell__hd"><label class="weui-label">账号</label></div>
+						<div class="weui-cell__bd">
+							<input class="weui-input" type="text" v-model="userName" placeholder="请输入账号">
+						</div>
+					</div>
+					<div class="weui-cell">
+						<div class="weui-cell__hd"><label class="weui-label">密码</label></div>
+						<div class="weui-cell__bd">
+							<input class="weui-input" type="password" v-model="userPwd" placeholder="请输入密码">
+						</div>
+					</div>
+				</div>
+				<br /><br />
+					<div style="width: 60%;">
+			            <a href="javascript:;" @Click="login(true)" class="weui-btn weui-btn_plain-default">登录</a>
+			        </div>
+				</center>
+			</template>
+			<!--  提示框       -->
+			<template v-if="msgInfo.show">
+		        <div class="weui-mask_transparent"></div>
+		        <div class="weui-toast">
+		        	<i class="weui-icon-warn weui-icon_toast" style="font-size: 50px;color: #FFF;"></i>
+		            <p class="weui-toast__content" style="word-wrap: break-word;">{{msgInfo.msg}}</p>
+		        </div>
+		    </template>
+		</div>
+		
+		<script src="js/jquery.min.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script src="js/sockjs.min.js"></script>
+	</body>
+		
+	<script>
+		//初始化 语言   being
+		var isready = false;
+	    document.addEventListener( "plusready",  function()
+	    {
+	        isready = true;
+	        var _BARCODE = 'speaker'
+	        var B = window.plus.bridge;
+	        var speaker =
+	        {
+	            voice : function (text , successCallback, errorCallback ){
+	                var success = function(args)
+	                {
+	                    successCallback(args);
+	                };
+	                var fail =function(code)
+	                {
+	                    errorCallback(code);
+	                };
+	                var callbackID = B.callbackId(success, fail);
+	
+	                return B.exec(_BARCODE, "voice", [callbackID, text]);
+	            }
+	        };
+	        window.plus.speaker = speaker;
+	    }, true );
+    	//初始化 语言   end
+    	
+		var vm = new Vue({
+			el: "#app",
+			data: {
+				shopInfo: {
+					brandId : "",
+					shopId : "",
+					name: "",
+					slogan: "",
+					queueNotice: ""
+				}, //店铺信息
+				brandId : "",//品牌ID
+				shopId : "",//店铺ID(以此判断是否登录)
+				userName : "test_admin",//用户名
+				userPwd: "1",//密码
+				baseUrl: "" , //项目访问路径
+				currentQueue: null, //当前叫号信息
+				queueList: [], //所有的等位信息
+				ws: null, //socket 连接对象
+				connStatus: true, //socket 连接状态  ture正常连接，false为中断
+				socketConnTimes: 3, //socket 断线连接次数
+				msgInfo : {show:false,msg:""},//提示信息
+			},
+			created: function() {
+				//获取后台路径
+				var host = window.location.host;
+				if(host.indexOf("test") != -1){//测试服务器
+					this.baseUrl = window.location.protocol +"//"+ host + "/geekqueuing/";
+				}else{//其他服务器
+					this.baseUrl = window.location.protocol +"//"+ host + "/geekqueuing/";
+				}
+//				this.baseUrl = "http://localhost:8084/geekpos/";
+				this.userName =  localStorage.getItem("userName");
+				this.userPwd =  localStorage.getItem("userPwd");
+				console.log(this.baseUrl);
+				$("#app").show();
+			},
+			computed : {
+				getCurrentQueue : function(){
+					if(this.currentQueue){
+						var that = this;
+						$(this.queueList).each(function(index,item){
+							if(that.currentQueue.tableType == item.codeNumber){
+								that.currentQueue.tableName = item.name +"("+ item.minNumber+"-"+item.maxNumber+"人)";
+							}
+						})
+						return this.currentQueue;
+					}else{
+						return {};
+					}
+				}
+			},
+			methods: {
+				init:function(data){
+					this.brandId = data.brandId;
+					this.shopId = data.shopDetailId;
+					this.getShopInfo();
+					this.getQueueList();
+					this.connWebsock();
+				},
+				getShopInfo: function() {
+					var that = this;
+					this.sendPost("tv/info", null, function(data) {
+						that.shopInfo = data;
+						console.log(that.shopInfo);
+					})
+				},
+				getQueueList: function() {
+					var that = this;
+					this.sendPost("tv/list", null, function(data) {
+						$(data).each(function(index,item){
+							if(!item.getNumbers){
+								item.getNumbers = [];
+							}
+						})
+						that.queueList = data;
+						console.log(that.queueList);
+					})
+				},
+				connWebsock: function() {
+					var that = this;
+					var url = this.baseUrl + "sockjs/orderServer";
+//					var url = "http://test.restoplus.cn/geekqueuing/sockjs/orderServer";
+//					var url = "http://192.168.8.109:8085/geekqueuing/sockjs/orderServer";
+					this.ws = new SockJS(url);
+					this.ws.onopen = function(event) {
+						that.wsOnopen()
+					};
+					this.ws.onmessage = function(event) {
+						that.wsOnmessage(event)
+					};
+					this.ws.onclose = function(event) {
+						that.wsOnclose();
+					};
+					this.ws.onerror = function(evt) {
+						that.wsOnerror()
+					};
+				},
+				wsOnopen: function() {
+					console.log("开始连接");
+					var data = this.getJsonData("check", null);
+					this.ws.send(data);
+					console.log("链接成功");
+					this.connStatus = true;
+				},
+				wsOnmessage: function(event) {
+					var data = JSON.parse(event.data);
+					console.log(data);
+					if(data.dataType == "quhao"){//取号
+						this.updateQueueList(data,"add");
+					}else if(data.dataType == "jiaohao") {//叫号
+						this.currentQueue = data; 
+						this.play(this.currentQueue.codeValue,"jiaohao");
+					}else if(data.dataType == "jiucan"){//就餐
+						this.updateQueueList(data,"delete");
+						this.currentQueue = data; 
+						this.play(this.currentQueue.codeValue,"jiucan");
+					}else if(data.dataType == "guohao"){//过号
+						this.updateQueueList(data,"delete");
+					}
+				},
+				updateQueueList : function(data,op){
+					var that = this;
+					$(this.queueList).each(function(index,item){
+						if(item.codeNumber == data.tableType){
+							if(op == "add"){
+								item.getNumbers.push(data);
+							}else{
+								var i = -1;
+								$(item.getNumbers).each(function(index1,item1){
+									console.log(item1.id);
+									if(item1.id == data.id){
+										i = index1;
+										return false;//结束循环
+									}
+								})
+//								if(that.currentQueue && that.currentQueue.id == data.id){
+//									that.currentQueue = null;
+//								}
+								if(i != -1){
+									item.getNumbers.splice(i, 1);
+								}
+							}
+						}
+					});
+				},
+				wsOnclose: function() {
+					var that = this;
+					console.log("连接断开");
+					if(this.socketConnTimes > 0) {
+						window.setTimeout(function(){
+							that.socketConnTimes--;
+							that.connWebsock();
+						}, 3000);
+					} else {
+						this.connStatus = false;
+						//重新连接
+						this.ping();
+					}
+				},
+				wsOnerror: function() {
+					window.setTimeout(this.connWebsock, 1000);
+					console.log("ws出错");
+				},
+				ping: function() {
+					var that = this;
+					$.ajax({
+						type: "POST",
+						url: this.baseUrl + "tv/ping",
+						timeout: 3000,
+						success: function(result) {
+							if(result.code == 200){
+								console.log("ping---成功",result.data)
+								if(result.data == null || result.data == "") { //如果返回的没有值，则自动登录
+									that.login(false);
+								}else{
+									that.connStatus = true;
+								}
+							}
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							console.log("ping --失败");
+							setTimeout(function() {
+								that.ping();
+							}, 2000);
+						}
+					});
+				},
+				login: function(isShowError) {
+					var that = this;
+					var data = {
+						"username": this.userName,
+						"password": this.userPwd
+					};
+					$.ajax({
+						type: "POST",
+						url: this.baseUrl + "waitModel/login",
+						data: data,
+						success: function(result) {
+							if(result.code == 200){
+								that.init(result.data);
+								//保存此次登录的信息
+								localStorage.setItem("userName",that.userName);
+								localStorage.setItem("userPwd",that.userPwd);
+							}else if(isShowError){//是否显示错误信息
+								that.msg(result.msg);
+							}else if(isShowError && result.code == 100){//当不显示错误信息并且错误码为 账户错误时，进行重新登录
+								that.shopId = null;
+								localStorage.removeItem('userPwd');//清除保存的密码
+								that.play("login");
+							}
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							if(isShowError){//是否显示错误信息
+								that.msg("网络好像出了点问题，稍后再试试吧！");
+							}
+						}
+					});
+				},
+				sendPost: function(url, data, cbk) {
+					var that = this;
+					var param = {
+						brandId : this.brandId,
+						shopId : this.shopId
+					};
+					param = $.extend({},param,data);
+					$.ajax({
+						type: "POST",
+						url: this.baseUrl+url,
+						data: param,
+						success: function(result) {
+							if(result.code == 200){
+								cbk && cbk(result.data);
+							}else{
+								that.msg(result.msg);
+							}
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+							that.msg("网络好像出了点问题，稍后再试试吧！");
+						}
+					});
+				},
+				getJsonData: function(type, data) {
+					var dataAPI = {};
+					dataAPI.shopId = this.shopId;
+					dataAPI.client = "queue";
+					dataAPI.type = type;
+					dataAPI.data = data;
+					return JSON.stringify(dataAPI);
+				},
+				msg : function(msg,time){
+					var that = this;
+					this.msgInfo.show = true;
+					this.msgInfo.msg = msg;
+					setTimeout(function(){
+						that.msgInfo.show = false;
+					},time?time:1500);
+				},
+				getNext: function(index) {
+					return ++index;
+				},
+				play : function(msg,type){
+					if(msg){
+						playMusic(msg.split(""),type);
+					}
+				}
+			}
+		})
+				
+		function playMusic(msg, type) {
+
+			plus.audio.createPlayer("_www/music/null.wav").play();
+	        console.log("type:"+type);
+	        if (typeof window.plus == "undefined" || typeof plus.speaker == "undefined") {
+	            console.error("非安卓平台语音叫号");
+	            console.log(msg);
+	            return false;
+	        }
+        	plus.audio.createPlayer("_www/music/null.wav").play();
+        	for(var i = 0;i< msg.length;i++){
+	            var p = plus.audio.createPlayer("_www/music/"+msg[i]+".wav");
+	            p.play();
+	            sleep(800);
+	        }
+	        
+
+	        if(type == "jiaohao"){
+	        	 var p = plus.audio.createPlayer("_www/music/jiaohao.wav");
+	        	 p.play();
+	        }else if(type == "jiucan"){
+	        	// var p = plus.audio.createPlayer("_www/music/jiucan_begin.wav");
+	        	// p.play();
+	        	p = plus.audio.createPlayer("_www/music/jiucan_end.wav");
+	        	p.play();
+	        }
+	        
+	    }
+		
+		function sleep(n) {
+	        var start = new Date().getTime();
+	        while(true){
+	            if(new Date().getTime()-start > n)
+	                break;
+	        }
+	    }
+	</script>
+</html>

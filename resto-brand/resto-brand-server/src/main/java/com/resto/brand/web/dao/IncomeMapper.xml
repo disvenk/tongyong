@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.IncomeMapper">
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.Income">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="contract_id" property="contractId" jdbcType="BIGINT"/>
+    <result column="pay_type" property="payType" jdbcType="TINYINT"/>
+    <result column="pay_account" property="payAccount" jdbcType="VARCHAR"/>
+    <result column="pay_serialnumber" property="paySerialnumber" jdbcType="VARCHAR"/>
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP"/>
+	<result column="pay_money" property="payMoney"/>
+  </resultMap>
+	
+	<resultMap id="contractListMap" type="com.resto.brand.web.model.Income">
+		<id column="id" property="id" jdbcType="BIGINT"/>
+		<result column="pay_type" property="payType" jdbcType="TINYINT"/>
+		<result column="pay_account" property="payAccount" jdbcType="VARCHAR"/>
+		<result column="pay_serialnumber" property="paySerialnumber" jdbcType="VARCHAR"/>
+		<result column="pay_time" property="payTime" jdbcType="TIMESTAMP"/>
+		<result column="pay_money" property="payMoney"/>
+        <association property="contract" javaType="com.resto.brand.web.model.Contract">
+            <id column="contract_id" property="id" />
+            <result column="b_company_name" property="bCompanyName" />
+            <result column="constract_num" property="constractNum" />
+            <result column="brand_name" property="brandName" />
+        </association>
+	</resultMap>
+	
+  <sql id="Base_Column_List">id, contract_id, pay_type, pay_account, pay_serialnumber, pay_time,pay_money</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from income where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from income where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.brand.web.model.Income">insert into income (id, contract_id, pay_type, pay_account, pay_serialnumber, pay_time,pay_money ) values (#{id,jdbcType=BIGINT}, #{contractId,jdbcType=BIGINT}, #{payType,jdbcType=TINYINT}, #{payAccount,jdbcType=VARCHAR}, #{paySerialnumber,jdbcType=VARCHAR}, #{payTime,jdbcType=TIMESTAMP},#{payMoney} )</insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.Income">insert into income 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="contractId != null">contract_id,</if>  
+      <if test="payType != null">pay_type,</if>  
+      <if test="payAccount != null">pay_account,</if>  
+      <if test="paySerialnumber != null">pay_serialnumber,</if>  
+      <if test="payTime != null">pay_time,</if>
+	  <if test="payMoney != null">pay_money,</if>
+	</trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="contractId != null">#{contractId,jdbcType=BIGINT},</if>  
+      <if test="payType != null">#{payType,jdbcType=TINYINT},</if>  
+      <if test="payAccount != null">#{payAccount,jdbcType=VARCHAR},</if>  
+      <if test="paySerialnumber != null">#{paySerialnumber,jdbcType=VARCHAR},</if>  
+      <if test="payTime != null">#{payTime,jdbcType=TIMESTAMP},</if>
+	  <if test="payMoney != null">#{payMoney},</if>
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.Income">update income 
+    <set> 
+      <if test="contractId != null">contract_id = #{contractId,jdbcType=BIGINT},</if>  
+      <if test="payType != null">pay_type = #{payType,jdbcType=TINYINT},</if>  
+      <if test="payAccount != null">pay_account = #{payAccount,jdbcType=VARCHAR},</if>  
+      <if test="paySerialnumber != null">pay_serialnumber = #{paySerialnumber,jdbcType=VARCHAR},</if>  
+      <if test="payTime != null">pay_time = #{payTime,jdbcType=TIMESTAMP},</if>
+		<if test="payMoney != null">pay_money = #{payMoney},</if>
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.Income">update income set contract_id = #{contractId,jdbcType=BIGINT}, pay_type = #{payType,jdbcType=TINYINT}, pay_account = #{payAccount,jdbcType=VARCHAR}, pay_serialnumber = #{paySerialnumber,jdbcType=VARCHAR}, pay_time = #{payTime,jdbcType=TIMESTAMP},pay_money = #{payMoney} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="Income">select * from income</select>
+
+  <select id="selectIncomeAndContractList" resultMap="contractListMap">
+	  SELECT
+		i.id,
+		i.pay_money,
+		i.pay_type,
+		i.pay_time,
+		i.pay_serialnumber,
+		c.id contract_id,
+		c.constract_num,
+		c.b_company_name,
+		c.brand_name,
+		c.sign_money,
+		c.receive_money,
+		c.unreceive_money
+	FROM
+	income i
+INNER JOIN contract c ON i.contract_id = c.id
+  </select>
+
+    <select id="selectListByContractId" resultType="Income">
+        select * from income WHERE contract_id = #{contractId}
+
+    </select>
+
+
+</mapper>

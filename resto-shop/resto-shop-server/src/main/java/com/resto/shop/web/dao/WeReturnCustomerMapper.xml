@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.WeReturnCustomerMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.WeReturnCustomer">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR"/>
+    <result column="create_time" property="createTime" jdbcType="DATE"/>
+    <result column="money" property="money" jdbcType="DECIMAL"/>
+    <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, shop_id, create_time, money, telephone</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from we_return_customer where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from we_return_customer where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.WeReturnCustomer">insert into we_return_customer (id, shop_id, create_time, money, telephone) values (#{id,jdbcType=BIGINT}, #{shopId,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, #{money,jdbcType=DECIMAL}, #{telephone,jdbcType=VARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.WeReturnCustomer">insert into we_return_customer 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="shopId != null">shop_id,</if>  
+      <if test="createTime != null">create_time,</if>  
+      <if test="money != null">money,</if>  
+      <if test="telephone != null">telephone,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="shopId != null">#{shopId,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=DATE},</if>  
+      <if test="money != null">#{money,jdbcType=DECIMAL},</if>  
+      <if test="telephone != null">#{telephone,jdbcType=VARCHAR},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.WeReturnCustomer">update we_return_customer 
+    <set> 
+      <if test="shopId != null">shop_id = #{shopId,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=DATE},</if>  
+      <if test="money != null">money = #{money,jdbcType=DECIMAL},</if>  
+      <if test="telephone != null">telephone = #{telephone,jdbcType=VARCHAR},</if> 
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.WeReturnCustomer">update we_return_customer set shop_id = #{shopId,jdbcType=VARCHAR}, create_time = #{createTime,jdbcType=DATE}, money = #{money,jdbcType=DECIMAL}, telephone = #{telephone,jdbcType=VARCHAR} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="WeReturnCustomer">select * from we_return_customer</select>
+    <select id="selectByShopIdAndTime" resultType="WeReturnCustomer">
+        SELECT  * FROM we_return_customer WHERE  shop_id =#{shopId}
+        AND
+          <![CDATA[
+          create_time>#{beginDate} and create_time<#{endDate}
+       ]]>  AND shop_id =#{shopId}
+
+    </select>
+
+</mapper>

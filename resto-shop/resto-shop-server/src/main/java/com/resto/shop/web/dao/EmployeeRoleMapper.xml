@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.EmployeeRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.EmployeeRole" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="employee_id" property="employeeId" jdbcType="BIGINT" />
+    <result column="role_id" property="roleId" jdbcType="BIGINT" />
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, employee_id, role_id, shop_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_employee_role
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_employee_role
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.EmployeeRole" >
+    insert into tb_employee_role (id, employee_id, role_id, 
+      shop_id)
+    values (#{id,jdbcType=BIGINT}, #{employeeId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, 
+      #{shopId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.EmployeeRole" >
+    insert into tb_employee_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="employeeId != null" >
+        employee_id,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="employeeId != null" >
+        #{employeeId,jdbcType=BIGINT},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.EmployeeRole" >
+    update tb_employee_role
+    <set >
+      <if test="employeeId != null" >
+        employee_id = #{employeeId,jdbcType=BIGINT},
+      </if>
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.EmployeeRole" >
+    update tb_employee_role
+    set employee_id = #{employeeId,jdbcType=BIGINT},
+      role_id = #{roleId,jdbcType=BIGINT},
+      shop_id = #{shopId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <delete id="deleteByIds" parameterType="java.util.List">
+    delete from tb_employee_role where id in
+
+    <foreach collection="list" index="index" item = "item" open="(" separator="," close=")">#{ item}
+
+    </foreach>
+
+  </delete>
+
+</mapper>

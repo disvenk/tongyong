@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.report.ChargeOrderMapperReport">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.ChargeOrder" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="charge_money" property="chargeMoney" jdbcType="DECIMAL" />
+    <result column="reward_money" property="rewardMoney" jdbcType="DECIMAL" />
+    <result column="order_state" property="orderState" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR" />
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR" />
+    <result column="charge_balance" property="chargeBalance" jdbcType="DECIMAL" />
+    <result column="reward_balance" property="rewardBalance" jdbcType="DECIMAL" />
+    <result column="total_balance" property="totalBalance" jdbcType="DECIMAL" />
+    <result column="number_day_now" property="numberDayNow"/>
+    <result column="arrival_amount" property="arrivalAmount"/>
+    <result column="end_amount" property="endAmount"/>
+    <result column="type" property="type"/>
+    <result column="charge_setting_id" property="chargeSettingId"/>
+  </resultMap>
+
+    <!--店铺详细-->
+    <resultMap id="ShopchargecordMap" type="com.resto.shop.web.model.ChargeOrder">
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="charge_money" property="chargeMoney" jdbcType="DECIMAL" />
+        <result column="reward_money" property="rewardMoney" jdbcType="DECIMAL" />
+        <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR" />
+        <result column="type" property="type"/>
+        <!--充值详细-->
+        <association property="chargelog" javaType="com.resto.shop.web.model.ChargeLog">
+            <id column="cid" property="id" jdbcType="VARCHAR" />
+            <result column="operation_phone" property="operationPhone" jdbcType="VARCHAR" />
+            <result column="customer_phone"  property="customerPhone" jdbcType="VARCHAR" />
+        </association>
+    </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, charge_money, reward_money, order_state, create_time, finish_time, customer_id,
+    brand_id, shop_detail_id, charge_balance, reward_balance, total_balance, number_day_now, arrival_amount, end_amount, type, charge_setting_id
+  </sql>
+
+
+    <!--店铺充值详细-->
+    <select id="shopChargeCodes" resultMap="ShopchargecordMap" >
+        SELECT
+        o.id,
+        o.charge_money,
+        o.reward_money,
+        o.finish_time,
+        o.shop_detail_id,
+        o.customer_id,
+        IF (o.type IS NULL, 1, o.type) type,
+
+        IF (
+        c.id IS NULL,
+        '没有填写',
+        c.id
+        ) cid,
+
+        IF (
+        c.operation_phone IS NULL,
+        '没有填写',
+        c.operation_phone
+        ) operation_phone,
+
+        IF (
+        o.type = 0,if(c.customer_phone IS NULL,'没有填写',c.customer_phone),(select telephone from tb_customer r where r.id = o.customer_id)
+        ) customer_phone
+        FROM
+        tb_charge_order o
+        LEFT JOIN tb_charge_log c ON c.charge_order_id = o.id
+        WHERE o.shop_detail_id=#{shopDetailId}
+        AND o.order_state = 1
+        AND o.finish_time is not null
+        <if test="beginDate != null and beginDate != ''">
+            AND  <![CDATA[  o.finish_time>=#{beginDate} ]]>
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND  <![CDATA[ o.finish_time <= #{endDate } ]]>
+        </if>
+    </select>
+
+    <!-- 所有品牌充值记录 -->
+    <select id="selectRechargeLog" resultType="com.resto.brand.web.dto.RechargeLogDto">
+        SELECT
+        COUNT(id) AS rechargeCount,
+        SUM(charge_money) AS rechargeNum,
+        SUM(reward_money) AS rechargeGaNum,
+        (
+        SELECT
+        SUM(charge_money)
+        FROM
+        tb_charge_order
+        WHERE
+        order_state = 1
+        AND type = 1
+        AND
+        <![CDATA[ create_time>#{begin} AND create_time<#{end}]]>
+        AND brand_id = #{brandId}
+        ) AS rechargeWeChat,
+        (
+        SELECT
+        SUM(charge_money)
+        FROM
+        tb_charge_order
+        WHERE
+        order_state = 1
+        AND type = 0
+        AND
+        <![CDATA[ create_time>#{begin} AND create_time<#{end}]]>
+        AND brand_id = #{brandId}
+        ) AS rechargePos,
+        SUM(charge_money) - SUM(charge_balance) AS rechargeCsNum,
+
+        IF (
+        number_day_now > 0,
+        SUM(
+        reward_money - (number_day_now - 1) * arrival_amount + end_amount
+        ),
+        SUM(
+        reward_money - reward_balance
+        )
+        ) AS rechargeGaCsNum,
+        SUM(charge_balance) AS rechargeSpNum,
+        SUM(reward_balance) AS rechargeGaSpNum
+        FROM
+        tb_charge_order
+        WHERE
+        order_state = 1
+        AND
+        <![CDATA[ create_time>#{begin} AND create_time<#{end}]]>
+        AND brand_id = #{brandId}
+        GROUP BY
+        brand_id = #{brandId}
+    </select>
+
+    <!-- 得到品牌下所有店铺的充值记录 -->
+    <select id="selectShopRechargeLog" resultType="com.resto.brand.web.dto.RechargeLogDto">
+        SELECT COUNT(1) AS shopCount,
+        SUM(charge_money) AS shopNum,
+        SUM(reward_money) AS shopGaNum,
+        (
+        SELECT
+        SUM(charge_money)
+        FROM
+        tb_charge_order
+        WHERE
+        order_state = 1
+        AND type = 1
+        AND
+        <![CDATA[ create_time>#{begin} AND create_time<#{end}]]>
+        AND shop_detail_id = #{shopId}
+        ) AS shopWeChat,
+        (
+        SELECT
+        SUM(charge_money)
+        FROM
+        tb_charge_order
+        WHERE
+        order_state = 1
+        AND type = 0
+        AND
+        <![CDATA[ create_time>#{begin} AND create_time<#{end}]]>
+        AND shop_detail_id = #{shopId}
+        ) AS shopPos,
+        SUM(charge_money)-SUM(charge_balance) AS shopCsNum,
+        IF (
+        number_day_now > 0,
+        SUM(
+        reward_money - (((number_day_now - 1) * arrival_amount) + end_amount + reward_balance)
+        ),
+        SUM(
+        reward_money - reward_balance
+        )
+        ) AS shopGaCsNum
+        FROM
+        tb_charge_order
+        WHERE
+        order_state = 1
+        AND
+        <![CDATA[ create_time>#{begin} AND create_time<#{end}]]>
+        AND shop_detail_id = #{shopId}
+        GROUP BY
+        shop_detail_id = #{shopId}
+    </select>
+
+    <select id="selectMonthDto" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select id, charge_money, reward_money, charge_balance, reward_balance, type, finish_time, customer_id
+        from tb_charge_order
+        where order_state = 1
+        <if test="shopId != null">
+            and shop_detail_id = #{shopId}
+        </if>
+        and finish_time &gt;= CONCAT(#{beginDate},' 00:00:00')
+        and finish_time &lt;= CONCAT(#{endDate},' 23:59:59')
+    </select>
+
+    <select id="selectChargeRedPacket" resultType="com.resto.brand.web.dto.RedPacketDto">
+        select
+        tco.shop_detail_id shopDetailId, IFNULL(COUNT(1),0) redCount, IFNULL(SUM(tco.reward_money),0) redMoney,
+        IFNULL((SUM((select COUNT(1) from (
+        select top.result_data from tb_order td
+        inner join tb_order_payment_item top
+        on td.id = top.order_id
+        where td.order_state in (2,10,11,12)
+        and IF(td.is_pos_pay = 1,td.is_pos_pay = 1,td.production_status in (2,3,4))
+        and top.payment_mode_id = 7
+        and top.pay_time &gt;=  CONCAT(#{useBeginDate},' 00:00:00')
+        and top.pay_time &lt;=  CONCAT(#{useEndDate},' 23:59:59')
+        GROUP BY top.result_data
+        ) r where r.result_data = tco.id))),0) useRedCount,
+        IFNULL((SUM((select SUM(r.payValue) from (
+        select top.result_data, SUM(top.pay_value) payValue from tb_order td
+        inner join tb_order_payment_item top
+        on td.id = top.order_id
+        where td.order_state in (2,10,11,12)
+        and IF(td.is_pos_pay = 1,td.is_pos_pay = 1,td.production_status in (2,3,4))
+        and top.payment_mode_id = 7
+        and top.pay_time &gt;=  CONCAT(#{useBeginDate},' 00:00:00')
+        and top.pay_time &lt;=  CONCAT(#{useEndDate},' 23:59:59')
+        GROUP BY top.result_data
+        ) r where r.result_data = tco.id))),0) useRedMoney
+        from tb_charge_order tco
+        where tco.order_state = 1
+        and tco.reward_money > 0
+        and tco.create_time &gt;= CONCAT(#{grantBeginDate},' 00:00:00')
+        and tco.create_time &lt;= CONCAT(#{grantEndDate},' 23:59:59')
+        GROUP BY tco.shop_detail_id
+    </select>
+
+    <select id="selectChargeWeChatBill" resultType="com.resto.brand.web.dto.WeChatBill">
+        SELECT
+            tcp.charge_order_id orderId,
+            tcp.payment_money payValue,
+            tcp.create_time payTime,
+            tcp.pay_data refundInfo
+        FROM
+            tb_charge_order tco
+        INNER JOIN tb_charge_payment tcp ON tco.id = tcp.charge_order_id
+        WHERE
+            tcp.create_time BETWEEN #{beginDate}
+        AND DATE_ADD(#{endDate}, INTERVAL 1 DAY)
+        <if test="shopId != null">
+          AND tco.shop_detail_id = #{shopId}
+        </if>
+        ORDER BY tcp.payment_money asc
+    </select>
+
+    <select id="selectChargeTotal" resultType="com.resto.brand.web.dto.ChargeTotalDto">
+        SELECT
+            COUNT(1) historyChargeCount,
+            SUM(charge_money) historyChargeMoney,
+            SUM(reward_money) historyRewardMoney,
+            SUM(charge_balance) historyChargeBalance,
+            SUM(reward_balance) historyRewardBalance
+        FROM
+            tb_charge_order
+        WHERE
+            order_state = 1
+    </select>
+</mapper>

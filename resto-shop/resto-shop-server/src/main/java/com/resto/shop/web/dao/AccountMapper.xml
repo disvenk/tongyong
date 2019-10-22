@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.AccountMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.Account">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="remain" property="remain" jdbcType="DECIMAL"/>
+    <result column="status" property="status" jdbcType="TINYINT"/>
+    <result column="frozen_remain" property="frozenRemain"/>
+    <collection property="accountLogs" ofType="com.resto.shop.web.model.AccountLog" javaType="java.util.List">
+      <id column="account_log_id" property="id" jdbcType="VARCHAR" />
+      <result column="money" property="money" jdbcType="DECIMAL" />
+      <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+      <result column="payment_type" property="paymentType" jdbcType="INTEGER" />
+      <result column="account_log_remain" property="remain" jdbcType="DECIMAL" />
+      <result column="remark" property="remark" jdbcType="VARCHAR" />
+      <result column="account_id" property="accountId" jdbcType="VARCHAR" />
+      <result column="source" property="source" jdbcType="INTEGER" />
+      <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+      <result column="freeze_return_date" property="freezeReturnDate"/>
+      <result column="order_id" property="orderId"/>
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">id, remain, status, frozen_remain</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select 
+    <include refid="Base_Column_List"/> from tb_account where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from tb_account where id = #{id,jdbcType=VARCHAR}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.Account">insert into tb_account (id, remain, status, frozen_remain) values (#{id,jdbcType=VARCHAR}, #{remain,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, #{frozenRemain})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.Account">insert into tb_account 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="remain != null">remain,</if>  
+      <if test="status != null">status,</if>
+      <if test="frozenRemain != null">frozen_remain,</if>
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>  
+      <if test="remain != null">#{remain,jdbcType=DECIMAL},</if>  
+      <if test="status != null">#{status,jdbcType=TINYINT},</if>
+      <if test="frozenRemain != null">#{frozenRemain},</if>
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.Account">update tb_account 
+    <set> 
+      <if test="remain != null">remain = #{remain,jdbcType=DECIMAL},</if>  
+      <if test="status != null">status = #{status,jdbcType=TINYINT},</if>
+      <if test="frozenRemain != null">frozen_remain = #{frozenRemain},</if>
+    </set> where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.Account">update tb_account set remain = #{remain,jdbcType=DECIMAL}, status = #{status,jdbcType=TINYINT}, frozen_remain = #{frozenRemain} where id = #{id,jdbcType=VARCHAR}</update>
+  <select id="selectList" resultType="Account">select * from tb_account</select>
+  
+  <!-- 根据用户ID查询账户余额 -->
+  <select id="selectAccountByCustomerId" resultType="Account">
+	SELECT a.* from tb_account a LEFT JOIN tb_customer c on a.id = c.account_id where c.id = #{customerId}
+  </select>
+
+  <select id="selectRebate" resultMap="BaseResultMap">
+    SELECT
+        *, tal.id account_log_id, tal.remain account_log_remain
+    FROM
+        tb_account ta
+    INNER JOIN tb_account_log tal ON ta.id = tal.account_id
+    WHERE
+        tal.payment_type = 3
+  </select>
+
+  <select id="selectAccountByIds" parameterType="java.util.List" resultType="com.resto.shop.web.model.Account">
+    SELECT
+        *
+    FROM
+        tb_account
+    WHERE
+        id IN
+    <foreach collection="list" item="id" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </select>
+</mapper>

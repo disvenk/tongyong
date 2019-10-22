@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo  
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+	<dubbo:application name="consumer_shop_web" />
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+	<dubbo:registry address="zookeeper://${rpc.registry_address}" />
+	<dubbo:annotation package="com.resto.shop.web.controller" />
+
+	<dubbo:consumer timeout="${dubbo.provider.timeOut}"/>
+
+	<!-- brand服务 -->
+	<dubbo:reference interface="com.resto.brand.web.service.PermissionService" id="bPermissionService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.UserService" id="userService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.RoleService" id="roleService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.BrandService" id="brandService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.BrandUserService" id="brandUserService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.DatabaseConfigService" id="databaseConfigService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.DistributionModeService" id="distributionModeService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.ShopDetailService" id="shopDetailService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.ShopModeService" id="shopModeService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.WechatConfigService" id="WwechatConfigService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.UserGroupService" id="userGroupService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.OtherConfigService" id="otherConfigService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.OtherConfigDetailedService" id="otherConfigDetailedService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.BrandSettingService" id="brandSettingService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.ShareSettingService" id="shareSettingService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.ModuleListService" id="moduleListService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.SmsTicketService" id="smsTicketService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.SmsChargeOrderService" id="smsChargeOrderService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.SmsAcountService" id="smsAcountService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.OrderExceptionService" id="orderExceptionService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.PlatformService" id="platformService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.SysErrorService" id="sysErrorService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.WxServerConfigService" id="wxServerConfigService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.TableQrcodeService" id="tableQrcodeService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.WechatChargeConfigService" id="wechatChargeConfigService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.ShowPhotoService" id="bShowPhotoService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.TemplateService" id="templateService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.RefundRemarkService" id="refundRemarkService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.OrderRemarkService" id="bOrderRemarkService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.WetherService" id="wetherService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.MqConfigService" id="mqConfigService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.BrandAccountService" id="brandAccountService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.AccountSettingService" id="accountSettingService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.BrandAccountLogService" id="brandAccountLogService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.AccountChargeOrderService" id="accountChargeOrderService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.AccountAddressInfoService" id="accountAddressInfoService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.AccountTicketService" id="accountTicketService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.AccountNoticeService" id="accountNoticeService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.ElemeTokenService" id="elemeTokenService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.ContractService" id="contractService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.IncomeService" id="incomeService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.ExamineService" id="examineService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.ContractTicketService" id="contractTicketService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.AddressInfoService" id="addressInfoService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.NewEmployeeService" id="newEmployeeService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.EmployeeService" id="employeeBrandService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.RewardSettingService" id="rewardSettingService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.ShopTvConfigService" id="shopTvConfigService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.AreaService" id="brandAreaService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.ProvinceService" id="provinceService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.CityService" id="cityService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.DistrictService" id="districtService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.BrandTemplateEditService" id="brandTemplateEditService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.RedisService" id="redisService" check="false" />
+	<dubbo:reference interface="com.resto.brand.web.service.WeChatService" id="weChatService" check="false" />
+
+
+	<!-- shop服务 -->
+	<dubbo:reference interface="com.resto.shop.web.service.PlatformOrderService" id="platformOrderService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.AccountService" id="accountService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.AccountLogService" id="accountLogService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.AdvertService" id="advertService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.AppraiseService" id="appraiseService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.AreaService" id="areaService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ArticleAttrService" id="articleAttrService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ArticleFamilyService" id="articleFamilyService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ArticlePriceService" id="articlePriceService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ArticleRecommendService" id="articleRecommendService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ArticleService" id="articleService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ArticleTopService" id="articleTopService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ArticleUnitService" id="articleUnitService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.BadTopService" id="badTopService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.BonusLogService" id="bonusLogService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.BonusSettingService" id="bonusSettingService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ChargeLogService" id="chargeLogService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ChargeOrderService" id="chargeOrderService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ChargePaymentService" id="chargePaymentService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ChargeSettingService" id="chargeSettingService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.CloseShopService" id="closeShopService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.CouponService" id="couponService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.CustomerAddressService" id="customerAddressService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.CustomerDetailService" id="customerDetailService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.CustomerGroupService" id="customerGroupService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.CustomerService" id="customerService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.DayAppraiseMessageService" id="dayAppraiseMessageService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.DayDataMessageService" id="dayDataMessageService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.DeliveryPointService" id="deliveryPointService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.DistributionTimeService" id="distributionTimeService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.EmployeeService" id="shopEmployeeService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ERoleService" id="eRoleService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ExperienceService" id="experienceService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.FreedayService" id="freedayService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.GetNumberService" id="getNumberService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.GoodTopService" id="goodTopService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.KitchenService" id="kitchenService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.LogBaseService" id="logBaseService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.MealAttrService" id="mealAttrService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.MealItemService" id="mealItemService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.MealTempAttrService" id="mealTempAttrService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.MealTempService" id="mealTempService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.MemberActivityService" id="memberActivityService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.MemberActivityThingService" id="memberActivityThingService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.NewCustomCouponService" id="newCustomCouponService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.NoticeService" id="noticeService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.OffLineOrderService" id="offLineOrderService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.OrderBeforeService" id="orderBeforeService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.OrderItemService" id="orderItemService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.OrderPaymentItemService" id="orderPaymentItemService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.OrderRefundRemarkService" id="orderRefundRemarkService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.OrderRemarkService" id="orderRemarkService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.OrderService" id="orderService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ParticipantService" id="participantService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.PermissionService" id="permissionService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.PictureSliderService" id="pictureSliderService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.PlatformOrderDetailService" id="platformOrderDetailService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.PlatformOrderExtraService" id="platformOrderExtraService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.PosService" id="posService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.PosUserService" id="posUserService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.PrinterService" id="printerService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.QueueQrcodeService" id="queueQrcodeService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ReceiptService" id="receiptService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ReceiptTitleService" id="receiptTitleService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.RecommendCategoryArticleService" id="recommendCategoryArticleService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.RecommendCategoryService" id="recommendCategoryService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.RedConfigService" id="redConfigService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.RolePermissionService" id="rolePermissionService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ShopCartService" id="shopCartService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ShowPhotoService" id="showPhotoService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.SmsLogService" id="smsLogService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.SupportTimeService" id="supportTimeService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.TableCodeService" id="tableCodeService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.TableGroupService" id="tableGroupService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ThirdCustomerService" id="thirdCustomerService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ThirdService" id="thirdService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.TvModeService" id="tvModeService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.UnitService" id="unitService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.VirtualProductsService" id="virtualProductsService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.WaitPictureService" id="waitPictureService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.WeChargeLogService" id="weChargeLogService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.WeItemService" id="weItemService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.WeOrderDetailService" id="weOrderDetailService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.WeOrderService" id="weOrderService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.WeReturnCustomerService" id="weReturnCustomerService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.WeShopInfoService" id="weShopInfoService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.WeShopScoreService" id="weShopScoreService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.WeShopService" id="weShopService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.RedPacketService" id="redPacketService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.WeightPackageService" id="weightPackageService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.WeightPackageDetailService" id="weightPackageDetailService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ToCollectPostDataService" id="toCollectPostDataService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.AppraiseNewService" id="appraiseNewService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.KitchenGroupService" id="kitchenGroupService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.CouponShopArticlesService" id="couponShopArticlesService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.OperationLogService" id="operationLogService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ArticleLibraryService" id="articleLibraryService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.MenuService" id="menuService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.MenuShopService" id="menuShopService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.MenuArticleService" id="menuArticleService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ArticleManageService" id="articleManageService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.SvipActivityService" id="svipActivityService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.SvipService" id="svipService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.SvipChargeOrderService" id="SvipChargeOrderService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.SvipChargeItemService" id="SvipChargeItemService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ShopBrandUserService" id="shopBrandUserService" check="false" />
+
+	<!-- scm服务 -->
+	<dubbo:reference interface="com.resto.shop.web.service.ArticleBomHeadHistoryService" id="articleBomHeadHistoryService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ArticleBomHeadService" id="articleBomHeadService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ArticleSaleService" id="articleSaleService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.CategoryService" id="categoryService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.DocPmsPoHeaderService" id="docPmsPoHeaderService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.DocReturnDetailService" id="docReturnDetailService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.DocReturnHeaderService" id="docReturnHeaderService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.MaterialService" id="materialService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.MaterialStockService" id="materialStockService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.MdBillService" id="mdBillService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.ScmUnitService" id="scmUnitService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.StockCountCheckService" id="stockCountCheckService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.StockInPlanService" id="stockInPlanService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.SupplierMaterialPriceService" id="supplierMaterialPriceService" check="false" />
+	<dubbo:reference interface="com.resto.shop.web.service.SupplierService" id="supplierService" check="false" />
+
+	<!--评论拆出的服务-->
+	<dubbo:reference interface="com.resto.api.appraise.service.NewAppraiseNewService" id="newAppraiseNewService" check="false" />
+	<dubbo:reference interface="com.resto.api.appraise.service.NewAppraiseCommentService" id="newAppraiseCommentService" check="false" />
+	<dubbo:reference interface="com.resto.api.appraise.service.NewAppraiseFileService" id="newAppraiseFileService" check="false" />
+	<dubbo:reference interface="com.resto.api.appraise.service.NewAppraisePraiseService" id="newAppraisePraiseService" check="false" />
+	<dubbo:reference interface="com.resto.api.appraise.service.NewAppraiseService" id="newAppraiseService" check="false" />
+	<dubbo:reference interface="com.resto.api.appraise.service.NewAppraiseGradeService" id="newAppraiseGradeService" check="false" />
+	<dubbo:reference interface="com.resto.api.appraise.service.NewAppraiseStepService" id="newAppraiseStepService" check="false" />
+</beans>

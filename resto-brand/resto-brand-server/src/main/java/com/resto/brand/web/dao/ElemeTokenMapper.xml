@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.ElemeTokenMapper">
+    <resultMap id="BaseResultMap" type="com.resto.brand.web.model.ElemeToken">
+        <id column="id" property="id"/>
+        <result column="access_token" property="accessToken"/>
+        <result column="token_type" property="tokenType"/>
+        <result column="expires_in" property="expiresIn"/>
+        <result column="refresh_token" property="refreshToken"/>
+        <result column="scope" property="scope"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="brand_id" property="brandId"/>
+    </resultMap>
+    <sql id="Base_Column_List">id, access_token, token_type, expires_in, refresh_token, scope, update_time, shop_id, brand_id</sql>
+
+    <select id="getTokenByShopId" resultMap="BaseResultMap" parameterType="java.lang.String">select
+        <include refid="Base_Column_List"/> from eleme_token where shop_id = #{shopId}
+    </select>
+
+    <insert id="insertSelective" parameterType="com.resto.brand.web.model.ElemeToken">insert into eleme_token
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="accessToken != null">access_token,</if>
+            <if test="tokenType != null">token_type,</if>
+            <if test="expiresIn != null">expires_in,</if>
+            <if test="refreshToken != null">refresh_token,</if>
+            <if test="scope != null">scope,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="shopId != null">shop_id,</if>
+            <if test="brandId != null">brand_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="accessToken != null">#{accessToken},</if>
+            <if test="tokenType != null">#{tokenType},</if>
+            <if test="expiresIn != null">#{expiresIn},</if>
+            <if test="refreshToken != null">#{refreshToken},</if>
+            <if test="scope != null">#{scope},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="shopId != null">#{shopId},</if>
+            <if test="brandId != null">#{brandId},</if>
+        </trim>
+    </insert>
+
+    <select id="selectList" resultType="ElemeToken">
+        select et.*, b.brand_name brandName, sd.`name` shopName from eleme_token et
+        LEFT JOIN brand b ON et.brand_id = b.id
+        LEFT JOIN shop_detail sd ON et.shop_id = sd.id
+    </select>
+
+    <update id="updateSelectByShopId" parameterType="ElemeToken">update eleme_token
+        <set>
+            <if test="accessToken != null">access_token = #{accessToken},</if>
+            <if test="tokenType != null">token_type = #{tokenType},</if>
+            <if test="expiresIn != null">expires_in = #{expiresIn},</if>
+            <if test="refreshToken != null">refresh_token = #{refreshToken},</if>
+            <if test="scope != null">scope = #{scope},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set> where id = #{id}
+    </update>
+</mapper>

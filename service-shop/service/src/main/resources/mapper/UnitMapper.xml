@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.service.shop.mapper.UnitMapper">
+
+    <resultMap id="UnitResultMap" type="com.resto.service.shop.entity.Unit">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="sort" property="sort"/>
+        <result column="choice_type" property="choiceType"/>
+        <result column="is_used" property="isUsed"/>
+        <collection property="details" javaType="List" ofType="com.resto.service.shop.entity.UnitDetail">
+            <id column="detail_id" property="id"/>
+            <result column="detail_name" property="name"/>
+            <result column="detail_sort" property="sort"/>
+            <result column="detail_used" property="isUsed"/>
+            <result column="detail_price" property="price"/>
+        </collection>
+    </resultMap>
+
+    <insert id="insertSelective">
+        insert into tb_unit
+        (id,name,shop_detail_id,sort)
+        values(#{id},#{name},#{shopId},#{sort})
+    </insert>
+
+    <delete id="deleteByPrimaryKey">
+        delete from tb_unit where id = #{id}
+    </delete>
+
+    <update id="updateByPrimaryKeySelective">
+        update tb_unit
+        set name = #{name},
+        sort = #{sort}
+        where id = #{id}
+    </update>
+
+    <select id="getUnitByArticleid" resultMap="UnitResultMap">
+       select t2.unit_id as id ,t2.choice_type,t2.is_used,
+        t4.name,t4.sort,t5.name as detail_name,t5.id as detail_id,t3.sort as detail_sort
+        ,t3.price as detail_price,t3.is_used as detail_used
+       from tb_article t
+left join tb_article_unit_new t2 on t2.article_id = t.id
+left join tb_article_unit_detail t3 on t3.article_unit_id = t2.id
+left join tb_unit t4 on t2.unit_id = t4.id
+left join tb_unit_detail t5 on t5.id = t3.unit_detail_id
+where t.id = #{articleId} order by t3.sort
+    </select>
+
+    <select id="getUnitByArticleidWechat" resultMap="UnitResultMap">
+        select t2.unit_id as id ,t2.choice_type,t2.is_used,
+        t4.name,t4.sort,t5.name as detail_name,t5.id as detail_id,t3.sort as detail_sort
+        ,t3.price as detail_price,t3.is_used as detail_used
+        from tb_article t
+        left join tb_article_unit_new t2 on t2.article_id = t.id
+        left join tb_article_unit_detail t3 on t3.article_unit_id = t2.id
+        left join tb_unit t4 on t2.unit_id = t4.id
+        left join tb_unit_detail t5 on t5.id = t3.unit_detail_id
+        where t.id = #{articleId} and t3.is_used = 1 order by t3.sort
+    </select>
+    
+    <select id="selectUnitDetail" resultType="com.resto.service.shop.entity.UnitArticle">
+        select t2.unit_id as id ,t.id as articleId,t2.choice_type as choiceType,t2.is_used as isUsed,
+        t4.name,t4.sort,t5.name as detailName,t5.id as detailId,t5.sort as detailSort
+        ,t3.price as detailPrice,t3.is_used as detailUsed
+        from tb_article t
+        left join tb_article_unit_new t2 on t2.article_id = t.id
+        left join tb_article_unit_detail t3 on t3.article_unit_id = t2.id
+        left join tb_unit t4 on t2.unit_id = t4.id
+        left join tb_unit_detail t5 on t5.id = t3.unit_detail_id
+        where t4.name is not null and t.shop_detail_id = #{id} order by t4.sort desc,t5.sort
+    </select>
+</mapper>

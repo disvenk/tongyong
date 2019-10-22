@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.ExamineMapper">
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.Examine">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="contract_id" property="contractId" jdbcType="BIGINT"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="department" property="department" jdbcType="VARCHAR"/>
+    <result column="applicant" property="applicant" jdbcType="VARCHAR"/>
+    <result column="email" property="email" jdbcType="VARCHAR"/>
+    <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    <result column="money" property="money" jdbcType="DECIMAL"/>
+    <result column="status" property="status" jdbcType="INTEGER"/>
+    <result column="type" property="type" jdbcType="INTEGER"/>
+    <result column="review" property="review" />
+
+  </resultMap>
+  <sql id="Base_Column_List">id, contract_id, create_time, department, applicant, email, remark, money, status,type,review</sql>
+  <select id="selectByPrimaryKey" resultType="Examine">select e.*,c.brand_name,c.constract_num from examine e INNER JOIN contract c
+  ON  e.contract_id = c.id where e.id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from examine where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.brand.web.model.Examine">insert into examine (id, contract_id, create_time, department, applicant, email, remark, money, status ) values (#{id,jdbcType=BIGINT}, #{contractId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{department,jdbcType=VARCHAR}, #{applicant,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{money,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER} )</insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.Examine">insert into examine 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="contractId != null">contract_id,</if>  
+      <if test="createTime != null">create_time,</if>  
+      <if test="department != null">department,</if>  
+      <if test="applicant != null">applicant,</if>  
+      <if test="email != null">email,</if>  
+      <if test="remark != null">remark,</if>  
+      <if test="money != null">money,</if>  
+      <if test="status != null">status,</if> 
+      <if test="type != null">type,</if>
+      <if test="review != null">review,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="contractId != null">#{contractId,jdbcType=BIGINT},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="department != null">#{department,jdbcType=VARCHAR},</if>  
+      <if test="applicant != null">#{applicant,jdbcType=VARCHAR},</if>  
+      <if test="email != null">#{email,jdbcType=VARCHAR},</if>  
+      <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>  
+      <if test="money != null">#{money,jdbcType=DECIMAL},</if>  
+      <if test="status != null">#{status,jdbcType=INTEGER},</if> 
+      <if test="type != null">#{type,jdbcType=INTEGER},</if>
+      <if test="review != review">#{review},</if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.Examine">update examine 
+    <set> 
+      <if test="contractId != null">contract_id = #{contractId,jdbcType=BIGINT},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="department != null">department = #{department,jdbcType=VARCHAR},</if>  
+      <if test="applicant != null">applicant = #{applicant,jdbcType=VARCHAR},</if>  
+      <if test="email != null">email = #{email,jdbcType=VARCHAR},</if>  
+      <if test="remark != null">remark = #{remark,jdbcType=VARCHAR},</if>  
+      <if test="money != null">money = #{money,jdbcType=DECIMAL},</if>  
+      <if test="status != null">status = #{status,jdbcType=INTEGER},</if> 
+      <if test="type != null">type = #{type,jdbcType=INTEGER},</if>
+      <if test="review != null">review = #{review},</if>
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.Examine">update examine set contract_id = #{contractId,jdbcType=BIGINT}, create_time = #{createTime,jdbcType=TIMESTAMP}, department = #{department,jdbcType=VARCHAR}, applicant = #{applicant,jdbcType=VARCHAR}, email = #{email,jdbcType=VARCHAR}, remark = #{remark,jdbcType=VARCHAR}, money = #{money,jdbcType=DECIMAL}, status = #{status,jdbcType=INTEGER} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="Examine">select e.*,c.brand_name,c.constract_num from examine e INNER JOIN contract c
+  ON  e.contract_id = c.id
+</select>
+
+  <select id="selectByContractIdAndType" resultType="Examine">
+    SELECT  * FROM  examine WHERE contract_id = #{contractId} AND type = #{type}
+
+  </select>
+
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.MemberActivityThingMapper">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.MemberActivityThing">
+        <id column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="telephone" property="telephone"/>
+        <result column="activity_id" property="activityId"/>
+        <result column="discount" property="discount"/>
+    </resultMap>
+    <sql id="Base_Column_List">id, create_time, telephone, activity_id, discount</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">select
+        <include refid="Base_Column_List"/> from tb_member_activity_thing where id = #{id}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">delete from tb_member_activity_thing where id = #{id}</delete>
+    <insert id="insert" parameterType="com.resto.shop.web.model.MemberActivityThing">insert into tb_member_activity_thing (id, create_time, telephone, activity_id, discount)
+        values (#{id}, #{createTime}, #{telephone}, #{activityId}, #{discount} )</insert>
+
+    <insert id="insertSelective" parameterType="com.resto.shop.web.model.MemberActivityThing">insert into tb_member_activity_thing
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="telephone != null">telephone,</if>
+            <if test="activityId != null">activity_id,</if>
+            <if test="discount != null">discount,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="telephone != null">#{telephone},</if>
+            <if test="activityId != null">#{activityId},</if>
+            <if test="discount != null">#{discount},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.MemberActivityThing">
+        update tb_member_activity_thing
+        <set>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="telephone != null">telephone = #{telephone},</if>
+            <if test="activityId != null">activity_id = #{activityId},</if>
+            <if test="discount != null">discount = #{discount},</if>
+        </set>
+        <where>
+            <if test="telephone != null">
+                telephone = #{telephone}
+            </if>
+            <if test="activityId != null">
+                and activity_id = #{activityId}
+            </if>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+        </where>
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.MemberActivityThing">update tb_member_activity_thing set create_time = #{createTime},telephone = #{telephone},activity_id = #{activityId},disconut = #{disconut} where id = #{id}</update>
+    <select id="selectList" resultType="MemberActivityThing">
+        select * from tb_member_activity_thing
+    </select>
+
+    <select id="selectByTelephone" resultType="MemberActivityThing" parameterType="java.lang.String">select
+        <include refid="Base_Column_List"/> from tb_member_activity_thing where telephone = #{telephone}
+    </select>
+
+    <select id="selectCustomerInfo" resultType="com.alibaba.fastjson.JSONObject">
+        select tc.telephone, tc.nickname, tma.discount, tma.id from tb_member_activity_thing tma
+        inner join tb_customer tc
+        on tma.telephone = tc.telephone
+        where tma.activity_id = #{memberActivityId}
+    </select>
+</mapper>

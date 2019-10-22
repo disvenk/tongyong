@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.service.customer.mapper.CustomerGroupMapper">
+  <resultMap id="BaseResultMap" type="com.resto.api.customer.entity.CustomerGroup">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="group_id" jdbcType="VARCHAR" property="groupId" />
+    <result column="customer_id" jdbcType="VARCHAR" property="customerId" />
+    <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+    <result column="head_photo" jdbcType="VARCHAR" property="headPhoto" />
+    <result column="is_leader" jdbcType="BIT" property="isLeader" />
+    <result column="table_number" jdbcType="VARCHAR" property="tableNumber" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="shop_detail_id" jdbcType="VARCHAR" property="shopDetailId" />
+    <result column="brand_id" jdbcType="VARCHAR" property="brandId" />
+  </resultMap>
+
+  <select id="getGroupByGroupId" resultType="com.resto.api.customer.entity.CustomerGroup">
+    select * from tb_customer_group where group_id = #{groupId} GROUP  by customer_id order by create_time asc
+  </select>
+
+  <select id="getGroupByCustomerId" resultType="com.resto.api.customer.entity.CustomerGroup">
+    select * from tb_customer_group
+    INNER JOIN  tb_table_group on tb_customer_group.group_id = tb_table_group.group_id and tb_table_group.state != 2
+    where customer_id = #{customerId}
+    and tb_customer_group.table_number  = #{tableNumber} and tb_customer_group.shop_detail_id = #{shopId}
+  </select>
+
+  <select id="getGroupByShopCart" resultType="CustomerGroup" >
+    select t.customer_id,t.customer_name,ifnull(sum(t2.number),0) as articleCount ,t.is_leader,t.head_photo from tb_customer_group t
+    left join tb_shop_cart t2 on t2.group_id = t.group_id and t.customer_id = t2.customer_id and t2.shop_type != 3 and t2.shop_detail_id = t.shop_detail_id
+    left join tb_table_group t3 on t3.group_id = t.group_id and t3.state != 2
+    where t.group_id = #{groupId}
+    and t2.article_id != '' and t2.article_id is not null
+    and t2.pid = 0
+    GROUP BY t.customer_id
+    HAVING  sum(t2.number) > 0
+    order by is_leader desc
+  </select>
+</mapper>

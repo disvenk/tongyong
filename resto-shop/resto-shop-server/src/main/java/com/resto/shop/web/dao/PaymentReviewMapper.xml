@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.PaymentReviewMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.PaymentReview" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="payment_mode_id" property="paymentModeId" jdbcType="INTEGER" />
+    <result column="report_money" property="reportMoney" jdbcType="DECIMAL" />
+    <result column="audit_money" property="auditMoney" jdbcType="DECIMAL" />
+    <result column="daily_log_id" property="dailyLogId" jdbcType="VARCHAR" />
+    <result column="close_shop_time" property="closeShopTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="serial_number" property="serialNumber" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, shop_id, operator, payment_mode_id, report_money, audit_money, daily_log_id,
+    close_shop_time, create_time, serial_number
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_payment_review
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_payment_review
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.PaymentReview" >
+    insert into tb_payment_review (id, shop_id, operator,
+    payment_mode_id, report_money, audit_money,
+    daily_log_id, close_shop_time, create_time,
+    serial_number)
+    values (#{id,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR},
+    #{paymentModeId,jdbcType=INTEGER}, #{reportMoney,jdbcType=DECIMAL}, #{auditMoney,jdbcType=DECIMAL},
+    #{dailyLogId,jdbcType=VARCHAR}, #{closeShopTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP},
+    #{serialNumber,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.PaymentReview" >
+    insert into tb_payment_review
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="paymentModeId != null" >
+        payment_mode_id,
+      </if>
+      <if test="reportMoney != null" >
+        report_money,
+      </if>
+      <if test="auditMoney != null" >
+        audit_money,
+      </if>
+      <if test="dailyLogId != null" >
+        daily_log_id,
+      </if>
+      <if test="closeShopTime != null" >
+        close_shop_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="serialNumber != null" >
+        serial_number,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentModeId != null" >
+        #{paymentModeId,jdbcType=INTEGER},
+      </if>
+      <if test="reportMoney != null" >
+        #{reportMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="auditMoney != null" >
+        #{auditMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="dailyLogId != null" >
+        #{dailyLogId,jdbcType=VARCHAR},
+      </if>
+      <if test="closeShopTime != null" >
+        #{closeShopTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serialNumber != null" >
+        #{serialNumber,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.PaymentReview" >
+    update tb_payment_review
+    <set >
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentModeId != null" >
+        payment_mode_id = #{paymentModeId,jdbcType=INTEGER},
+      </if>
+      <if test="reportMoney != null" >
+        report_money = #{reportMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="auditMoney != null" >
+        audit_money = #{auditMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="dailyLogId != null" >
+        daily_log_id = #{dailyLogId,jdbcType=VARCHAR},
+      </if>
+      <if test="closeShopTime != null" >
+        close_shop_time = #{closeShopTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serialNumber != null" >
+        serial_number = #{serialNumber,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.PaymentReview" >
+    update tb_payment_review
+    set shop_id = #{shopId,jdbcType=VARCHAR},
+      operator = #{operator,jdbcType=VARCHAR},
+      payment_mode_id = #{paymentModeId,jdbcType=INTEGER},
+      report_money = #{reportMoney,jdbcType=DECIMAL},
+      audit_money = #{auditMoney,jdbcType=DECIMAL},
+      daily_log_id = #{dailyLogId,jdbcType=VARCHAR},
+      close_shop_time = #{closeShopTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      serial_number = #{serialNumber,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectPaymentReviewByLogId" resultMap="BaseResultMap">
+    SELECT * FROM tb_payment_review WHERE shop_id=#{shopId} and daily_log_id =#{logId} and create_time >= #{staTime}
+    AND  #{endTime} >=create_time ORDER BY serial_number ASC
+  </select>
+
+  <select id="selectPaymentByLogId" resultMap="BaseResultMap">
+    SELECT payment_mode_id,report_money,audit_money FROM tb_payment_review WHERE daily_log_id=#{logId} AND payment_mode_id in (29,30) ORDER BY create_time DESC
+  </select>
+</mapper>

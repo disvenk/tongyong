@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.BrandAccountLogMapper">
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.BrandAccountLog">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="group_name" property="groupName" jdbcType="VARCHAR"/>
+    <result column="behavior" property="behavior" jdbcType="INTEGER"/>
+    <result column="found_change" property="foundChange" jdbcType="DECIMAL"/>
+    <result column="remain" property="remain" jdbcType="DECIMAL"/>
+    <result column="detail" property="detail" jdbcType="INTEGER"/>
+    <result column="account_id" property="accountId" jdbcType="INTEGER"/>
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR"/>
+    <result column="serial_number" property="serialNumber" jdbcType="VARCHAR"/>
+	  <result column="order_money" property="orderMoney" />
+	  <result column="is_parent" property="isParent" />
+  </resultMap>
+  <sql id="Base_Column_List">id,create_time, group_name, behavior, found_change, remain, detail, account_id, brand_id, shop_id, serial_number,order_money,is_parent</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from tb_brand_account_log where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from tb_brand_account_log where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.brand.web.model.BrandAccountLog">insert into tb_brand_account_log (id, create_time, group_name, behavior, found_change, remain, detail, account_id, brand_id, shop_id, serial_number,order_money,is_parent ) values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{groupName,jdbcType=VARCHAR}, #{behavior,jdbcType=INTEGER}, #{foundChange,jdbcType=DECIMAL}, #{remain,jdbcType=DECIMAL}, #{detail,jdbcType=INTEGER}, #{accountId,jdbcType=INTEGER}, #{brandId,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR},#{orderMoney},#{isParent} )</insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.BrandAccountLog">insert into tb_brand_account_log 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="createTime != null">create_time,</if>  
+      <if test="groupName != null">group_name,</if>  
+      <if test="behavior != null">behavior,</if>  
+      <if test="foundChange != null">found_change,</if>  
+      <if test="remain != null">remain,</if>  
+      <if test="detail != null">detail,</if>  
+      <if test="accountId != null">account_id,</if>  
+      <if test="brandId != null">brand_id,</if>  
+      <if test="shopId != null">shop_id,</if>  
+      <if test="serialNumber != null">serial_number,</if>
+		<if test="orderMoney != null">order_money,</if>
+		<if test="isParent != null">is_parent,</if>
+	</trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="groupName != null">#{groupName,jdbcType=VARCHAR},</if>  
+      <if test="behavior != null">#{behavior,jdbcType=INTEGER},</if>  
+      <if test="foundChange != null">#{foundChange,jdbcType=DECIMAL},</if>  
+      <if test="remain != null">#{remain,jdbcType=DECIMAL},</if>  
+      <if test="detail != null">#{detail,jdbcType=INTEGER},</if>  
+      <if test="accountId != null">#{accountId,jdbcType=INTEGER},</if>  
+      <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>  
+      <if test="shopId != null">#{shopId,jdbcType=VARCHAR},</if>  
+      <if test="serialNumber != null">#{serialNumber,jdbcType=VARCHAR},</if>
+		<if test="orderMoney != null">#{orderMoney},</if>
+		<if test="isParent != null">#{isParent},</if>
+
+	</trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.BrandAccountLog">update tb_brand_account_log 
+    <set> 
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="groupName != null">group_name = #{groupName,jdbcType=VARCHAR},</if>  
+      <if test="behavior != null">behavior = #{behavior,jdbcType=INTEGER},</if>  
+      <if test="foundChange != null">found_change = #{foundChange,jdbcType=DECIMAL},</if>  
+      <if test="remain != null">remain = #{remain,jdbcType=DECIMAL},</if>  
+      <if test="detail != null">detail = #{detail,jdbcType=INTEGER},</if>  
+      <if test="accountId != null">account_id = #{accountId,jdbcType=INTEGER},</if>  
+      <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>  
+      <if test="shopId != null">shop_id = #{shopId,jdbcType=VARCHAR},</if>  
+      <if test="serialNumber != null">serial_number = #{serialNumber,jdbcType=VARCHAR},</if>
+		<if test="orderMoney != null">order_money = #{orderMoney},</if>
+		<if test="isParent != null">is_parent = #{isParent},</if>
+	</set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.BrandAccountLog">update tb_brand_account_log set create_time = #{createTime,jdbcType=TIMESTAMP}, group_name = #{groupName,jdbcType=VARCHAR}, behavior = #{behavior,jdbcType=INTEGER}, found_change = #{foundChange,jdbcType=DECIMAL}, remain = #{remain,jdbcType=DECIMAL}, detail = #{detail,jdbcType=INTEGER}, account_id = #{accountId,jdbcType=INTEGER}, brand_id = #{brandId,jdbcType=VARCHAR}, shop_id = #{shopId,jdbcType=VARCHAR}, serial_number = #{serialNumber,jdbcType=VARCHAR} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="BrandAccountLog">select * from tb_brand_account_log</select>
+
+
+	<select id="selectListByBrandIdAndTime" resultType="BrandAccountLog">
+		SELECT * FROM tb_brand_account_log WHERE
+		 <![CDATA[
+  				create_time>#{beginDate} AND  create_time<#{endDate}
+  		 ]]>
+		 AND brand_id = #{brandId} ORDER BY create_time DESC ,remain ASC
+	</select>
+
+	<select id="selectListByBrandId" resultType="BrandAccountLog">
+		SELECT * FROM tb_brand_account_log WHERE brand_id = #{brandId}
+	</select>
+
+	<select id="selectOneBySerialNumAndBrandId" resultType="BrandAccountLog">
+		SELECT * FROM tb_brand_account_log WHERE serial_number = #{serialNumber} AND brand_id = #{brandId} AND order_money is NOT null LIMIT 1
+	</select>
+
+</mapper>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.ArticleUnitDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.ArticleUnitDetail" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="unit_detail_id" property="unitDetailId" jdbcType="VARCHAR" />
+    <result column="article_unit_id" property="articleUnitId" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="is_used" property="isUsed" jdbcType="BIT" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, unit_detail_id, article_unit_id, price, is_used, sort
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_article_unit_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_article_unit_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.ArticleUnitDetail" >
+    insert into tb_article_unit_detail (id, unit_detail_id, article_unit_id, 
+      price, is_used, sort)
+    values (#{id,jdbcType=VARCHAR}, #{unitDetailId,jdbcType=VARCHAR}, #{articleUnitId,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DECIMAL}, #{isUsed,jdbcType=BIT}, #{sort,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.ArticleUnitDetail" >
+    insert into tb_article_unit_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="unitDetailId != null" >
+        unit_detail_id,
+      </if>
+      <if test="articleUnitId != null" >
+        article_unit_id,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="isUsed != null" >
+        is_used,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="unitDetailId != null" >
+        #{unitDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="articleUnitId != null" >
+        #{articleUnitId,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="isUsed != null" >
+        #{isUsed,jdbcType=BIT},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.ArticleUnitDetail" >
+    update tb_article_unit_detail
+    <set >
+      <if test="unitDetailId != null" >
+        unit_detail_id = #{unitDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="articleUnitId != null" >
+        article_unit_id = #{articleUnitId,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="isUsed != null" >
+        is_used = #{isUsed,jdbcType=BIT},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.ArticleUnitDetail" >
+    update tb_article_unit_detail
+    set unit_detail_id = #{unitDetailId,jdbcType=VARCHAR},
+      article_unit_id = #{articleUnitId,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      is_used = #{isUsed,jdbcType=BIT},
+      sort = #{sort,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectArticleUnitDetailByunitId" resultMap="BaseResultMap">
+
+SELECT
+	t1.*,t2.`name`
+FROM
+	tb_article_unit_detail t1
+LEFT JOIN tb_unit_detail t2 ON t1.unit_detail_id=t2.id
+WHERE
+	t1.article_unit_id =#{unitId}
+  </select>
+
+  <delete id="deleteUnitByUnitId">
+   DELETE FROM tb_article_unit_detail WHERE article_unit_id=#{unitId}
+  </delete>
+
+</mapper>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.ArticleUnitNewMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.ArticleUnitNew" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="article_id" property="articleId" jdbcType="VARCHAR" />
+    <result column="unit_id" property="unitId" jdbcType="VARCHAR" />
+    <result column="choice_type" property="choiceType" jdbcType="BIT" />
+    <result column="is_used" property="isUsed" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, article_id, unit_id, choice_type, is_used
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_article_unit_new
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_article_unit_new
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.ArticleUnitNew" >
+    insert into tb_article_unit_new (id, article_id, unit_id, 
+      choice_type, is_used)
+    values (#{id,jdbcType=VARCHAR}, #{articleId,jdbcType=VARCHAR}, #{unitId,jdbcType=VARCHAR}, 
+      #{choiceType,jdbcType=BIT}, #{isUsed,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.ArticleUnitNew" >
+    insert into tb_article_unit_new
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="articleId != null" >
+        article_id,
+      </if>
+      <if test="unitId != null" >
+        unit_id,
+      </if>
+      <if test="choiceType != null" >
+        choice_type,
+      </if>
+      <if test="isUsed != null" >
+        is_used,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="articleId != null" >
+        #{articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null" >
+        #{unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="choiceType != null" >
+        #{choiceType,jdbcType=BIT},
+      </if>
+      <if test="isUsed != null" >
+        #{isUsed,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.ArticleUnitNew" >
+    update tb_article_unit_new
+    <set >
+      <if test="articleId != null" >
+        article_id = #{articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null" >
+        unit_id = #{unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="choiceType != null" >
+        choice_type = #{choiceType,jdbcType=BIT},
+      </if>
+      <if test="isUsed != null" >
+        is_used = #{isUsed,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.ArticleUnitNew" >
+    update tb_article_unit_new
+    set article_id = #{articleId,jdbcType=VARCHAR},
+      unit_id = #{unitId,jdbcType=VARCHAR},
+      choice_type = #{choiceType,jdbcType=BIT},
+      is_used = #{isUsed,jdbcType=BIT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectArticleUnitNewByArticleId" resultMap="BaseResultMap">
+    SELECT
+	t1.*,t2.`name` AS name
+    FROM
+	tb_article_unit_new t1
+    LEFT JOIN tb_unit t2 ON t1.unit_id=t2.id
+    WHERE
+	t1.article_id = #{articleId} AND t2.open_article_library=1;
+
+  </select>
+
+  <delete id="deleteArticleUnitByArticleId">
+    delete from tb_article_unit_new
+    where article_id = #{articleId}
+  </delete>
+</mapper>

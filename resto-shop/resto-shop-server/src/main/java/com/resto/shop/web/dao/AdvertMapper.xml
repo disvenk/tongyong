@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.AdvertMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.Advert">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="slogan" property="slogan" jdbcType="VARCHAR"/>
+    <result column="state" property="state" jdbcType="TINYINT"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.resto.shop.web.model.Advert" extends="BaseResultMap">
+    <result column="description" property="description" jdbcType="LONGVARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, slogan, state, shop_detail_id</sql>
+  <sql id="Blob_Column_List">description</sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">select
+    <include refid="Base_Column_List"/> , 
+    <include refid="Blob_Column_List"/> from tb_advert where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">delete from tb_advert where id = #{id,jdbcType=INTEGER}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.Advert">insert into tb_advert (id, slogan, state, shop_detail_id, description) values (#{id,jdbcType=INTEGER}, #{slogan,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}, #{shopDetailId,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.Advert">insert into tb_advert 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="slogan != null">slogan,</if>  
+      <if test="state != null">state,</if>  
+      <if test="shopDetailId != null">shop_detail_id,</if>  
+      <if test="description != null">description,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=INTEGER},</if>  
+      <if test="slogan != null">#{slogan,jdbcType=VARCHAR},</if>  
+      <if test="state != null">#{state,jdbcType=TINYINT},</if>  
+      <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if>  
+      <if test="description != null">#{description,jdbcType=LONGVARCHAR},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.Advert">update tb_advert 
+    <set> 
+      <if test="slogan != null">slogan = #{slogan,jdbcType=VARCHAR},</if>  
+      <if test="state != null">state = #{state,jdbcType=TINYINT},</if>  
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if>  
+      <if test="description != null">description = #{description,jdbcType=LONGVARCHAR},</if> 
+    </set> where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.resto.shop.web.model.Advert">update tb_advert set slogan = #{slogan,jdbcType=VARCHAR}, state = #{state,jdbcType=TINYINT}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR}, description = #{description,jdbcType=LONGVARCHAR} where id = #{id,jdbcType=INTEGER}</update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.Advert">update tb_advert set slogan = #{slogan,jdbcType=VARCHAR}, state = #{state,jdbcType=TINYINT}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR} where id = #{id,jdbcType=INTEGER}</update>
+  <select id="selectList" resultType="Advert">select * from tb_advert</select>
+  
+  <!-- 根据店铺ID查询信息  -->
+  <select id="selectListByShopId" resultType="Advert">
+  	select id,slogan,description,state,shop_detail_id from tb_advert where state = 1
+  	<if test="shopId!=null and shopId!=''">
+		and shop_detail_id = #{shopId} 
+	</if>
+  </select>
+</mapper>

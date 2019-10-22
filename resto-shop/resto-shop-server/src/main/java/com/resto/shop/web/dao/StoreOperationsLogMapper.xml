@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.StoreOperationsLogMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.StoreOperationsLog" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR" />
+    <result column="shop_Id" property="shopId" jdbcType="VARCHAR" />
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+    <result column="stores_code" property="storesCode" jdbcType="VARCHAR" />
+    <result column="operation_people" property="operationPeople" jdbcType="VARCHAR" />
+    <result column="operation_time" property="operationTime" jdbcType="TIMESTAMP" />
+    <result column="daily_time" property="dailyTime" jdbcType="TIMESTAMP" />
+    <result column="cash_audit_status" property="cashAuditStatus" jdbcType="INTEGER" />
+    <result column="upload_jde_status" property="uploadJdeStatus" jdbcType="INTEGER" />
+    <result column="message_time" property="messageTime" jdbcType="TIMESTAMP" />
+    <result column="print_report_time" property="printReportTime" jdbcType="TIMESTAMP" />
+    <result column="log_type" property="logType" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, brand_id, shop_Id, shop_name, stores_code, operation_people, operation_time,
+    daily_time, cash_audit_status, upload_jde_status, message_time, print_report_time,
+    log_type, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_store_operations_log
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_store_operations_log
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.StoreOperationsLog" >
+    insert into tb_store_operations_log (id, brand_id, shop_Id,
+    shop_name, stores_code, operation_people,
+    operation_time, daily_time, cash_audit_status,
+    upload_jde_status, message_time, print_report_time,
+    log_type, create_time)
+    values (#{id,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR},
+    #{shopName,jdbcType=VARCHAR}, #{storesCode,jdbcType=VARCHAR}, #{operationPeople,jdbcType=VARCHAR},
+    #{operationTime,jdbcType=TIMESTAMP}, #{dailyTime,jdbcType=TIMESTAMP}, #{cashAuditStatus,jdbcType=INTEGER},
+    #{uploadJdeStatus,jdbcType=INTEGER}, #{messageTime,jdbcType=TIMESTAMP}, #{printReportTime,jdbcType=TIMESTAMP},
+    #{logType,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.StoreOperationsLog" >
+    insert into tb_store_operations_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="shopId != null" >
+        shop_Id,
+      </if>
+      <if test="shopName != null" >
+        shop_name,
+      </if>
+      <if test="storesCode != null" >
+        stores_code,
+      </if>
+      <if test="operationPeople != null" >
+        operation_people,
+      </if>
+      <if test="operationTime != null" >
+        operation_time,
+      </if>
+      <if test="dailyTime != null" >
+        daily_time,
+      </if>
+      <if test="cashAuditStatus != null" >
+        cash_audit_status,
+      </if>
+      <if test="uploadJdeStatus != null" >
+        upload_jde_status,
+      </if>
+      <if test="messageTime != null" >
+        message_time,
+      </if>
+      <if test="printReportTime != null" >
+        print_report_time,
+      </if>
+      <if test="logType != null" >
+        log_type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopName != null" >
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="storesCode != null" >
+        #{storesCode,jdbcType=VARCHAR},
+      </if>
+      <if test="operationPeople != null" >
+        #{operationPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="operationTime != null" >
+        #{operationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dailyTime != null" >
+        #{dailyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cashAuditStatus != null" >
+        #{cashAuditStatus,jdbcType=INTEGER},
+      </if>
+      <if test="uploadJdeStatus != null" >
+        #{uploadJdeStatus,jdbcType=INTEGER},
+      </if>
+      <if test="messageTime != null" >
+        #{messageTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="printReportTime != null" >
+        #{printReportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logType != null" >
+        #{logType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.StoreOperationsLog" >
+    update tb_store_operations_log
+    <set >
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        shop_Id = #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopName != null" >
+        shop_name = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="storesCode != null" >
+        stores_code = #{storesCode,jdbcType=VARCHAR},
+      </if>
+      <if test="operationPeople != null" >
+        operation_people = #{operationPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="operationTime != null" >
+        operation_time = #{operationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dailyTime != null" >
+        daily_time = #{dailyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cashAuditStatus != null" >
+        cash_audit_status = #{cashAuditStatus,jdbcType=INTEGER},
+      </if>
+      <if test="uploadJdeStatus != null" >
+        upload_jde_status = #{uploadJdeStatus,jdbcType=INTEGER},
+      </if>
+      <if test="messageTime != null" >
+        message_time = #{messageTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="printReportTime != null" >
+        print_report_time = #{printReportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logType != null" >
+        log_type = #{logType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.StoreOperationsLog" >
+    update tb_store_operations_log
+    set brand_id = #{brandId,jdbcType=VARCHAR},
+      shop_Id = #{shopId,jdbcType=VARCHAR},
+      shop_name = #{shopName,jdbcType=VARCHAR},
+      stores_code = #{storesCode,jdbcType=VARCHAR},
+      operation_people = #{operationPeople,jdbcType=VARCHAR},
+      operation_time = #{operationTime,jdbcType=TIMESTAMP},
+      daily_time = #{dailyTime,jdbcType=TIMESTAMP},
+      cash_audit_status = #{cashAuditStatus,jdbcType=INTEGER},
+      upload_jde_status = #{uploadJdeStatus,jdbcType=INTEGER},
+      message_time = #{messageTime,jdbcType=TIMESTAMP},
+      print_report_time = #{printReportTime,jdbcType=TIMESTAMP},
+      log_type = #{logType,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectListByShopIdAndTime" resultMap="BaseResultMap">
+    SELECT * FROM tb_store_operations_log WHERE log_type=#{logType} and shop_Id=#{shopId} and create_time >= #{staTime}
+        AND  #{endTime} >=create_time ORDER BY create_time DESC
+  </select>
+
+  <!--<select id="selectStoreOperationsLogIdByTime" resultMap="BaseResultMap">-->
+    <!--SELECT id FROM tb_store_operations_log WHERE create_time >= #{staTime} AND  #{endTime} >=create_time AND id=#{dailyLogId} ORDER BY create_time DESC-->
+  <!--</select>-->
+
+</mapper>

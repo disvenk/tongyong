@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.MdUnitDao">
+
+<resultMap id="mdUnitResult" type="com.resto.shop.web.model.MdUnit">
+    <result column="id" property="id"/>
+    <result column="unit_code" property="unitCode"/>
+    <result column="unit_name" property="unitName"/>
+    <result column="gmt_create" property="gmtCreate"/>
+    <result column="gmt_modified" property="gmtModified"/>
+</resultMap>
+
+<sql id="mdUnit_columns">
+    id,
+    unit_code,
+    unit_name,
+    gmt_create,
+    gmt_modified
+</sql>
+
+<sql id="mdUnit_sqlForInsert">
+    unit_code,
+    unit_name,
+    gmt_create,
+    gmt_modified
+</sql>
+
+<sql id="mdUnit_columnsForInsert">
+    #{unitCode},
+    #{unitName},
+    now(),
+    now()
+</sql>
+
+<sql id="mdUnit_setterForUpdate">
+    <set>
+        gmt_modified = now(),
+        <if test="id != null">
+            id = #{id},
+        </if>
+        <if test="unitCode != null">
+            unit_code = #{unitCode},
+        </if>
+        <if test="unitName != null">
+            unit_name = #{unitName},
+        </if>
+    </set>
+</sql>
+
+<sql id="mdUnit_selector">
+    select
+    <include refid="mdUnit_columns"/>
+    from md_unit
+</sql>
+
+<sql id="mdUnit_query_segment">
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+        <if test="data.id != null">
+            AND id = #{data.id}
+        </if>
+        <if test="data.unitCode != null">
+            AND unit_code = #{data.unitCode}
+        </if>
+        <if test="data.unitName != null">
+            AND unit_name = #{data.unitName}
+        </if>
+        <if test="data.gmtCreate != null">
+            AND gmt_create = #{data.gmtCreate}
+        </if>
+        <if test="data.gmtModified != null">
+            AND gmt_modified = #{data.gmtModified}
+        </if>
+        <if test="ins != null and ins != ''">
+            AND
+            <foreach collection="ins" item="item" open="(" separator="and" close=")">
+                ${item.column} in
+                <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                    ${item}
+                </foreach>
+            </foreach>
+        </if>
+        <if test="notIns != null and notIns != ''">
+            AND
+            <foreach collection="notIns" item="item" open="(" separator="and" close=")">
+                ${item.column} not in
+                <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                    ${item}
+                </foreach>
+            </foreach>
+        </if>
+        <if test="equals != null and equals != ''">
+            AND
+            <foreach collection="equals" item="item" open="(" separator="and" close=")">
+                ${item.column} = ${item.value}
+            </foreach>
+        </if>
+        <if test="notEquals != null and notEquals != ''">
+            AND
+            <foreach collection="notEquals" item="item" open="(" separator="and" close=")">
+                ${item.column} != ${item.value}
+            </foreach>
+        </if>
+        <if test="lts != null and lts != ''">
+            AND
+            <foreach collection="lts" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ < ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="gts != null and gts != ''">
+            AND
+            <foreach collection="gts" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ > ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="likes != null and likes != ''">
+            AND
+            <foreach collection="likes" item="item" open="(" separator="and" close=")">
+                ${item.column} like concat('%', ${item.value}, '%')
+            </foreach>
+        </if>
+        <if test="ltes != null and ltes != ''">
+            AND
+            <foreach collection="ltes" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ <= ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="gtes != null and gtes != ''">
+            AND
+            <foreach collection="gtes" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ >= ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="ranges != null and ranges != ''">
+            AND
+            <foreach collection="ranges" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ >= ]]> #{item.from} and ${item.column} <![CDATA[ < ]]> #{item.to}
+            </foreach>
+        </if>
+        AND is_delete = 0
+    </trim>
+</sql>
+
+
+<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.MdUnit">
+    insert into md_unit
+    (
+        <include refid="mdUnit_sqlForInsert"/>
+        ,is_delete
+    )
+    values
+    (
+        <include refid="mdUnit_columnsForInsert"/>
+        ,0
+    )
+</insert>
+
+<update id="update" parameterType="com.resto.shop.web.model.MdUnit">
+    update md_unit
+    <include refid="mdUnit_setterForUpdate" />
+    where id = #{id}
+    and is_delete = 0
+</update>
+
+
+<update id="updateByQuery" parameterType="com.resto.shop.web.model.MdUnit">
+    update md_unit
+    <set>
+        gmt_modified = now(),
+        <if test="update.id != null">
+            id = #{update.id},
+        </if>
+        <if test="update.unitCode != null">
+            unit_code = #{update.unitCode},
+        </if>
+        <if test="update.unitName != null">
+            unit_name = #{update.unitName},
+        </if>
+    </set>
+    <include refid="mdUnit_query_segment"/>
+</update>
+
+
+<insert id="insertOrUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.MdUnit">
+    insert into md_unit
+    (
+        <include refid="mdUnit_sqlForInsert"/>
+        ,is_delete
+    )
+    values
+    (
+        <include refid="mdUnit_columnsForInsert"/>
+        ,0
+    )
+    on duplicate key update
+    gmt_modified = now()
+    <if test="id != null">
+        ,id = #{id}
+    </if>
+    <if test="unitCode != null">
+        ,unit_code = #{unitCode}
+    </if>
+    <if test="unitName != null">
+        ,unit_name = #{unitName}
+    </if>
+</insert>
+
+<!-- Delete -->
+<update id="delete">
+    update md_unit
+    set is_delete = 1, gmt_modified = now()
+    <include refid="mdUnit_query_segment"/>
+</update>
+<update id="deleteById">
+    update md_unit
+    set is_delete = 1, gmt_modified = now()
+    where id = #{id}
+</update>
+
+
+
+
+
+<!-- query class -->
+<sql id="mdUnit_groupBy">
+    <if test="groupBys != null and groupBys != ''">
+        group by
+        <foreach collection="groupBys" item="item" open="" separator="," close="">
+            ${item}
+        </foreach>
+    </if>
+</sql>
+
+<sql id="mdUnit_orderby">
+    <if test="orderBys != null and orderBys != ''">
+        order by
+        <foreach collection="orderBys" item="item" open="" separator="," close="">
+            ${item.column} ${item.direction}
+        </foreach>
+    </if>
+</sql>
+
+
+<select id="query" resultMap="mdUnitResult" parameterType="com.resto.shop.web.model.MdUnit">
+    <include refid="mdUnit_selector"/>
+    <include refid="mdUnit_query_segment"/>
+    <include refid="mdUnit_groupBy"/>
+    <include refid="mdUnit_orderby"/>
+</select>
+
+<select id="query4Page" resultMap="mdUnitResult" parameterType="com.resto.shop.web.model.MdUnit">
+    <include refid="mdUnit_selector"/>
+    <include refid="mdUnit_query_segment"/>
+    <include refid="mdUnit_groupBy"/>
+    <include refid="mdUnit_orderby"/>
+    limit ${startRowForMysql}, ${pageSize}
+</select>
+
+
+<select id="count" resultType="java.lang.Long">
+    SELECT COUNT(1) FROM md_unit
+    <include refid="mdUnit_query_segment"/>
+</select>
+
+<select id="getById" resultMap="mdUnitResult">
+    <include refid="mdUnit_selector"/>
+    where id = #{id}
+    and is_delete = 0
+</select>
+
+<select id="getByIdForUpdate" resultMap="mdUnitResult">
+    <include refid="mdUnit_selector"/>
+    where id = #{id}
+    and is_delete = 0
+    for update
+</select>
+
+</mapper>

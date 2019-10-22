@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.DayDataMessageMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.DayDataMessage">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+      <id column="shop_id" property="shopId" jdbcType="VARCHAR"/>
+    <result column="type" property="type" jdbcType="INTEGER"/>
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR"/>
+    <result column="date_time" property="dateTime" jdbcType="TIMESTAMP"/>
+    <result column="week_day" property="weekDay" jdbcType="INTEGER"/>
+    <result column="date" property="date" jdbcType="DATE"/>
+    <result column="state" property="state" jdbcType="TINYINT"/>
+    <result column="times" property="times" jdbcType="INTEGER"/>
+    <result column="wether" property="wether" jdbcType="VARCHAR"/>
+    <result column="temperature" property="temperature" jdbcType="INTEGER"/>
+    <result column="order_number" property="orderNumber" jdbcType="INTEGER"/>
+    <result column="order_sum" property="orderSum" jdbcType="DECIMAL"/>
+    <result column="customer_order_number" property="customerOrderNumber" jdbcType="INTEGER"/>
+    <result column="customer_order_sum" property="customerOrderSum" jdbcType="DECIMAL"/>
+    <result column="customer_order_ratio" property="customerOrderRatio" jdbcType="VARCHAR"/>
+    <result column="back_customer_order_ratio" property="backCustomerOrderRatio" jdbcType="VARCHAR"/>
+    <result column="new_customer_order_ratio" property="newCustomerOrderRatio" jdbcType="VARCHAR"/>
+    <result column="new_cuostomer_order_num" property="newCuostomerOrderNum" jdbcType="INTEGER"/>
+    <result column="new_customer_order_sum" property="newCustomerOrderSum" jdbcType="DECIMAL"/>
+    <result column="new_normal_customer_order_num" property="newNormalCustomerOrderNum" jdbcType="INTEGER"/>
+    <result column="new_normal_customer_order_sum" property="newNormalCustomerOrderSum" jdbcType="DECIMAL"/>
+    <result column="new_share_customer_order_num" property="newShareCustomerOrderNum" jdbcType="INTEGER"/>
+    <result column="new_share_customer_order_sum" property="newShareCustomerOrderSum" jdbcType="DECIMAL"/>
+    <result column="back_customer_order_num" property="backCustomerOrderNum" jdbcType="INTEGER"/>
+    <result column="back_customer_order_sum" property="backCustomerOrderSum" jdbcType="DECIMAL"/>
+    <result column="back_two_customer_order_num" property="backTwoCustomerOrderNum" jdbcType="INTEGER"/>
+    <result column="back_two_customer_order_sum" property="backTwoCustomerOrderSum" jdbcType="DECIMAL"/>
+    <result column="back_two_more_customer_order_num" property="backTwoMoreCustomerOrderNum" jdbcType="INTEGER"/>
+    <result column="back_two_more_customer_order_sum" property="backTwoMoreCustomerOrderSum" jdbcType="DECIMAL"/>
+    <result column="discount_total" property="discountTotal" jdbcType="DECIMAL"/>
+    <result column="red_pack" property="redPack" jdbcType="DECIMAL"/>
+    <result column="coupon" property="coupon" jdbcType="DECIMAL"/>
+    <result column="charge_reward" property="chargeReward" jdbcType="DECIMAL"/>
+    <result column="discount_ratio" property="discountRatio" jdbcType="VARCHAR"/>
+    <result column="takeaway_total" property="takeawayTotal" jdbcType="DECIMAL"/>
+    <result column="bussiness_total" property="bussinessTotal" jdbcType="DECIMAL"/>
+    <result column="month_total" property="monthTotal" jdbcType="DECIMAL"/>
+  </resultMap>
+  <sql id="Base_Column_List">id,shop_id, type, shop_name, date_time, week_day, date, state, times, wether, temperature, order_number, order_sum, customer_order_number, customer_order_sum, customer_order_ratio, back_customer_order_ratio, new_customer_order_ratio, new_cuostomer_order_num, new_customer_order_sum, new_normal_customer_order_num, new_normal_customer_order_sum, new_share_customer_order_num, new_share_customer_order_sum, back_customer_order_num, back_customer_order_sum, back_two_customer_order_num, back_two_customer_order_sum, back_two_more_customer_order_num, back_two_more_customer_order_sum, discount_total, red_pack, coupon, charge_reward, discount_ratio, takeaway_total, bussiness_total, month_total</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select 
+    <include refid="Base_Column_List"/> from tb_day_data_message where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from tb_day_data_message where id = #{id,jdbcType=VARCHAR}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.DayDataMessage">insert into tb_day_data_message (id, shop_id,type, shop_name, date_time, week_day, date, state, times, wether, temperature, order_number, order_sum, customer_order_number, customer_order_sum, customer_order_ratio, back_customer_order_ratio, new_customer_order_ratio, new_cuostomer_order_num, new_customer_order_sum, new_normal_customer_order_num, new_normal_customer_order_sum, new_share_customer_order_num, new_share_customer_order_sum, back_customer_order_num, back_customer_order_sum, back_two_customer_order_num, back_two_customer_order_sum, back_two_more_customer_order_num, back_two_more_customer_order_sum, discount_total, red_pack, coupon, charge_reward, discount_ratio, takeaway_total, bussiness_total, month_total) values (#{id,jdbcType=VARCHAR},#{shopId}, #{type,jdbcType=INTEGER}, #{shopName,jdbcType=VARCHAR}, #{dateTime,jdbcType=TIMESTAMP}, #{weekDay,jdbcType=INTEGER}, #{date,jdbcType=DATE}, #{state,jdbcType=TINYINT}, #{times,jdbcType=INTEGER}, #{wether,jdbcType=VARCHAR}, #{temperature,jdbcType=INTEGER}, #{orderNumber,jdbcType=INTEGER}, #{orderSum,jdbcType=DECIMAL}, #{customerOrderNumber,jdbcType=INTEGER}, #{customerOrderSum,jdbcType=DECIMAL}, #{customerOrderRatio,jdbcType=VARCHAR}, #{backCustomerOrderRatio,jdbcType=VARCHAR}, #{newCustomerOrderRatio,jdbcType=VARCHAR}, #{newCuostomerOrderNum,jdbcType=INTEGER}, #{newCustomerOrderSum,jdbcType=DECIMAL}, #{newNormalCustomerOrderNum,jdbcType=INTEGER}, #{newNormalCustomerOrderSum,jdbcType=DECIMAL}, #{newShareCustomerOrderNum,jdbcType=INTEGER}, #{newShareCustomerOrderSum,jdbcType=DECIMAL}, #{backCustomerOrderNum,jdbcType=INTEGER}, #{backCustomerOrderSum,jdbcType=DECIMAL}, #{backTwoCustomerOrderNum,jdbcType=INTEGER}, #{backTwoCustomerOrderSum,jdbcType=DECIMAL}, #{backTwoMoreCustomerOrderNum,jdbcType=INTEGER}, #{backTwoMoreCustomerOrderSum,jdbcType=DECIMAL}, #{discountTotal,jdbcType=DECIMAL}, #{redPack,jdbcType=DECIMAL}, #{coupon,jdbcType=DECIMAL}, #{chargeReward,jdbcType=DECIMAL}, #{discountRatio,jdbcType=VARCHAR}, #{takeawayTotal,jdbcType=DECIMAL}, #{bussinessTotal,jdbcType=DECIMAL}, #{monthTotal,jdbcType=DECIMAL})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.DayDataMessage">insert into tb_day_data_message 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>
+        <if test="shopId != null">shop_id,</if>
+        <if test="type != null">type,</if>
+      <if test="shopName != null">shop_name,</if>  
+      <if test="dateTime != null">date_time,</if>  
+      <if test="weekDay != null">week_day,</if>  
+      <if test="date != null">date,</if>  
+      <if test="state != null">state,</if>  
+      <if test="times != null">times,</if>  
+      <if test="wether != null">wether,</if>  
+      <if test="temperature != null">temperature,</if>  
+      <if test="orderNumber != null">order_number,</if>  
+      <if test="orderSum != null">order_sum,</if>  
+      <if test="customerOrderNumber != null">customer_order_number,</if>  
+      <if test="customerOrderSum != null">customer_order_sum,</if>  
+      <if test="customerOrderRatio != null">customer_order_ratio,</if>  
+      <if test="backCustomerOrderRatio != null">back_customer_order_ratio,</if>  
+      <if test="newCustomerOrderRatio != null">new_customer_order_ratio,</if>  
+      <if test="newCuostomerOrderNum != null">new_cuostomer_order_num,</if>  
+      <if test="newCustomerOrderSum != null">new_customer_order_sum,</if>  
+      <if test="newNormalCustomerOrderNum != null">new_normal_customer_order_num,</if>  
+      <if test="newNormalCustomerOrderSum != null">new_normal_customer_order_sum,</if>  
+      <if test="newShareCustomerOrderNum != null">new_share_customer_order_num,</if>  
+      <if test="newShareCustomerOrderSum != null">new_share_customer_order_sum,</if>  
+      <if test="backCustomerOrderNum != null">back_customer_order_num,</if>  
+      <if test="backCustomerOrderSum != null">back_customer_order_sum,</if>  
+      <if test="backTwoCustomerOrderNum != null">back_two_customer_order_num,</if>  
+      <if test="backTwoCustomerOrderSum != null">back_two_customer_order_sum,</if>  
+      <if test="backTwoMoreCustomerOrderNum != null">back_two_more_customer_order_num,</if>  
+      <if test="backTwoMoreCustomerOrderSum != null">back_two_more_customer_order_sum,</if>  
+      <if test="discountTotal != null">discount_total,</if>
+      <if test="redPack != null">red_pack,</if>  
+      <if test="coupon != null">coupon,</if>  
+      <if test="chargeReward != null">charge_reward,</if>  
+      <if test="discountRatio != null">discount_ratio,</if>  
+      <if test="takeawayTotal != null">takeaway_total,</if>  
+      <if test="bussinessTotal != null">bussiness_total,</if>  
+      <if test="monthTotal != null">month_total,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+        <if test="shopId != null">#{shopId,jdbcType=VARCHAR},</if>
+        <if test="type != null">#{type,jdbcType=INTEGER},</if>
+      <if test="shopName != null">#{shopName,jdbcType=VARCHAR},</if>  
+      <if test="dateTime != null">#{dateTime,jdbcType=TIMESTAMP},</if>  
+      <if test="weekDay != null">#{weekDay,jdbcType=INTEGER},</if>  
+      <if test="date != null">#{date,jdbcType=DATE},</if>  
+      <if test="state != null">#{state,jdbcType=TINYINT},</if>  
+      <if test="times != null">#{times,jdbcType=INTEGER},</if>  
+      <if test="wether != null">#{wether,jdbcType=VARCHAR},</if>  
+      <if test="temperature != null">#{temperature,jdbcType=INTEGER},</if>  
+      <if test="orderNumber != null">#{orderNumber,jdbcType=INTEGER},</if>  
+      <if test="orderSum != null">#{orderSum,jdbcType=DECIMAL},</if>  
+      <if test="customerOrderNumber != null">#{customerOrderNumber,jdbcType=INTEGER},</if>  
+      <if test="customerOrderSum != null">#{customerOrderSum,jdbcType=DECIMAL},</if>  
+      <if test="customerOrderRatio != null">#{customerOrderRatio,jdbcType=VARCHAR},</if>  
+      <if test="backCustomerOrderRatio != null">#{backCustomerOrderRatio,jdbcType=VARCHAR},</if>  
+      <if test="newCustomerOrderRatio != null">#{newCustomerOrderRatio,jdbcType=VARCHAR},</if>  
+      <if test="newCuostomerOrderNum != null">#{newCuostomerOrderNum,jdbcType=INTEGER},</if>  
+      <if test="newCustomerOrderSum != null">#{newCustomerOrderSum,jdbcType=DECIMAL},</if>  
+      <if test="newNormalCustomerOrderNum != null">#{newNormalCustomerOrderNum,jdbcType=INTEGER},</if>  
+      <if test="newNormalCustomerOrderSum != null">#{newNormalCustomerOrderSum,jdbcType=DECIMAL},</if>  
+      <if test="newShareCustomerOrderNum != null">#{newShareCustomerOrderNum,jdbcType=INTEGER},</if>  
+      <if test="newShareCustomerOrderSum != null">#{newShareCustomerOrderSum,jdbcType=DECIMAL},</if>  
+      <if test="backCustomerOrderNum != null">#{backCustomerOrderNum,jdbcType=INTEGER},</if>  
+      <if test="backCustomerOrderSum != null">#{backCustomerOrderSum,jdbcType=DECIMAL},</if>  
+      <if test="backTwoCustomerOrderNum != null">#{backTwoCustomerOrderNum,jdbcType=INTEGER},</if>  
+      <if test="backTwoCustomerOrderSum != null">#{backTwoCustomerOrderSum,jdbcType=DECIMAL},</if>  
+      <if test="backTwoMoreCustomerOrderNum != null">#{backTwoMoreCustomerOrderNum,jdbcType=INTEGER},</if>  
+      <if test="backTwoMoreCustomerOrderSum != null">#{backTwoMoreCustomerOrderSum,jdbcType=DECIMAL},</if>  
+      <if test="discountTotal != null">#{discountTotal,jdbcType=DECIMAL},</if>
+      <if test="redPack != null">#{redPack,jdbcType=DECIMAL},</if>  
+      <if test="coupon != null">#{coupon,jdbcType=DECIMAL},</if>  
+      <if test="chargeReward != null">#{chargeReward,jdbcType=DECIMAL},</if>  
+      <if test="discountRatio != null">#{discountRatio,jdbcType=VARCHAR},</if>  
+      <if test="takeawayTotal != null">#{takeawayTotal,jdbcType=DECIMAL},</if>  
+      <if test="bussinessTotal != null">#{bussinessTotal,jdbcType=DECIMAL},</if>  
+      <if test="monthTotal != null">#{monthTotal,jdbcType=DECIMAL},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.DayDataMessage">update tb_day_data_message 
+    <set> 
+      <if test="type != null">type = #{type,jdbcType=INTEGER},</if>
+        <if test="shopId != null">shop_id = #{shopId},</if>
+      <if test="shopName != null">shop_name = #{shopName,jdbcType=VARCHAR},</if>  
+      <if test="dateTime != null">date_time = #{dateTime,jdbcType=TIMESTAMP},</if>  
+      <if test="weekDay != null">week_day = #{weekDay,jdbcType=INTEGER},</if>  
+      <if test="date != null">date = #{date,jdbcType=DATE},</if>  
+      <if test="state != null">state = #{state,jdbcType=TINYINT},</if>  
+      <if test="times != null">times = #{times,jdbcType=INTEGER},</if>  
+      <if test="wether != null">wether = #{wether,jdbcType=VARCHAR},</if>  
+      <if test="temperature != null">temperature = #{temperature,jdbcType=INTEGER},</if>  
+      <if test="orderNumber != null">order_number = #{orderNumber,jdbcType=INTEGER},</if>  
+      <if test="orderSum != null">order_sum = #{orderSum,jdbcType=DECIMAL},</if>  
+      <if test="customerOrderNumber != null">customer_order_number = #{customerOrderNumber,jdbcType=INTEGER},</if>  
+      <if test="customerOrderSum != null">customer_order_sum = #{customerOrderSum,jdbcType=DECIMAL},</if>  
+      <if test="customerOrderRatio != null">customer_order_ratio = #{customerOrderRatio,jdbcType=VARCHAR},</if>  
+      <if test="backCustomerOrderRatio != null">back_customer_order_ratio = #{backCustomerOrderRatio,jdbcType=VARCHAR},</if>  
+      <if test="newCustomerOrderRatio != null">new_customer_order_ratio = #{newCustomerOrderRatio,jdbcType=VARCHAR},</if>  
+      <if test="newCuostomerOrderNum != null">new_cuostomer_order_num = #{newCuostomerOrderNum,jdbcType=INTEGER},</if>  
+      <if test="newCustomerOrderSum != null">new_customer_order_sum = #{newCustomerOrderSum,jdbcType=DECIMAL},</if>  
+      <if test="newNormalCustomerOrderNum != null">new_normal_customer_order_num = #{newNormalCustomerOrderNum,jdbcType=INTEGER},</if>  
+      <if test="newNormalCustomerOrderSum != null">new_normal_customer_order_sum = #{newNormalCustomerOrderSum,jdbcType=DECIMAL},</if>  
+      <if test="newShareCustomerOrderNum != null">new_share_customer_order_num = #{newShareCustomerOrderNum,jdbcType=INTEGER},</if>  
+      <if test="newShareCustomerOrderSum != null">new_share_customer_order_sum = #{newShareCustomerOrderSum,jdbcType=DECIMAL},</if>  
+      <if test="backCustomerOrderNum != null">back_customer_order_num = #{backCustomerOrderNum,jdbcType=INTEGER},</if>  
+      <if test="backCustomerOrderSum != null">back_customer_order_sum = #{backCustomerOrderSum,jdbcType=DECIMAL},</if>  
+      <if test="backTwoCustomerOrderNum != null">back_two_customer_order_num = #{backTwoCustomerOrderNum,jdbcType=INTEGER},</if>  
+      <if test="backTwoCustomerOrderSum != null">back_two_customer_order_sum = #{backTwoCustomerOrderSum,jdbcType=DECIMAL},</if>  
+      <if test="backTwoMoreCustomerOrderNum != null">back_two_more_customer_order_num = #{backTwoMoreCustomerOrderNum,jdbcType=INTEGER},</if>  
+      <if test="backTwoMoreCustomerOrderSum != null">back_two_more_customer_order_sum = #{backTwoMoreCustomerOrderSum,jdbcType=DECIMAL},</if>  
+      <if test="discountTotal != null">discount_total = #{discountTotal,jdbcType=DECIMAL},</if>
+      <if test="redPack != null">red_pack = #{redPack,jdbcType=DECIMAL},</if>  
+      <if test="coupon != null">coupon = #{coupon,jdbcType=DECIMAL},</if>  
+      <if test="chargeReward != null">charge_reward = #{chargeReward,jdbcType=DECIMAL},</if>  
+      <if test="discountRatio != null">discount_ratio = #{discountRatio,jdbcType=VARCHAR},</if>  
+      <if test="takeawayTotal != null">takeaway_total = #{takeawayTotal,jdbcType=DECIMAL},</if>  
+      <if test="bussinessTotal != null">bussiness_total = #{bussinessTotal,jdbcType=DECIMAL},</if>  
+      <if test="monthTotal != null">month_total = #{monthTotal,jdbcType=DECIMAL},</if> 
+    </set> where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.DayDataMessage">update tb_day_data_message set shop_id=#{shopId}, type = #{type,jdbcType=INTEGER}, shop_name = #{shopName,jdbcType=VARCHAR}, date_time = #{dateTime,jdbcType=TIMESTAMP}, week_day = #{weekDay,jdbcType=INTEGER}, date = #{date,jdbcType=DATE}, state = #{state,jdbcType=TINYINT}, times = #{times,jdbcType=INTEGER}, wether = #{wether,jdbcType=VARCHAR}, temperature = #{temperature,jdbcType=INTEGER}, order_number = #{orderNumber,jdbcType=INTEGER}, order_sum = #{orderSum,jdbcType=DECIMAL}, customer_order_number = #{customerOrderNumber,jdbcType=INTEGER}, customer_order_sum = #{customerOrderSum,jdbcType=DECIMAL}, customer_order_ratio = #{customerOrderRatio,jdbcType=VARCHAR}, back_customer_order_ratio = #{backCustomerOrderRatio,jdbcType=VARCHAR}, new_customer_order_ratio = #{newCustomerOrderRatio,jdbcType=VARCHAR}, new_cuostomer_order_num = #{newCuostomerOrderNum,jdbcType=INTEGER}, new_customer_order_sum = #{newCustomerOrderSum,jdbcType=DECIMAL}, new_normal_customer_order_num = #{newNormalCustomerOrderNum,jdbcType=INTEGER}, new_normal_customer_order_sum = #{newNormalCustomerOrderSum,jdbcType=DECIMAL}, new_share_customer_order_num = #{newShareCustomerOrderNum,jdbcType=INTEGER}, new_share_customer_order_sum = #{newShareCustomerOrderSum,jdbcType=DECIMAL}, back_customer_order_num = #{backCustomerOrderNum,jdbcType=INTEGER}, back_customer_order_sum = #{backCustomerOrderSum,jdbcType=DECIMAL}, back_two_customer_order_num = #{backTwoCustomerOrderNum,jdbcType=INTEGER}, back_two_customer_order_sum = #{backTwoCustomerOrderSum,jdbcType=DECIMAL}, back_two_more_customer_order_num = #{backTwoMoreCustomerOrderNum,jdbcType=INTEGER}, back_two_more_customer_order_sum = #{backTwoMoreCustomerOrderSum,jdbcType=DECIMAL}, discount_total = #{discountTotal,jdbcType=DECIMAL}, red_pack = #{redPack,jdbcType=DECIMAL}, coupon = #{coupon,jdbcType=DECIMAL}, charge_reward = #{chargeReward,jdbcType=DECIMAL}, discount_ratio = #{discountRatio,jdbcType=VARCHAR}, takeaway_total = #{takeawayTotal,jdbcType=DECIMAL}, bussiness_total = #{bussinessTotal,jdbcType=DECIMAL}, month_total = #{monthTotal,jdbcType=DECIMAL} where id = #{id,jdbcType=VARCHAR}</update>
+  <select id="selectList" resultType="DayDataMessage">select * from tb_day_data_message</select>
+
+</mapper>

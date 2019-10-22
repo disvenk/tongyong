@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.OffLineOrderMapper">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.OffLineOrder">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+        <result column="resource" property="resource" jdbcType="INTEGER"/>
+        <result column="enter_total" property="enterTotal" jdbcType="DECIMAL"/>
+        <result column="enter_count" property="enterCount" jdbcType="INTEGER"/>
+        <result column="num_guest" property="numGuest" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="delivery_orders" property="deliveryOrders" jdbcType="INTEGER"/>
+        <result column="order_books" property="orderBooks" jdbcType="DECIMAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">id, shop_detail_id, brand_id, resource, enter_total, enter_count, num_guest, create_time</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select
+        <include refid="Base_Column_List"/>
+        from tb_off_line_order where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey"
+            parameterType="java.lang.String">delete from tb_off_line_order where id = #{id,jdbcType=VARCHAR}</delete>
+    <insert id="insert"
+            parameterType="com.resto.shop.web.model.OffLineOrder">insert into tb_off_line_order (id, shop_detail_id, brand_id, resource, enter_total, enter_count, num_guest, create_time, delivery_orders, order_books) values (#{id,jdbcType=VARCHAR}, #{shopDetailId,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR}, #{resource,jdbcType=INTEGER}, #{enterTotal,jdbcType=DECIMAL}, #{enterCount,jdbcType=INTEGER}, #{numGuest,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{delivery_orders,jdbcType=INTEGER}, #{order_books,jdbcType=DECIMAL})</insert>
+    <insert id="insertSelective" parameterType="com.resto.shop.web.model.OffLineOrder">insert into tb_off_line_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="shopDetailId != null">shop_detail_id,</if>
+            <if test="brandId != null">brand_id,</if>
+            <if test="resource != null">resource,</if>
+            <if test="enterTotal != null">enter_total,</if>
+            <if test="enterCount != null">enter_count,</if>
+            <if test="deliveryOrders != null">delivery_orders,</if>
+            <if test="orderBooks != null">order_books,</if>
+            <if test="numGuest != null">num_guest,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="state != null">state,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+            <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if>
+            <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>
+            <if test="resource != null">#{resource,jdbcType=INTEGER},</if>
+            <if test="enterTotal != null">#{enterTotal,jdbcType=DECIMAL},</if>
+            <if test="enterCount != null">#{enterCount,jdbcType=INTEGER},</if>
+            <if test="deliveryOrders != null">#{deliveryOrders,jdbcType=INTEGER},</if>
+            <if test="orderBooks != null">#{orderBooks,jdbcType=DECIMAL},</if>
+            <if test="numGuest != null">#{numGuest,jdbcType=INTEGER},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="state != null">#{state},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.OffLineOrder">update
+        tb_off_line_order
+        <set>
+            <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if>
+            <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>
+            <if test="resource != null">resource = #{resource,jdbcType=INTEGER},</if>
+            <if test="enterTotal != null">enter_total = #{enterTotal,jdbcType=DECIMAL},</if>
+            <if test="enterCount != null">enter_count = #{enterCount,jdbcType=INTEGER},</if>
+            <if test="deliveryOrders != null">delivery_orders = #{deliveryOrders,jdbcType=INTEGER},</if>
+            <if test="orderBooks != null">order_books = #{orderBooks,jdbcType=DECIMAL},</if>
+            <if test="numGuest != null">num_guest = #{numGuest,jdbcType=INTEGER},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="state != null">state = #{state},</if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.resto.shop.web.model.OffLineOrder">update tb_off_line_order set shop_detail_id = #{shopDetailId,jdbcType=VARCHAR}, brand_id = #{brandId,jdbcType=VARCHAR}, resource = #{resource,jdbcType=INTEGER}, enter_total = #{enterTotal,jdbcType=DECIMAL}, enter_count = #{enterCount,jdbcType=INTEGER}, num_guest = #{numGuest,jdbcType=INTEGER}, create_time = #{createTime,jdbcType=TIMESTAMP},delivery_orders = #{deliveryOrders,jdbcType=INTEGER}, order_books = #{orderBooks,jdbcType=DECIMAL}, where id = #{id,jdbcType=VARCHAR}</update>
+    <select id="selectList" resultType="OffLineOrder">select * from tb_off_line_order</select>
+
+    <select id="selectByTimeSourceAndShopId" resultType="OffLineOrder">
+
+    SELECT id,shop_detail_id,brand_id,resource,enter_total,enter_count,delivery_orders,order_books,delivery_orders, order_books,num_guest,create_time,state FROM tb_off_line_order
+    WHERE  shop_detail_id =#{shopId} AND  resource=1 AND  state =1 AND
+    <![CDATA[
+     create_time >= #{beginDate} AND create_time <= #{endDate}
+
+        ]]>
+    </select>
+
+    <select id="selectByShopIdAndTime" resultType="OffLineOrder">
+
+        SELECT id,shop_detail_id,brand_id,resource,enter_total,enter_count,delivery_orders, order_books,num_guest,create_time,state FROM tb_off_line_order
+        WHERE  shop_detail_id =#{shopId} AND  state =1 AND
+        <![CDATA[
+     create_time >= #{beginDate} AND create_time <= #{endDate}
+
+        ]]>
+    </select>
+
+    <select id="selectSumRealMoney" resultType="java.math.BigDecimal">
+    select sum(pay_value) from tb_order_payment_item
+INNER JOIN tb_order on tb_order.id = tb_order_payment_item.order_id
+where payment_mode_id in (1,10)
+and shop_detail_id = #{shopId}
+and production_status in (2,3,4)
+and order_state in (2,10,11,12,13)
+and
+ <![CDATA[
+     create_time >= #{beginDate} AND create_time <= #{endDate}
+        ]]>
+    </select>
+
+    <select id="selectTotalMoney" resultType="java.math.BigDecimal">
+        select sum(order_money) from tb_order
+where production_status in (2,3,4)
+and order_state in (2,10,11,12,13)
+and shop_detail_id = #{shopId}
+and
+ <![CDATA[
+     create_time >= #{beginDate} AND create_time <= #{endDate}
+   ]]>
+    </select>
+
+    <select id="selectSumByTimeSourceAndShopId" resultType="OffLineOrder">
+        SELECT create_time,
+        sum(enter_total)enter_total,SUM(enter_count)enter_count,SUM(delivery_orders)delivery_orders,SUM(order_books)order_books
+        FROM
+        tb_off_line_order
+        WHERE
+        shop_detail_id = #{shopId}
+        AND state = 1
+        AND
+         <![CDATA[
+           create_time >= #{beginDate} AND create_time <= #{endDate}
+         ]]>
+        AND resource = #{orderType}
+    </select>
+
+
+    <select id="selectDateAndMonthByShopId" resultType="com.resto.shop.web.dto.UnderLineOrderDto">
+
+        SELECT a.todayEnterCount,a.todayEnterTotal,a.todayDeliverOrders,a.todayOrderBooks ,b.monthEnterCount,b.monthEnterTotal,b.monthDeliverOrders,b.monthOrderBooks FROM
+        (SELECT
+        shop_detail_id,
+        enter_total todayEnterTotal,
+        enter_count todayEnterCount,
+        delivery_orders todayDeliverOrders ,
+        order_books todayOrderBooks
+        FROM tb_off_line_order
+        WHERE shop_detail_id = #{shopId} AND  resource=1 AND  state =1 AND
+        <![CDATA[create_time >= #{todayBegin} AND create_time <= #{todayEnd}]]>
+        ) as a INNER JOIN
+        (SELECT
+        shop_detail_id,
+        sum(enter_total) monthEnterTotal,
+        sum(enter_count) monthEnterCount,
+        sum(delivery_orders) monthDeliverOrders,
+        sum(order_books) monthOrderBooks
+        FROM tb_off_line_order
+        WHERE shop_detail_id = #{shopId} AND  resource=1 AND  state =1 AND
+         <![CDATA[create_time >= #{monthBegin} AND create_time <= #{monthEnd}]]>
+        )as b
+        on a.shop_detail_id = b.shop_detail_id;
+
+    </select>
+
+    <select id="selectMonthXunTodayByShopId" resultType="com.resto.shop.web.dto.UnderLineOrderDto">
+        SELECT a.todayEnterCount,a.todayEnterTotal,a.todayDeliverOrders,a.todayOrderBooks ,b.xunEnterCount,b.xunEnterTotal,b.xunDeliverOrders,b.xunOrderBooks ,c.monthEnterCount,c.monthEnterTotal,c.monthDeliverOrders,c.monthOrderBooks FROM
+        (SELECT
+        shop_detail_id,
+        enter_total todayEnterTotal,
+        enter_count todayEnterCount,
+        delivery_orders todayDeliverOrders ,
+        order_books todayOrderBooks
+        FROM tb_off_line_order
+        WHERE shop_detail_id = #{shopId} AND  resource=1 AND  state =1 AND
+        <![CDATA[create_time >= #{todayBegin} AND create_time <= #{todayEnd}]]>
+        ) as a INNER JOIN
+        (SELECT
+        shop_detail_id,
+        sum(enter_total) xunEnterTotal,
+        sum(enter_count) xunEnterCount,
+        sum(delivery_orders) xunDeliverOrders,
+        sum(order_books) xunOrderBooks
+        FROM tb_off_line_order
+        WHERE shop_detail_id = #{shopId} AND  resource=1 AND  state =1 AND
+         <![CDATA[create_time >= #{xunBegin} AND create_time <= #{xunEnd}]]>
+        )as b
+        INNER  JOIN
+        (
+          SELECT
+         shop_detail_id,
+        sum(enter_total) monthEnterTotal,
+        sum(enter_count) monthEnterCount,
+        sum(delivery_orders) monthDeliverOrders,
+        sum(order_books) monthOrderBooks
+        FROM tb_off_line_order
+        WHERE shop_detail_id = #{shopId} AND  resource=1 AND  state =1 AND
+         <![CDATA[create_time >= #{monthBegin} AND create_time <= #{monthEnd}]]>
+        )as c
+        on a.shop_detail_id = c.shop_detail_id;
+    </select>
+
+
+
+
+    <select id="selectXunByShopId" resultType="com.resto.shop.web.dto.UnderLineOrderDto">
+        SELECT
+        shop_detail_id,
+        sum(enter_total) xunEnterTotal,
+        sum(enter_count) xunEnterCount,
+        sum(delivery_orders) xunDeliverOrders,
+        sum(order_books) xunOrderBooks
+        FROM tb_off_line_order
+        WHERE shop_detail_id = #{shopId} AND  resource=1 AND  state =1 AND
+         <![CDATA[create_time >= #{xunBegin} AND create_time <= #{xunEnd}]]>
+
+    </select>
+
+
+    <select id="selectMonthByShopId" resultType="com.resto.shop.web.dto.UnderLineOrderDto">
+                SELECT
+        shop_detail_id,
+        sum(enter_total) monthEnterTotal,
+        sum(enter_count) monthEnterCount,
+        sum(delivery_orders) monthDeliverOrders,
+        sum(order_books) monthOrderBooks
+        FROM tb_off_line_order
+        WHERE shop_detail_id = #{shopId} AND  resource=1 AND  state =1 AND
+         <![CDATA[create_time >= #{monthBegin} AND create_time <= #{monthEnd}]]>
+    </select>
+
+
+
+</mapper>

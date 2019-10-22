@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.OrderRemarkMapper">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.OrderRemark" >
+        <id column="id" property="id"/>
+        <result column="bo_order_remark_id" property="boOrderRemarkId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="shop_detail_id" property="shopDetailId"/>
+        <result column="brand_id" property="brandId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, bo_order_remark_id, create_time, shop_detail_id, brand_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_order_remark where id = #{id}
+    </select>
+
+    <insert id="insertSelective" parameterType="com.resto.shop.web.model.OrderRemark">
+        insert into tb_order_remark
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="boOrderRemarkId != null">
+                bo_order_remark_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="shopDetailId != null">
+                shop_detail_id,
+            </if>
+            <if test="brandId != null">
+                brand_id,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="boOrderRemarkId != null">
+                #{boOrderRemarkId},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="shopDetailId != null">
+                #{shopDetailId},
+            </if>
+            <if test="brandId != null">
+                #{brandId},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.OrderRemark">
+        update tb_order_remark
+        <set>
+            <if test="boOrderRemarkId != null">
+                bo_order_remark_id = #{boOrderRemarkId},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="shopDetailId != null">
+                shop_detail_id = #{shopDetailId},
+            </if>
+            <if test="brandId != null">
+                brand_id = #{brandId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from tb_order_remark where id = #{id}
+    </delete>
+
+    <delete id="deleteByBoOrderRemarkId" parameterType="java.lang.String">
+        delete from tb_order_remark where bo_order_remark_id = #{boOrderRemarkId}
+    </delete>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        select * from tb_order_remark
+    </select>
+
+    <select id="selectOrderRemarkByShopId" resultType="com.resto.shop.web.model.OrderRemark" parameterType="java.lang.String">
+        select * from tb_order_remark where shop_detail_id = #{shopId}
+    </select>
+
+    <select id="selectOpenOrderRemarkByShopId" resultType="com.resto.shop.web.model.OrderRemark" parameterType="java.lang.String">
+        select tor.id, tdp.remark_name,tor.sort,tor.state,tor.create_time,tor.bo_order_remark_id from tb_order_remark tor inner join resto_brand.tb_order_remark tdp on tdp.id = tor.bo_order_remark_id and tor.shop_detail_id = #{shopId}
+    </select>
+</mapper>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.RecommendMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.Recommend" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="is_used" property="isUsed" jdbcType="BIT" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="print_type" property="printType" jdbcType="BIT" />
+    <result column="kitchen_id" property="kitchenId" jdbcType="VARCHAR" />
+    <result column="choice_type" property="choiceType" jdbcType="BIT" />
+    <result column="open_article_library" property="openArticleLibrary" jdbcType="BIT"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, count, is_used, sort, shop_detail_id, create_time, print_type, kitchen_id, 
+    choice_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_recommend
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_recommend
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.Recommend" >
+    insert into tb_recommend (id, name, count, 
+      is_used, sort, shop_detail_id, 
+      create_time, print_type, kitchen_id, 
+      choice_type)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, 
+      #{isUsed,jdbcType=BIT}, #{sort,jdbcType=INTEGER}, #{shopDetailId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{printType,jdbcType=BIT}, #{kitchenId,jdbcType=VARCHAR}, 
+      #{choiceType,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.Recommend" >
+    insert into tb_recommend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="isUsed != null" >
+        is_used,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="shopDetailId != null" >
+        shop_detail_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="printType != null" >
+        print_type,
+      </if>
+      <if test="kitchenId != null" >
+        kitchen_id,
+      </if>
+      <if test="choiceType != null" >
+        choice_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="isUsed != null" >
+        #{isUsed,jdbcType=BIT},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="shopDetailId != null" >
+        #{shopDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="printType != null" >
+        #{printType,jdbcType=BIT},
+      </if>
+      <if test="kitchenId != null" >
+        #{kitchenId,jdbcType=VARCHAR},
+      </if>
+      <if test="choiceType != null" >
+        #{choiceType,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.Recommend" >
+    update tb_recommend
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="isUsed != null" >
+        is_used = #{isUsed,jdbcType=BIT},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="shopDetailId != null" >
+        shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="printType != null" >
+        print_type = #{printType,jdbcType=BIT},
+      </if>
+      <if test="kitchenId != null" >
+        kitchen_id = #{kitchenId,jdbcType=VARCHAR},
+      </if>
+      <if test="choiceType != null" >
+        choice_type = #{choiceType,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.Recommend" >
+    update tb_recommend
+    set name = #{name,jdbcType=VARCHAR},
+      count = #{count,jdbcType=INTEGER},
+      is_used = #{isUsed,jdbcType=BIT},
+      sort = #{sort,jdbcType=INTEGER},
+      shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      print_type = #{printType,jdbcType=BIT},
+      kitchen_id = #{kitchenId,jdbcType=VARCHAR},
+      choice_type = #{choiceType,jdbcType=BIT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectList" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/> FROM tb_recommend;
+  </select>
+</mapper>

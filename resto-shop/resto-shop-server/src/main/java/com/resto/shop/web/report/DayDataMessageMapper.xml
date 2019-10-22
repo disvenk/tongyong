@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.report.DayDataMessageMapperReport">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.DayDataMessage">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+      <id column="shop_id" property="shopId" jdbcType="VARCHAR"/>
+    <result column="type" property="type" jdbcType="INTEGER"/>
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR"/>
+    <result column="date_time" property="dateTime" jdbcType="TIMESTAMP"/>
+    <result column="week_day" property="weekDay" jdbcType="INTEGER"/>
+    <result column="date" property="date" jdbcType="DATE"/>
+    <result column="state" property="state" jdbcType="TINYINT"/>
+    <result column="times" property="times" jdbcType="INTEGER"/>
+    <result column="wether" property="wether" jdbcType="VARCHAR"/>
+    <result column="temperature" property="temperature" jdbcType="INTEGER"/>
+    <result column="order_number" property="orderNumber" jdbcType="INTEGER"/>
+    <result column="order_sum" property="orderSum" jdbcType="DECIMAL"/>
+    <result column="customer_order_number" property="customerOrderNumber" jdbcType="INTEGER"/>
+    <result column="customer_order_sum" property="customerOrderSum" jdbcType="DECIMAL"/>
+    <result column="customer_order_ratio" property="customerOrderRatio" jdbcType="VARCHAR"/>
+    <result column="back_customer_order_ratio" property="backCustomerOrderRatio" jdbcType="VARCHAR"/>
+    <result column="new_customer_order_ratio" property="newCustomerOrderRatio" jdbcType="VARCHAR"/>
+    <result column="new_cuostomer_order_num" property="newCuostomerOrderNum" jdbcType="INTEGER"/>
+    <result column="new_customer_order_sum" property="newCustomerOrderSum" jdbcType="DECIMAL"/>
+    <result column="new_normal_customer_order_num" property="newNormalCustomerOrderNum" jdbcType="INTEGER"/>
+    <result column="new_normal_customer_order_sum" property="newNormalCustomerOrderSum" jdbcType="DECIMAL"/>
+    <result column="new_share_customer_order_num" property="newShareCustomerOrderNum" jdbcType="INTEGER"/>
+    <result column="new_share_customer_order_sum" property="newShareCustomerOrderSum" jdbcType="DECIMAL"/>
+    <result column="back_customer_order_num" property="backCustomerOrderNum" jdbcType="INTEGER"/>
+    <result column="back_customer_order_sum" property="backCustomerOrderSum" jdbcType="DECIMAL"/>
+    <result column="back_two_customer_order_num" property="backTwoCustomerOrderNum" jdbcType="INTEGER"/>
+    <result column="back_two_customer_order_sum" property="backTwoCustomerOrderSum" jdbcType="DECIMAL"/>
+    <result column="back_two_more_customer_order_num" property="backTwoMoreCustomerOrderNum" jdbcType="INTEGER"/>
+    <result column="back_two_more_customer_order_sum" property="backTwoMoreCustomerOrderSum" jdbcType="DECIMAL"/>
+    <result column="discount_total" property="discountTotal" jdbcType="DECIMAL"/>
+    <result column="red_pack" property="redPack" jdbcType="DECIMAL"/>
+    <result column="coupon" property="coupon" jdbcType="DECIMAL"/>
+    <result column="charge_reward" property="chargeReward" jdbcType="DECIMAL"/>
+    <result column="discount_ratio" property="discountRatio" jdbcType="VARCHAR"/>
+    <result column="takeaway_total" property="takeawayTotal" jdbcType="DECIMAL"/>
+    <result column="bussiness_total" property="bussinessTotal" jdbcType="DECIMAL"/>
+    <result column="month_total" property="monthTotal" jdbcType="DECIMAL"/>
+  </resultMap>
+  <sql id="Base_Column_List">id,shop_id, type, shop_name, date_time, week_day, date, state, times, wether, temperature, order_number, order_sum, customer_order_number, customer_order_sum, customer_order_ratio, back_customer_order_ratio, new_customer_order_ratio, new_cuostomer_order_num, new_customer_order_sum, new_normal_customer_order_num, new_normal_customer_order_sum, new_share_customer_order_num, new_share_customer_order_sum, back_customer_order_num, back_customer_order_sum, back_two_customer_order_num, back_two_customer_order_sum, back_two_more_customer_order_num, back_two_more_customer_order_sum, discount_total, red_pack, coupon, charge_reward, discount_ratio, takeaway_total, bussiness_total, month_total</sql>
+
+
+  <select id="selectListByTime" resultType="DayDataMessage">
+    SELECT * FROM  tb_day_data_message WHERE  state =#{state} AND TYPE=#{type} AND <![CDATA[ date=#{date} ]]>
+    ORDER  BY  shop_id,date_time
+
+  </select>
+</mapper>

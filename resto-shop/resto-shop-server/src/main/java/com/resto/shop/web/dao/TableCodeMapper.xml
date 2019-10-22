@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.TableCodeMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.TableCode">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="code_number" property="codeNumber" jdbcType="VARCHAR"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+    <result column="max_number" property="maxNumber" jdbcType="INTEGER"/>
+    <result column="min_number" property="minNumber" jdbcType="INTEGER"/>
+    <result column="is_used" property="isUsed" jdbcType="TINYINT"/>
+      <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+      <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+      <result column="sort" property="sort" />
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+	<collection property="getNumbers" ofType="com.resto.shop.web.model.GetNumber">
+		<id column="gn_id" property="id"/>
+		<result column="code_value" property="codeValue"/>
+		<result column="customer_id" property="customerId"/>
+	</collection>
+  </resultMap>
+  <sql id="Base_Column_List">id, name, code_number, create_time, end_time, max_number, min_number, is_used,shop_detail_id,brand_id,sort</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select 
+    <include refid="Base_Column_List"/> from tb_table_code where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from tb_table_code where id = #{id,jdbcType=VARCHAR}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.TableCode">insert into tb_table_code (id, name, code_number, create_time, end_time, max_number, min_number, is_used,shop_detail_id,brand_id) values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{codeNumber,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{maxNumber,jdbcType=INTEGER}, #{minNumber,jdbcType=INTEGER}, #{isUsed,jdbcType=TINYINT},#{shopDetailId,jdbcType=VARCHAR},#{brandId,jdbcType=VARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.TableCode">insert into tb_table_code 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="name != null">name,</if>  
+      <if test="codeNumber != null">code_number,</if>  
+      <if test="createTime != null">create_time,</if>  
+      <if test="endTime != null">end_time,</if>  
+      <if test="maxNumber != null">max_number,</if>  
+      <if test="minNumber != null">min_number,</if>  
+      <if test="isUsed != null">is_used,</if>
+        <if test="shopDetailId != null">shop_detail_id,</if>
+        <if test="brandId != null">brand_id,</if>
+        <if test="sort != null">sort,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>  
+      <if test="name != null">#{name,jdbcType=VARCHAR},</if>  
+      <if test="codeNumber != null">#{codeNumber,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="endTime != null">#{endTime,jdbcType=TIMESTAMP},</if>  
+      <if test="maxNumber != null">#{maxNumber,jdbcType=INTEGER},</if>  
+      <if test="minNumber != null">#{minNumber,jdbcType=INTEGER},</if>  
+      <if test="isUsed != null">#{isUsed,jdbcType=TINYINT},</if>
+        <if test="shopDetailId != null">#{shopDetailId},</if>
+        <if test="brandId != null">#{brandId},</if>
+        <if test="sort != null">#{sort},</if>
+
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.TableCode">update tb_table_code 
+    <set> 
+      <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>  
+      <if test="codeNumber != null">code_number = #{codeNumber,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="endTime != null">end_time = #{endTime,jdbcType=TIMESTAMP},</if>  
+      <if test="maxNumber != null">max_number = #{maxNumber,jdbcType=INTEGER},</if>  
+      <if test="minNumber != null">min_number = #{minNumber,jdbcType=INTEGER},</if>  
+      <if test="isUsed != null">is_used = #{isUsed,jdbcType=TINYINT},</if>
+        <if test="shopDetailId != null">shop_detail_id = #{shopDetailId},</if>
+        <if test="brandId != null">brand_id = #{brandId},</if>
+        <if test="sort != null">sort = #{sort},</if>
+    </set> where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.TableCode">update tb_table_code set name = #{name,jdbcType=VARCHAR}, code_number = #{codeNumber,jdbcType=VARCHAR}, create_time = #{createTime,jdbcType=TIMESTAMP}, end_time = #{endTime,jdbcType=TIMESTAMP}, max_number = #{maxNumber,jdbcType=INTEGER}, min_number = #{minNumber,jdbcType=INTEGER}, is_used = #{isUsed,jdbcType=TINYINT},shop_detail_id = #{shopDetailId},brand_id=#{brandId} ,sort=#{sort}where id = #{id,jdbcType=VARCHAR}</update>
+  <select id="selectList" resultType="TableCode">select * from tb_table_code </select>
+
+    <select id="selectByName" resultType="TableCode">
+        SELECT
+	id,
+	name,
+	code_number,
+	max_number,
+	min_number,
+	is_used,
+	shop_detail_id,
+	brand_id,
+	sort
+FROM
+	tb_table_code
+WHERE
+	name = #{name} AND  shop_detail_id=#{shopId}
+    </select>
+
+    <select id="selectByCodeNumber" resultType="TableCode">
+        SELECT
+        id,
+        name,
+        code_number,
+        max_number,
+        min_number,
+        is_used,
+        shop_detail_id,
+        brand_id,
+        sort
+        FROM
+        tb_table_code
+        WHERE
+        code_number = #{codeNumber}
+        and shop_detail_id = #{shopId}
+    </select>
+
+
+    <select id="selectListByShopId" resultType="TableCode">
+       SELECT
+        id,
+        name,
+        code_number,
+        max_number,
+        min_number,
+        is_used,
+        shop_detail_id,
+        brand_id,
+        sort
+        FROM
+        tb_table_code
+        WHERE
+        shop_detail_id = #{shopId}
+</select>
+
+
+    <select id="selectByPersonNumber" resultType="TableCode">
+        select id,
+        name,
+        code_number,
+        max_number,
+        min_number,
+        is_used,
+        shop_detail_id,
+        brand_id,sort from tb_table_code
+        where
+         <![CDATA[  min_number <= #{personNumber} and max_number >= #{personNumber}]]>
+          and is_used = 1
+        and shop_detail_id = #{shopId}
+        order by max_number asc
+        limit 1
+    </select>
+
+    <select id="getTableList" resultType="TableCode">
+        select t.* ,(select count(1) from tb_get_number where
+        state = 0 and  table_type = t.code_number and t.is_used = 1
+         and DATE_FORMAT(create_time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d') and shop_detail_id = #{shopId}
+        ) as waitNumber
+         from tb_table_code t
+        where t.is_used = 1
+        and t.shop_detail_id = #{shopId}
+ order by t.max_number asc
+    </select>
+
+    <select id="selectTableAndGetNumbers" parameterType="String" resultMap="BaseResultMap">
+    	SELECT tc.id,tc.name,tc.code_number,min_number,max_number,gn.id gn_id,gn.code_value,customer_id from tb_table_code tc LEFT JOIN
+    	 tb_get_number gn on tc.code_number = gn.table_type and DATE_FORMAT(gn.create_time,'%Y-%m-%d') =  DATE_FORMAT(NOW(),'%Y-%m-%d')
+    	  and gn.state = 0 where tc.shop_detail_id = #{shopId} and is_used = TRUE ORDER BY tc.min_number ASC , gn.create_time ASC;
+    </select>
+</mapper>

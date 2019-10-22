@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.ArticleFamilyMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.ArticleFamily">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="peference" property="peference" jdbcType="INTEGER"/>
+    <result column="parent_id" property="parentId" jdbcType="VARCHAR"/>
+    <result column="level" property="level" jdbcType="INTEGER"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+    <result column="distribution_mode_id" property="distributionModeId" jdbcType="INTEGER"/>
+    <result column="open_article_library" property="openArticleLibrary" jdbcType="BIT"/>
+    <result column="picture_url" property="pictureUrl" jdbcType="VARCHAR"/>
+    <result column="open_picture_switch" property="openPictureSwitch" jdbcType="BIT"/>
+    <collection property="articleList" javaType="java.util.List" ofType="com.resto.shop.web.model.Article">
+        <id column="articleId" property="id"/>
+        <result column="articleName" property="name"/>
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">id, name, peference, parent_id, level, shop_detail_id, distribution_mode_id,open_article_library,picture_url,open_picture_switch</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select 
+    <include refid="Base_Column_List"/> from tb_article_family where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from tb_article_family where id = #{id,jdbcType=VARCHAR}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.ArticleFamily">insert into tb_article_family (id, name, peference, parent_id, level, shop_detail_id, distribution_mode_id,open_article_library,picture_url,open_picture_switch) values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{peference,jdbcType=INTEGER}, #{parentId,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{shopDetailId,jdbcType=VARCHAR}, #{distributionModeId,jdbcType=INTEGER},#{openArticleLibrary},#{pictureUrl},#{openPictureSwitch})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.ArticleFamily">insert into tb_article_family 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="name != null">name,</if>  
+      <if test="peference != null">peference,</if>  
+      <if test="parentId != null">parent_id,</if>  
+      <if test="level != null">level,</if>  
+      <if test="shopDetailId != null">shop_detail_id,</if>  
+      <if test="distributionModeId != null">distribution_mode_id,</if> 
+      <if test="openArticleLibrary != null">open_article_library,</if>
+      <if test="pictureUrl != null">picture_url,</if>
+      <if test="openPictureSwitch != null">open_picture_switch,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>  
+      <if test="name != null">#{name,jdbcType=VARCHAR},</if>  
+      <if test="peference != null">#{peference,jdbcType=INTEGER},</if>  
+      <if test="parentId != null">#{parentId,jdbcType=VARCHAR},</if>  
+      <if test="level != null">#{level,jdbcType=INTEGER},</if>  
+      <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if>  
+      <if test="distributionModeId != null">#{distributionModeId,jdbcType=INTEGER},</if> 
+      <if test="openArticleLibrary != null">#{openArticleLibrary},</if>
+      <if test="pictureUrl != null">#{pictureUrl},</if>
+      <if test="openPictureSwitch != null">#{openPictureSwitch},</if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.ArticleFamily">update tb_article_family 
+    <set> 
+      <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>  
+      <if test="peference != null">peference = #{peference,jdbcType=INTEGER},</if>  
+      <if test="parentId != null">parent_id = #{parentId,jdbcType=VARCHAR},</if>  
+      <if test="level != null">level = #{level,jdbcType=INTEGER},</if>  
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if>  
+      <if test="distributionModeId != null">distribution_mode_id = #{distributionModeId,jdbcType=INTEGER},</if> 
+      <if test="openArticleLibrary != null">open_article_library = #{openArticleLibrary},</if>
+      <if test="pictureUrl != null">picture_url = #{pictureUrl},</if>
+      <if test="openPictureSwitch != null">open_picture_switch = #{openPictureSwitch},</if>
+    </set> where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.ArticleFamily">update tb_article_family set name = #{name,jdbcType=VARCHAR}, peference = #{peference,jdbcType=INTEGER}, parent_id = #{parentId,jdbcType=VARCHAR}, level = #{level,jdbcType=INTEGER}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR}, distribution_mode_id = #{distributionModeId,jdbcType=INTEGER},open_article_library = #{openArticleLibrary},picture_url = #{pictureUrl},open_picture_switch = #{openPictureSwitch} where id = #{id,jdbcType=VARCHAR}</update>
+  <select id="selectList" resultType="ArticleFamily">select * from tb_article_family
+  	<where>
+  		<if test="shopId!=null and shopId!=''">
+  			shop_detail_id=#{shopId}
+  		</if>
+  	</where>
+  	ORDER BY peference
+  </select>
+
+  <select id="selectBrandArticleFamilyList" resultType="ArticleFamily">
+    select * from tb_article_family where open_article_library=1 ORDER BY peference
+  </select>
+  
+  <select id="selectListByDistributionModeId" resultType="ArticleFamily">
+
+  		select * from tb_article_family where shop_detail_id=#{currentShopId}
+  		 and distribution_mode_id=#{distributionModeId} ORDER BY peference
+  </select>
+
+  <select id="selectListBySort" resultType="ArticleFamily">
+    select * from tb_article_family where shop_detail_id=#{shopId} order by peference limit #{currentPage},#{showCount}
+  </select>
+  
+  <select id="selectByName" resultType="java.lang.String">
+  		SELECT id from tb_article_family WHERE name=#{name}
+  </select>
+
+
+  <insert id="copyBrandArticleFamily">
+    INSERT INTO tb_article_family (id,NAME,peference,shop_detail_id,distribution_mode_id)
+    values
+    (#{id},#{name},#{peference},#{shopDetailId},#{distributionModeId})
+  </insert>
+
+  <select id="checkSame" resultType="ArticleFamily">
+    select * from tb_article_family where name = #{name} and shop_detail_id = #{shopId}
+  </select>
+
+    <!--新版pos -->
+    <select id="selectnewPosListPage" resultType="ArticleFamily">
+        	select * from tb_article_family where shop_detail_id=#{shopId}
+  		 and distribution_mode_id=#{distributionModeId} ORDER BY peference
+    </select>
+
+    <select id="selectArticleSort" parameterType="java.util.Map" resultMap="BaseResultMap">
+      select taf.id, taf.`name`, ta.id articleId, ta.`name` articleName
+      from tb_article_family taf
+      inner join tb_article ta
+      on ta.article_family_id = taf.id
+      where ta.id in
+      <foreach collection="list" item="articleId" open="(" separator="," close=")">
+        #{articleId}
+      </foreach>
+      ORDER BY taf.peference asc, ta.sort asc
+    </select>
+
+  <select id="articleCategory" resultMap="BaseResultMap">
+    SELECT * FROM tb_article_family WHERE shop_detail_id=#{brandId} AND open_article_library=1
+  </select>
+
+  <select id="selecNametByPrimaryKey" resultMap="BaseResultMap">
+    SELECT `name` FROM tb_article_family WHERE id=#{id}
+  </select>
+</mapper>

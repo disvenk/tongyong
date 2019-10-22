@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.report.PlatformOrderMapperReport">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.PlatformOrder">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="type" property="type" jdbcType="INTEGER"/>
+    <result column="platform_order_id" property="platformOrderId" jdbcType="VARCHAR"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+    <result column="original_price" property="originalPrice" jdbcType="DECIMAL"/>
+    <result column="total_price" property="totalPrice" jdbcType="DECIMAL"/>
+    <result column="address" property="address" jdbcType="VARCHAR"/>
+    <result column="phone" property="phone" jdbcType="VARCHAR"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="order_create_time" property="orderCreateTime" jdbcType="TIMESTAMP"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="pay_type" property="payType" jdbcType="VARCHAR"/>
+    <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    <result column="production_status" property="productionStatus"/>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.resto.shop.web.model.PlatformOrder" extends="BaseResultMap">
+    <result column="source_text" property="sourceText" jdbcType="LONGVARCHAR"/>
+  </resultMap>
+
+    <resultMap id="countMap" type="com.resto.brand.web.dto.PlatformReportDto">
+        <result column="allcount" property="allCount" jdbcType="INTEGER"/>
+        <result column="allprice" property="allPrice" jdbcType="DECIMAL"/>
+        <result column="elmcount" property="elmCount" jdbcType="INTEGER"/>
+        <result column="elmprice" property="elmPrice" jdbcType="DECIMAL"/>
+        <result column="mtcount" property="mtCount" jdbcType="INTEGER"/>
+        <result column="mtprice" property="mtPrice" jdbcType="DECIMAL"/>
+        <result column="bdcount" property="bdCount" jdbcType="INTEGER"/>
+        <result column="bdprice" property="bdPrice" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <resultMap id="PlatformOrderDetailMap" type="com.resto.shop.web.model.PlatformOrder" >
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="platform_order_id" property="platformOrderId" jdbcType="VARCHAR"/>
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="original_price" property="originalPrice" jdbcType="DECIMAL"/>
+        <result column="total_price" property="totalPrice" jdbcType="DECIMAL"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="order_create_time" property="orderCreateTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="pay_type" property="payType" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="production_status" property="productionStatus"/>
+        <collection property="platformOrderDetails" javaType="List" ofType="com.resto.shop.web.model.PlatformOrderDetail">
+            <id column="did" property="id" jdbcType="VARCHAR"/>
+            <result column="dplatform_order_id" property="platformOrderId" jdbcType="VARCHAR"/>
+            <result column="dname" property="name" jdbcType="VARCHAR"/>
+            <result column="price" property="price" jdbcType="DECIMAL"/>
+            <result column="quantity" property="quantity" jdbcType="INTEGER"/>
+            <result column="show_name" property="showName" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+  <sql id="Base_Column_List">id, type, platform_order_id, shop_detail_id, original_price, total_price, address, phone, name, order_create_time, create_time, pay_type, remark, production_status</sql>
+  <sql id="Blob_Column_List">source_text</sql>
+
+    <select id="proc_shopdetailId" resultMap="countMap">
+        SELECT  COUNT(p.shop_detail_id) allcount,
+                SUM(p.original_price) allprice,
+				IFNULL(SUM(p.total_price), 0) totalPrice,
+                COUNT(CASE WHEN p.type=1 THEN p.shop_detail_id ELSE null END) elmcount,
+				SUM(CASE WHEN p.type=1 THEN p.original_price ELSE null END) elmprice,
+				IFNULL(SUM(IF(p.type = 1,p.total_price,0)),0) elmTotalPrice,
+                COUNT(CASE WHEN p.type=2 THEN p.shop_detail_id ELSE null END) mtcount,
+				SUM(CASE WHEN p.type=2 THEN p.original_price ELSE null END) mtprice,
+				IFNULL(SUM(IF(p.type = 2, p.total_price, 0)),0) mtTotalPrice
+        FROM tb_platform_order p WHERE p.shop_detail_id = #{2} AND  p.create_time >= #{0} AND #{1} >= p.create_time;
+    </select>
+
+    <select id="selectshopDetailIdList" resultType="PlatformOrder">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM tb_platform_order p WHERE p.shop_detail_id=#{shopDetailId} AND <![CDATA[ p.create_time >= #{beginDate} AND p.create_time <= #{endDate}]]> ORDER BY p.create_time DESC
+    </select>
+
+    <select id="getPlatformOrderDetailList" resultMap="PlatformOrderDetailMap">
+        SELECT
+        d.id did,
+        d.platform_order_id dplatform_order_id,
+        d.NAME dname,
+        d.price,
+        d.quantity,
+        d.show_name,
+        p.id,
+        p.type,
+        p.platform_order_id,
+        p.shop_detail_id,
+        p.original_price,
+        p.total_price,
+        p.address,
+        p.phone,
+        p.NAME,
+        p.order_create_time,
+        p.create_time,
+        p.pay_type,
+        p.remark
+        FROM
+        tb_platform_order p
+        LEFT JOIN tb_platform_order_detail d ON p.platform_order_id = d.platform_order_id
+        WHERE
+        p.platform_order_id = #{platformOrderId}
+        ORDER BY p.create_time DESC
+    </select>
+</mapper>

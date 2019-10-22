@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.WeShopMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.WeShop">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR"/>
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR"/>
+  </resultMap>
+
+
+    <resultMap id="selectWeShopListByBrandIdAndTimeMap" type="com.resto.shop.web.model.WeShop">
+        <id column="id" property="id" />
+        <result column="shop_id" property="shopId"  />
+        <result column="brand_id" property="brandId"  />
+        <result column="shop_name" property="shopName"  />
+        <collection property="weShopScoreList" javaType="List" ofType="com.resto.shop.web.model.WeShopScore">
+            <id column="shop_score_id" property="id"   />
+            <result column="shop_score" property="shopScore"  />
+            <result column="create_time" property="createTime" />
+            <result column="total_income" property="totalIncome" />
+            <result column="total_flag" property="totalFlag"  />
+            <result column="score_flag" property="scoreFlag"  />
+        </collection>
+    </resultMap>
+
+
+    <resultMap id="selectWeShopByShopIdAndTimeMap" type="com.resto.shop.web.model.WeShop">
+        <id column="id" property="id" />
+        <result column="shop_id" property="shopId"  />
+        <result column="brand_id" property="brandId"  />
+        <result column="shop_name" property="shopName"  />
+        <collection property="weShopScoreList" javaType="List" ofType="com.resto.shop.web.model.WeShopScore">
+            <id column="shop_score_id" property="id"   />
+            <result column="shop_score" property="shopScore"  />
+            <result column="create_time" property="createTime" />
+            <result column="total_income" property="totalIncome" />
+            <result column="total_flag" property="totalFlag"  />
+            <result column="score_flag" property="scoreFlag"  />
+        </collection>
+    </resultMap>
+
+
+
+
+
+
+  <sql id="Base_Column_List">id, brand_id, shop_id, shop_name</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from we_shop where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from we_shop where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.WeShop">insert into we_shop (id, brand_id, shop_id, shop_name) values (#{id,jdbcType=BIGINT}, #{brandId,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.WeShop">insert into we_shop 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="brandId != null">brand_id,</if>  
+      <if test="shopId != null">shop_id,</if>  
+      <if test="shopName != null">shop_name,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>  
+      <if test="shopId != null">#{shopId,jdbcType=VARCHAR},</if>  
+      <if test="shopName != null">#{shopName,jdbcType=VARCHAR},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.WeShop">update we_shop 
+    <set> 
+      <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>  
+      <if test="shopId != null">shop_id = #{shopId,jdbcType=VARCHAR},</if>  
+      <if test="shopName != null">shop_name = #{shopName,jdbcType=VARCHAR},</if> 
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.WeShop">update we_shop set brand_id = #{brandId,jdbcType=VARCHAR}, shop_id = #{shopId,jdbcType=VARCHAR}, shop_name = #{shopName,jdbcType=VARCHAR} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="WeShop">select * from we_shop</select>
+
+
+<select id="selectWeShopListByBrandIdAndTime" resultMap="selectWeShopListByBrandIdAndTimeMap">
+  SELECT
+    ws.id,
+    ws.brand_id,
+    ws.shop_id,
+    ws.shop_name,
+    wss.id shop_score_id,
+    wss.shop_score,
+    wss.create_time,
+    wss.total_income,
+    wss.total_flag,
+    wss.score_flag
+    FROM
+    we_shop ws
+    INNER JOIN we_shop_score wss ON ws.shop_id = wss.shop_id
+    WHERE ws.brand_id =#{brandId} and
+    <![CDATA[
+           wss.create_time = #{createTime}
+    ]]>
+    ORDER  BY  wss.shop_score DESC
+</select>
+
+
+    <select id="selectWeShopByShopIdAndTime" resultMap="selectWeShopByShopIdAndTimeMap">
+        SELECT
+        ws.id,
+        ws.brand_id,
+        ws.shop_id,
+        ws.shop_name,
+        wss.id shop_score_id,
+        wss.shop_score,
+        wss.create_time,
+        wss.total_income,
+        wss.total_flag,
+        wss.score_flag
+        FROM
+        we_shop ws
+        INNER JOIN we_shop_score wss ON ws.shop_id = wss.shop_id
+        WHERE ws.shop_id =#{shopId} and
+        <![CDATA[
+          wss.create_time = #{createTime}
+        ]]>
+
+    </select>
+
+
+
+
+</mapper>

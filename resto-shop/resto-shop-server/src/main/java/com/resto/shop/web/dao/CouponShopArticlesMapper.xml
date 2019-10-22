@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.CouponShopArticlesMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.CouponShopArticles" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR" />
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR" />
+    <result column="article_id" property="articleId" jdbcType="VARCHAR" />
+    <result column="article_family_id" property="articleFamilyId" jdbcType="VARCHAR" />
+    <result column="coupon_id" property="couponId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, brand_id, shop_id, article_id, coupon_id, create_time, sort,article_family_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_coupon_shop_articles
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectList" resultType="com.resto.shop.web.model.CouponShopArticles">
+select <include refid="Base_Column_List"/> from tb_coupon_shop_articles
+</select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_coupon_shop_articles
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.CouponShopArticles" >
+    insert into tb_coupon_shop_articles (id, brand_id, shop_id,
+      article_id, article_family_id,coupon_id, create_time,
+      sort)
+    values (#{id,jdbcType=INTEGER}, #{brandId,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR},
+      #{articleId,jdbcType=VARCHAR}, #{articleFamilyId,jdbcType=VARCHAR},#{couponId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
+      #{sort,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.CouponShopArticles" >
+    insert into tb_coupon_shop_articles
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="articleId != null" >
+        article_id,
+      </if>
+      <if test="couponId != null" >
+        coupon_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="sort != null" >
+      sort,
+    </if>
+      <if test="articleFamilyId != null" >
+        article_family_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="articleId != null" >
+        #{articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="couponId != null" >
+        #{couponId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="articleFamilyId != null" >
+        #{articleFamilyId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.CouponShopArticles" >
+    update tb_coupon_shop_articles
+    <set >
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="articleId != null" >
+        article_id = #{articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="couponId != null" >
+        coupon_id = #{couponId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="articleFamilyId != null" >
+        article_family_id = #{articleFamilyId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.CouponShopArticles" >
+    update tb_coupon_shop_articles
+    set brand_id = #{brandId,jdbcType=VARCHAR},
+      shop_id = #{shopId,jdbcType=VARCHAR},
+      article_id = #{articleId,jdbcType=VARCHAR},
+      coupon_id = #{couponId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      sort = #{sort,jdbcType=INTEGER}
+      article_family_id = #{articleFamilyId,jdbcType=VARCHAR}
+      article_name = #{articleName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="selectArticleFamily" resultType="com.resto.shop.web.model.ArticleFamily">
+    select id,`name`,peference,parent_id,`level`,shop_detail_id,distribution_mode_id FROM tb_article_family where shop_detail_id=#{shopId}
+  </select>
+
+  <select id="selectArticle" resultType="com.resto.shop.web.model.Article">
+    select id,name from tb_article where article_family_id=#{articleFamilyId} and article_type=1
+    and activated = 1 and state = 1
+    and recommend_id is null and unit_id is null
+    and weight_package_id is null
+    and (has_unit = "" or has_unit is null )
+    and not EXISTS (select id from tb_article_unit_new where article_id = tb_article.id)
+  </select>
+
+  <select id="selectByCouponId" resultType="com.resto.shop.web.model.CouponShopArticles">
+    select t.*,t1.name articleName from tb_coupon_shop_articles t
+    left join tb_article t1 on t.article_id = t1.id
+    where t.coupon_id=#{couponId}
+  </select>
+
+    <select id="selectByShopId" resultType="com.resto.shop.web.model.CouponShopArticles">
+        select t.*,t1.name articleName from tb_coupon_shop_articles t
+        left join tb_article t1 on t.article_id = t1.id
+        where t.shop_id=#{shopId} and t.coupon_id=#{couponId}
+    </select>
+
+    <select id="selectArticleByShopId" resultType="com.resto.shop.web.model.Article">
+        select id,name from tb_article where shop_detail_id=#{shopId} and article_type=1 and pid is null
+    </select>
+
+    <delete id="delectByCouponId">
+        DELETE from tb_coupon_shop_articles where coupon_id=#{couponId}
+    </delete>
+
+  <select id="selectByCouponIdShopId" resultType="com.resto.shop.web.model.CouponShopArticles">
+    select t.*,t1.name articleName,t1.price articlePrice,t1.fans_price articleFansPrice from tb_coupon_shop_articles t
+    left join tb_article t1 on t.article_id = t1.id
+    where shop_id=#{shopId} and coupon_id=#{couponId}
+  </select>
+</mapper>

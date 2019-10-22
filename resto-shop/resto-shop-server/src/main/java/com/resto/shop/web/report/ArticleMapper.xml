@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.shop.web.report.ArticleMapperReport">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.Article">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="name_alias" property="nameAlias" jdbcType="VARCHAR"/>
+        <result column="name_short" property="nameShort" jdbcType="VARCHAR"/>
+        <result column="photo_big" property="photoBig" jdbcType="VARCHAR"/>
+        <result column="photo_small" property="photoSmall" jdbcType="VARCHAR"/>
+        <result column="ingredients" property="ingredients" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="is_empty" property="isEmpty" jdbcType="BIT"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="activated" property="activated" jdbcType="BIT"/>
+        <result column="state" property="state" jdbcType="BIT"/>
+        <result column="remain_number" property="remainNumber" jdbcType="INTEGER"/>
+        <result column="sale_number" property="saleNumber" jdbcType="BIGINT"/>
+        <result column="show_sale_number" property="showSaleNumber" jdbcType="BIGINT"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="article_family_id" property="articleFamilyId" jdbcType="VARCHAR"/>
+        <result column="create_user_id" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="DECIMAL"/>
+        <result column="fans_price" property="fansPrice" jdbcType="DECIMAL"/>
+        <result column="has_mult_price" property="hasMultPrice" jdbcType="BIT"/>
+        <result column="has_unit" property="hasUnit" jdbcType="VARCHAR"/>
+        <result column="peference" property="peference" jdbcType="VARCHAR"/>
+        <result column="unit" property="unit" jdbcType="VARCHAR"/>
+        <result column="show_big" property="showBig" jdbcType="BIT"/>
+        <result column="control_color" property="controlColor" jdbcType="VARCHAR"/>
+        <result column="show_desc" property="showDesc" jdbcType="BIT"/>
+        <result column="is_remind" property="isRemind" jdbcType="BIT"/>
+        <result column="article_type" property="articleType" jdbcType="INTEGER"/>
+        <result column="stock_working_day" property="stockWorkingDay" jdbcType="INTEGER"/>
+        <result column="stock_weekend" property="stockWeekend" jdbcType="INTEGER"/>
+        <result column="inventory_warning" property="inventoryWarning" jdbcType="INTEGER"/>
+        <result column="current_working_stock" property="currentWorkingStock" jdbcType="INTEGER"/>
+        <result column="recommend_id" property="recommendId"/>
+        <result column="newUnit" property="newUnit"/>
+        <result column="is_hidden" property="isHidden"/>
+        <result column="recommendCount" property="recommendCount"/>
+        <result column="eleme_name" property="elemeName"/>
+        <result column="photo_square" property="photoSquare"/>
+        <result column="meal_fee_number" property="mealFeeNumber"/>
+        <result column="is_main_food" property="isMainFood"/>
+        <result column="virtual_id" property="virtualId"></result>
+        <result column="initials" property="initials"></result>
+        <result column="photo_type" property="photoType"></result>
+        <result column="photo_little" property="photoLittle"></result>
+        <result column="open_catty" property="openCatty"></result>
+        <result column="catty_money" property="cattyMoney"></result>
+        <result column="need_remind" property="needRemind"></result>
+        <result column="gif_url" property="gifUrl"></result>
+        <result column="photo_super" property="photoSuper"></result>
+        <result column="photo_square_original" property="photoSquareOriginal"></result>
+        <result column="weight_package_id" property="weightPackageId"></result>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, name, name_alias, name_short, photo_big, photo_small, ingredients, description,
+        is_empty, sort, activated, state, remain_number, sale_number, show_sale_number, update_time,
+        create_time, shop_detail_id, article_family_id, create_user_id, update_user_id, price,
+        fans_price, has_mult_price, has_unit, peference, unit, show_big, control_color,show_desc,
+        is_remind,article_type,stock_working_day,stock_weekend,inventory_warning,current_working_stock,
+        recommend_id,is_hidden,eleme_name,photo_square,meal_fee_number,is_main_food,virtual_id,initials,
+        photo_type,photo_little,open_catty,catty_money,need_remind,gif_url,photo_super,photo_square_original,
+        weight_package_id
+    </sql>
+
+    <select id="queryOrderArtcile" parameterType="java.util.Map" resultType="com.resto.brand.web.dto.ArticleSellDto">
+        select
+        ta.id articleId,
+        if(ta.article_type = 1,'单品','套餐') typeName,
+        ta.article_family_id articleFamilyId,
+        ta.`name` articleName,
+        IFNULL(SUM(IF(toi.type != 4, toi.count, 0)),0)
+        <if test="shopDetailId != null">
+            shopSellNum
+        </if>
+        <if test="shopDetailId == null">
+            brandSellNum
+        </if>,
+        IFNULL(IF(ta.article_type = 2, SUM(IF(toi.type != 4,toi.final_price,0)) + IFNULL(SUM((select SUM(trd.unit_price * trd.count) from tb_order_item trd where trd.parent_id = toi.id)),0)
+        ,SUM(IF(toi.type != 4,toi.final_price,0)))
+        ,0) salles,
+        IFNULL(SUM(IF(toi.type != 4,toi.refund_count,0)),0) refundCount,
+        IFNULL(IF(ta.article_type = 2, SUM(IF(toi.type != 4,toi.refund_count * toi.unit_price,0)) + IFNULL(SUM((select SUM(trd.unit_price * trd.refund_count) from tb_order_item trd where trd.parent_id = toi.id)),0)
+        ,SUM(IF(toi.type != 4,toi.refund_count * toi.unit_price,0))),0) refundTotal,
+        IFNULL(SUM((toi.original_price - toi.unit_price) * toi.count),0) discountMoney,
+        ta.likes likes,
+        IFNULL(SUM(toi.weight),0) weight,
+        sum(toi.grant_count) grantCount,
+        sum(grant_count * IF(toi.base_unit_price is null, unit_price, base_unit_price)) grantTotal
+        from tb_article ta
+        inner join tb_article_price tap
+        on ta.id = tap.article_id
+        inner join tb_order_item toi
+        on tap.id = toi.article_id
+        inner join tb_order td
+        on toi.order_id = td.id
+        and IF(td.production_status = 6,td.production_status = 6,td.order_state in (2,10,11,12)
+        and IF(td.is_pos_pay = 1,td.is_pos_pay = 1,td.production_status in (2,3,4)))
+        and td.create_time >= CONCAT(#{beginDate},' 00:00:00')
+        and CONCAT(#{endDate},' 23:59:59') >= td.create_time
+        where ta.article_type = ${type}
+        <if test="shopDetailId != null">
+            and ta.shop_detail_id = #{shopDetailId}
+        </if>
+        group by ta.id
+        UNION ALL
+        select
+        ta.id articleId,
+        if(ta.article_type = 1,'单品','套餐') typeName,
+        ta.article_family_id articleFamilyId,
+        ta.`name` articleName,
+        IFNULL(SUM(IF(toi.type != 4, toi.count, 0)),0)
+        <if test="shopDetailId != null">
+            shopSellNum
+        </if>
+        <if test="shopDetailId == null">
+            brandSellNum
+        </if>,
+        IFNULL(IF(ta.article_type = 2, SUM(IF(toi.type != 4,toi.final_price,0)) + IFNULL(SUM((select SUM(trd.unit_price * trd.count) from tb_order_item trd where trd.parent_id = toi.id)),0)
+        ,SUM(IF(toi.type != 4,toi.final_price,0)))
+        ,0) salles,
+        IFNULL(SUM(IF(toi.type != 4,toi.refund_count,0)),0) refundCount,
+        IFNULL(IF(ta.article_type = 2, SUM(IF(toi.type != 4,toi.refund_count * toi.unit_price,0)) + IFNULL(SUM((select SUM(trd.unit_price * trd.refund_count) from tb_order_item trd where trd.parent_id = toi.id)),0)
+        ,SUM(IF(toi.type != 4,toi.refund_count * toi.unit_price,0))),0) refundTotal,
+        IFNULL(SUM((toi.original_price - toi.unit_price) * toi.count),0) discountMoney,
+        ta.likes likes,
+        IFNULL(SUM(toi.weight),0) weight,
+        sum(toi.grant_count) grantCount,
+        sum(grant_count * IF(toi.base_unit_price is null, unit_price, base_unit_price)) grantTotal
+        from tb_article ta
+        inner join tb_order_item toi
+        on ta.id = toi.article_id
+        inner join tb_order td
+        on toi.order_id = td.id
+        and td.order_state in (2, 10, 11)
+        and td.production_status in (2,3,4,6)
+        and td.create_time >= CONCAT(#{beginDate},' 00:00:00')
+        and CONCAT(#{endDate},' 23:59:59') >= td.create_time
+        where ta.article_type = ${type}
+        <if test="shopDetailId != null">
+          and ta.shop_detail_id = #{shopDetailId}
+        </if>
+        group by ta.id;
+    </select>
+
+    <select id="selectArticleByType" parameterType="java.util.Map" resultType="com.resto.brand.web.dto.ArticleSellDto">
+        select
+        ta.id articleId,
+        if(ta.article_type = 1,'单品','套餐') typeName,
+        IFNULL(taf.`name`,'其他')articleFamilyName,
+        ta.`name` articleName,
+        ta.likes likes
+        from tb_article ta
+        left join tb_article_family taf
+        on ta.article_family_id = taf.id
+        where ta.article_type = ${type}
+        <if test="shopDetailId != null and shopDetailId !=''">
+            and ta.shop_detail_id = #{shopDetailId}
+        </if>
+    </select>
+
+    <select id="selectArticleOrderCount" parameterType="java.util.Map" resultType="java.util.Map">
+        select
+        IFNULL(SUM(IF(toi.type != 4, toi.count, 0)),0) sellNum,
+        IFNULL(SUM(toi.final_price),0) salles
+        from tb_order_item toi
+        inner join tb_order td
+        on toi.order_id = td.id
+        and IF(td.production_status = 6,td.production_status = 6,td.order_state in (2,10,11,12)
+        and IF(td.is_pos_pay = 1,td.is_pos_pay = 1,td.production_status in (2,3,4)))
+        and td.create_time >= CONCAT(#{beginDate},' 00:00:00')
+        and CONCAT(#{endDate},' 23:59:59') >= td.create_time
+        <if test="shopDetailId != null">
+          and td.shop_detail_id = #{shopDetailId}
+        </if>
+        where toi.type in (${type});
+    </select>
+
+    <select id="queryOrderArtcileNew" parameterType="java.util.Map" resultType="com.resto.brand.web.dto.ArticleSellDto">
+        select
+        ta.article_id articleId,
+        if(ta.article_type = 1,'单品','套餐') typeName,
+        ta.article_family_id articleFamilyId,
+        ta.`name` articleName,
+        IFNULL(SUM(IF(toi.type != 4, toi.count, 0)),0)
+        <if test="shopDetailId != null">
+            shopSellNum
+        </if>
+        <if test="shopDetailId == null">
+            brandSellNum
+        </if>,
+        IFNULL(IF(ta.article_type = 2, SUM(IF(toi.type != 4,toi.final_price,0)) + IFNULL(SUM((select SUM(trd.unit_price * trd.count) from tb_order_item trd where trd.parent_id = toi.id)),0)
+        ,SUM(IF(toi.type != 4,toi.final_price,0)))
+        ,0) salles,
+        IFNULL(SUM(IF(toi.type != 4,toi.refund_count,0)),0) refundCount,
+        IFNULL(IF(ta.article_type = 2, SUM(IF(toi.type != 4,toi.refund_count * toi.unit_price,0)) + IFNULL(SUM((select SUM(trd.unit_price * trd.refund_count) from tb_order_item trd where trd.parent_id = toi.id)),0)
+        ,SUM(IF(toi.type != 4,toi.refund_count * toi.unit_price,0))),0) refundTotal,
+        IFNULL(SUM((toi.original_price - toi.unit_price) * toi.count),0) discountMoney,
+        ta.likes likes,
+        IFNULL(SUM(toi.weight),0) weight
+        from tb_menu_article ta
+        inner join tb_order_item toi
+        on ta.article_id = toi.article_id
+        inner join tb_order td
+        on toi.order_id = td.id
+        inner join tb_menu_shop tm
+        on ta.menu_id = tm.id
+        and td.order_state in (2, 10, 11)
+        and td.production_status in (2,3,4,6)
+        and td.open_article_library=1
+        and td.create_time >= CONCAT(#{beginDate},' 00:00:00')
+        and CONCAT(#{endDate},' 23:59:59') >= td.create_time
+        where ta.article_type = ${type}
+        <if test="shopDetailId != null">
+            and tm.shop_detail_id = #{shopDetailId}
+        </if>
+        <if test="menuId != null">
+            and ta.menu_id = #{menuId}
+        </if>
+        group by ta.article_id;
+    </select>
+
+    <select id="selectArticleByTypeNew" parameterType="java.util.Map" resultType="com.resto.brand.web.dto.ArticleSellDto">
+        select
+        ta.article_id articleId,
+        if(ta.article_type = 1,'单品','套餐') typeName,
+        IFNULL(taf.`name`,'其他')articleFamilyName,
+        ta.`name` articleName,
+        ta.likes likes
+        from tb_menu_article ta
+        left join tb_article_family taf
+        on ta.article_family_id = taf.id
+        inner join tb_menu_shop tm
+        on ta.menu_id = tm.id
+        where ta.article_type = ${type}
+        <if test="shopDetailId != null and shopDetailId !=''">
+            and tm.shop_detail_id = #{shopDetailId}
+        </if>
+        <if test="menuId != null">
+            and ta.menu_id = #{menuId}
+        </if>
+    </select>
+
+    <select id="selectArticleOrderCountNew" parameterType="java.util.Map" resultType="java.util.Map">
+        select
+        IFNULL(SUM(IF(toi.type != 4, toi.count, 0)),0) sellNum,
+        IFNULL(SUM(toi.final_price),0) salles
+        from tb_order_item toi
+        inner join tb_order td
+        on toi.order_id = td.id
+        and IF(td.production_status = 6,td.production_status = 6,td.order_state in (2,10,11,12)
+        and IF(td.is_pos_pay = 1,td.is_pos_pay = 1,td.production_status in (2,3,4)))
+        and td.open_article_library=1
+        and td.create_time >= CONCAT(#{beginDate},' 00:00:00')
+        and CONCAT(#{endDate},' 23:59:59') >= td.create_time
+        <if test="shopDetailId != null">
+            and td.shop_detail_id = #{shopDetailId}
+        </if>
+        where toi.type in (${type});
+    </select>
+
+</mapper>

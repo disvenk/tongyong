@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.QueueQrcodeMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.QueueQrcode">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR"/>
+    <result column="sign" property="sign" jdbcType="VARCHAR"/>
+    <result column="type" property="type" jdbcType="VARCHAR"/>
+    <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, brand_id, shop_id, sign, create_user,type, create_time, end_time</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select 
+    <include refid="Base_Column_List"/> from tb_queue_qrcode where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from tb_queue_qrcode where id = #{id,jdbcType=VARCHAR}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.QueueQrcode">insert into tb_queue_qrcode (id, brand_id, shop_id, sign, create_user, create_time, end_time,type) values (#{id,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.QueueQrcode">insert into tb_queue_qrcode 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="brandId != null">brand_id,</if>  
+      <if test="shopId != null">shop_id,</if>  
+      <if test="sign != null">sign,</if>  
+      <if test="createUser != null">create_user,</if>  
+      <if test="createTime != null">create_time,</if>  
+      <if test="endTime != null">end_time,</if>   
+      <if test="type != null">type,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>  
+      <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>  
+      <if test="shopId != null">#{shopId,jdbcType=VARCHAR},</if>  
+      <if test="sign != null">#{sign,jdbcType=VARCHAR},</if>  
+      <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="endTime != null">#{endTime,jdbcType=TIMESTAMP},</if> 
+      <if test="type != null">#{type,jdbcType=VARCHAR},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.QueueQrcode">update tb_queue_qrcode 
+    <set> 
+      <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>  
+      <if test="shopId != null">shop_id = #{shopId,jdbcType=VARCHAR},</if>  
+      <if test="sign != null">sign = #{sign,jdbcType=VARCHAR},</if>  
+      <if test="createUser != null">create_user = #{createUser,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="endTime != null">end_time = #{endTime,jdbcType=TIMESTAMP},</if> 
+      <if test="type != null">type = #{type,jdbcType=VARCHAR},</if> 
+    </set> where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.QueueQrcode">update tb_queue_qrcode set brand_id = #{brandId,jdbcType=VARCHAR}, shop_id = #{shopId,jdbcType=VARCHAR}, sign = #{sign,jdbcType=VARCHAR}, create_user = #{createUser,jdbcType=VARCHAR}, create_time = #{createTime,jdbcType=TIMESTAMP}, end_time = #{endTime,jdbcType=TIMESTAMP}, type = #{type,jdbcType=VARCHAR} where id = #{id,jdbcType=VARCHAR}</update>
+  <select id="selectList" resultType="QueueQrcode">select * from tb_queue_qrcode</select>
+
+  <select id="selectByIdEndtime" resultType="QueueQrcode">
+      select * from tb_queue_qrcode where id = #{id} and end_time > now()
+  </select>
+
+  <select id="selectLastQRcode" resultType="QueueQrcode">
+      select * from tb_queue_qrcode where shop_id = #{shopId} order by create_time desc limit 1
+  </select>
+</mapper>

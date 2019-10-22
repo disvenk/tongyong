@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.SmsAcountMapper">
+
+	<insert id="insertSelective" parameterType="SmsAcount">
+		insert into sms_acount
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="brandId != null">
+				brand_id,
+			</if>
+			<if test="smsSign != null">
+				sms_sign,
+			</if>
+			<if test="remainderNum != null">
+				remainder_num,
+			</if>
+			<if test="usedNum != null">
+				used_num,
+			</if>
+			<if test="smsUnitPrice != null">
+				sms_unit_price,
+			</if>
+			<if test="totalAmcount != null">
+				total_amcount,
+			</if>
+			<if test="usedAmcount != null">
+				used_amcount,
+			</if>
+			<if test="remainerAmcount != null">
+				remainer_amcount,
+			</if>
+			<if test="smsRemind != null">
+				sms_remind,
+			</if>
+			<if test="smsNoticeTelephone != null">
+				sms_notice_telephone,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="brandId != null">
+				#{brandId,jdbcType=VARCHAR},
+			</if>
+			<if test="smsSign != null">
+				#{smsSign,jdbcType=VARCHAR},
+			</if>
+			<if test="remainderNum != null">
+				#{remainderNum,jdbcType=INTEGER},
+			</if>
+			<if test="usedNum != null">
+				#{usedNum,jdbcType=INTEGER},
+			</if>
+			<if test="smsUnitPrice != null">
+				#{smsUnitPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="totalAmcount != null">
+				#{totalAmcount,jdbcType=DECIMAL},
+			</if>
+			<if test="usedAmcount != null">
+				#{usedAmcount,jdbcType=DECIMAL},
+			</if>
+			<if test="remainerAmcount != null">
+				#{remainerAmcount,jdbcType=DECIMAL},
+			</if>
+			<if test="smsRemind != null">
+				#{smsRemind},
+			</if>
+			<if test="smsNoticeTelephone != null">
+				#{smsNoticeTelephone},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="SmsAcount">
+		update sms_acount
+		<set>
+			<if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>
+			<if test="smsSign != null">sms_sign = #{smsSign,jdbcType=VARCHAR},</if>
+			<if test="remainderNum != null">remainder_num = #{remainderNum,jdbcType=INTEGER},</if>
+			<if test="usedNum != null">used_num = #{usedNum,jdbcType=INTEGER},</if>
+			<if test="smsUnitPrice != null">sms_unit_price = #{smsUnitPrice,jdbcType=DECIMAL},</if>
+			<if test="totalAmcount != null">total_amcount = #{totalAmcount,jdbcType=DECIMAL},</if>
+			<if test="usedAmcount != null">used_amcount = #{usedAmcount,jdbcType=DECIMAL},</if>
+			<if test="remainerAmcount != null">remainer_amcount = #{remainerAmcount,jdbcType=DECIMAL},</if>
+			<if test="smsRemind != null">sms_remind = #{smsRemind},</if>
+			<if test="smsNoticeTelephone != null">sms_notice_telephone = #{smsNoticeTelephone},</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!--根据品牌ID查询短信基本信息 -->
+	<select id="selectByBrandId" resultType="SmsAcount">
+		select s.*,b.brand_name from sms_acount s LEFT JOIN brand b on s.brand_id = b.id where brand_id = #{brandId}
+	</select>
+
+	<!-- 充值 -->
+	<update id="chargeSms">
+		UPDATE sms_acount SET
+		remainder_num = remainder_num+#{number},total_amcount = total_amcount+#{money},remainer_amcount=remainer_amcount+#{money}
+		where brand_id = #{brandId}
+	</update>
+
+	<!-- 更新相应品牌的短信数量 -->
+	<update id="updateByBrandId" parameterType="SmsAcount">
+		UPDATE sms_acount
+		SET remainder_num = remainder_num-1 , used_num = used_num+1
+		where
+		brand_id = #{brandId}
+	</update>
+
+	<!-- 根据品牌ID查询短信单价 -->
+	<select id="selectSmsUnitPriceByBrandId" resultType="java.math.BigDecimal">
+		SELECT sms_unit_price from sms_acount where brand_id = #{brandId}
+	</select>
+	
+	<!-- 根据品牌ID查询该品牌剩余的可以发开发票金额 -->
+	<select id="selectInvoiceMoney" resultType="java.math.BigDecimal">
+		SELECT remainer_amcount from sms_acount where brand_id = #{brandId}
+	</select>
+	
+	<!-- 更新发票的申请金额 -->
+	<update id="updateRemainerAmcount">
+		update sms_acount set remainer_amcount=remainer_amcount-#{money},used_amcount=used_amcount+#{money}
+		 where brand_id=#{brandId}
+	</update>
+	
+</mapper>

@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.DoOperateDao">
+
+<resultMap id="doOperateLogResult" type="com.resto.shop.web.model.DoOperateLog">
+    <result column="id" property="id"/>
+    <result column="do_header_id" property="doHeaderId"/>
+    <result column="order_code" property="orderCode"/>
+    <result column="operate_type" property="operateType"/>
+    <result column="operate_reason" property="operateReason"/>
+    <result column="fm_param" property="fmParam"/>
+    <result column="to_param" property="toParam"/>
+    <result column="operator_id" property="operatorId"/>
+    <result column="operator_name" property="operatorName"/>
+    <result column="gmt_create" property="gmtCreate"/>
+</resultMap>
+
+<sql id="doOperateLog_columns">
+    id,
+    do_header_id,
+    order_code,
+    operate_type,
+    operate_reason,
+    fm_param,
+    to_param,
+    operator_id,
+    operator_name,
+    gmt_create
+</sql>
+
+<sql id="doOperateLog_sqlForInsert">
+    do_header_id,
+    order_code,
+    operate_type,
+    operate_reason,
+    fm_param,
+    to_param,
+    operator_id,
+    operator_name,
+    gmt_create
+</sql>
+
+<sql id="doOperateLog_columnsForInsert">
+    #{doHeaderId},
+    #{orderCode},
+    #{operateType},
+    #{operateReason},
+    #{fmParam},
+    #{toParam},
+    #{operatorId},
+    #{operatorName},
+    now()
+</sql>
+
+<sql id="doOperateLog_setterForUpdate">
+    <set>
+        gmt_modified = now(),
+        <if test="id != null">
+            id = #{id},
+        </if>
+        <if test="doHeaderId != null">
+            do_header_id = #{doHeaderId},
+        </if>
+        <if test="orderCode != null">
+            order_code = #{orderCode},
+        </if>
+        <if test="operateType != null">
+            operate_type = #{operateType},
+        </if>
+        <if test="operateReason != null">
+            operate_reason = #{operateReason},
+        </if>
+        <if test="fmParam != null">
+            fm_param = #{fmParam},
+        </if>
+        <if test="toParam != null">
+            to_param = #{toParam},
+        </if>
+        <if test="operatorId != null">
+            operator_id = #{operatorId},
+        </if>
+        <if test="operatorName != null">
+            operator_name = #{operatorName},
+        </if>
+    </set>
+</sql>
+
+<sql id="doOperateLog_selector">
+    select
+    <include refid="doOperateLog_columns"/>
+    from do_operate_log
+</sql>
+
+<sql id="doOperateLog_query_segment">
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+        <if test="data.id != null">
+            AND id = #{data.id}
+        </if>
+        <if test="data.doHeaderId != null">
+            AND do_header_id = #{data.doHeaderId}
+        </if>
+        <if test="data.orderCode != null">
+            AND order_code = #{data.orderCode}
+        </if>
+        <if test="data.operateType != null">
+            AND operate_type = #{data.operateType}
+        </if>
+        <if test="data.operateReason != null">
+            AND operate_reason = #{data.operateReason}
+        </if>
+        <if test="data.fmParam != null">
+            AND fm_param = #{data.fmParam}
+        </if>
+        <if test="data.toParam != null">
+            AND to_param = #{data.toParam}
+        </if>
+        <if test="data.operatorId != null">
+            AND operator_id = #{data.operatorId}
+        </if>
+        <if test="data.operatorName != null">
+            AND operator_name = #{data.operatorName}
+        </if>
+        <if test="data.gmtCreate != null">
+            AND gmt_create = #{data.gmtCreate}
+        </if>
+        <if test="ins != null and ins != ''">
+            AND
+            <foreach collection="ins" item="item" open="(" separator="and" close=")">
+                ${item.column} in
+                <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                    ${item}
+                </foreach>
+            </foreach>
+        </if>
+        <if test="notIns != null and notIns != ''">
+            AND
+            <foreach collection="notIns" item="item" open="(" separator="and" close=")">
+                ${item.column} not in
+                <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                    ${item}
+                </foreach>
+            </foreach>
+        </if>
+        <if test="equals != null and equals != ''">
+            AND
+            <foreach collection="equals" item="item" open="(" separator="and" close=")">
+                ${item.column} = ${item.value}
+            </foreach>
+        </if>
+        <if test="notEquals != null and notEquals != ''">
+            AND
+            <foreach collection="notEquals" item="item" open="(" separator="and" close=")">
+                ${item.column} != ${item.value}
+            </foreach>
+        </if>
+        <if test="lts != null and lts != ''">
+            AND
+            <foreach collection="lts" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ < ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="gts != null and gts != ''">
+            AND
+            <foreach collection="gts" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ > ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="likes != null and likes != ''">
+            AND
+            <foreach collection="likes" item="item" open="(" separator="and" close=")">
+                ${item.column} like concat('%', ${item.value}, '%')
+            </foreach>
+        </if>
+        <if test="ltes != null and ltes != ''">
+            AND
+            <foreach collection="ltes" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ <= ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="gtes != null and gtes != ''">
+            AND
+            <foreach collection="gtes" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ >= ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="ranges != null and ranges != ''">
+            AND
+            <foreach collection="ranges" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ >= ]]> #{item.from} and ${item.column} <![CDATA[ < ]]> #{item.to}
+            </foreach>
+        </if>
+        AND is_delete = 0
+    </trim>
+</sql>
+
+
+<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.DoOperateLog">
+    insert into do_operate_log
+    (
+        <include refid="doOperateLog_sqlForInsert"/>
+        ,is_delete
+    )
+    values
+    (
+        <include refid="doOperateLog_columnsForInsert"/>
+        ,0
+    )
+</insert>
+
+<update id="update" parameterType="com.resto.shop.web.model.DoOperateLog">
+    update do_operate_log
+    <include refid="doOperateLog_setterForUpdate" />
+    where id = #{id}
+    and is_delete = 0
+</update>
+
+
+<update id="updateByQuery" parameterType="com.resto.shop.web.model.DoOperateLog">
+    update do_operate_log
+    <set>
+        gmt_modified = now(),
+        <if test="update.id != null">
+            id = #{update.id},
+        </if>
+        <if test="update.doHeaderId != null">
+            do_header_id = #{update.doHeaderId},
+        </if>
+        <if test="update.orderCode != null">
+            order_code = #{update.orderCode},
+        </if>
+        <if test="update.operateType != null">
+            operate_type = #{update.operateType},
+        </if>
+        <if test="update.operateReason != null">
+            operate_reason = #{update.operateReason},
+        </if>
+        <if test="update.fmParam != null">
+            fm_param = #{update.fmParam},
+        </if>
+        <if test="update.toParam != null">
+            to_param = #{update.toParam},
+        </if>
+        <if test="update.operatorId != null">
+            operator_id = #{update.operatorId},
+        </if>
+        <if test="update.operatorName != null">
+            operator_name = #{update.operatorName},
+        </if>
+    </set>
+    <include refid="doOperateLog_query_segment"/>
+</update>
+
+
+<insert id="insertOrUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.DoOperateLog">
+    insert into do_operate_log
+    (
+        <include refid="doOperateLog_sqlForInsert"/>
+        ,is_delete
+    )
+    values
+    (
+        <include refid="doOperateLog_columnsForInsert"/>
+        ,0
+    )
+    on duplicate key update
+    gmt_modified = now()
+    <if test="id != null">
+        ,id = #{id}
+    </if>
+    <if test="doHeaderId != null">
+        ,do_header_id = #{doHeaderId}
+    </if>
+    <if test="orderCode != null">
+        ,order_code = #{orderCode}
+    </if>
+    <if test="operateType != null">
+        ,operate_type = #{operateType}
+    </if>
+    <if test="operateReason != null">
+        ,operate_reason = #{operateReason}
+    </if>
+    <if test="fmParam != null">
+        ,fm_param = #{fmParam}
+    </if>
+    <if test="toParam != null">
+        ,to_param = #{toParam}
+    </if>
+    <if test="operatorId != null">
+        ,operator_id = #{operatorId}
+    </if>
+    <if test="operatorName != null">
+        ,operator_name = #{operatorName}
+    </if>
+</insert>
+
+<!-- Delete -->
+<update id="delete">
+    update do_operate_log
+    set is_delete = 1, gmt_modified = now()
+    <include refid="doOperateLog_query_segment"/>
+</update>
+<update id="deleteById">
+    update do_operate_log
+    set is_delete = 1, gmt_modified = now()
+    where id = #{id}
+</update>
+
+
+
+
+
+<!-- query class -->
+<sql id="doOperateLog_groupBy">
+    <if test="groupBys != null and groupBys != ''">
+        group by
+        <foreach collection="groupBys" item="item" open="" separator="," close="">
+            ${item}
+        </foreach>
+    </if>
+</sql>
+
+<sql id="doOperateLog_orderby">
+    <if test="orderBys != null and orderBys != ''">
+        order by
+        <foreach collection="orderBys" item="item" open="" separator="," close="">
+            ${item.column} ${item.direction}
+        </foreach>
+    </if>
+</sql>
+
+
+<select id="query" resultMap="doOperateLogResult" parameterType="com.resto.shop.web.model.DoOperateLog">
+    <include refid="doOperateLog_selector"/>
+    <include refid="doOperateLog_query_segment"/>
+    <include refid="doOperateLog_groupBy"/>
+    <include refid="doOperateLog_orderby"/>
+</select>
+
+<select id="query4Page" resultMap="doOperateLogResult" parameterType="com.resto.shop.web.model.DoOperateLog">
+    <include refid="doOperateLog_selector"/>
+    <include refid="doOperateLog_query_segment"/>
+    <include refid="doOperateLog_groupBy"/>
+    <include refid="doOperateLog_orderby"/>
+    limit ${startRowForMysql}, ${pageSize}
+</select>
+
+
+<select id="count" resultType="java.lang.Long">
+    SELECT COUNT(1) FROM do_operate_log
+    <include refid="doOperateLog_query_segment"/>
+</select>
+
+<select id="getById" resultMap="doOperateLogResult">
+    <include refid="doOperateLog_selector"/>
+    where id = #{id}
+    and is_delete = 0
+</select>
+
+<select id="getByIdForUpdate" resultMap="doOperateLogResult">
+    <include refid="doOperateLog_selector"/>
+    where id = #{id}
+    and is_delete = 0
+    for update
+</select>
+
+</mapper>

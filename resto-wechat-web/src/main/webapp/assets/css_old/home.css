@@ -1,0 +1,265 @@
+.banner {
+	height: 200px;
+	overflow: hidden;
+}
+
+.banner img {
+	max-width: 100%;
+}
+
+.indexTitle,
+.storeInfoBox {
+	margin-bottom: 10px;
+	border-top: 1px solid #d8d8d8;
+	border-bottom: 1px solid #d8d8d8;
+	background-color: #fff;
+}
+
+.indexTitle .storeInfo {
+	list-style: none;
+	position: relative;
+	position: relative;
+	padding: 10px;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+}
+
+.logobox {
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	position: relative;
+}
+
+.indexTitle span:last-child {
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	height: 29px;
+	font-size: 18px;
+	color: #c81623;
+}
+
+.indexTitle span:last-child i {
+	font-size: 22px;
+}
+
+.storeInfo p {
+	padding: 10px 0;
+}
+
+.storeInfo p+p {
+	border-top: 1px solid #d8d8d8;
+}
+
+.storeInfo>p>i {
+    color: #c81623;
+    font-size: 20px;
+    float:right;
+}
+
+.activityInfo,
+.Slogan {
+	margin-bottom: 10px;
+	border-top: 1px solid #d8d8d8;
+	border-bottom: 1px solid #d8d8d8;
+	background-color: #fff;
+}
+
+.activityInfo li {
+	list-style: none;
+	position: relative;
+	padding: 10px 15px;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+}
+
+.activityInfo li +li {
+	border-top: 1px solid #d8d8d8;
+}
+
+.activityInfo li p {
+	color: #c81623;
+}
+
+.Slogan {
+	overflow: hidden;
+}
+
+.Slogan img {
+	max-width: 100%;
+}
+
+.Slogan div {
+	overflow: hidden;
+}
+
+.Slogan>p {
+	text-align: center;
+	list-style: none;
+	position: relative;
+	border-bottom: 1px solid #d8d8d8;
+	position: relative;
+	padding: 10px;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+
+.map {
+	height: 500px;
+	background: #ccc;
+	margin: 0 10px 10px;
+}
+
+.mapBtn {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+}
+
+.mapBtn button {
+	-webkit-box-flex: 1;
+	-ms-flex: 1;
+	-webkit-flex: 1;
+	flex: 1;
+	color: #FFFFFF;
+	text-align: center;
+	width: 100%;
+	line-height: 42px;
+	display: block;
+	background: #1C1C28;
+	border-radius: 4px;
+	box-shadow: 0 0 2px #474747;
+	margin: 0 10px;
+}
+
+.mapInfo {
+	list-style: none;
+	position: relative;
+	border-top: 1px solid #d8d8d8;
+	position: relative;
+	padding: 10px;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	margin: 10px;
+	background-color: #fff;
+}
+
+/* .reviewListWarp { */
+/* 	padding-bottom: 40px; */
+/* } */
+
+.reviewListWarp >li {
+	position: relative;
+	background: #fff;
+	margin-bottom: 20px;
+}
+
+.reviewListPhotoBox {
+	position: relative;
+	height: 50vw;
+	overflow: hidden;
+}
+
+.reviewListPhotoBox.noImage {
+	height: 30px;
+}
+
+.reviewListPhotoBox.noImage>img {
+	display: none;
+}
+
+.evaluateBox {
+	background: #fff;
+}
+
+.evaluateBox .evaluateBoxTitle {
+	border-bottom: 1px solid #d8d8d8;
+	padding: 10px 15px;
+}
+
+.evaluateBox .evaluateBoxTitle div:first-child {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.reviewListInfo {
+	position: relative;
+	background: #F9F9F9;
+}
+
+.reviewListInfoTitle {
+	position: absolute;
+	top: -2rem;
+	width: 100%;
+}
+
+.reviewListInfoTitle p {
+	font-size: 14px;
+	background: rgba(0, 0, 0, 0.67);
+	color: #fff;
+	padding-left: 6.5rem;
+	line-height: 2rem;
+}
+
+.reviewListInfoTitle .comment-rst {
+	padding-left: 6.5rem;
+	height: 2rem;
+}
+
+.reviewListInfoTitle .avatar {
+	height: 4rem;
+	width: 4rem;
+	border: 5px solid #fff;
+	border-radius: 50%;
+	position: absolute;
+	left: 0;
+	overflow: hidden;
+	margin-left: 1rem;
+}
+
+.reviewListInfoTitle .avatar img,
+.reviewListPhotoBox img {
+	max-width: 100%;
+}
+
+.starLevel .iconfont {
+	color: #ccc;
+	float: none;
+	font-size: 20px;
+}
+
+.starLevel .iconfont.star-cur {
+	color: #c81623;
+	float: none;
+}
+
+.reviewListInfoContent {
+	padding-top: 3rem;
+}
+
+.reviewListInfoContent p {
+	font-size: 0.875rem;
+	padding: 0 1rem;
+	color: #696969;
+	padding-bottom: 30px;
+}
+.starLevel .icon-star{
+	color:#c81623;
+	font-size:15px;
+}

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.service.brand.mapper.NewEmployeeMapper">
+  <resultMap id="BaseResultMap" type="com.resto.service.brand.entity.NewEmployee">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="role_type" property="roleType" jdbcType="INTEGER"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR"/>
+    <result column="sex" property="sex" jdbcType="INTEGER"/>
+    <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="state" property="state"/>
+    <result column="wechat_avatar" property="wechatAvatar"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, role_type, name, nick_name, sex, telephone, shop_detail_id, brand_id, create_time, state, wechat_avatar</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select
+    <include refid="Base_Column_List"/> from tb_new_employee where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from tb_new_employee where id = #{id,jdbcType=VARCHAR}</delete>
+  <insert id="insert" parameterType="com.resto.service.brand.entity.NewEmployee">insert into tb_new_employee (id, role_type, name, nick_name, sex, telephone, shop_detail_id, brand_id, create_time, state, wechat_avatar ) values (#{id,jdbcType=VARCHAR}, #{roleType,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{telephone,jdbcType=VARCHAR}, #{shopDetailId,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{state}, #{wechatAvatar} )</insert>
+  <insert id="insertSelective" parameterType="com.resto.service.brand.entity.NewEmployee">insert into tb_new_employee
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">id,</if>
+      <if test="roleType != null">role_type,</if>
+      <if test="name != null">name,</if>
+      <if test="nickName != null">nick_name,</if>
+      <if test="sex != null">sex,</if>
+      <if test="telephone != null">telephone,</if>
+      <if test="shopDetailId != null">shop_detail_id,</if>
+      <if test="brandId != null">brand_id,</if>
+      <if test="createTime != null">create_time,</if>
+      <if test="state != null">state,</if>
+      <if test="wechatAvatar != null">wechat_avatar,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+      <if test="roleType != null">#{roleType,jdbcType=INTEGER},</if>
+      <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+      <if test="nickName != null">#{nickName,jdbcType=VARCHAR},</if>
+      <if test="sex != null">#{sex,jdbcType=INTEGER},</if>
+      <if test="telephone != null">#{telephone,jdbcType=VARCHAR},</if>
+      <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if>
+      <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+      <if test="state != null">#{state},</if>
+      <if test="wechatAvatar != null">#{wechatAvatar},</if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.service.brand.entity.NewEmployee">update tb_new_employee
+    <set>
+      <if test="roleType != null">role_type = #{roleType,jdbcType=INTEGER},</if>
+      <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>
+      <if test="nickName != null">nick_name = #{nickName,jdbcType=VARCHAR},</if>
+      <if test="sex != null">sex = #{sex,jdbcType=INTEGER},</if>
+      <if test="telephone != null">telephone = #{telephone,jdbcType=VARCHAR},</if>
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if>
+      <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+      <if test="state != null">state = #{state},</if>
+      <if test="wechatAvatar != null">wechat_avatar = #{wechatAvatar},</if>
+    </set> where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.service.brand.entity.NewEmployee">update tb_new_employee set role_type = #{roleType,jdbcType=INTEGER}, name = #{name,jdbcType=VARCHAR}, nick_name = #{nickName,jdbcType=VARCHAR}, sex = #{sex,jdbcType=INTEGER}, telephone = #{telephone,jdbcType=VARCHAR}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR}, brand_id = #{brandId,jdbcType=VARCHAR}, create_time = #{createTime,jdbcType=TIMESTAMP}, state = #{state}, wechat_avatar = #{wechatAvatar} where id = #{id,jdbcType=VARCHAR}</update>
+  <select id="selectList" resultType="NewEmployee">select * from tb_new_employee</select>
+    <select id="selectByIds" resultType="com.resto.service.brand.entity.NewEmployee">
+        select * from tb_new_employee where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="selectByShopId" parameterType="java.lang.String" resultType="com.resto.service.brand.entity.NewEmployee">
+        select * from tb_new_employee where shop_detail_id = #{shopId}
+    </select>
+
+    <select id="selectByBrandId" parameterType="java.lang.String" resultType="com.resto.service.brand.entity.NewEmployee">
+        select * from tb_new_employee where brand_id = #{brandId}
+    </select>
+
+
+    <select id="selectByTelephone" parameterType="java.lang.String" resultType="com.resto.service.brand.entity.NewEmployee">
+        select * from tb_new_employee where telephone = #{telephone} and state = 1 ORDER BY role_type DESC LIMIT 1
+    </select>
+</mapper>

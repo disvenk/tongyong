@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.SmsTicketMapper">
+	<select id="selectList" resultType="smsTicket">
+		select id,header,content,create_time,push_time,ticket_status,proposer, money,
+		type,taxpayer_code,registered_address,registered_phone,bank_name,
+		bank_account,consignece_id,name,phone,address,expersage,brand_id,remark
+		from sms_ticket where status = 1 
+	</select>
+	
+	<select id="selectByBrandId" resultType="smsTicket">
+		select id,header,content,create_time,push_time,ticket_status,proposer, money,
+		type,taxpayer_code,registered_address,registered_phone,bank_name,
+		bank_account,consignece_id,name,phone,address,expersage,brand_id,remark
+		from sms_ticket where status = 1 and brand_id = #{brandId} ORDER BY create_time DESC
+	</select>
+	
+	<select id="selectByPrimaryKey" resultType="smsTicket">
+		select id,header,content,create_time,push_time,ticket_status,proposer, money,
+		type,taxpayer_code,registered_address,registered_phone,bank_name,
+		bank_account,consignece_id,name,phone,address,expersage,brand_id,remark
+		from sms_ticket where status = 1 and id = #{id}
+	</select>
+	
+	<insert id="insertSelective" parameterType="smsTicket">insert into sms_ticket 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id ,</if>  
+      <if test="header != null">header ,</if>  
+      <if test="content != null">content,</if>  
+      <if test="createTime != null">create_time,</if>  
+      <if test="pushTime != null">push_time,</if>  
+      <if test="ticketStatus != null">ticket_status,</if>  
+      <if test="money != null">money ,</if>  
+      <if test="proposer != null">proposer,</if>  
+      <if test="type != null">type,</if>  
+      <if test="taxpayerCode != null">taxpayer_code,</if>  
+      <if test="registeredAddress != null">registered_address,</if>  
+      <if test="registeredPhone != null">registered_phone,</if>  
+      <if test="bankName != null">bank_name,</if>  
+      <if test="bankAccount != null">bank_account,</if> 
+      <if test="consigneceId!= null">consignece_id ,</if> 
+      <if test="name!= null">name ,</if> 
+      <if test="phone!= null">phone ,</if> 
+      <if test="address!= null">address,</if> 
+      <if test="expersage!= null">expersage ,</if> 
+      <if test="remark!= null">remark ,</if> 
+      <if test="status!= null">status ,</if> 
+      <if test="brandId!= null">brand_id ,</if>  
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id},</if>
+      <if test="header != null">#{header},</if>  
+      <if test="content != null">#{content},</if>  
+      <if test="createTime != null">#{createTime},</if>  
+      <if test="pushTime != null"> #{pushTime},</if>  
+      <if test="ticketStatus != null">#{ticketStatus},</if>  
+      <if test="money != null"> #{money},</if>  
+      <if test="proposer != null">#{proposer},</if>  
+      <if test="type != null"> #{type},</if>  
+      <if test="taxpayerCode != null">#{taxpayerCode},</if>  
+      <if test="registeredAddress != null"> #{registeredAddress},</if>  
+      <if test="registeredPhone != null">#{registeredPhone},</if>  
+      <if test="bankName != null">#{bankName},</if>  
+      <if test="bankAccount != null"> #{bankAccount},</if> 
+      <if test="consigneceId!= null"> #{consigneceId},</if> 
+      <if test="name!= null"> #{name},</if> 
+      <if test="phone!= null"> #{phone},</if> 
+      <if test="address!= null"> #{address},</if> 
+      <if test="expersage!= null">#{expersage},</if> 
+      <if test="remark!= null">#{remark},</if> 
+      <if test="status!= null">#{status},</if> 
+      <if test="brandId!= null"> #{brandId},</if> 
+    </trim> 
+  </insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.SmsTicket">update sms_ticket 
+    <set> 
+      <if test="header != null">header = #{header},</if>  
+      <if test="content != null">content = #{content},</if>  
+      <if test="createTime != null">create_time = #{createTime},</if>  
+      <if test="pushTime != null">push_time = #{pushTime},</if>  
+      <if test="ticketStatus != null">ticket_status = #{ticketStatus},</if>  
+      <if test="money != null">money = #{money},</if>  
+      <if test="proposer != null">proposer = #{proposer},</if>  
+      <if test="type != null">type = #{type},</if>  
+      <if test="taxpayerCode != null">taxpayer_code = #{taxpayerCode},</if>  
+      <if test="registeredAddress != null">registered_address = #{registeredAddress},</if>  
+      <if test="registeredPhone != null">registered_phone = #{registeredPhone},</if>  
+      <if test="bankName != null">bank_name = #{bankName},</if>  
+      <if test="bankAccount != null">bank_account = #{bankAccount},</if> 
+      <if test="consigneceId!= null">consignece_id = #{consigneceId},</if> 
+      <if test="name!= null">name = #{name},</if> 
+      <if test="phone!= null">phone = #{phone},</if> 
+      <if test="address!= null">address = #{address},</if> 
+      <if test="expersage!= null">expersage = #{expersage},</if> 
+      <if test="remark!= null">remark = #{remark},</if> 
+      <if test="status!= null">status = #{status},</if> 
+      <if test="brandId!= null">brand_id = #{brandId},</if> 
+    </set> where id = #{id}
+  </update>
+  
+  
+	
+</mapper>

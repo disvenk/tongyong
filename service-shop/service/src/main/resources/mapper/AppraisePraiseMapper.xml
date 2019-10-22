@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.service.shop.mapper.AppraisePraiseMapper">
+    <resultMap id="BaseResultMap" type="com.resto.service.shop.entity.AppraisePraise">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="appraise_id" property="appraiseId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="customer_id" property="customerId" jdbcType="VARCHAR"/>
+        <result column="is_del" property="isDel" jdbcType="INTEGER"/>
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">id, appraise_id, create_time, customer_id, is_del, shop_detail_id, brand_id</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select
+        <include refid="Base_Column_List"/> from tb_appraise_praise where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from tb_appraise_praise where id = #{id,jdbcType=VARCHAR}</delete>
+    <insert id="insert" parameterType="com.resto.service.shop.entity.AppraisePraise">
+        insert into tb_appraise_praise (id, appraise_id, create_time, customer_id, is_del, shop_detail_id, brand_id)
+        values (#{id,jdbcType=VARCHAR}, #{appraiseId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{customerId,jdbcType=VARCHAR},
+        #{isDel,jdbcType=INTEGER}, #{shopDetailId,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.resto.service.shop.entity.AppraisePraise">insert into tb_appraise_praise
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="appraiseId != null">appraise_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="isDel != null">is_del,</if>
+            <if test="shopDetailId != null">shop_detail_id,</if>
+            <if test="brandId != null">brand_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+            <if test="appraiseId != null">#{appraiseId,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="customerId != null">#{customerId,jdbcType=VARCHAR},</if>
+            <if test="isDel != null">#{isDel,jdbcType=INTEGER},</if>
+            <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if>
+            <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.service.shop.entity.AppraisePraise">update tb_appraise_praise
+        <set>
+            <if test="appraiseId != null">appraise_id = #{appraiseId,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="customerId != null">customer_id = #{customerId,jdbcType=VARCHAR},</if>
+            <if test="isDel != null">is_del = #{isDel,jdbcType=INTEGER},</if>
+            <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if>
+            <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>
+        </set> where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.resto.service.shop.entity.AppraisePraise">
+        update tb_appraise_praise set appraise_id = #{appraiseId,jdbcType=VARCHAR}, create_time = #{createTime,jdbcType=TIMESTAMP},
+        customer_id = #{customerId,jdbcType=VARCHAR}, is_del = #{isDel,jdbcType=INTEGER},
+        shop_detail_id = #{shopDetailId,jdbcType=VARCHAR}, brand_id = #{brandId,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateCancelPraise" parameterType="com.resto.service.shop.entity.AppraisePraise">
+        update tb_appraise_praise set is_del = #{isDel}, create_time = now() where appraise_id = #{appraiseId} and customer_id = #{customerId}
+    </update>
+
+    <select id="appraisePraiseList" resultType="com.resto.service.shop.entity.AppraisePraise">
+        select a.*,c.head_photo from tb_appraise_praise a LEFT JOIN tb_customer c on a.customer_id = c.id  where a.appraise_id = #{appraiseId} and a.is_del = 0 group by a.customer_id order by a.create_time
+    </select>
+
+    <select id="selectByAppraiseIdCustomerId" resultType="com.resto.service.shop.entity.AppraisePraise">select
+        <include refid="Base_Column_List"/> from tb_appraise_praise where appraise_id = #{appraiseId} and customer_id = #{customerId}
+    </select>
+
+    <select id="selectByCustomerCount" resultType="java.lang.Integer">
+        select count(*) from tb_appraise_praise where customer_id = #{customerId} and is_del = 0
+    </select>
+</mapper>

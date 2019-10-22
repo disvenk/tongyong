@@ -1,0 +1,777 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.shop.web.dao.CustomerMapper">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.Customer">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="wechat_id" property="wechatId" jdbcType="VARCHAR"/>
+        <result column="union_id" property="unionId" jdbcType="VARCHAR"/>
+        <result column="nickname" property="nickname" jdbcType="VARCHAR"/>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+        <result column="head_photo" property="headPhoto" jdbcType="VARCHAR"/>
+        <result column="birthday" property="birthday"/>
+        <result column="default_delivery_point" property="defaultDeliveryPoint" jdbcType="INTEGER"/>
+        <result column="is_bind_phone" property="isBindPhone" jdbcType="BIT"/>
+        <result column="regiest_time" property="regiestTime" jdbcType="TIMESTAMP"/>
+        <result column="first_order_time" property="firstOrderTime" jdbcType="TIMESTAMP"/>
+        <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP"/>
+        <result column="account_id" property="accountId" jdbcType="VARCHAR"/>
+        <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="INTEGER"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="country" property="country" jdbcType="VARCHAR"/>
+        <result column="last_order_shop" property="lastOrderShop" jdbcType="VARCHAR"/>
+        <result column="new_notice_time" property="newNoticeTime" jdbcType="TIMESTAMP"/>
+        <result column="share_customer" property="shareCustomer" jdbcType="VARCHAR"/>
+        <result column="register_shop_id" property="registerShopId" jdbcType="VARCHAR"/>
+        <result column="is_now_register" property="isNowRegister"/>
+        <result column="customer_detail_id" property="customerDetailId"/>
+        <result column="bind_phone_time" property="bindPhoneTime"/>
+        <result column="bind_phone_shop" property="bindPhoneShop"/>
+        <result column="real_time_coupon_ids" property="realTimeCouponIds"/>
+        <result column="subscribe" property="subscribe"/>
+        <result column="last_table_number" property="lastTableNumber"/>
+        <result column="birthday_coupon_ids" property="birthdayCouponIds"/>
+        <result column="share_coupon_ids" property="shareCouponIds"/>
+        <result column="serial_number" property="serialNumber"/>
+        <result column="share_link" property="shareLink"/>
+        <result column="useOrder" property="useOrder"/>
+        <result column="chargeOrder" property="chargeOrder"/>
+        <result column="card_id" property="cardId" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <association property="customerDetail" javaType="com.resto.shop.web.model.CustomerDetail">
+            <id column="id" property="id"/>
+            <result column="birth_date" property="birthDate"/>
+            <result column="age" property="age"/>
+            <result column="constellation" property="constellation"/>
+            <result column="vocation" property="vocation"/>
+            <result column="company" property="company"/>
+            <result column="school" property="school"/>
+            <result column="personal_note" property="personalNote"/>
+            <result column="shop_detail_id" property="shopDetailId"/>
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, wechat_id, union_id, nickname, telephone, head_photo, birthday, default_delivery_point, is_bind_phone,
+    regiest_time, first_order_time, last_login_time, account_id, brand_id, sex, province,
+    city, country, last_order_shop, new_notice_time, share_customer, is_now_register, customer_detail_id,
+    bind_phone_time, bind_phone_shop, real_time_coupon_ids, subscribe, last_table_number, birthday_coupon_ids,
+    share_coupon_ids,serial_number,share_link,card_id,code
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select <include refid="Base_Column_List"/> from tb_customer where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_customer
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.resto.shop.web.model.Customer">
+    insert into tb_customer (id, wechat_id, union_id, nickname,
+      telephone, head_photo, default_delivery_point, 
+      is_bind_phone, regiest_time, first_order_time, 
+      last_login_time, account_id, brand_id, 
+      sex, province, city, 
+      country, last_order_shop, new_notice_time,
+      share_customer,is_now_register, customer_detail_id, bind_phone_time, bind_phone_shop, real_time_coupon_ids,
+      subscribe, last_table_number, birthday_coupon_ids, share_coupon_ids, share_link,card_id,code)
+    values (#{id,jdbcType=VARCHAR}, #{wechatId,jdbcType=VARCHAR}, #{unionId,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
+      #{telephone,jdbcType=VARCHAR}, #{headPhoto,jdbcType=VARCHAR}, #{defaultDeliveryPoint,jdbcType=INTEGER}, 
+      #{isBindPhone,jdbcType=BIT}, #{regiestTime,jdbcType=TIMESTAMP}, #{firstOrderTime,jdbcType=TIMESTAMP}, 
+      #{lastLoginTime,jdbcType=TIMESTAMP}, #{accountId,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{country,jdbcType=VARCHAR}, #{lastOrderShop,jdbcType=VARCHAR}, #{newNoticeTime,jdbcType=TIMESTAMP}, 
+      #{shareCustomer,jdbcType=VARCHAR},#{isNowRegister},#{customerDetailId},#{bindPhoneTime},#{bindPhoneShop},#{realTimeCouponIds},
+      #{subscribe},#{lastTableNumber},#{birthdayCouponIds},#{shareCouponIds},#{shareLink},#{cardId,jdbcType=VARCHAR},#{code,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.resto.shop.web.model.Customer">
+        insert into tb_customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="wechatId != null">
+                wechat_id,
+            </if>
+            <if test="unionId != null">
+                union_id,
+            </if>
+            <if test="nickname != null">
+                nickname,
+            </if>
+            <if test="telephone != null">
+                telephone,
+            </if>
+            <if test="headPhoto != null">
+                head_photo,
+            </if>
+            <if test="defaultDeliveryPoint != null">
+                default_delivery_point,
+            </if>
+            <if test="isBindPhone != null">
+                is_bind_phone,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="regiestTime != null">
+                regiest_time,
+            </if>
+            <if test="firstOrderTime != null">
+                first_order_time,
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time,
+            </if>
+            <if test="accountId != null">
+                account_id,
+            </if>
+            <if test="brandId != null">
+                brand_id,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="province != null">
+                province,
+            </if>
+            <if test="city != null">
+                city,
+            </if>
+            <if test="country != null">
+                country,
+            </if>
+            <if test="lastOrderShop != null">
+                last_order_shop,
+            </if>
+            <if test="newNoticeTime != null">
+                new_notice_time,
+            </if>
+            <if test="shareCustomer != null">
+                share_customer,
+            </if>
+            <if test="isNowRegister != null">
+                is_now_register,
+            </if>
+            <if test="isShare != null">
+                is_share,
+            </if>
+            <if test="customerDetailId != null">
+                customer_detail_id,
+            </if>
+            <if test="bindPhoneTime != null">
+                bind_phone_time,
+            </if>
+            <if test="bindPhoneShop != null">
+                bind_phone_shop,
+            </if>
+            <if test="realTimeCouponIds != null">
+                real_time_coupon_ids,
+            </if>
+            <if test="subscribe != null">
+                subscribe,
+            </if>
+            <if test="lastTableNumber != null">
+                last_table_number,
+            </if>
+            <if test="birthdayCouponIds != null">
+                birthday_coupon_ids,
+            </if>
+            <if test="shareCouponIds != null">
+                share_coupon_ids,
+            </if>
+            <if test="shareLink != null">
+                share_link,
+            </if>
+            <if test="cardId != null">
+                card_id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="wechatId != null">
+                #{wechatId,jdbcType=VARCHAR},
+            </if>
+            <if test="unionId != null">
+                #{unionId,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null">
+                #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="headPhoto != null">
+                #{headPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="defaultDeliveryPoint != null">
+                #{defaultDeliveryPoint,jdbcType=INTEGER},
+            </if>
+            <if test="isBindPhone != null">
+                #{isBindPhone,jdbcType=BIT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="regiestTime != null">
+                #{regiestTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="firstOrderTime != null">
+                #{firstOrderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginTime != null">
+                #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="accountId != null">
+                #{accountId,jdbcType=VARCHAR},
+            </if>
+            <if test="brandId != null">
+                #{brandId,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="province != null">
+                #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="country != null">
+                #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="lastOrderShop != null">
+                #{lastOrderShop,jdbcType=VARCHAR},
+            </if>
+            <if test="newNoticeTime != null">
+                #{newNoticeTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="shareCustomer != null">
+                #{shareCustomer,jdbcType=VARCHAR},
+            </if>
+            <if test="isNowRegister != null">
+                #{isNowRegister},
+            </if>
+            <if test="isShare != null">
+                #{isShare},
+            </if>
+            <if test="customerDetailId != null">
+                #{customerDetailId},
+            </if>
+            <if test="bindPhoneTime != null">
+                #{bindPhoneTime},
+            </if>
+            <if test="bindPhoneShop != null">
+                #{bindPhoneShop},
+            </if>
+            <if test="realTimeCouponIds != null">
+                #{realTimeCouponIds},
+            </if>
+            <if test="subscribe != null">
+                #{subscribe},
+            </if>
+            <if test="lastTableNumber != null">
+                #{lastTableNumber},
+            </if>
+            <if test="birthdayCouponIds != null">
+                #{birthdayCouponIds},
+            </if>
+            <if test="shareCouponIds != null">
+                #{shareCouponIds},
+            </if>
+            <if test="shareLink != null">
+                #{shareLink},
+            </if>
+            <if test="cardId != null">
+                #{cardId,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.Customer">
+        update tb_customer
+        <set>
+            <if test="wechatId != null">
+                wechat_id = #{wechatId,jdbcType=VARCHAR},
+            </if>
+            <if test="unionId != null">
+                union_id = #{unionId,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null">
+                nickname = #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="headPhoto != null">
+                head_photo = #{headPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="defaultDeliveryPoint != null">
+                default_delivery_point = #{defaultDeliveryPoint,jdbcType=INTEGER},
+            </if>
+            <if test="isBindPhone != null">
+                is_bind_phone = #{isBindPhone,jdbcType=BIT},
+            </if>
+            <if test="regiestTime != null">
+                regiest_time = #{regiestTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="registerShopId != null" >
+                register_shop_id = #{registerShopId,jdbcType=VARCHAR},
+            </if>
+            <if test="firstOrderTime != null">
+                first_order_time = #{firstOrderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="accountId != null">
+                account_id = #{accountId,jdbcType=VARCHAR},
+            </if>
+            <if test="brandId != null">
+                brand_id = #{brandId,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="province != null">
+                province = #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                city = #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="country != null">
+                country = #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="lastOrderShop != null">
+                last_order_shop = #{lastOrderShop,jdbcType=VARCHAR},
+            </if>
+            <if test="newNoticeTime != null">
+                new_notice_time = #{newNoticeTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="shareCustomer != null">
+                share_customer = #{shareCustomer,jdbcType=VARCHAR},
+            </if>
+            <if test="isNowRegister != null">
+                is_now_register = #{isNowRegister,jdbcType=VARCHAR},
+            </if>
+            <if test="isShare != null">
+                is_share = #{isShare},
+            </if>
+            <if test="customerDetailId != null">
+                customer_detail_id = #{customerDetailId},
+            </if>
+            <if test="realTimeCouponIds != null">
+                real_time_coupon_ids = #{realTimeCouponIds},
+            </if>
+            <if test="subscribe != null">
+                subscribe = #{subscribe},
+            </if>
+            <if test="lastTableNumber != null">
+                last_table_number = #{lastTableNumber},
+            </if>
+            <if test="birthdayCouponIds != null">
+                birthday_coupon_ids = #{birthdayCouponIds},
+            </if>
+            <if test="shareCouponIds != null">
+                share_coupon_ids = #{shareCouponIds},
+            </if>
+            <if test="shareLink != null">
+                share_link = #{shareLink},
+            </if>
+            <if test="cardId != null">
+                card_id = #{cardId,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="registerCustomer" parameterType="com.resto.shop.web.model.Customer">
+        update tb_customer
+        <set>
+            <if test="wechatId != null">
+                wechat_id = #{wechatId,jdbcType=VARCHAR},
+            </if>
+            <if test="unionId != null">
+                union_id = #{unionId,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null">
+                nickname = #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="headPhoto != null">
+                head_photo = #{headPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="defaultDeliveryPoint != null">
+                default_delivery_point = #{defaultDeliveryPoint,jdbcType=INTEGER},
+            </if>
+            <if test="isBindPhone != null">
+                is_bind_phone = #{isBindPhone,jdbcType=BIT},
+            </if>
+            <if test="regiestTime != null">
+                regiest_time = #{regiestTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="registerShopId != null" >
+                register_shop_id = #{registerShopId,jdbcType=VARCHAR},
+            </if>
+            <if test="firstOrderTime != null">
+                first_order_time = #{firstOrderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="accountId != null">
+                account_id = #{accountId,jdbcType=VARCHAR},
+            </if>
+            <if test="brandId != null">
+                brand_id = #{brandId,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="province != null">
+                province = #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                city = #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="country != null">
+                country = #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="lastOrderShop != null">
+                last_order_shop = #{lastOrderShop,jdbcType=VARCHAR},
+            </if>
+            <if test="newNoticeTime != null">
+                new_notice_time = #{newNoticeTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="shareCustomer != null">
+                share_customer = #{shareCustomer,jdbcType=VARCHAR},
+            </if>
+            <if test="isNowRegister != null">
+                is_now_register = #{isNowRegister,jdbcType=VARCHAR},
+            </if>
+            <if test="isShare != null">
+                is_share = #{isShare},
+            </if>
+            <if test="customerDetailId != null">
+                customer_detail_id = #{customerDetailId},
+            </if>
+            <if test="bindPhoneTime != null">
+                bind_phone_time = #{bindPhoneTime},
+            </if>
+            <if test="bindPhoneShop != null">
+                bind_phone_shop = #{bindPhoneShop},
+            </if>
+            <if test="realTimeCouponIds != null">
+                real_time_coupon_ids = #{realTimeCouponIds},
+            </if>
+            <if test="subscribe != null">
+                subscribe = #{subscribe},
+            </if>
+            <if test="lastTableNumber != null">
+                last_table_number = #{lastTableNumber},
+            </if>
+            <if test="birthdayCouponIds != null">
+                birthday_coupon_ids = #{birthdayCouponIds},
+            </if>
+            <if test="shareCouponIds != null">
+                share_coupon_ids = #{shareCouponIds},
+            </if>
+            <if test="shareLink != null">
+                share_link = #{shareLink},
+            </if>
+            <if test="cardId != null">
+                card_id = #{cardId,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateCustomerWechatId" parameterType="com.resto.shop.web.model.Customer">
+        update tb_customer
+        <set>
+            <!--<if test="wechatId != null">
+                wechat_id = #{wechatId,jdbcType=VARCHAR},
+            </if>-->
+            <!--<if test="id != null">
+                id = #{id,jdbcType=VARCHAR},
+            </if>-->
+            <if test="nickname != null">
+                nickname = #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="headPhoto != null">
+                head_photo = #{headPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="defaultDeliveryPoint != null">
+                default_delivery_point = #{defaultDeliveryPoint,jdbcType=INTEGER},
+            </if>
+            <if test="isBindPhone != null">
+                is_bind_phone = #{isBindPhone,jdbcType=BIT},
+            </if>
+            <if test="regiestTime != null">
+                regiest_time = #{regiestTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="registerShopId != null" >
+                register_shop_id = #{registerShopId,jdbcType=VARCHAR},
+            </if>
+            <if test="firstOrderTime != null">
+                first_order_time = #{firstOrderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="accountId != null">
+                account_id = #{accountId,jdbcType=VARCHAR},
+            </if>
+            <if test="brandId != null">
+                brand_id = #{brandId,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="province != null">
+                province = #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                city = #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="country != null">
+                country = #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="lastOrderShop != null">
+                last_order_shop = #{lastOrderShop,jdbcType=VARCHAR},
+            </if>
+            <if test="newNoticeTime != null">
+                new_notice_time = #{newNoticeTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="shareCustomer != null">
+                share_customer = #{shareCustomer,jdbcType=VARCHAR},
+            </if>
+            <if test="isNowRegister != null">
+                is_now_register = #{isNowRegister,jdbcType=VARCHAR},
+            </if>
+            <if test="isShare != null">
+                is_share = #{isShare},
+            </if>
+            <if test="customerDetailId != null">
+                customer_detail_id = #{customerDetailId},
+            </if>
+            <if test="bindPhoneTime != null">
+                bind_phone_time = #{bindPhoneTime},
+            </if>
+            <if test="bindPhoneShop != null">
+                bind_phone_shop = #{bindPhoneShop},
+            </if>
+            <if test="realTimeCouponIds != null">
+                real_time_coupon_ids = #{realTimeCouponIds},
+            </if>
+            <if test="subscribe != null">
+                subscribe = #{subscribe},
+            </if>
+            <if test="lastTableNumber != null">
+                last_table_number = #{lastTableNumber},
+            </if>
+            <if test="birthdayCouponIds != null">
+                birthday_coupon_ids = #{birthdayCouponIds},
+            </if>
+            <if test="shareCouponIds != null">
+                share_coupon_ids = #{shareCouponIds},
+            </if>
+            <if test="shareLink != null">
+                share_link = #{shareLink},
+            </if>
+            <if test="cardId != null">
+                card_id = #{cardId,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where wechat_id = #{wechatId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.Customer">
+    update tb_customer
+    set wechat_id = #{wechatId,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      head_photo = #{headPhoto,jdbcType=VARCHAR},
+      default_delivery_point = #{defaultDeliveryPoint,jdbcType=INTEGER},
+      is_bind_phone = #{isBindPhone,jdbcType=BIT},
+      regiest_time = #{regiestTime,jdbcType=TIMESTAMP},
+      first_order_time = #{firstOrderTime,jdbcType=TIMESTAMP},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      account_id = #{accountId,jdbcType=VARCHAR},
+      brand_id = #{brandId,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      last_order_shop = #{lastOrderShop,jdbcType=VARCHAR},
+      new_notice_time = #{newNoticeTime,jdbcType=TIMESTAMP},
+      share_customer = #{shareCustomer,jdbcType=VARCHAR},
+      is_now_register = #{isNowRegister},
+      customer_detail_id = #{customerDetailId},
+      bind_phone_time = #{bindPhoneTime},
+      bind_phone_shop = #{bindPhoneShop},
+      real_time_coupon_ids = #{realTimeCouponIds},
+      subscribe = #{subscribe},
+      last_table_number = #{lastTableNumber},
+      birthday_coupon_ids = #{birthdayCouponIds},
+      share_coupon_ids = #{shareCouponIds},
+      card_id = #{cardId,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <select id="selectList" resultType="Customer">select * from tb_customer</select>
+    <select id="selectByOpenId" resultType="Customer">
+  		select * from tb_customer where wechat_id=#{0}
+  </select>
+    <select id="selectNickNameAndTelephone" resultType="Customer">
+  	SELECT id,nickname,telephone from tb_customer where id=#{customerId}
+  </select>
+
+    <select id="selectListByBrandId" resultType="Customer">
+  	select  wechat_id ,nickname,telephone from tb_customer where brand_id=#{brandId}
+  </select>
+
+    <select id="selectCustomerList" resultType="java.lang.String">
+      select  telephone from tb_customer where telephone is not null
+    </select>
+
+    <select id="selectByPhone" resultType="Customer">
+  	select * from tb_customer where telephone=#{0}
+  </select>
+    <update id="changeLastOrderShop">
+  	update tb_customer set last_order_shop = #{0} where id=#{1} 
+  </update>
+    <update id="updateNewNoticeTime">
+  	update tb_customer set new_notice_time=now() where id=#{0}
+  </update>
+    <update id="updateFirstOrderTime">
+  	update tb_customer set first_order_time=now() where id=#{0}
+  </update>
+
+    <select id="checkRegistered" resultType="java.lang.Integer">
+    select count(1) from tb_customer where id = #{0} and telephone is null
+  </select>
+
+    <select id="selectListByBrandIdHasRegister" resultType="com.resto.shop.web.model.Customer">
+    SELECT 
+	    id,wechat_id,nickname,telephone,head_photo,is_bind_phone,regiest_time,
+	    first_order_time,last_login_time,account_id,brand_id,sex,province,city,country,last_order_shop,subscribe,last_table_number
+    FROM  tb_customer
+    WHERE is_bind_phone = 1
+    AND
+    <![CDATA[ regiest_time >= #{beginDate} and  regiest_time <= #{endDate}]]> AND  brand_id=#{brandId}
+    </select>
+
+    <select id="selectCustomerAccount" parameterType="String" resultType="com.resto.shop.web.model.Customer">
+		select tc.id,tc.nickname,tc.telephone,tc.account_id,IFNULL(ta.remain,0) remain from tb_customer tc
+		left join tb_account ta
+		on tc.account_id = ta.id
+		where tc.telephone = #{telephone}
+	</select>
+
+    <select id="selectByShareCustomer" resultType="java.lang.Integer">
+        SELECT
+            count(1)
+        FROM tb_customer
+        WHERE
+            share_customer = #{id}
+    </select>
+
+    <select id="selectBirthUser" resultMap="BaseResultMap">
+    SELECT
+	tc.id,tc.is_bind_phone,tc.nickname,tc.birthday_coupon_ids,tc.wechat_id,tcd.birth_date,tcd.shop_detail_id
+    FROM
+	tb_customer tc
+    INNER JOIN tb_customer_detail tcd ON tc.customer_detail_id = tcd.id
+    WHERE
+	tcd.birth_date IS NOT NULL ORDER BY tc.id DESC LIMIT #{pageNum},#{pageSize}
+    </select>
+
+
+    <select id="selectBirthdayCoupons" resultType="double">
+        SELECT
+        COUNT(tc.id)
+        FROM
+        tb_customer tc
+        INNER JOIN tb_customer_detail tcd ON tc.customer_detail_id = tcd.id
+        WHERE
+        tcd.birth_date IS NOT NULL
+    </select>
+
+    <select id="selectByTelePhone" resultType="Customer">
+        SELECT * FROM  tb_customer
+        WHERE telephone=#{telePhone}
+    </select>
+
+    <select id="selectBySerialNumber" resultType="Customer">
+        SELECT * FROM  tb_customer
+        WHERE serial_number = #{number}
+    </select>
+
+    <select id="getCustomerLimitOne" resultType="Customer">
+        select * from tb_customer limit 1
+    </select>
+
+    <select id="selectByTelePhones" resultType="com.resto.shop.web.model.Customer">
+        SELECT * FROM  tb_customer
+        WHERE telephone in
+        <foreach collection="list" item="telephone" open="(" separator="," close=")">
+            #{telephone}
+        </foreach>
+    </select>
+
+
+    <select id="getCommentCustomer" resultType="Customer">
+
+        select t.id,wechat_id,telephone,t2.id as orderId,t2.shop_detail_id as shopDetailId from tb_customer t
+        left join tb_order t2 on t2.customer_id = t.id
+        where order_state in (2,10) and production_status in (2,3,4) and allow_appraise = 1
+
+        and (UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(t2.create_time))/(60*60*24) > #{time}
+        and t2.create_time >= CONCAT(#{startTime},'00:00:00')
+        and wechat_id != '0'
+        <if test="type == 0">
+            GROUP BY wechat_id
+        </if>
+
+    </select>
+
+    <select id="selectShareCustomerList" resultType="Customer">
+        select * from tb_customer where share_customer = #{customerId}
+        order by bind_phone_time desc LIMIT #{currentPage},#{showCount}
+    </select>
+
+
+
+    <select id="selectByAccountId" resultType="com.resto.shop.web.model.Customer" parameterType="java.lang.String">
+        select * from tb_customer where account_id = #{accountId}
+    </select>
+    
+    <select id="selectCustomerByUnionId" parameterType="java.lang.String" resultType="java.lang.String">
+        select id from tb_customer where union_id = #{unionId}
+    </select>
+
+    <select id="selectByUnionIdNotCustomerId" resultType="Customer">
+        select id,telephone,is_bind_phone,union_id from tb_customer where union_id = #{unionId} and id != #{customerId}
+    </select>
+
+</mapper>

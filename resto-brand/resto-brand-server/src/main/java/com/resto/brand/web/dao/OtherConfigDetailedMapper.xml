@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.OtherConfigDetailedMapper">
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.OtherConfigDetailed">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="data" property="data" jdbcType="VARCHAR"/>
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    <result column="other_config_sign" property="otherConfigSign" jdbcType="VARCHAR"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, data, update_time, other_config_sign, shop_detail_id</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from other_config_detailed where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from other_config_detailed where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.brand.web.model.OtherConfigDetailed">insert into other_config_detailed (id, data, update_time, other_config_sign, shop_detail_id) values (#{id,jdbcType=BIGINT}, #{data,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{otherConfigSign,jdbcType=VARCHAR}, #{shopDetailId,jdbcType=VARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.OtherConfigDetailed">insert into other_config_detailed 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="data != null">data,</if>  
+      <if test="updateTime != null">update_time,</if>  
+      <if test="otherConfigSign != null">other_config_sign,</if>  
+      <if test="shopDetailId != null">shop_detail_id,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="data != null">#{data,jdbcType=VARCHAR},</if>  
+      <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>  
+      <if test="otherConfigSign != null">#{otherConfigSign,jdbcType=VARCHAR},</if>  
+      <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.OtherConfigDetailed">update other_config_detailed 
+    <set> 
+      <if test="data != null">data = #{data,jdbcType=VARCHAR},</if>  
+      <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>  
+      <if test="otherConfigSign != null">other_config_sign = #{otherConfigSign,jdbcType=VARCHAR},</if>  
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if> 
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.OtherConfigDetailed">update other_config_detailed set data = #{data,jdbcType=VARCHAR}, update_time = #{updateTime,jdbcType=TIMESTAMP}, other_config_sign = #{otherConfigSign,jdbcType=VARCHAR}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="OtherConfigDetailed">select * from other_config_detailed</select>
+</mapper>

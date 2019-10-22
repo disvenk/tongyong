@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+
+<settings>
+    <mirrors>
+        <mirror>
+            <id>aliyun-repo</id>
+            <mirrorOf>central</mirrorOf>
+            <name>central mirror</name>
+            <url>http://maven.aliyun.com/mvn/repository</url>
+        </mirror>
+        <mirror>
+            <id>resto</id>
+            <mirrorOf>my-lib-repo</mirrorOf>
+            <name>private mirror</name>
+            <url>http://106.14.44.167:8081/nexus/content/groups/public/</url>
+        </mirror>
+    </mirrors>
+
+    <servers>
+
+        <server>
+            <id>resto-releases</id>
+            <username>deployment</username>
+            <password>IBLfCX7YDU3y</password>
+        </server>
+
+        <server>
+            <id>resto-snapshots</id>
+            <username>deployment</username>
+            <password>IBLfCX7YDU3y</password>
+        </server>
+    </servers>
+
+</settings>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link href="//cdn.bootcss.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" rel="stylesheet">
+		<style id="testStyle">
+			/*#app{
+				overflow:auto;overflow-x: hidden	
+			}*/
+			
+			.row {
+				text-align: center;
+				/*border: 1px solid red;*/
+			}
+			
+			.row_head {
+				height: 10%;
+				background-color: #000;
+				color: #fff;
+			}
+			
+			.row_title {
+				height: 10%;
+			}
+			.row_title .left{
+				height: 100%;
+				background-color: #2ecc71;
+				color: #fff;
+			}
+			.row_title .right{
+				height: 100%;
+				background-color: #3498d8;
+				color: #fff;
+			}
+			
+			.row_content {
+				height: 70%;
+			}
+			
+			.row_content .left{
+				height: 100%;
+				background-color: #27ae60;
+				color: #fff;
+			}
+			.row_content .right{
+				height: 100%;
+				padding: 0px;
+				background-color: #2980b9;
+				color: #fff;
+			}
+			
+			.full_screen{
+				height: 100%;
+			}
+			
+			.half_screen{
+				height: 50%;
+			}
+			
+			/*.row_content .col-md-4{
+				height: 50%;
+			}*/
+			
+			/*.row_content .col-md-6{
+				height: 100%;
+			}
+			
+			.row_content .col-md-12{
+				height: 100%;
+			}*/
+			
+			/*@keyframes slide
+			{0% {left: 0px;}100% {left: 950px;}}*/
+
+			.row_bottom {
+				height: 10%;
+				background-color: #464646;
+				color: #fff;
+				overflow:auto;
+				overflow-x: hidden;
+				text-align: left;
+			}
+			.row_bottom .notice{
+				top: 20%;
+				left: 0px;
+				position:relative;
+				animation: slide 15s infinite linear;
+			}
+				
+		</style>
+	</head>
+
+	<body>
+		<div class="container-fluid" id="app">
+			<div class="row row_head">
+				<div class="col-md-12"><h1>标题</h1></div>
+			</div>
+			<div class="row row_title">
+				<div class="col-md-3 left">
+					<h1>叫号</h1>
+				</div>
+				<div class="col-md-9 right">
+					<h1>排队</h1>
+				</div>
+			</div>
+			<div class="row row_content">
+				<div class="col-md-3 left">
+					<br /><br /><br />
+					<h1>贵宾区(16-20人)</h1><br />
+					<h1>X1</h1><br />
+					<h1>等位红包 2.50 </h1><br />
+				</div>
+				<div class="col-md-9 right">
+					<!--	1-4		-->
+					<div :class="queueClass" v-if="queueList.length < 5" v-for="queue in queueList">
+						<queue-info :info="info"></queue-info>
+					</div>
+					<!--5-->
+					<div :class="queueClass[idnex]" v-if="queueList.length == 5" v-for="(idnex,queue) in queueList">
+						<queue-info :info="info"></queue-info>
+					</div>
+					<!--6-->
+					<div class="col-md-4 half_screen" v-if="queueList.length==6" v-for="(idnex,queue) in queueList" style="border: 1px solid #fff;">
+						<queue-info :info="info"></queue-info>
+					</div>
+				</div>
+			</div>
+			<div class="row row_bottom">
+				<div class="col-md-12 notice">
+					<h1>温馨提示:尊敬的顾客,请您保管好自己的贵重物品,请根据叫号信息就号取餐,谢谢!</h1>
+				</div>
+			</div>
+
+			<template id="queueInfo">
+				<br />
+				<h1>贵宾区(16-20人)</h1><br />
+				<h1>X1</h1><br />
+				<h1>等待桌数 0</h1><br />
+			</template>
+		</div>
+	</body>
+
+	<script src="js/vue.min.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script>
+		//初始化高度	init	begin
+		document.getElementById("app").style.height = document.body.scrollHeight + "px";
+		var width = document.body.scrollWidth;
+		var slide = "@keyframes slide{0% {left: -"+width+"px;}100% {left: "+width+"px;}}";
+		$("#testStyle").append(slide);
+		//初始化高度	init	end
+		
+		//注册组件
+		var queueInfo = Vue.component('queue-info', {
+			props: ["info"],
+			template: "#queueInfo"
+		})
+		
+		new Vue({
+			el : "#app" , 
+			data : {
+				queueList : [],
+				info : {"name":"lmx"}
+			},
+			components: {
+			    'queue-info': queueInfo
+			},
+			created : function(){
+				for(var i = 1 ; i <= 6 ; i++){
+					this.queueList.push(i);
+				}
+				console.log("created");
+				this.test();
+			},
+			computed : {
+				queueClass : function(){//计算Css
+					var cls = null;
+					if(this.queueList.length<=3){
+						cls = "full_screen col-md-" + (12 / this.queueList.length);
+					}else if(this.queueList.length == 4){
+						cls = "half_screen col-md-" + (24 / this.queueList.length);
+					}else if(this.queueList.length == 5){
+						var clss = [];
+						clss[0] = "half_screen col-md-6";
+						clss[1] = "half_screen col-md-6";
+						clss[2] = "half_screen col-md-4";
+						clss[3] = "half_screen col-md-4";
+						clss[4] = "half_screen col-md-4";
+						cls = clss ;
+					}
+					return cls;
+				}
+			},
+			methods : {
+				test : function(){
+					console.log("test："+this.queueList);
+				}
+			}
+		})
+	</script>
+
+</html>

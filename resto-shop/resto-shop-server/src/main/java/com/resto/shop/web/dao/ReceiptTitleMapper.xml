@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.ReceiptTitleMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.ReceiptTitle" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="duty_paragraph" property="dutyParagraph" jdbcType="VARCHAR" />
+    <result column="company_address" property="companyAddress" jdbcType="VARCHAR" />
+    <result column="mobile_no" property="mobileNo" jdbcType="VARCHAR" />
+    <result column="bank_of_deposit" property="bankOfDeposit" jdbcType="VARCHAR" />
+    <result column="bank_number" property="bankNumber" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, type, name, duty_paragraph, company_address, mobile_no, bank_of_deposit, bank_number, 
+    customer_id, state, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_receipt_title
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectOneList" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_receipt_title
+    where customer_id = #{customerId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectTypeList" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_receipt_title
+    where customer_id = #{customerId,jdbcType=VARCHAR} and type = #{type,jdbcType=INTEGER}
+  </select>
+  <select id="selectDefaultList" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_receipt_title
+    where customer_id = #{customerId,jdbcType=VARCHAR} and state=1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_receipt_title
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.ReceiptTitle" >
+    insert into tb_receipt_title (id, type, name, 
+      duty_paragraph, company_address, mobile_no, 
+      bank_of_deposit, bank_number, customer_id, 
+      state, create_time, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{dutyParagraph,jdbcType=VARCHAR}, #{companyAddress,jdbcType=VARCHAR}, #{mobileNo,jdbcType=VARCHAR}, 
+      #{bankOfDeposit,jdbcType=VARCHAR}, #{bankNumber,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.ReceiptTitle" >
+    insert into tb_receipt_title
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="dutyParagraph != null" >
+        duty_paragraph,
+      </if>
+      <if test="companyAddress != null" >
+        company_address,
+      </if>
+      <if test="mobileNo != null" >
+        mobile_no,
+      </if>
+      <if test="bankOfDeposit != null" >
+        bank_of_deposit,
+      </if>
+      <if test="bankNumber != null" >
+        bank_number,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyParagraph != null" >
+        #{dutyParagraph,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAddress != null" >
+        #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNo != null" >
+        #{mobileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankOfDeposit != null" >
+        #{bankOfDeposit,jdbcType=VARCHAR},
+      </if>
+      <if test="bankNumber != null" >
+        #{bankNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.ReceiptTitle" >
+    update tb_receipt_title
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyParagraph != null" >
+        duty_paragraph = #{dutyParagraph,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAddress != null" >
+        company_address = #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNo != null" >
+        mobile_no = #{mobileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankOfDeposit != null" >
+        bank_of_deposit = #{bankOfDeposit,jdbcType=VARCHAR},
+      </if>
+      <if test="bankNumber != null" >
+        bank_number = #{bankNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.ReceiptTitle" >
+    update tb_receipt_title
+    set type = #{type,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      duty_paragraph = #{dutyParagraph,jdbcType=VARCHAR},
+      company_address = #{companyAddress,jdbcType=VARCHAR},
+      mobile_no = #{mobileNo,jdbcType=VARCHAR},
+      bank_of_deposit = #{bankOfDeposit,jdbcType=VARCHAR},
+      bank_number = #{bankNumber,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByState" parameterType="com.resto.shop.web.model.ReceiptTitle" >
+    update tb_receipt_title set state = #{state,jdbcType=INTEGER}
+  </update>
+</mapper>

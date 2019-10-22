@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.shop.web.dao.TableGroupMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.TableGroup">
+    <id column="id" property="id"/>
+    <result column="table_number" property="tableNumber"/>
+    <result column="group_id" property="groupId"/>
+    <result column="create_time" property="createTime"/>
+    <result column="state" property="state"/>
+    <result column="create_customer_id" property="createCustomerId"/>
+    <result column="order_id" property="orderId"/>
+    <result column="shop_detail_id" property="shopDetailId"/>
+    <result column="brand_id" property="brandId"/>
+    <collection property="customerGroups" ofType="com.resto.shop.web.model.CustomerGroup" javaType="List">
+      <id column="customer_group_id" property="id"/>
+      <result column="customer_id" property="customerId"/>
+      <result column="customer_name" property="customerName"/>
+      <result column="head_photo" property="headPhoto"/>
+    </collection>
+  </resultMap>
+
+  <sql id="Base_Column_List">id, table_number, group_id, create_time, state, create_customer_id, order_id, shop_detail_id, brand_id</sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select
+    <include refid="Base_Column_List"/> from tb_table_group where id = #{id}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    update tb_table_group set state =2 where id = #{id}
+  </delete>
+
+  <insert id="insert" parameterType="com.resto.shop.web.model.TableGroup">
+    insert into tb_table_group
+    (id, table_number, group_id, create_time, state, create_customer_id, order_id, shop_detail_id, brand_id)
+    values (#{id}, #{tableNumber}, #{groupId}, #{createTime},#{state}, #{createCustomerId},
+    #{orderId}, #{shopDetailId}, #{brandId})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.TableGroup">insert into tb_table_group
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">id,</if>
+      <if test="tableNumber != null">table_number,</if>
+      <if test="groupId != null">group_id,</if>
+      <if test="createTime != null">create_time,</if>
+      <if test="state != null">state,</if>
+      <if test="createCustomerId != null">create_customer_id,</if>
+      <if test="orderId != null">order_id,</if>
+      <if test="shopDetailId != null">shop_detail_id,</if>
+      <if test="brandId != null">brand_id,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">#{id},</if>
+      <if test="tableNumber != null">#{tableNumber},</if>
+      <if test="groupId != null">#{groupId},</if>
+      <if test="createTime != null">#{createTime},</if>
+      <if test="state != null">#{state},</if>
+      <if test="createCustomerId != null">#{createCustomerId},</if>
+      <if test="orderId != null">#{orderId},</if>
+      <if test="shopDetailId != null">#{shopDetailId},</if>
+      <if test="brandId != null">#{brandId},</if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.TableGroup">update tb_table_group
+    <set>
+      <if test="tableNumber != null">table_number = #{tableNumber},</if>
+      <if test="groupId != null">group_id = #{groupId},</if>
+      <if test="createTime != null">create_time = #{createTime},</if>
+      <if test="state != null">state = #{state},</if>
+      <if test="createCustomerId != null">create_customer_id = #{createCustomerId},</if>
+      <if test="orderId != null">order_id = #{orderId},</if>
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId},</if>
+      <if test="brandId != null">brand_id = #{brandId},</if>
+    </set> where id = #{id}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.TableGroup">
+    update tb_table_group set
+    table_number = #{tableNumber}, group_id = #{groupId},create_time = #{createTime}, state = #{state},
+    create_customer_id = #{createCustomerId}, order_id = #{orderId}, shop_detail_id = #{shopDetailId},
+    brand_id = #{brandId}
+    where id = #{id}
+  </update>
+
+  <select id="selectList" resultType="TableGroup">select * from tb_table_group </select>
+
+  <select id="getTableGroupByShopId" resultMap="BaseResultMap">
+      select t.id,t.group_id,t.table_number,t2.customer_id,t.create_customer_id,t2.customer_name,t2.head_photo,t2.id as customer_group_id from tb_table_group t
+      left join tb_customer_group t2 on t2.group_id = t.group_id
+       where t.shop_detail_id = #{shopId} and t.table_number = #{tableNumber}
+      and state = 0
+  </select>
+
+
+  <select id="getTableGroupByState" resultType="TableGroup">
+       select * from tb_table_group t
+       left join tb_customer_group t2 on t2.group_id = t.group_id
+       where t2.customer_id = #{customerId} and t2.table_number = #{tableNumber}
+       and t2.shop_detail_id = #{shopId} and t.state = #{state}
+  </select>
+
+  <select id="getTableGroupByCustomer" resultType="TableGroup">
+     select * from tb_table_group
+     where create_customer_id = #{customerId} and shop_detail_id = #{shopId}
+     and table_number = #{tableNumber} and state = 0
+  </select>
+
+  <select id="selectByGroupId" resultType="TableGroup">
+    select * from tb_table_group where group_id = #{groupId}
+  </select>
+
+  <update id="releaseTableGroup">
+    update tb_table_group
+    set state = 2
+    where now() > create_time
+  </update>
+</mapper>

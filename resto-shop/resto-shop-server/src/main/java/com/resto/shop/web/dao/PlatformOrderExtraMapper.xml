@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.PlatformOrderExtraMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.PlatformOrderExtra">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="platform_order_id" property="platformOrderId" jdbcType="VARCHAR"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="price" property="price" jdbcType="DECIMAL"/>
+    <result column="quantity" property="quantity" jdbcType="INTEGER"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, platform_order_id, name, price, quantity</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select 
+    <include refid="Base_Column_List"/> from tb_platform_order_extra where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from tb_platform_order_extra where id = #{id,jdbcType=VARCHAR}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.PlatformOrderExtra">insert into tb_platform_order_extra (id, platform_order_id, name, price, quantity) values (#{id,jdbcType=VARCHAR}, #{platformOrderId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{quantity,jdbcType=INTEGER})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.PlatformOrderExtra">insert into tb_platform_order_extra 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="platformOrderId != null">platform_order_id,</if>  
+      <if test="name != null">name,</if>  
+      <if test="price != null">price,</if>  
+      <if test="quantity != null">quantity,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>  
+      <if test="platformOrderId != null">#{platformOrderId,jdbcType=VARCHAR},</if>  
+      <if test="name != null">#{name,jdbcType=VARCHAR},</if>  
+      <if test="price != null">#{price,jdbcType=DECIMAL},</if>  
+      <if test="quantity != null">#{quantity,jdbcType=INTEGER},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.PlatformOrderExtra">update tb_platform_order_extra 
+    <set> 
+      <if test="platformOrderId != null">platform_order_id = #{platformOrderId,jdbcType=VARCHAR},</if>  
+      <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>  
+      <if test="price != null">price = #{price,jdbcType=DECIMAL},</if>  
+      <if test="quantity != null">quantity = #{quantity,jdbcType=INTEGER},</if> 
+    </set> where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.PlatformOrderExtra">update tb_platform_order_extra set platform_order_id = #{platformOrderId,jdbcType=VARCHAR}, name = #{name,jdbcType=VARCHAR}, price = #{price,jdbcType=DECIMAL}, quantity = #{quantity,jdbcType=INTEGER} where id = #{id,jdbcType=VARCHAR}</update>
+  <select id="selectList" resultType="PlatformOrderExtra">select * from tb_platform_order_extra</select>
+
+  <select id="selectByPlatformOrderId" resultType="PlatformOrderExtra">
+    select * from tb_platform_order_extra where platform_order_id = #{platformOrderId}
+  </select>
+</mapper>

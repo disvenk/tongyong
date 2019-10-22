@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<url>http://106.14.44.167:8081/nexus/content/repositories/releases/</url>
+		</repository>
+	</distributionManagement>
+	<parent> 
+		<groupId>cn.restoplus</groupId>
+		<artifactId>resto</artifactId>
+		<version>1.0.1</version>
+	</parent>
+	<artifactId>resto-shop</artifactId>
+	<packaging>pom</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>cn.restoplus</groupId>
+				<artifactId>resto-brand-api</artifactId>
+				<version>1.0.1</version>
+			</dependency>
+			<dependency>
+				<groupId>cn.restoplus</groupId>
+				<artifactId>resto-brand-core</artifactId>
+				<version>1.0.1</version>
+			</dependency>
+			<!--<dependency>
+				<groupId>cn.restoplus</groupId>
+				<artifactId>resto-scm-api</artifactId>
+				<version>1.0.1</version>
+			</dependency>-->
+		</dependencies>
+	</dependencyManagement>
+
+	<modules>
+       <module>resto-shop-web</module>
+		<module>resto-shop-server</module>
+		<module>resto-shop-api</module>
+	</modules>
+</project>

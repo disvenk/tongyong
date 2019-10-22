@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.shop.web.dao.CustomerDetailMapper">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.CustomerDetail">
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="birth_date" property="birthDate" />
+        <result column="age" property="age" />
+        <result column="constellation" property="constellation" />
+        <result column="vocation" property="vocation" />
+        <result column="company" property="company" />
+        <result column="school" property="school" />
+        <result column="personal_note" property="personalNote" />
+        <result column="shop_detail_id" property="shopDetailId"/>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, birth_date, age, constellation, vocation, company, school, personal_note, shop_detail_id
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_customer_detail
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from tb_customer_detail
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.resto.shop.web.model.CustomerDetail" >
+        insert into tb_customer_detail (id, birth_date, age, constellation, vocation, company, school, personal_note, shop_detail_id)
+        values (#{id,jdbcType=VARCHAR},  #{birthDate}, #{age}, #{constellation}, #{vocation}, #{company}, #{school}, #{personalNote}, #{shopDetailId})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.resto.shop.web.model.CustomerDetail" >
+        insert into tb_customer_detail
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >id,</if>
+            <if test="birthDate != null" >birth_date,</if>
+            <if test="age != null" >age,</if>
+            <if test="constellation != null" >constellation,</if>
+            <if test="vocation != null" >vocation,</if>
+            <if test="company != null" >company,</if>
+            <if test="school != null" >school,</if>
+            <if test="personalNote != null" >personal_note,</if>
+            <if test="shopDetailId != null">shop_detail_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >#{id,jdbcType=VARCHAR},</if>
+            <if test="birthDate != null" >#{birthDate},</if>
+            <if test="age != null" >#{age},</if>
+            <if test="constellation != null" >#{constellation},</if>
+            <if test="vocation != null" >#{vocation},</if>
+            <if test="company != null" >#{company},</if>
+            <if test="school != null" >#{school},</if>
+            <if test="personalNote != null" >#{personalNote},</if>
+            <if test="shopDetailId != null" >#{shopDetailId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.CustomerDetail" >
+        update tb_customer_detail
+        <set >
+            <if test="birthDate != null" >birth_date = #{birthDate},</if>
+            <if test="age != null" >age = #{age},</if>
+            <if test="constellation != null" >constellation = #{constellation},</if>
+            <if test="vocation != null" >vocation = #{vocation},</if>
+            <if test="company != null" >company = #{company},</if>
+            <if test="school != null" >school = #{school},</if>
+            <if test="personalNote != null" >personal_note = #{personalNote},</if>
+            <if test="shopDetailId != null" >shop_detail_id = #{shopDetailId},</if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.CustomerDetail" >
+        update tb_customer_detail
+        set birth_date = #{birthDate},age = #{age},constellation = #{constellation},
+        vocation = #{vocation},company = #{company},school = #{school},personal_note = #{personalNote},
+        shop_detail_id = #{shopDetailId}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectList" resultType="CustomerDetail">select * from tb_customer_detail</select>
+</mapper>

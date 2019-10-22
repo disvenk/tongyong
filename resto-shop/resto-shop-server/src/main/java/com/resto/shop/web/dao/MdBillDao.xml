@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.MdBillDao">
+
+<resultMap id="mdBillResult" type="com.resto.shop.web.model.MdBill">
+    <result column="id" property="id"/>
+    <result column="state" property="state"/>
+    <result column="bill_number" property="billNumber"/>
+    <result column="shop_detail_id" property="shopDetailId"/>
+    <result column="stock_plan_id" property="stockPlanId"/>
+    <result column="stock_plan_name" property="stockPlanName"/>
+    <result column="bill_amount" property="billAmount"/>
+    <result column="supplier_id" property="supplierId"/>
+    <result column="supplier_tax" property="supplierTax"/>
+    <result column="gmt_create" property="gmtCreate"/>
+    <result column="gmt_modified" property="gmtModified"/>
+    <result column="create_id" property="createId"/>
+    <result column="create_name" property="createName"/>
+    <result column="update_id" property="updateId"/>
+    <result column="update_name" property="updateName"/>
+    <result column="remark" property="remark"/>
+    <result column="shop_detail_name" property="shopDetailName"/>
+    <result column="stock_plan_number" property="stockPlanNumber"/>
+</resultMap>
+
+<sql id="mdBill_columns">
+    id,
+    state,
+    bill_number,
+    shop_detail_id,
+    stock_plan_id,
+    stock_plan_name,
+    bill_amount,
+    supplier_id,
+    supplier_tax,
+    gmt_create,
+    gmt_modified,
+    create_id,
+    create_name,
+    update_id,
+    update_name,
+    remark,
+    shop_detail_name,
+    stock_plan_number
+</sql>
+
+<sql id="mdBill_sqlForInsert">
+    state,
+    bill_number,
+    shop_detail_id,
+    stock_plan_id,
+    stock_plan_name,
+    bill_amount,
+    supplier_id,
+    supplier_tax,
+    gmt_create,
+    gmt_modified,
+    create_id,
+    create_name,
+    update_id,
+    update_name,
+    remark,
+    shop_detail_name,
+    stock_plan_number
+</sql>
+
+<sql id="mdBill_columnsForInsert">
+    #{state},
+    #{billNumber},
+    #{shopDetailId},
+    #{stockPlanId},
+    #{stockPlanName},
+    #{billAmount},
+    #{supplierId},
+    #{supplierTax},
+    now(),
+    now(),
+    #{createId},
+    #{createName},
+    #{updateId},
+    #{updateName},
+    #{remark},
+    #{shopDetailName},
+    #{stockPlanNumber}
+</sql>
+
+<sql id="mdBill_setterForUpdate">
+    <set>
+        gmt_modified = now(),
+        <if test="id != null">
+            id = #{id},
+        </if>
+        <if test="state != null">
+            state = #{state},
+        </if>
+        <if test="billNumber != null">
+            bill_number = #{billNumber},
+        </if>
+        <if test="shopDetailId != null">
+            shop_detail_id = #{shopDetailId},
+        </if>
+        <if test="stockPlanId != null">
+            stock_plan_id = #{stockPlanId},
+        </if>
+        <if test="stockPlanName != null">
+            stock_plan_name = #{stockPlanName},
+        </if>
+        <if test="billAmount != null">
+            bill_amount = #{billAmount},
+        </if>
+        <if test="supplierId != null">
+            supplier_id = #{supplierId},
+        </if>
+        <if test="supplierTax != null">
+            supplier_tax = #{supplierTax},
+        </if>
+        <if test="createId != null">
+            create_id = #{createId},
+        </if>
+        <if test="createName != null">
+            create_name = #{createName},
+        </if>
+        <if test="updateId != null">
+            update_id = #{updateId},
+        </if>
+        <if test="updateName != null">
+            update_name = #{updateName},
+        </if>
+        <if test="remark != null">
+            remark = #{remark},
+        </if>
+        <if test="shopDetailName != null">
+            shop_detail_name = #{shopDetailName},
+        </if>
+        <if test="stockPlanNumber != null">
+            stock_plan_number = #{stockPlanNumber},
+        </if>
+    </set>
+</sql>
+
+<sql id="mdBill_selector">
+    select
+    <include refid="mdBill_columns"/>
+    from md_bill
+</sql>
+
+<sql id="mdBill_query_segment">
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+        <if test="data.id != null">
+            AND id = #{data.id}
+        </if>
+        <if test="data.state != null">
+            AND state = #{data.state}
+        </if>
+        <if test="data.billNumber != null">
+            AND bill_number = #{data.billNumber}
+        </if>
+        <if test="data.shopDetailId != null">
+            AND shop_detail_id = #{data.shopDetailId}
+        </if>
+        <if test="data.stockPlanId != null">
+            AND stock_plan_id = #{data.stockPlanId}
+        </if>
+        <if test="data.stockPlanName != null">
+            AND stock_plan_name = #{data.stockPlanName}
+        </if>
+        <if test="data.billAmount != null">
+            AND bill_amount = #{data.billAmount}
+        </if>
+        <if test="data.supplierId != null">
+            AND supplier_id = #{data.supplierId}
+        </if>
+        <if test="data.supplierTax != null">
+            AND supplier_tax = #{data.supplierTax}
+        </if>
+        <if test="data.gmtCreate != null">
+            AND gmt_create = #{data.gmtCreate}
+        </if>
+        <if test="data.gmtModified != null">
+            AND gmt_modified = #{data.gmtModified}
+        </if>
+        <if test="data.createId != null">
+            AND create_id = #{data.createId}
+        </if>
+        <if test="data.createName != null">
+            AND create_name = #{data.createName}
+        </if>
+        <if test="data.updateId != null">
+            AND update_id = #{data.updateId}
+        </if>
+        <if test="data.updateName != null">
+            AND update_name = #{data.updateName}
+        </if>
+        <if test="data.remark != null">
+            AND remark = #{data.remark}
+        </if>
+        <if test="data.shopDetailName != null">
+            AND shop_detail_name = #{data.shopDetailName}
+        </if>
+        <if test="data.stockPlanNumber != null">
+            AND stock_plan_number = #{data.stockPlanNumber}
+        </if>
+        <if test="ins != null and ins != ''">
+            AND
+            <foreach collection="ins" item="item" open="(" separator="and" close=")">
+                ${item.column} in
+                <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                    ${item}
+                </foreach>
+            </foreach>
+        </if>
+        <if test="notIns != null and notIns != ''">
+            AND
+            <foreach collection="notIns" item="item" open="(" separator="and" close=")">
+                ${item.column} not in
+                <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                    ${item}
+                </foreach>
+            </foreach>
+        </if>
+        <if test="equals != null and equals != ''">
+            AND
+            <foreach collection="equals" item="item" open="(" separator="and" close=")">
+                ${item.column} = ${item.value}
+            </foreach>
+        </if>
+        <if test="notEquals != null and notEquals != ''">
+            AND
+            <foreach collection="notEquals" item="item" open="(" separator="and" close=")">
+                ${item.column} != ${item.value}
+            </foreach>
+        </if>
+        <if test="lts != null and lts != ''">
+            AND
+            <foreach collection="lts" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ < ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="gts != null and gts != ''">
+            AND
+            <foreach collection="gts" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ > ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="likes != null and likes != ''">
+            AND
+            <foreach collection="likes" item="item" open="(" separator="and" close=")">
+                ${item.column} like concat('%', ${item.value}, '%')
+            </foreach>
+        </if>
+        <if test="ltes != null and ltes != ''">
+            AND
+            <foreach collection="ltes" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ <= ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="gtes != null and gtes != ''">
+            AND
+            <foreach collection="gtes" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ >= ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="ranges != null and ranges != ''">
+            AND
+            <foreach collection="ranges" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ >= ]]> #{item.from} and ${item.column} <![CDATA[ < ]]> #{item.to}
+            </foreach>
+        </if>
+        AND is_delete = 0
+    </trim>
+</sql>
+
+
+<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.MdBill">
+    insert into md_bill
+    (
+        <include refid="mdBill_sqlForInsert"/>
+        ,is_delete
+    )
+    values
+    (
+        <include refid="mdBill_columnsForInsert"/>
+        ,0
+    )
+</insert>
+
+<update id="update" parameterType="com.resto.shop.web.model.MdBill">
+    update md_bill
+    <include refid="mdBill_setterForUpdate" />
+    where id = #{id}
+    and is_delete = 0
+</update>
+
+
+<update id="updateByQuery" parameterType="com.resto.shop.web.model.MdBill">
+    update md_bill
+    <set>
+        gmt_modified = now(),
+        <if test="update.id != null">
+            id = #{update.id},
+        </if>
+        <if test="update.state != null">
+            state = #{update.state},
+        </if>
+        <if test="update.billNumber != null">
+            bill_number = #{update.billNumber},
+        </if>
+        <if test="update.shopDetailId != null">
+            shop_detail_id = #{update.shopDetailId},
+        </if>
+        <if test="update.stockPlanId != null">
+            stock_plan_id = #{update.stockPlanId},
+        </if>
+        <if test="update.stockPlanName != null">
+            stock_plan_name = #{update.stockPlanName},
+        </if>
+        <if test="update.billAmount != null">
+            bill_amount = #{update.billAmount},
+        </if>
+        <if test="update.supplierId != null">
+            supplier_id = #{update.supplierId},
+        </if>
+        <if test="update.supplierTax != null">
+            supplier_tax = #{update.supplierTax},
+        </if>
+        <if test="update.createId != null">
+            create_id = #{update.createId},
+        </if>
+        <if test="update.createName != null">
+            create_name = #{update.createName},
+        </if>
+        <if test="update.updateId != null">
+            update_id = #{update.updateId},
+        </if>
+        <if test="update.updateName != null">
+            update_name = #{update.updateName},
+        </if>
+        <if test="update.remark != null">
+            remark = #{update.remark},
+        </if>
+        <if test="update.shopDetailName != null">
+            shop_detail_name = #{update.shopDetailName},
+        </if>
+        <if test="update.stockPlanNumber != null">
+            stock_plan_number = #{update.stockPlanNumber},
+        </if>
+    </set>
+    <include refid="mdBill_query_segment"/>
+</update>
+
+
+<insert id="insertOrUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.MdBill">
+    insert into md_bill
+    (
+        <include refid="mdBill_sqlForInsert"/>
+        ,is_delete
+    )
+    values
+    (
+        <include refid="mdBill_columnsForInsert"/>
+        ,0
+    )
+    on duplicate key update
+    gmt_modified = now()
+    <if test="id != null">
+        ,id = #{id}
+    </if>
+    <if test="state != null">
+        ,state = #{state}
+    </if>
+    <if test="billNumber != null">
+        ,bill_number = #{billNumber}
+    </if>
+    <if test="shopDetailId != null">
+        ,shop_detail_id = #{shopDetailId}
+    </if>
+    <if test="stockPlanId != null">
+        ,stock_plan_id = #{stockPlanId}
+    </if>
+    <if test="stockPlanName != null">
+        ,stock_plan_name = #{stockPlanName}
+    </if>
+    <if test="billAmount != null">
+        ,bill_amount = #{billAmount}
+    </if>
+    <if test="supplierId != null">
+        ,supplier_id = #{supplierId}
+    </if>
+    <if test="supplierTax != null">
+        ,supplier_tax = #{supplierTax}
+    </if>
+    <if test="createId != null">
+        ,create_id = #{createId}
+    </if>
+    <if test="createName != null">
+        ,create_name = #{createName}
+    </if>
+    <if test="updateId != null">
+        ,update_id = #{updateId}
+    </if>
+    <if test="updateName != null">
+        ,update_name = #{updateName}
+    </if>
+    <if test="remark != null">
+        ,remark = #{remark}
+    </if>
+    <if test="shopDetailName != null">
+        ,shop_detail_name = #{shopDetailName}
+    </if>
+    <if test="stockPlanNumber != null">
+        ,stock_plan_number = #{stockPlanNumber}
+    </if>
+</insert>
+
+<!-- Delete -->
+<update id="delete">
+    update md_bill
+    set is_delete = 1, gmt_modified = now()
+    <include refid="mdBill_query_segment"/>
+</update>
+<update id="deleteById">
+    update md_bill
+    set is_delete = 1, gmt_modified = now()
+    where id = #{id}
+</update>
+
+
+<delete id="deletePhysicalById">
+        delete from md_bill
+        where id = #{id}
+</delete>
+
+
+
+
+<!-- query class -->
+<sql id="mdBill_groupBy">
+    <if test="groupBys != null and groupBys != ''">
+        group by
+        <foreach collection="groupBys" item="item" open="" separator="," close="">
+            ${item}
+        </foreach>
+    </if>
+</sql>
+
+<sql id="mdBill_orderby">
+    <if test="orderBys != null and orderBys != ''">
+        order by
+        <foreach collection="orderBys" item="item" open="" separator="," close="">
+            ${item.column} ${item.direction}
+        </foreach>
+    </if>
+</sql>
+
+
+<select id="query" resultMap="mdBillResult" parameterType="com.resto.shop.web.model.MdBill">
+    <include refid="mdBill_selector"/>
+    <include refid="mdBill_query_segment"/>
+    <include refid="mdBill_groupBy"/>
+    <include refid="mdBill_orderby"/>
+</select>
+
+<select id="query4Page" resultMap="mdBillResult" parameterType="com.resto.shop.web.model.MdBill">
+    <include refid="mdBill_selector"/>
+    <include refid="mdBill_query_segment"/>
+    <include refid="mdBill_groupBy"/>
+    <include refid="mdBill_orderby"/>
+    limit ${startRowForMysql}, ${pageSize}
+</select>
+
+
+<select id="count" resultType="java.lang.Long">
+    SELECT COUNT(1) FROM md_bill
+    <include refid="mdBill_query_segment"/>
+</select>
+
+<select id="getById" resultMap="mdBillResult">
+    <include refid="mdBill_selector"/>
+    where id = #{id}
+    and is_delete = 0
+</select>
+
+<select id="getByIdForUpdate" resultMap="mdBillResult">
+    <include refid="mdBill_selector"/>
+    where id = #{id}
+    and is_delete = 0
+    for update
+</select>
+
+
+<select id="queryJoin4Page" resultType="com.resto.shop.web.dto.MdBillDo">
+     SELECT
+        a.id,
+        a.bill_amount AS billAmount,
+        a.bill_number AS billNumber,
+        a.shop_detail_name AS shopDetailName,
+        a.stock_plan_name AS stockPlanName,
+        a.stock_plan_number AS stockPlanNumber,
+        a.gmt_create AS 'gmtCreate',
+        a.stock_plan_id as 'stockPlanId',
+        b.sup_name AS supplierName,
+        b.tax_number AS supplierTax
+    FROM
+        `md_bill` a
+    INNER JOIN md_supplier b ON a.supplier_id = b.id
+    WHERE a.shop_detail_id = #{shopId}
+
+    <if test="beginDate != null">
+        <if test="beginDate != ''">
+            and a.gmt_create  <![CDATA[ >= ]]> DATE_FORMAT(#{beginDate},'%Y-%m-%d %H:%i:%s')
+        </if>
+    </if>
+
+    <if test="endDate != null">
+        <if test="endDate != ''">
+            and  a.gmt_create  <![CDATA[ <= ]]> DATE_FORMAT(#{endDate},'%Y-%m-%d %H:%i:%s')
+        </if>
+    </if>
+
+
+</select>
+
+
+
+    <select id="queryJoin4PageAndBill"   resultType="com.resto.shop.web.dto.DocStkInPlanHeaderDetailDo">
+
+        SELECT
+        dh.creater_name as 'createrName',
+        dh.gmt_create as 'gmtCreate',
+        dh.order_code as 'orderCode',
+        dh.supplier_id as 'supplierId',
+        dh.note,
+        dh.audit_name as 'auditName',
+        dh.order_status as 'orderStatus',
+        dh.order_name  as 'orderName',
+        dh.published_name as 'publishedName',
+        ms.top_email as 'topEmail',
+        ms.top_contact as 'topContact',
+        ms.top_mobile as 'topMobile',
+        ms.sup_name as 'supName',
+        ms.tax_number as 'taxNumber',
+        stk.act_qty AS 'actQty',
+        stk.order_detail_status AS 'orderDetailStatus',
+        stk.stk_in_header_id AS 'stkInHeaderId',
+        stk.purchase_money as 'purchaseMoney',
+        mm.categoryOneName,
+        mm.categoryThirdName,
+        mm.categoryTwoName,
+        mm.cityName,
+        mm.materialName,
+        mm.districtName,
+        mm.materialCode,
+        mm.provinceName,
+        mm.materialType,
+        mm.specName,
+        mm.measureUnit,
+        mm.unitName,
+        mm.minMeasureUnit,
+        mm.minUnitName,
+        a.bill_amount as 'billAmount',
+        a.bill_number as 'billNumber',
+        a.shop_detail_name as 'shopDetailName',
+        a.id as 'billId'
+
+        FROM
+        `md_bill` a
+        INNER JOIN md_supplier ms
+        on a.supplier_id =ms.id
+        INNER JOIN
+        doc_stk_in_plan_header dh ON a.stock_plan_id=dh.id
+        INNER JOIN doc_stk_in_plan_detail stk ON dh.id = stk.stk_in_header_id
+        INNER JOIN md_material_view mm ON stk.material_id = mm.id
+        where
+        dh.is_delete='0'
+        AND ms.is_delete='0'
+        and stk.is_delete='0'
+        and dh.shop_detail_id=#{shopId}
+        and ms.shop_detail_id=#{shopId}
+        <if test="beginDate != null">
+            <if test="beginDate != ''">
+                and a.gmt_create  <![CDATA[ >= ]]> DATE_FORMAT(#{beginDate},'%Y-%m-%d %H:%i:%s')
+            </if>
+        </if>
+
+        <if test="endDate != null">
+            <if test="endDate != ''">
+                and  a.gmt_create  <![CDATA[ <= ]]> DATE_FORMAT(#{endDate},'%Y-%m-%d %H:%i:%s')
+            </if>
+        </if>
+    </select>
+
+</mapper>

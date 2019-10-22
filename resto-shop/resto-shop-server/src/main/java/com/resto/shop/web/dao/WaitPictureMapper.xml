@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.WaitPictureMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.WaitPicture">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="picture_url" property="pictureUrl" jdbcType="VARCHAR"/>
+    <result column="sort" property="sort" jdbcType="INTEGER"/>
+    <result column="state" property="state" jdbcType="TINYINT"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, picture_url, sort, state, shop_detail_id, brand_id</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">select 
+    <include refid="Base_Column_List"/> from tb_wait_picture where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">delete from tb_wait_picture where id = #{id,jdbcType=INTEGER}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.WaitPicture">insert into tb_wait_picture (id, picture_url, sort, state, shop_detail_id, brand_id ) values (#{id,jdbcType=INTEGER}, #{pictureUrl,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{state,jdbcType=TINYINT}, #{shopDetailId,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR} )</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.WaitPicture">insert into tb_wait_picture 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="pictureUrl != null">picture_url,</if>  
+      <if test="sort != null">sort,</if>  
+      <if test="state != null">state,</if>  
+      <if test="shopDetailId != null">shop_detail_id,</if>  
+      <if test="brandId != null">brand_id,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=INTEGER},</if>  
+      <if test="pictureUrl != null">#{pictureUrl,jdbcType=VARCHAR},</if>  
+      <if test="sort != null">#{sort,jdbcType=INTEGER},</if>  
+      <if test="state != null">#{state,jdbcType=TINYINT},</if>  
+      <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if>  
+      <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.WaitPicture">update tb_wait_picture 
+    <set> 
+      <if test="pictureUrl != null">picture_url = #{pictureUrl,jdbcType=VARCHAR},</if>  
+      <if test="sort != null">sort = #{sort,jdbcType=INTEGER},</if>  
+      <if test="state != null">state = #{state,jdbcType=TINYINT},</if>  
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if>  
+      <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if> 
+    </set> where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.WaitPicture">update tb_wait_picture set picture_url = #{pictureUrl,jdbcType=VARCHAR}, sort = #{sort,jdbcType=INTEGER}, state = #{state,jdbcType=TINYINT}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR}, brand_id = #{brandId,jdbcType=VARCHAR} where id = #{id,jdbcType=INTEGER}</update>
+  <select id="selectList" resultType="WaitPicture">select * from tb_wait_picture where state = 1 order by sort</select>
+
+  <select id="getWaitPictureList" resultType="WaitPicture">select * from tb_wait_picture where state = 1 and shop_detail_id = #{shopId} order by sort</select>
+
+  <update id="updateStateById" parameterType="com.resto.shop.web.model.WaitPicture">update tb_wait_picture set state = 0  where id = #{id,jdbcType=INTEGER}</update>
+
+</mapper>

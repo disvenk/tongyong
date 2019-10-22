@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.TokenMapper">
+
+
+    <select id="queryToken"  resultType="SysLoginLog">
+        select token from tb_token where userid = #{userid}
+    </select>
+
+    <delete id="deleteToken">
+        delete from tb_token where userid = #{userid}
+    </delete>
+
+    <insert id="insertToken">
+        insert into tb_token
+        (token,sign,userid,updatedTime)
+        values(#{token},#{sign},#{userId},now())
+    </insert>
+
+    <update id="updateToken">
+        update tb_token
+        set sign = #{sign},
+        token = #{token},
+        updatedTime = now()
+        where userid = #{userId}
+    </update>
+</mapper>

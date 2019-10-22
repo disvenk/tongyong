@@ -1,0 +1,806 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.ShopDetailMapper">
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.ShopDetail">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="address" property="address" jdbcType="VARCHAR"/>
+    <result column="longitude" property="longitude" jdbcType="VARCHAR"/>
+    <result column="latitude" property="latitude" jdbcType="VARCHAR"/>
+    <result column="phone" property="phone" jdbcType="VARCHAR"/>
+    <result column="open_time" property="openTime" jdbcType="TIME"/>
+    <result column="close_time" property="closeTime" jdbcType="TIME"/>
+    <result column="status" property="status" jdbcType="INTEGER"/>
+    <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    <result column="shop_mode" property="shopMode" jdbcType="INTEGER"/>
+    <result column="add_user" property="addUser" jdbcType="VARCHAR"/>
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP"/>
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
+    <result column="city" property="city" jdbcType="VARCHAR"/>
+    <result column="photo" property="photo" jdbcType="VARCHAR"/>
+    <result column="wait_red_envelope" property="waitRedEnvelope" jdbcType="INTEGER"/>
+    <result column="base_money" property="baseMoney"/>
+    <result column="high_money" property="highMoney"/>
+    <result column="shop_detail_index" property="shopDetailIndex" />
+    <result column="restaurant_id" property="restaurantId"/>
+    <result column="geekpos_queue_islogin" property="geekposQueueIslogin"/>
+    <result column="geekpos_queue_last_login_time" property="geekposQueueLastLoginTime"/>
+    <result column="ali_pay" property="aliPay"/>
+    <result column="ali_seller_id" property="aliSellerId"/>
+    <result column= "ali_appId" property="aliAppId"/>
+    <result column= "ali_private_key" property="aliPrivateKey"/>
+    <result column= "ali_public_key" property="aliPublicKey"/>
+    <result column= "ali_pay_discount" property="aliPayDiscount"/>
+    <result column="appid" property="appid" jdbcType="VARCHAR"/>
+    <result column="appsecret" property="appsecret" jdbcType="VARCHAR"/>
+    <result column="mchid" property="mchid" jdbcType="VARCHAR"/>
+    <result column="mchkey" property="mchkey" jdbcType="VARCHAR"/>
+    <result column="pay_cert_path" property="payCertPath" jdbcType="VARCHAR"/>
+    <result column="wx_server_id" property="wxServerId"/>
+    <result column="is_meal_fee" property="isMealFee"/>
+    <result column="meal_fee_name" property="mealFeeName"/>
+    <result column="meal_fee_price" property="mealFeePrice"/>
+    <result column="appraise_min_money" property="appraiseMinMoney"/>
+    <result column="auto_confirm_time" property="autoConfirmTime"/>
+    <result column="close_continue_time" property="closeContinueTime"/>
+    <result column="is_choice_mode" property="isChoiceMode"/>
+    <result column="auto_alert_appraise" property="autoAlertAppraise"/>
+    <result column="good_appraise_length" property="goodAppraiseLength"/>
+    <result column="bad_appraise_length" property="badAppraiseLength"/>
+    <result column="auto_print_total" property="autoPrintTotal"/>
+    <result column="is_use_recommend" property="isUseRecommend"/>
+    <result column="print_type" property="printType"/>
+    <result column="is_print_pay_after" property="isPrintPayAfter"/>
+    <result column="is_use_service_price" property="isUseServicePrice"/>
+    <result column="service_name" property="serviceName"/>
+    <result column="service_price" property="servicePrice"/>
+    <result column="is_push" property="isPush"/>
+    <result column="push_context" property="pushContext"/>
+    <result column="push_time" property="pushTime"/>
+    <result column="slogan" property="slogan"/>
+    <result column="queue_notice" property="queueNotice"/>
+    <result column="is_new_qrcode" property="isNewQrcode"/>
+    <result column="is_user_identity" property="isUserIdentity"/>
+    <result column="consume_number" property="consumeNumber"/>
+    <result column="is_sub" property="isSub"/>
+    <result column="wait_time" property="waitTime"/>
+    <result column="wait_unit" property="waitUnit"/>
+    <result column="time_out" property="timeOut"/>
+    <result column="consume_confine_time" property="consumeConfineTime"/>
+    <result column="consume_confine_unit" property="consumeConfineUnit"/>
+    <result column="continue_order_scan" property="continueOrderScan"/>
+    <result column="device_token" property="deviceToken"/>
+    <result column="app_key" property="appkey"/>
+    <result column="app_master_secret" property="appMasterSecret"/>
+    <result column="print_receipt" property="printReceipt"/>
+    <result column="print_kitchen" property="printKitchen"/>
+    <result column="is_open_sms" property="isOpenSms"/>
+    <result column="notice_telephone" property="noticeTelephone"/>
+    <result column="day_sms_type" property="daySmsType"/>
+    <result column="allow_after_pay" property="allowAfterPay"/>
+    <result column="allow_first_pay" property="allowFirstPay"/>
+    <result column="rolling_switch" property="rollingSwitch"/>
+    <result column="sweep_mode" property="sweepMode"/>
+    <result column="open_union_pay" property="openUnionPay"/>
+    <result column="open_money_pay" property="openMoneyPay"/>
+    <result column="pos_plus_type" property="posPlusType"/>
+    <result column="open_shanhui_pay" property="openShanhuiPay"/>
+    <result column="dazhong_shop_id" property="dazhongShopId"/>
+    <result column="dazhong_app_auth_token" property="dazhongAppAuthToken"/>
+    <result column="third_appid" property="thirdAppid"/>
+    <result column="integral_pay" property="integralPay"/>
+    <result column="print_meituan" property="printMeituan"/>
+    <result column="pos_open_table" property="posOpenTable"/>
+    <result column="open_pos_ali_pay" property="openPosAliPay"/>
+    <result column="open_pos_union_pay" property="openPosUnionPay"/>
+    <result column="open_pos_money_pay" property="openPosMoneyPay"/>
+    <result column="open_pos_shanhui_pay" property="openPosShanhuiPay"/>
+    <result column="open_pos_integral_pay" property="openPosIntegralPay"/>
+    <result column="open_pos_charge" property="openPosCharge"/>
+    <result column="tv_mode" property="tvMode"/>
+    <result column="modify_order_print_receipt" property="modifyOrderPrintReceipt"/>
+    <result column="modify_order_print_kitchen" property="modifyOrderPrintKitchen"/>
+    <result column="open_pos_pay_order" property="openPosPayOrder"/><result column="open_order_remark" property="openOrderRemark"/>
+    <result column="is_pos_new" property="isPosNew"/>
+    <result column="tv_apk_version" property="tvApkVersion"/>
+    <result column="open_pos_wechat_pay" property="openPosWeChatPay"/>
+    <result column="template_type" property="templateType"/>
+    <result column="tv_ip" property="tvIp"/>
+    <result column="pos_waitred_envelope" property="posWaitredEnvelope"/>
+    <result column="split_kitchen" property="splitKitchen"/>
+    <result column="wait_ip" property="waitIp"/>
+    <result column="tv_text_color" property="tvTextColor"/>
+    <result column="tv_background" property="tvBackground"/>
+    <result column="tv_textbox_background" property="tvTextBoxBackground"/>
+    <result column="tv_head_text_color" property="tvHeadTextColor"/>
+    <result column="tv_number_color" property="tvNumberColor"/>
+    <result column="wait_jiaohao" property="waitJiaohao"/>
+    <result column="wait_jiucan" property="waitJiucan"/>
+    <result column="wait_guohao" property="waitGuohao"/>
+    <result column="wait_remind_switch" property="waitRemindSwitch"/>
+    <result column="wait_remind_number" property="waitRemindNumber"/>
+    <result column="wait_remind_text" property="waitRemindText"/>
+    <result column="open_meituan" property="openMeituan"/>
+    <result column="is_recommend_category" property="isRecommendCategory"/>
+    <result column="is_turntable" property="isTurntable"/>
+    <result column="turntable_print_type" property="turntablePrintType"/>
+    <result column="open_bad_appraise_print_order" property="openBadAppraisePrintOrder"/>
+    <result column="bad_appraise_print_receipt" property="badAppraisePrintReceipt"/>
+    <result column="bad_appraise_print_kitchen" property="badAppraisePrintKitchen"/>
+    <result column="pos_version" property="posVersion"/>
+    <result column="information_picture" property="informationPicture"/>
+    <result column="article_photo" property="articlePhoto"/>
+    <result column="is_takeout" property="isTakeout"/>
+    <result column="pos_key" property="posKey"/>
+    <result column="open_pos_discount" property="openPosDiscount"/>
+    <result column="apart" property="apart"/>
+    <result column="apart" property="apart"/>
+    <result column="open_many_customer_order" property="openManyCustomerOrder"/>
+    <result column="consumption_rebate" property="consumptionRebate"/>
+    <result column="rebate_time" property="rebateTime"/>
+    <result column="service_type" property="serviceType"/>
+    <result column="tableware_fee_name" property="tablewareFeeName"/>
+    <result column="tableware_fee_price" property="tablewareFeePrice"/>
+    <result column="is_open_tableware_fee" property="isOpenTablewareFee"/>
+    <result column="towel_fee_name" property="towelFeeName"/>
+    <result column="towel_fee_price" property="towelFeePrice"/>
+    <result column="is_open_towel_fee" property="isOpenTowelFee"/>
+    <result column="sauce_fee_name" property="sauceFeeName"/>
+    <result column="sauce_fee_price" property="sauceFeePrice"/>
+    <result column="is_open_sauce_fee" property="isOpenSauceFee"/>
+    <!--<result column="open_consumer_rebate" property="openConsumerRebate"/>-->
+    <!--<result column="rebate_participation" property="rebateParticipation"/>-->
+    <!--<result column="rebate_delay_delivery_time" property="rebateDelayDeliveryTime"/>-->
+    <result column="open_bad_warning" property="openBadWarning"/>
+    <result column="warning_key" property="warningKey"/>
+    <result column="warning_wechat" property="warningWechat"/>
+    <result column="warning_sms" property="warningSms"/>
+    <result column="order_before" property="orderBefore"/>
+    <result column="shop_tag" property="shopTag"/>
+    <result column="fans_name" property="fansName"/>
+    <result column="ali_encrypt" property="aliEncrypt"/>
+    <result column="order_welcome_message" property="orderWelcomeMessage"/>
+    <result column="is_open_scm" property="isOpenScm"/>
+    <result column="shop_type" property="shopType"/>
+    <result column="auto_print_consume_order" property="autoPrintConsumeOrder"/>
+    <result column="auto_print_checkout_order" property="autoPrintCheckOutOrder"/>
+    <result column="enable_duodongxian" property="enableDuoDongXian"/>
+    <result column="open_group_buy" property="openGroupBuy"/>
+    <result column="open_cash_coupon_buy" property="openCashCouponBuy"/>
+    <result column="open_pos_group_buy" property="openPosGroupBuy"/>
+    <result column="open_pos_cash_coupon_buy" property="openPosCashCouponBuy"/>
+    <result column="open_rpay" property="openRpay" />
+    <result column="print_out_details" property="printOutDetails" />
+    <result column="area_id" property="areaId"/>
+    <result column="province_id" property="provinceId" />
+    <result column="city_id" property="cityId" />
+    <result column="is_open_add_print_total" property="isOpenAddPrintTotal" />
+    <result column="is_open_user_sign" property="isOpenUserSign" />
+    <result column="is_open_emq_push" property="isOpenEmqPush"/>
+  </resultMap>
+
+  <sql id="Base_Column_List">id, name, address, longitude, latitude, phone, open_time, close_time, status, remark, shop_mode, add_user, add_time, update_time, brand_id, city, photo, wait_red_envelope, base_money, high_money, shop_detail_index,restaurant_id,geekpos_queue_islogin,geekpos_queue_last_login_time,ali_pay,ali_seller_id,ali_appId,ali_public_key,ali_private_key
+     ,ali_pay_discount,appid, appsecret, mchid, mchkey,pay_cert_path,wx_server_id,is_meal_fee,meal_fee_name,meal_fee_price,appraise_min_money
+     ,auto_confirm_time,close_continue_time,is_choice_mode,auto_alert_appraise,good_appraise_length,bad_appraise_length
+     ,auto_print_total,is_use_recommend,print_type,is_print_pay_after,is_use_service_price,service_name,service_price,slogan,queue_notice ,is_push,push_context,push_time,is_new_qrcode
+     ,is_user_identity,consume_number,is_sub,wait_time,wait_unit,time_out,consume_confine_time,consume_confine_unit,continue_order_scan,device_token,app_key,app_master_secret
+     ,print_receipt,print_kitchen,is_open_sms,notice_telephone
+     ,recommend_time,allow_after_pay,allow_first_pay,rolling_switch,sweep_mode,open_union_pay,open_money_pay,pos_plus_type,open_shanhui_pay,dazhong_shop_id,dazhong_app_auth_token,third_appid,integral_pay
+     ,print_meituan,pos_open_table,open_pos_ali_pay,open_pos_union_pay,open_pos_money_pay,open_pos_shanhui_pay,open_pos_integral_pay,open_pos_charge,day_sms_type,tv_mode,modify_order_print_receipt,modify_order_print_kitchen,open_pos_pay_order,open_order_remark,
+     is_pos_new,page_size,tv_apk_version,open_pos_wechat_pay,template_type,tv_ip,pos_waitred_envelope,split_kitchen,wait_ip,tv_text_color,tv_background,tv_textbox_background,tv_head_text_color,tv_number_color,
+     wait_jiaohao,wait_jiucan,wait_guohao,wait_remind_switch,wait_remind_number,wait_remind_text,open_meituan,is_recommend_category,is_turntable,turntable_print_type,open_bad_appraise_print_order
+     ,bad_appraise_print_receipt,bad_appraise_print_kitchen,information_picture,article_photo,is_takeout,open_pos_discount,apart,open_bad_warning,warning_key,warning_wechat,warning_sms,consumption_rebate,rebate_time,open_many_customer_order
+     ,order_before,is_open ,service_type,tableware_fee_name,tableware_fee_price,is_open_tableware_fee,towel_fee_name,towel_fee_price,is_open_towel_fee,sauce_fee_name,sauce_fee_price,is_open_sauce_fee,pos_version,pos_key,shop_tag,fans_name,ali_encrypt,order_welcome_message,shop_type,
+     auto_print_consume_order,auto_print_checkout_order,enable_duodongxian,open_group_buy,open_cash_coupon_buy,open_pos_group_buy,open_pos_cash_coupon_buy,open_rpay,print_out_details,is_open_add_print_total,is_open_user_sign,is_open_emq_push
+    </sql>
+  <select id="selectByPosKey" resultMap="BaseResultMap" parameterType="java.lang.String">select
+    <include refid="Base_Column_List"/> from shop_detail where pos_key = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select
+    <include refid="Base_Column_List"/> from shop_detail where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from shop_detail where id = #{id,jdbcType=VARCHAR}</delete>
+  <insert id="insert" parameterType="com.resto.brand.web.model.ShopDetail">
+  	insert into shop_detail (id, name, address, longitude, latitude, phone, open_time, close_time, status, remark,
+  	 shop_mode, add_user, add_time, update_time, brand_id ,update_user,state,city,photo,wait_red_envelope,base_money,high_money,
+  	 shop_detail_index,restaurant_id,ali_seller_id,ali_appId,ali_public_key,ali_private_key,appid, appsecret, mchid, mchkey,
+  	 pay_cert_path,wx_server_id,is_meal_fee,meal_fee_name,meal_fee_price,is_new_qrcode,is_user_identity,consume_number,open_union_pay,
+  	 open_money_pay,pos_plus_type,open_shanhui_pay,dazhong_shop_id,dazhong_app_auth_token,integral_pay,pos_open_table,
+  	 open_pos_ali_pay,open_pos_union_pay,open_pos_money_pay,open_pos_shanhui_pay,open_pos_integral_pay,open_pos_charge,tv_mode,modify_order_print_receipt,modify_order_print_kitchen,open_pos_pay_order,
+  	 open_order_remark,open_pos_wechat_pay,template_type,is_recommend_category,is_turntable,turntable_print_type,is_takeout,open_pos_discount,apart,open_many_customer_order,open_rpay)
+  	 values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+  	 #{address,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+  	 #{openTime,jdbcType=TIME}, #{closeTime,jdbcType=TIME}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
+  	 #{shopMode,jdbcType=INTEGER}, #{addUser,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+  	 #{brandId,jdbcType=VARCHAR} ,#{updateUser},#{state},#{city},#{photo},#{waitRedEnvelope},#{baseMoney},#{highMoney},#{shopDetailIndex},
+  	 #{restaurantId,jdbcType=VARCHAR},#{aliSellerId,jdbcType=VARCHAR},#{aliAppId,jdbcType=VARCHAR},#{aliPrivateKey,jdbcType=VARCHAR},
+  	 #{aliPublicKey,jdbcType=VARCHAR},#{appid,jdbcType=VARCHAR},#{appsecret,jdbcType=VARCHAR},#{mchid,jdbcType=VARCHAR},#{mchkey,jdbcType=VARCHAR},
+  	 #{payCertPath,jdbcType=VARCHAR},#{wxServerId},#{isMealFee},#{mealFeeName},#{mealFeePrice},#{isNewQrcode,#{isUserIdentity},#{consumeNumber},
+  	 #{openUnionPay},#{openMoneyPay},#{posPlusType},#{openShanhuiPay},#{dazhongShopId},#{dazhongAppAuthToken},#{integralPay},#{posOpenTable},
+  	 #{openPosAliPay},#{openPosUnionPay},#{openPosMoneyPay},#{openPosShanhuiPay},#{openPosIntegralPay},#{openPosCharge},#{tvMode},#{modifyOrderPrintReceipt},#{modifyOrderPrintKitchen},#{openPosPayOrder},
+  	 #{openOrderRemark},#{openPosWeChatPay},#{templateType},#{isRecommendCategory},#{isTurntable},#{turntablePrintType},#{isTakeout},#{openPosDiscount},#{apart},#{openManyCustomerOrder},#{openRpay}
+  	 )
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.ShopDetail">insert into shop_detail 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="name != null">name,</if>  
+      <if test="address != null">address,</if>  
+      <if test="longitude != null">longitude,</if>  
+      <if test="latitude != null">latitude,</if>  
+      <if test="phone != null">phone,</if>  
+      <if test="openTime != null">open_time,</if>  
+      <if test="closeTime != null">close_time,</if>  
+      <if test="status != null">status,</if>  
+      <if test="remark != null">remark,</if>  
+      <if test="shopMode != null">shop_mode,</if>  
+      <if test="addUser != null">add_user,</if>  
+      <if test="addTime != null">add_time,</if>  
+      <if test="updateTime != null">update_time,</if>  
+      <if test="brandId != null">brand_id,</if> 
+      <if test="updateUser != null">update_user,</if> 
+      <if test="isOpen != null">is_open,</if>
+      <if test="city != null">city,</if>
+      <if test="photo != null">photo,</if>
+      <if test="waitRedEnvelope != null">wait_red_envelope,</if>
+      <if test="baseMoney != null">base_money,</if>
+      <if test="highMoney != null">high_money,</if>
+      <if test="shopDetailIndex != null">shop_detail_index,</if>
+      <if test="restaurantId != null">restaurant_id,</if>
+      <if test="aliSellerId != null">ali_seller_id,</if>
+      <if test="aliAppId != null">ali_appId,</if>
+      <if test="aliPrivateKey != null">ali_private_key,</if>
+      <if test="aliPublicKey != null">ali_public_key,</if>
+      <if test="appid != null">appid,</if>
+      <if test="appsecret != null">appsecret,</if>
+      <if test="mchid != null">mchid,</if>
+      <if test="mchkey != null">mchkey,</if>
+      <if test="payCertPath != null">pay_cert_path,</if>
+      <if test="wxServerId != null">wx_server_id,</if>
+      <if test="isMealFee != null">is_meal_fee,</if>
+      <if test="mealFeeName != null">meal_fee_name,</if>
+      <if test="mealFeePrice != null">meal_fee_price,</if>
+      <if test="slogan != null">slogan,</if>
+      <if test="queueNotice != null">queue_notice,</if>
+      <if test="isNewQrcode != null">is_new_qrcode,</if>
+      <if test="isUserIdentity != null">is_user_identity,</if>
+      <if test="consumeNumber != null">consume_number,</if>
+      <if test="isSub != null">is_sub,</if>
+      <if test="rollingSwitch != null">rolling_switch,</if>
+      <if test="sweepMode != null">sweep_mode,</if>
+      <if test="openUnionPay != null">open_union_pay,</if>
+      <if test="openMoneyPay != null">open_money_pay,</if>
+      <if test="posPlusType != null">pos_plus_type,</if>
+      <if test="openShanhuiPay != null">open_shanhui_pay,</if>
+      <if test="dazhongShopId != null">dazhong_shop_id,</if>
+      <if test="dazhongAppAuthToken != null">dazhong_app_auth_token,</if>
+      <if test="integralPay != null">integral_pay,</if>
+      <if test="posOpenTable != null">pos_open_table,</if>
+      <if test="openPosAliPay != null">open_pos_ali_pay,</if>
+      <if test="openPosUnionPay != null">open_pos_union_pay,</if>
+      <if test="openPosMoneyPay != null">open_pos_money_pay,</if>
+      <if test="openPosShanhuiPay != null">open_pos_shanhui_pay,</if>
+      <if test="openPosIntegralPay != null">open_pos_integral_pay,</if>
+      <if test="openPosCharge != null">open_pos_charge,</if>
+      <if test="daySmsType!=null">day_sms_type,</if>
+      <if test="tvMode != null">tv_mode,</if>
+      <if test="modifyOrderPrintReceipt != null">modify_order_print_receipt,</if>
+      <if test="modifyOrderPrintKitchen != null">modify_order_print_kitchen,</if>
+      <if test="openPosPayOrder != null">open_pos_pay_order,</if>
+      <if test="openOrderRemark != null">open_order_remark,</if>
+      <if test="tvApkVersion != null">tv_apk_version,</if>
+      <if test="isPosNew != null">is_pos_new,</if>
+      <if test="pageSize != null">page_size,</if>
+      <if test="openPosWeChatPay != null">open_pos_wechat_pay,</if>
+      <if test="templateType != null">template_type,</if>
+      <if test="waitIp != null">wait_ip,</if>
+      <if test="tvTextColor != null">tv_text_color,</if>
+      <if test="tvBackground != null">tv_background,</if>
+      <if test="tvTextBoxBackground != null">tv_textbox_background,</if>
+      <if test="tvHeadTextColor != null">tv_head_text_color,</if>
+      <if test="tvNumberColor != null">tv_number_color,</if>
+      <if test="waitJiaohao != null">wait_jiaohao,</if>
+      <if test="waitJiucan != null">wait_jiucan,</if>
+      <if test="waitGuohao != null">wait_guohao,</if>
+      <if test="waitRemindSwitch != null">wait_remind_switch,</if>
+      <if test="waitRemindNumber != null">wait_remind_number,</if>
+      <if test="waitRemindText != null">wait_remind_text,</if>
+      <if test="isRecommendCategory != null">is_recommend_category,</if>
+      <if test="openMeituan != null">open_meituan,</if>
+      <if test="mqId != null">mq_id,</if>
+      <if test="isTurntable != null">is_turntable,</if>
+      <if test="turntablePrintType != null">turntable_print_type,</if>
+      <if test="openBadAppraisePrintOrder != null">open_bad_appraise_print_order,</if>
+      <if test="badAppraisePrintReceipt!= null">bad_appraise_print_receipt,</if>
+      <if test="badAppraisePrintKitchen!= null">bad_appraise_print_kitchen,</if>
+      <if test="posVersion != null">pos_version,</if>
+      <if test="articlePhoto!= null">article_photo,</if>
+      <if test="isTakeout!= null">is_takeout,</if>
+      <if test="openPosDiscount!= null">open_pos_discount,</if>
+      <if test="apart!= null">apart,</if>
+      <if test="openManyCustomerOrder!= null">open_many_customer_order,</if>
+      <if test="consumptionRebate!= null">consumption_rebate,</if>
+      <if test="rebateTime!= null">rebate_time,</if>
+      <!--<if test="openConsumerRebate!= null">open_consumer_rebate,</if>-->
+      <!--<if test="rebateParticipation!= null">rebate_participation,</if>-->
+      <!--<if test="rebateDelayDeliveryTime!= null">rebate_delay_delivery_time,</if>-->
+      <if test="openBadWarning != null">open_bad_warning,</if>
+      <if test="warningKey != null">warning_key,</if>
+      <if test="warningWechat != null">warning_wechat,</if>
+      <if test="warningSms != null">warning_sms,</if>
+      <if test="serviceType != null">service_type,</if>
+      <if test="tablewareFeeName != null">tableware_fee_name,</if>
+      <if test="tablewareFeePrice != null">tableware_fee_price,</if>
+      <if test="isOpenTablewareFee != null">is_open_tableware_fee,</if>
+      <if test="towelFeeName != null">towel_fee_name,</if>
+      <if test="towelFeePrice != null">towel_fee_price,</if>
+      <if test="isOpenTowelFee != null">is_open_towel_fee,</if>
+      <if test="sauceFeeName != null">sauce_fee_name,</if>
+      <if test="sauceFeePrice != null">sauce_fee_price,</if>
+      <if test="isOpenSauceFee != null">is_open_sauce_fee,</if>
+      <if test="shopTag != null">shop_tag,</if>
+      <if test="fansName != null">fans_name,</if>
+      <if test="aliEncrypt != null">ali_encrypt,</if>
+      <if test="orderWelcomeMessage != null">order_welcome_message,</if>
+      <if test="shopType != null">shop_type,</if>
+      <if test="autoPrintConsumeOrder != null">auto_print_consume_order,</if>
+      <if test="autoPrintCheckOutOrder != null">auto_print_checkout_order,</if>
+      <if test="enableDuoDongXian != null">enable_duodongxian,</if>
+      <if test="openGroupBuy != null">open_group_buy,</if>
+      <if test="openCashCouponBuy != null">open_cash_coupon_buy,</if>
+      <if test="openPosGroupBuy != null">open_pos_group_buy,</if>
+      <if test="openPosCashCouponBuy != null">open_pos_cash_coupon_buy,</if>
+      <if test="openRpay != null">open_rpay,</if>
+      <if test="printOutDetails != null">print_out_details,</if>
+      <if test="areaId != null">area_id,</if>
+      <if test="provinceId != null">province_id,</if>
+      <if test="cityId != null">city_id,</if>
+      <if test="isOpenAddPrintTotal != null">is_open_add_print_total,</if>
+      <if test="isOpenUserSign != null">is_open_user_sign,</if>
+      <if test="isOpenEmqPush != null">is_open_emq_push,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>  
+      <if test="name != null">#{name,jdbcType=VARCHAR},</if>  
+      <if test="address != null">#{address,jdbcType=VARCHAR},</if>  
+      <if test="longitude != null">#{longitude,jdbcType=VARCHAR},</if>  
+      <if test="latitude != null">#{latitude,jdbcType=VARCHAR},</if>  
+      <if test="phone != null">#{phone,jdbcType=VARCHAR},</if>  
+      <if test="openTime != null">#{openTime,jdbcType=TIME},</if>  
+      <if test="closeTime != null">#{closeTime,jdbcType=TIME},</if>  
+      <if test="status != null">#{status,jdbcType=INTEGER},</if>  
+      <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>  
+      <if test="shopMode != null">#{shopMode,jdbcType=INTEGER},</if>  
+      <if test="addUser != null">#{addUser,jdbcType=VARCHAR},</if>  
+      <if test="addTime != null">#{addTime,jdbcType=TIMESTAMP},</if>  
+      <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>  
+      <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if> 
+      <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+      <if test="isOpen != null">#{isOpen,jdbcType=VARCHAR},</if>
+      <if test="city != null">#{city,jdbcType=VARCHAR},</if>
+      <if test="photo != null">#{photo,jdbcType=VARCHAR},</if>
+      <if test="waitRedEnvelope != null">#{waitRedEnvelope},</if>
+      <if test="baseMoney != null">#{baseMoney},</if>
+      <if test="highMoney != null">#{highMoney},</if>
+      <if test="shopDetailIndex != null">#{shopDetailIndex},</if>
+      <if test="restaurantId != null">#{restaurantId},</if>
+      <if test="aliSellerId != null">#{aliSellerId},</if>
+      <if test="aliAppId != null">#{aliAppId},</if>
+      <if test="aliPrivateKey != null">#{aliPrivateKey},</if>
+      <if test="aliPublicKey != null">#{aliPublicKey},</if>
+      <if test="appid != null ">#{appid,jdbcType=VARCHAR},</if>
+      <if test="appsecret != null ">#{appsecret,jdbcType=VARCHAR},</if>
+      <if test="mchid != null ">#{mchid,jdbcType=VARCHAR},</if>
+      <if test="mchkey != null ">#{mchkey,jdbcType=VARCHAR},</if>
+      <if test="payCertPath != null ">#{payCertPath,jdbcType=VARCHAR},</if>
+      <if test="wxServerId != null">#{wxServerId},</if>
+      <if test="isMealFee != null">#{isMealFee},</if>
+      <if test="mealFeeName != null">#{mealFeeName},</if>
+      <if test="mealFeePrice != null">#{mealFeePrice},</if>
+      <if test="slogan != null">#{slogan},</if>
+      <if test="queueNotice != null">#{queueNotice},</if>
+      <if test="isNewQrcode != null">#{isNewQrcode},</if>
+      <if test="isUserIdentity != null">#{is_user_identity},</if>
+      <if test="consumeNumber != null">#{consume_number},</if>
+      <if test="isSub != null">#{isSub},</if>
+      <if test="rollingSwitch != null">#{rollingSwitch},</if>
+      <if test="sweepMode != null">#{sweepMode},</if>
+      <if test="openUnionPay != null">#{openUnionPay},</if>
+      <if test="openMoneyPay != null">#{openMoneyPay},</if>
+      <if test="posPlusType != null">#{posPlusType},</if>
+      <if test="openShanhuiPay != null">#{openShanhuiPay},</if>
+      <if test="dazhongShopId != null">#{dazhongShopId},</if>
+      <if test="dazhongAppAuthToken != null">#{dazhongAppAuthToken},</if>
+      <if test="integralPay != null">#{integralPay},</if>
+      <if test="posOpenTable != null">#{posOpenTable},</if>
+      <if test="openPosAliPay != null">#{openPosAliPay},</if>
+      <if test="openPosUnionPay != null">#{openPosUnionPay},</if>
+      <if test="openPosMoneyPay != null">#{openPosMoneyPay},</if>
+      <if test="openPosShanhuiPay != null">#{openPosShanhuiPay},</if>
+      <if test="openPosIntegralPay != null">#{openPosIntegralPay},</if>
+      <if test="openPosCharge != null">#{openPosCharge},</if>
+      <if test="daySmsType !=null">#{daySmsType},</if>
+      <if test="tvMode != null">#{tvMode},</if>
+      <if test="modifyOrderPrintReceipt != null">#{modifyOrderPrintReceipt},</if>
+      <if test="modifyOrderPrintKitchen != null">#{modifyOrderPrintKitchen},</if>
+      <if test="openPosPayOrder != null">#{openPosPayOrder},</if>
+      <if test="openOrderRemark != null">#{openOrderRemark},</if>
+      <if test="tvApkVersion != null">#{tvApkVersion},</if>
+      <if test="isPosNew != null">#{isPosNew},</if>
+      <if test="pageSize != null">#{pageSize},</if>
+      <if test="openPosWeChatPay != null">#{openPosWeChatPay},</if>
+      <if test="templateType != null">#{templateType},</if>
+      <if test="waitIp != null">#{waitIp},</if>
+      <if test="tvTextColor != null">#{tvTextColor},</if>
+      <if test="tvBackground != null">#{tvBackground},</if>
+      <if test="tvTextBoxBackground != null">#{tvTextBoxBackground},</if>
+      <if test="tvHeadTextColor != null">#{tvHeadTextColor},</if>
+      <if test="tvNumberColor != null">#{tvNumberColor},</if>
+      <if test="waitJiaohao != null">#{waitJiaohao},</if>
+      <if test="waitJiucan != null">#{waitJiucan},</if>
+      <if test="waitGuohao != null">#{waitGuohao},</if>
+      <if test="waitRemindSwitch != null">#{waitRemindSwitch},</if>
+      <if test="waitRemindNumber != null">#{waitRemindNumber},</if>
+      <if test="waitRemindText != null">#{waitRemindText},</if>
+      <if test="isRecommendCategory != null">#{isRecommendCategory},</if>
+      <if test="openMeituan != null">#{openMeituan},</if>
+      <if test="mqId != null">#{mqId},</if>
+      <if test="isTurntable != null">#{isTurntable},</if>
+      <if test="turntablePrintType != null">#{turntablePrintType},</if>
+      <if test="openBadAppraisePrintOrder != null">#{openBadAppraisePrintOrder},</if>
+      <if test="badAppraisePrintReceipt != null">#{badAppraisePrintReceipt},</if>
+      <if test="badAppraisePrintKitchen != null">#{badAppraisePrintKitchen},</if>
+      <if test="posVersion != null">#{posVersion},</if>
+      <if test="articlePhoto != null">#{articlePhoto},</if>
+      <if test="isTakeout != null">#{isTakeout},</if>
+      <if test="openPosDiscount != null">#{openPosDiscount},</if>
+      <if test="apart != null">#{apart},</if>
+      <if test="openManyCustomerOrder != null">#{openManyCustomerOrder},</if>
+      <if test="consumptionRebate != null">#{consumptionRebate},</if>
+      <if test="rebateTime != null">#{rebateTime},</if>
+      <!--<if test="openConsumerRebate != null">#{openConsumerRebate},</if>-->
+      <!--<if test="rebateParticipation != null">#{rebateParticipation},</if>-->
+      <!--<if test="rebateDelayDeliveryTime != null">#{rebateDelayDeliveryTime},</if>-->
+      <if test="openBadWarning != null">#{openBadWarning},</if>
+      <if test="warningKey != null">#{warningKey},</if>
+      <if test="warningWechat != null">#{warningWechat},</if>
+      <if test="warningSms != null">#{warningSms},</if>
+      <if test="serviceType != null">#{serviceType},</if>
+      <if test="tablewareFeeName != null">#{tablewareFeeName},</if>
+      <if test="tablewareFeePrice != null">#{tablewareFeePrice},</if>
+      <if test="isOpenTablewareFee != null">#{isOpenTablewareFee},</if>
+      <if test="towelFeeName != null">#{towelFeeName},</if>
+      <if test="towelFeePrice != null">#{towelFeePrice},</if>
+      <if test="isOpenTowelFee != null">#{isOpenTowelFee},</if>
+      <if test="sauceFeeName != null">#{sauceFeeName},</if>
+      <if test="sauceFeePrice != null">#{sauceFeePrice},</if>
+      <if test="isOpenSauceFee != null">#{isOpenSauceFee},</if>
+      <if test="shopTag != null">#{shopTag},</if>
+      <if test="fansName != null">#{fansName},</if>
+      <if test="aliEncrypt != null">#{aliEncrypt},</if>
+      <if test="orderWelcomeMessage != null">#{orderWelcomeMessage},</if>
+      <if test="shopType != null">#{shopType},</if>
+      <if test="autoPrintConsumeOrder != null">#{autoPrintConsumeOrder},</if>
+      <if test="autoPrintCheckOutOrder != null">#{autoPrintCheckOutOrder},</if>
+      <if test="enableDuoDongXian != null">#{enableDuoDongXian},</if>
+      <if test="openGroupBuy != null">#{openGroupBuy},</if>
+      <if test="openCashCouponBuy != null">#{openCashCouponBuy},</if>
+      <if test="openPosGroupBuy != null">#{openPosGroupBuy},</if>
+      <if test="openPosCashCouponBuy != null">#{openPosCashCouponBuy},</if>
+      <if test="openRpay != null">#{openRpay},</if>
+      <if test="printOutDetails != null">#{printOutDetails},</if>
+      <if test="areaId != null">#{areaId},</if>
+      <if test="provinceId != null">#{provinceId},</if>
+      <if test="cityId != null">#{cityId},</if>
+      <if test="isOpenAddPrintTotal != null">#{isOpenAddPrintTotal},</if>
+      <if test="isOpenUserSign != null">#{isOpenUserSign},</if>
+      <if test="isOpenEmqPush != null">#{isOpenEmqPush},</if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.ShopDetail">
+    update shop_detail
+    <set> 
+      <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>  
+      <if test="address != null">address = #{address,jdbcType=VARCHAR},</if>  
+      <if test="longitude != null">longitude = #{longitude,jdbcType=VARCHAR},</if>  
+      <if test="latitude != null">latitude = #{latitude,jdbcType=VARCHAR},</if>  
+      <if test="phone != null">phone = #{phone,jdbcType=VARCHAR},</if>  
+      <if test="openTime != null">open_time = #{openTime,jdbcType=TIME},</if>  
+      <if test="closeTime != null">close_time = #{closeTime,jdbcType=TIME},</if>  
+      <if test="status != null">status = #{status,jdbcType=INTEGER},</if>  
+      <if test="remark != null">remark = #{remark,jdbcType=VARCHAR},</if>  
+      <if test="shopMode != null">shop_mode = #{shopMode,jdbcType=INTEGER},</if>  
+      <if test="addUser != null">add_user = #{addUser,jdbcType=VARCHAR},</if>  
+      <if test="addTime != null">add_time = #{addTime,jdbcType=TIMESTAMP},</if>  
+      <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>  
+      <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if> 
+      <if test="state!= null">state = #{state,jdbcType=VARCHAR},</if> 
+      <if test="isOpen!= null">is_open = #{isOpen,jdbcType=VARCHAR},</if>
+      <if test="city!= null">city = #{city,jdbcType=VARCHAR},</if>
+      <if test="photo!= null">photo = #{photo,jdbcType=VARCHAR},</if>
+      <if test="waitRedEnvelope!= null">wait_red_envelope = #{waitRedEnvelope,jdbcType=INTEGER},</if>
+      <if test="baseMoney!= null">base_money = #{baseMoney},</if>
+      <if test="highMoney!= null">high_money = #{highMoney},</if>
+      <if test="shopDetailIndex!= null">shop_detail_index = #{shopDetailIndex},</if>
+      <if test="restaurantId != null">restaurant_id = #{restaurantId,jdbcType=VARCHAR},</if>
+      <if test="geekposQueueIslogin != null">geekpos_queue_islogin = #{geekposQueueIslogin},</if>
+      <if test="geekposQueueLastLoginTime != null">geekpos_queue_last_login_time = #{geekposQueueLastLoginTime},</if>
+      <if test="aliPay != null">ali_pay = ${aliPay},</if>
+      <if test="aliSellerId != null">ali_seller_id = #{aliSellerId},</if>
+      <if test="aliAppId != null">ali_appId = #{aliAppId},</if>
+      <if test="aliPrivateKey != null">ali_private_key = #{aliPrivateKey},</if>
+      <if test="aliPublicKey != null">ali_public_key = #{aliPublicKey},</if>
+      <if test="aliPayDiscount != null">ali_pay_discount = ${aliPayDiscount},</if>
+      <if test="appid != null ">appid = #{appid,jdbcType=VARCHAR},</if>
+      <if test="appsecret != null ">appsecret = #{appsecret,jdbcType=VARCHAR},</if>
+      <if test="mchid != null ">mchid = #{mchid,jdbcType=VARCHAR},</if>
+      <if test="mchkey != null ">mchkey = #{mchkey,jdbcType=VARCHAR},</if>
+      <if test="payCertPath != null ">pay_cert_path = #{payCertPath,jdbcType=VARCHAR},</if>
+      <if test="isMealFee != null">is_meal_fee = #{isMealFee},</if>
+      <if test="mealFeeName != null">meal_fee_name = #{mealFeeName},</if>
+      <if test="mealFeePrice != null">meal_fee_price = #{mealFeePrice},</if>
+      <if test="appraiseMinMoney != null">appraise_min_money = #{appraiseMinMoney},</if>
+      <if test="autoConfirmTime != null">auto_confirm_time = #{autoConfirmTime},</if>
+      <if test="closeContinueTime != null">close_continue_time = #{closeContinueTime},</if>
+      <if test="isChoiceMode != null">is_choice_mode = #{isChoiceMode},</if>
+      <if test="autoAlertAppraise != null">auto_alert_appraise = #{autoAlertAppraise},</if>
+      <if test="goodAppraiseLength != null">good_appraise_length = #{goodAppraiseLength},</if>
+      <if test="badAppraiseLength != null">bad_appraise_length = #{badAppraiseLength},</if>
+      <if test="autoPrintTotal != null">auto_print_total = #{autoPrintTotal},</if>
+      <if test="isUseRecommend != null">is_use_recommend = #{isUseRecommend},</if>
+      <if test="printType != null">print_type = #{printType},</if>
+      <if test="isPrintPayAfter != null">is_print_pay_after = #{isPrintPayAfter},</if>
+      <if test="isUseServicePrice != null">is_use_service_price = #{isUseServicePrice},</if>
+      <if test="serviceName != null">service_name = #{serviceName},</if>
+      <if test="servicePrice != null">service_price = #{servicePrice},</if>
+      <if test="isPush != null">is_push = #{isPush},</if>
+      <if test="pushContext != null">push_context = #{pushContext},</if>
+      <if test="pushTime != null">push_time = #{pushTime},</if>
+      <if test="slogan != null and slogan != '' ">slogan = #{slogan},</if>
+      <if test="queueNotice != null and queueNotice != '' ">queue_notice = #{queueNotice},</if>
+      <if test="isNewQrcode != null">is_new_qrcode = #{isNewQrcode},</if>
+      <if test="isUserIdentity != null">is_user_identity = #{isUserIdentity},</if>
+      <if test="consumeNumber != null">consume_number = #{consumeNumber},</if>
+      <if test="isSub != null">is_sub = #{isSub},</if>
+      <if test="waitTime != null">wait_time = #{waitTime},</if>
+      <if test="waitUnit != null">wait_unit = #{waitUnit},</if>
+      <if test="timeOut != null">time_out = #{timeOut},</if>
+      <if test="consumeConfineTime != null">consume_confine_time = #{consumeConfineTime},</if>
+      <if test="consumeConfineUnit != null">consume_confine_unit = #{consumeConfineUnit},</if>
+      <if test="limit == 1">wx_server_id = #{wxServerId},</if>
+      <if test="continueOrderScan != null">continue_order_scan = #{continueOrderScan},</if>
+      <if test="deviceToken != null">device_token = #{deviceToken},</if>
+      <if test="appkey != null">app_key = #{appkey},</if>
+      <if test="appMasterSecret != null">app_master_secret = #{appMasterSecret},</if>
+      <if test="printReceipt != null">print_receipt = #{printReceipt},</if>
+      <if test="printKitchen != null">print_kitchen = #{printKitchen},</if>
+      <if test="isOpenSms != null">is_open_sms = #{isOpenSms},</if>
+      <if test="noticeTelephone != null">notice_telephone = #{noticeTelephone},</if>
+      <if test="recommendTime != null">recommend_time = #{recommendTime},</if>
+      <if test="allowAfterPay != null">allow_after_pay = #{allowAfterPay},</if>
+      <if test="allowFirstPay != null">allow_first_pay = #{allowFirstPay},</if>
+      <if test="rollingSwitch != null">rolling_switch = #{rollingSwitch},</if>
+      <if test="sweepMode != null">sweep_mode = #{sweepMode},</if>
+      <if test="openUnionPay != null">open_union_pay = #{openUnionPay},</if>
+      <if test="openMoneyPay != null">open_money_pay = #{openMoneyPay},</if>
+      <if test="posPlusType != null">pos_plus_type = #{posPlusType},</if>
+      <if test="openShanhuiPay != null">open_shanhui_pay = #{openShanhuiPay},</if>
+      <if test="dazhongShopId != null">dazhong_shop_id = #{dazhongShopId},</if>
+      <if test="dazhongAppAuthToken != null">dazhong_app_auth_token = #{dazhongAppAuthToken},</if>
+      <if test="thirdAppid != null">third_appid = #{thirdAppid},</if>
+      <if test="integralPay != null">integral_pay = #{integralPay},</if>
+      <if test="printMeituan != null">print_meituan = #{printMeituan},</if>
+      <if test="posOpenTable != null">pos_open_table = #{posOpenTable},</if>
+      <if test="openPosAliPay != null">open_pos_ali_pay = #{openPosAliPay},</if>
+      <if test="openPosUnionPay != null">open_pos_union_pay = #{openPosUnionPay},</if>
+      <if test="openPosMoneyPay != null">open_pos_money_pay = #{openPosMoneyPay},</if>
+      <if test="openPosShanhuiPay != null">open_pos_shanhui_pay = #{openPosShanhuiPay},</if>
+      <if test="openPosIntegralPay != null">open_pos_integral_pay = #{openPosIntegralPay},</if>
+      <if test="openPosCharge != null">open_pos_charge = #{openPosCharge},</if>
+      <if test="daySmsType != null">day_sms_type = #{daySmsType},</if>
+      <if test="tvMode != null">tv_mode = #{tvMode},</if>
+      <if test="modifyOrderPrintReceipt != null">modify_order_print_receipt = #{modifyOrderPrintReceipt},</if>
+      <if test="modifyOrderPrintKitchen != null">modify_order_print_kitchen = #{modifyOrderPrintKitchen},</if>
+      <if test="openPosPayOrder != null">open_pos_pay_order = #{openPosPayOrder},</if>
+      <if test="openOrderRemark != null">open_order_remark = #{openOrderRemark},</if>
+      <if test="tvApkVersion != null">tv_apk_version = #{tvApkVersion},</if>
+      <if test="isPosNew != null">is_pos_new = #{isPosNew},</if>
+      <if test="pageSize != null">page_size = #{pageSize},</if>
+      <if test="openPosWeChatPay != null">open_pos_wechat_pay = #{openPosWeChatPay},</if>
+      <if test="templateType != null">template_type = #{templateType},</if>
+      <if test="tvIp != null">tv_ip = #{tvIp},</if>
+      <if test="splitKitchen != null">split_kitchen = #{splitKitchen},</if>
+      <if test="waitIp != null">wait_ip = #{waitIp},</if>
+      <if test="tvTextColor != null">tv_text_color = #{tvTextColor},</if>
+      <if test="tvBackground != null">tv_background = #{tvBackground},</if>
+      <if test="tvTextBoxBackground != null">tv_textbox_background = #{tvTextBoxBackground},</if>
+      <if test="tvHeadTextColor != null">tv_head_text_color = #{tvHeadTextColor},</if>
+      <if test="tvNumberColor != null">tv_number_color = #{tvNumberColor},</if>
+      <if test="waitJiaohao != null">wait_jiaohao = #{waitJiaohao},</if>
+      <if test="waitJiucan != null">wait_jiucan = #{waitJiucan},</if>
+      <if test="waitGuohao != null">wait_guohao = #{waitGuohao},</if>
+      <if test="waitRemindSwitch != null">wait_remind_switch = #{waitRemindSwitch},</if>
+      <if test="waitRemindNumber != null">wait_remind_number = #{waitRemindNumber},</if>
+      <if test="waitRemindText != null">wait_remind_text = #{waitRemindText},</if>
+      <if test="isRecommendCategory != null">is_recommend_category = #{isRecommendCategory},</if>
+      <if test="openMeituan != null">open_meituan = #{openMeituan},</if>
+      <if test="mqId != null">mq_id = #{mqId},</if>
+      <if test="isTurntable != null">is_turntable = #{isTurntable},</if>
+      <if test="turntablePrintType != null">turntable_print_type = #{turntablePrintType},</if>
+      <if test="openBadAppraisePrintOrder != null">open_bad_appraise_print_order = #{openBadAppraisePrintOrder},</if>
+      <if test="badAppraisePrintReceipt != null">bad_appraise_print_receipt = #{badAppraisePrintReceipt},</if>
+      <if test="badAppraisePrintKitchen != null">bad_appraise_print_kitchen = #{badAppraisePrintKitchen},</if>
+      <if test="posVersion != null">pos_version = #{posVersion},</if>
+      <if test="articlePhoto != null">article_photo = #{articlePhoto},</if>
+      <if test="isTakeout != null">is_takeout = #{isTakeout},</if>
+      <if test="openPosDiscount != null">open_pos_discount = #{openPosDiscount},</if>
+      <if test="apart != null">apart = #{apart},</if>
+      <if test="openManyCustomerOrder != null">open_many_customer_order = #{openManyCustomerOrder},</if>
+      <if test="posKey != null">pos_key = #{posKey},</if>
+      <if test="consumptionRebate != null">consumption_rebate = #{consumptionRebate},</if>
+      <if test="rebateTime != null">rebate_time = #{rebateTime},</if>
+      <!--<if test="openConsumerRebate != null">open_consumer_rebate = #{openConsumerRebate},</if>-->
+      <!--<if test="rebateParticipation != null">rebate_participation = #{rebateParticipation},</if>-->
+      <!--<if test="rebateDelayDeliveryTime != null">rebate_delay_delivery_time = #{rebateDelayDeliveryTime},</if>-->
+      <if test="openBadWarning != null">open_bad_warning = #{openBadWarning},</if>
+      <if test="warningKey != null">warning_key = #{warningKey},</if>
+      <if test="warningWechat != null">warning_wechat = #{warningWechat},</if>
+      <if test="warningSms != null">warning_sms = #{warningSms},</if>
+      <if test="orderBefore != null">order_before = #{orderBefore},</if>
+      <if test="serviceType != null">service_type = #{serviceType},</if>
+      <if test="tablewareFeeName != null">tableware_fee_name = #{tablewareFeeName},</if>
+      <if test="tablewareFeePrice != null">tableware_fee_price = #{tablewareFeePrice},</if>
+      <if test="isOpenTablewareFee != null">is_open_tableware_fee = #{isOpenTablewareFee},</if>
+      <if test="towelFeeName != null">towel_fee_name = #{towelFeeName},</if>
+      <if test="towelFeePrice != null">towel_fee_price = #{towelFeePrice},</if>
+      <if test="isOpenTowelFee != null">is_open_towel_fee = #{isOpenTowelFee},</if>
+      <if test="sauceFeeName != null">sauce_fee_name = #{sauceFeeName},</if>
+      <if test="sauceFeePrice != null">sauce_fee_price = #{sauceFeePrice},</if>
+      <if test="isOpenSauceFee != null">is_open_sauce_fee = #{isOpenSauceFee},</if>
+      <if test="shopTag != null">shop_tag = #{shopTag},</if>
+      <if test="fansName != null">fans_name = #{fansName},</if>
+      <if test="aliEncrypt != null">ali_encrypt = #{aliEncrypt},</if>
+      <if test="orderWelcomeMessage != null">order_welcome_message = #{orderWelcomeMessage},</if>
+      <if test="shopType != null">shop_type = #{shopType},</if>
+      <if test="autoPrintConsumeOrder != null">auto_print_consume_order = #{autoPrintConsumeOrder},</if>
+      <if test="autoPrintCheckOutOrder != null">auto_print_checkout_order = #{autoPrintCheckOutOrder},</if>
+      <if test="enableDuoDongXian != null">enable_duodongxian = #{enableDuoDongXian},</if>
+      <if test="openGroupBuy != null">open_group_buy = #{openGroupBuy},</if>
+      <if test="openCashCouponBuy != null">open_cash_coupon_buy = #{openCashCouponBuy},</if>
+      <if test="openPosGroupBuy != null">open_pos_group_buy = #{openPosGroupBuy},</if>
+      <if test="openPosCashCouponBuy != null">open_pos_cash_coupon_buy = #{openPosCashCouponBuy},</if>
+      <if test="openRpay != null">open_rpay=#{openRpay},</if>
+      <if test="printOutDetails != null">print_out_details=#{printOutDetails},</if>
+      <if test="areaId != null">area_id = #{areaId},</if>
+      <if test="provinceId != null">province_id=#{provinceId},</if>
+      <if test="cityId != null">city_id=#{cityId},</if>
+      <if test="isOpenAddPrintTotal != null">is_open_add_print_total=#{isOpenAddPrintTotal},</if>
+      <if test="isOpenUserSign != null">is_open_user_sign=#{isOpenUserSign},</if>
+      <if test="isOpenEmqPush != null">is_open_emq_push=#{isOpenEmqPush},</if>
+      </set> where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.ShopDetail">
+      update shop_detail set name = #{name,jdbcType=VARCHAR},is_open=#{isOpen} address = #{address,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=VARCHAR}, latitude = #{latitude,jdbcType=VARCHAR}, phone = #{phone,jdbcType=VARCHAR},
+      open_time = #{openTime,jdbcType=TIME}, close_time = #{closeTime,jdbcType=TIME}, status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}, shop_mode = #{shopMode,jdbcType=INTEGER}, add_user = #{addUser,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP}, update_time = #{updateTime,jdbcType=TIMESTAMP}, brand_id = #{brandId,jdbcType=VARCHAR},
+      wait_red_envelope = #{waitRedEnvelope}, base_money = #{baseMoney}, high_money = #{highMoney}, shop_detail_index = #{shopDetailIndex},
+      geekpos_queue_islogin = #{geekposQueueIslogin}, geekpos_queue_last_login_time = #{geekposQueueLastLoginTime},is_new_qrcode = #{isNewQrcode},
+      is_user_identity = #{isUserIdentity},consume_number = #{consumeNumber},rolling_switch = #{rollingSwitch},sweep_mode = #{sweepMode},
+      open_union_pay = #{openUnionPay},open_money_pay = #{openMoneyPay},pos_plus_type = #{posPlusType} ,third_appid=#{thirdAppid},
+      dazhong_shop_id = #{dazhongShopId},dazhong_app_auth_token = #{dazhongAppAuthToken},integral_pay = #{integralPay},pos_open_table = #{posOpenTable},
+      open_pos_ali_pay=#{openPosAliPay},open_pos_union_pay = #{openPosUnionPay},open_pos_money_pay = #{openPosMoneyPay},open_pos_shanhui_pay = #{openPosShanhuiPay},
+      open_pos_integral_pay = #{openPosIntegralPay},open_pos_charge = #{openPosCharge},tv_mode = #{tvMode},modify_order_print_receipt = #{modifyOrderPrintReceipt},modify_order_print_kitchen = #{modifyOrderPrintKitchen},
+      open_pos_pay_order = #{openPosPayOrder},open_order_remark = #{openOrderRemark},open_pos_wechat_pay = #{openPosWeChatPay},template_type = #{templateType},wait_ip = #{waitIp},is_recommend_category = #{isRecommendCategory},
+      tv_text_color = #{tvTextColor},tv_background = #{tvBackground},tv_textbox_background = #{tvTextBoxBackground},wait_remind_text = #{waitRemindText},is_turntable = #{isTurntable},turntable_print_type = #{turntablePrintType},is_takeout = #{isTakeout},
+      open_pos_discount = #{openPosDiscount},apart = #{apart},open_many_customer_order = #{openManyCustomerOrder},fans_name = #{fansName},open_rpay=#{openRpay}, print_out_details=#{printOutDetails}, is_open_add_print_total=#{isOpenAddPrintTotal},is_open_user_sign=#{isOpenUserSign}
+      where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectList" resultType="ShopDetail">
+  	select 
+  	s.id,s.ali_seller_id ,s.ali_appId,s.ali_public_key,s.ali_private_key,s.order_before,s.name,s.address,s.phone,s.open_time,s.close_time,s.status,s.remark,s.shop_mode,s.add_user,s.longitude,s.latitude,s.add_time,s.update_time,s.brand_id,s.update_user,s.is_open,s.tv_mode,
+  	s.is_pos_new,s.page_size,s.is_open_sms,s.notice_telephone,open_meituan,s.pos_version,b.mq_id,
+    b.brand_name,s.city,s.photo,sm.name as shopmode_name,s.shop_detail_index,restaurant_id,appid, appsecret, mchid, mchkey,pay_cert_path,wx_server_id,is_sub,s.shop_tag,s.is_takeout,s.open_pos_discount,
+    s.open_many_customer_order,s.fans_name,s.ali_encrypt,s.order_welcome_message,s.shop_type,s.auto_print_consume_order,s.auto_print_checkout_order,s.enable_duodongxian as enableDuoDongXian,s.open_group_buy,s.open_cash_coupon_buy,s.open_pos_group_buy,s.open_pos_cash_coupon_buy,
+   s.allow_after_pay,s.allow_first_pay,s.area_id,s.province_id,s.city_id,is_open_emq_push
+   from shop_detail s left join brand b on s.brand_id=b.id
+	left join  shop_mode sm on s.shop_mode=sm.id
+   where s.state=1 order by b.brand_name asc,s.shop_detail_index asc
+   </select>
+  
+  <select id="selectIdAndName" resultType="ShopDetail" parameterType="String">
+  	select id,name from shop_detail where brand_id = #{brandId} and state = 1 
+  </select>
+  
+  <select id="selectByBrandId" resultType="ShopDetail">
+  	select s.*,b.brand_name,s.consume_confine_time,s.consume_confine_unit ,s.enable_duodongxian as enableDuoDongXian,s.open_group_buy,s.open_cash_coupon_buy,s.open_pos_group_buy,s.open_pos_cash_coupon_buy from shop_detail s LEFT JOIN brand b on s.brand_id = b.id where
+  		brand_id=#{0} and s.state=1 and s.is_open=1 ORDER BY s.shop_detail_index
+  </select>
+
+  <select id="selectByShopCity" resultType="ShopDetail">
+    select city from shop_detail where is_open=1 and state = 1 and brand_id = #{brandId} group by city
+  </select>
+
+  <select id="selectByCityOrName" resultType="ShopDetail">
+    select * from shop_detail where state = 1 and is_open=1 and (city like  CONCAT(CONCAT('%', #{name}), '%')  or name like CONCAT(CONCAT('%', #{name}), '%')) and brand_id = #{brandId}
+  </select>
+
+  <select id="selectByCity" resultType="ShopDetail">
+    select * from shop_detail where state = 1 and is_open=1 and city = #{city} and brand_id = #{brandId}
+  </select>
+
+  <select id="selectOrderByIndex" resultType="ShopDetail">
+    select * from shop_detail where state = 1 and is_open=1 and brand_id = #{brandId} order by shop_detail_index
+  </select>
+
+  <select id="selectByRestaurantId" resultType="ShopDetail">
+    select * from shop_detail where restaurant_id = #{restaurantId}
+  </select>
+
+  <select id="selectByOOrderShopId" resultType="ShopDetail">
+    select * from shop_detail where restaurant_id = #{shopId}
+  </select>
+
+  <select id="selectQueueInfo" parameterType="String" resultType="ShopDetail">
+  	SELECT s.id,s.name,IFNULL(s.slogan,bs.slogan) slogan,IFNULL(s.queue_notice,bs.queue_notice) queue_notice from shop_detail s
+  	 LEFT JOIN brand b on s.brand_id = b.id LEFT JOIN brand_setting bs on b.brand_setting_id = bs.id where s.id = #{shopId}
+  </select>
+
+  <select id="selectByPrimaryKeyShop" resultType="ShopDetail" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from brand_setting
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+    <select id="selectByThirdAppId" parameterType="String" resultType="ShopDetail">
+        SELECT * FROM  shop_detail WHERE third_appid=#{thirdAppid}
+    </select>
+
+    <update id="updatePosWaitredEnvelope" parameterType="com.resto.brand.web.model.ShopDetail">
+        update shop_detail set pos_waitred_envelope = #{state} where id = #{id}
+    </update>
+
+  <select id="posSelectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+     SELECT sd.id, sd.name, sd.address, sd.phone, sd.is_meal_fee, sd.meal_fee_name, sd.meal_fee_price,
+     sd.print_type, sd.is_use_service_price, sd.service_name, sd.service_price, sd.shop_mode, sd.allow_first_pay, sd.order_welcome_message,
+     sd.pos_plus_type, sd.brand_id,sd.tv_ip,
+     IFNULL(sd.close_continue_time,bs.close_continue_time) close_continue_time, IFNULL(sd.auto_confirm_time,bs.auto_confirm_time) auto_confirm_time,
+		 sd.auto_print_total, sd.allow_first_pay, sd.allow_after_pay, sd.print_receipt, sd.print_kitchen, sd.modify_order_print_receipt, sd.modify_order_print_kitchen,
+		 sd.open_pos_wechat_pay, sd.open_pos_ali_pay, sd.open_pos_union_pay,sd.open_pos_money_pay, sd.open_pos_shanhui_pay, sd.open_pos_integral_pay, sd.open_pos_pay_order,
+		 sd.open_pos_charge, sd.open_order_remark, sd.template_type, sd.print_meituan, sd.service_type, sd.tableware_fee_name, sd.tableware_fee_price,
+		 sd.is_open_tableware_fee, sd.towel_fee_name, sd.towel_fee_price, sd.is_open_towel_fee, sd.sauce_fee_name, sd.sauce_fee_price, sd.is_open_sauce_fee, sd.split_kitchen, sd.is_turntable,
+		 sd.turntable_print_type, sd.open_bad_appraise_print_order, sd.bad_appraise_print_receipt, sd.bad_appraise_print_kitchen, sd.auto_print_consume_order , sd.auto_print_checkout_order,
+		 sd.enable_duodongxian,sd.open_group_buy,sd.open_cash_coupon_buy,sd.open_pos_group_buy,sd.open_pos_cash_coupon_buy,
+     b.brand_name, bs.red_package_logo brand_logo, bs.is_open_scm, sd.open_rpay, sd.print_out_details,sd.is_open_add_print_total,sd.is_open_user_sign, sd.is_open_emq_push
+     from shop_detail sd
+       LEFT JOIN brand b on sd.brand_id = b.id
+       LEFT JOIN brand_setting bs on b.brand_setting_id = bs.id where sd.id = #{shopId}
+  </select>
+  <select id="selectShopStatus" resultMap="BaseResultMap" parameterType="java.lang.String">select
+    <include refid="Base_Column_List"/> from shop_detail where id = #{shopId,jdbcType=VARCHAR} AND brand_id=#{brandId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectListByBrandId" resultType="ShopDetail">
+    select <include refid="Base_Column_List"/> from shop_detail where brand_id=#{brandId}
+  </select>
+
+  <select id="selectNotExistShopDetailByBrandId" resultType="ShopDetail">
+     SELECT * FROM (SELECT s.* FROM `shop_detail` s where s.brand_id=#{brandId}) p WHERE p.id  NOT IN (select v.shopDetail_id FROM version_newpos_shopdetail v)
+  </select>
+
+  <select id="selectByShopAndByName" resultType="ShopDetail">
+    select s.id,s.`name`,s.area_id,s.province_id,s.city_id from shop_detail s where s.is_open=1 and s.state = 1 and s.brand_id = #{brandId}
+    <if test="name != null">
+      and s.`name` like CONCAT('%',#{name},'%')
+    </if>
+  </select>
+</mapper>

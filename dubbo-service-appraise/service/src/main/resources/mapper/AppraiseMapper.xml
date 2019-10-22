@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.service.appraise.mapper.AppraiseMapper">
+    <resultMap id="BaseResultMap" type="com.resto.api.appraise.entity.Appraise">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="picture_url" property="pictureUrl" jdbcType="VARCHAR"/>
+        <result column="level" property="level" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="type" property="type" jdbcType="TINYINT"/>
+        <result column="feedback" property="feedback" jdbcType="VARCHAR"/>
+        <result column="red_money" property="redMoney" jdbcType="DECIMAL"/>
+        <result column="customer_id" property="customerId" jdbcType="VARCHAR"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+        <result column="article_id" property="articleId" jdbcType="VARCHAR"/>
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="feedback_article" property="feedbackArticle" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="listAppraise" resultType="com.resto.api.appraise.entity.Appraise">
+  	 SELECT a.id,a.CUSTOMER_ID,a.PICTURE_URL,a.ARTICLE_ID,a.shop_detail_id,a.TYPE,a.create_time,a.LEVEL,a.CONTENT,a.STATUS,a.FEEDBACK,a.feedback_article,c.NICKNAME,c.head_photo,c.sex
+  	  from tb_appraise a LEFT JOIN tb_customer c on a.customer_id = c.id   	  
+  	  where shop_detail_id=#{currentShopId} and LEVEL &gt;= #{minLevel} and content not like '%系统%'
+  	  	and LEVEL &lt;= #{maxLevel} ORDER BY create_time DESC LIMIT #{currentPage},#{showCount}
+  </select>
+    <select id="selectDetailedById" resultType="com.resto.api.appraise.entity.Appraise">
+  	 SELECT a.id, a.CUSTOMER_ID,a.PICTURE_URL,a.ARTICLE_ID,a.TYPE,a.create_time,a.LEVEL,a.CONTENT,a.STATUS,a.FEEDBACK,a.feedback_article,c.NICKNAME,c.head_photo,a.shop_detail_id
+  	  from tb_appraise a LEFT JOIN tb_customer c on a.customer_id = c.id   	  
+  	  where a.id=#{0}
+  </select>
+
+    <select id="appraiseCount" resultType="java.util.HashMap">
+  	select count(*)  AS COUNT,AVG(LEVEL)*20  AS AVG_SCORE  from tb_appraise where shop_detail_id = #{currentShopId}
+  </select>
+
+    <select id="appraiseMonthCount" resultType="java.util.HashMap">
+        <!--   	SELECT LEFT(create_time,7) AS YEARMONTH,COUNT(1) as COUNT,AVG(LEVEL)*20 AVG_SCORE FROM tb_appraise where -->
+        <!--   	 shop_detail_id = #{currentShopId} GROUP BY yearmonth ORDER BY create_time DESC -->
+        SELECT COUNT(1) AS COUNT,AVG(LEVEL)*20 AVG_SCORE,
+        CASE WHEN DAY(create_time) BETWEEN 1 AND 10 THEN DATE_FORMAT(create_time,'%Y.%m.01~10')
+        WHEN DAY(create_time) BETWEEN 11 AND 20 THEN DATE_FORMAT(create_time,'%Y.%m.11~20')
+        ELSE CONCAT(DATE_FORMAT(create_time,'%Y.%m.21~'),DAY(LAST_DAY(create_time)))
+        END AS YEARMONTH FROM tb_appraise
+        where shop_detail_id=#{0}
+        GROUP BY YEARMONTH
+        ORDER BY CREATE_TIME DESC
+        LIMIT 0,10
+    </select>
+
+    <select id="selectDeatilByOrderId" resultType="com.resto.api.appraise.entity.Appraise">select
+       * from tb_appraise where order_id=#{orderId}
+    </select>
+
+    <select id="selectAppraiseByCustomerId" resultType="com.resto.api.appraise.entity.Appraise">
+      select * from tb_appraise where customer_id = #{customerId} and shop_detail_id = #{shopId}
+      and status = 1 order by create_time desc limit 1
+  </select>
+
+    <select id="selectCustomerAllAppraise" resultType="com.resto.api.appraise.entity.Appraise">
+    select a.id,a.CUSTOMER_ID,a.PICTURE_URL,a.ARTICLE_ID,a.shop_detail_id,a.TYPE,a.create_time,a.LEVEL,a.CONTENT,a.STATUS,a.FEEDBACK,a.feedback_article,c.NICKNAME,c.head_photo
+    from tb_appraise a LEFT JOIN tb_customer c on a.customer_id = c.id
+    where a.customer_id = #{customerId} and a.status = 1 order by a.create_time desc
+    LIMIT #{currentPage},#{showCount}
+  </select>
+
+    <select id="selectByCustomerCount" resultType="java.lang.Integer">
+    select count(*) from tb_appraise where customer_id = #{customerId} and status = 1
+  </select>
+
+    <select id="selectByGoodAppraise" resultType="com.resto.api.appraise.entity.Appraise">
+        select
+          *
+        from tb_appraise where level = 5 and picture_url is not null order by create_time desc limit 500
+    </select>
+
+    <select id="selectCustomerAppraiseAvg" parameterType="java.lang.String" resultType="java.util.Map">
+  	  select count(1) count,sum(`level`) sum from tb_appraise where customer_id = #{customerId}
+   </select>
+
+    <select id="selectByTimeAndShopId" resultType="com.resto.api.appraise.entity.Appraise">
+        SELECT
+        a.id,
+        a.picture_url,
+        a.level,
+        a.create_time,
+        a.content,
+        a.status,
+        a.type,
+        a.feedback,
+        a.red_money,
+        a.customer_id,
+        a.order_id,
+        a.article_id,
+        a.shop_detail_id,
+        c.nickname,
+        c.head_photo,
+        c.sex
+        FROM
+        tb_appraise a
+        LEFT JOIN tb_customer c
+        on a.customer_id = c.id
+        WHERE
+        a.shop_detail_id =#{shopId} AND
+        a.create_time BETWEEN  #{beginDate} AND #{endDate}
+    </select>
+
+    <select id="selectByTimeAndBrandId" resultType="com.resto.api.appraise.entity.Appraise" >
+        SELECT
+        a.id,
+        a.picture_url,
+        a.level,
+        a.create_time,
+        a.content,
+        a.status,
+        a.type,
+        a.feedback,
+        a.red_money,
+        a.customer_id,
+        a.order_id,
+        a.article_id,
+        a.shop_detail_id,
+        c.nickname,
+        c.head_photo,
+        c.sex
+        FROM
+        tb_appraise a
+        LEFT JOIN tb_customer c
+        on a.customer_id = c.id
+        WHERE
+        <![CDATA[ a.create_time >= #{beginDate} AND a.create_time <= #{endDate}]]>
+    </select>
+
+
+    <select id="selectByOrderIdCustomerId" resultType="com.resto.api.appraise.entity.Appraise">
+        select * from tb_appraise where order_id = #{orderId} and customer_id = #{customerId} limit 1
+    </select>
+
+    <select id="selectAllAppraiseByShopIdAndCustomerId" resultType="com.resto.api.appraise.entity.Appraise">
+        select * from tb_appraise where customer_id = #{customerId} and shop_detail_id = #{shopId}
+        and status = 1 order by create_time desc
+    </select>
+
+    <select id="selectContractByTelephone" resultType="com.resto.api.appraise.dto.AppraiseListDto">
+        SELECT
+            a.id appraise_id,
+            a.shop_detail_id shop_id,
+            o.serial_number,
+            c.nickname,
+            a.level,
+            a.content,
+            a.status,
+            a.red_money,
+            a.create_time,
+            (SELECT p.finish_time FROM tb_red_packet p WHERE p.order_id=a.order_id AND p.red_type=0 ORDER BY p.finish_time LIMIT 1) finish_time
+        FROM
+            tb_appraise a,tb_customer c,tb_order o
+        WHERE a.customer_id=c.id AND a.order_id=o.id
+        AND c.telephone=#{telephone}
+        ORDER BY a.create_time DESC
+    </select>
+
+</mapper>

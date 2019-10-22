@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.service.shop.mapper.MealAttrMapper">
+  <resultMap id="BaseResultMap" type="com.resto.service.shop.entity.MealAttr">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="sort" property="sort" jdbcType="INTEGER"/>
+    <result column="article_id" property="articleId" jdbcType="VARCHAR"/>
+    <result column="print_sort" property="printSort" jdbcType="INTEGER"/>
+
+    <result column="choice_count" property="choiceCount"/>
+    <result column="choice_type" property="choiceType"/>
+
+  </resultMap>
+  <sql id="Base_Column_List">id, name, sort, article_id,print_sort,choice_type,choice_count</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">select 
+    <include refid="Base_Column_List"/> from tb_meal_attr where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">delete from tb_meal_attr where id = #{id,jdbcType=INTEGER}</delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.service.shop.entity.MealAttr">insert into tb_meal_attr (id, name, sort, article_id) values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER},#{articleId,jdbcType=VARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.service.shop.entity.MealAttr" useGeneratedKeys="true" keyProperty="id">
+  insert into tb_meal_attr 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="name != null">name,</if>  
+      <if test="sort != null">sort,</if>  
+      <if test="articleId != null">article_id,</if>
+      <if test="printSort != null">print_sort,</if>
+      <if test="choiceType != null">choice_type,</if>
+      <if test="choiceCount != null">choice_count,</if>
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=INTEGER},</if>  
+      <if test="name != null">#{name,jdbcType=VARCHAR},</if>  
+      <if test="sort != null">#{sort,jdbcType=INTEGER},</if>  
+      <if test="articleId != null">#{articleId,jdbcType=VARCHAR},</if>
+      <if test="printSort != null">#{printSort,jdbcType=INTEGER},</if>
+      <if test="choiceType != null">#{choiceType,jdbcType=INTEGER},</if>
+      <if test="choiceCount != null">#{choiceCount,jdbcType=INTEGER}</if>
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.service.shop.entity.MealAttr">update tb_meal_attr 
+    <set> 
+      <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>  
+      <if test="sort != null">sort = #{sort,jdbcType=INTEGER},</if>  
+      <if test="articleId != null">article_id = #{articleId,jdbcType=VARCHAR},</if>
+      <if test="printSort != null">print_sort = #{printSort,jdbcType=INTEGER},</if>
+      <if test="choiceType != null">choice_type = #{choiceType,jdbcType=INTEGER}</if>
+      <if test="choiceCount != null">choice_count = #{choiceCount,jdbcType=INTEGER}</if>
+    </set> where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.service.shop.entity.MealAttr">update tb_meal_attr set name = #{name,jdbcType=VARCHAR}, sort = #{sort,jdbcType=INTEGER},article_id = #{articleId,jdbcType=VARCHAR} where id = #{id,jdbcType=INTEGER}</update>
+  <select id="selectList" resultType="MealAttr">select * from tb_meal_attr
+  	<where>
+	  	<if test="articleId!=null ">
+	  		article_id=#{articleId}
+	  	</if>
+  	</where> order by sort
+  </select>
+  <delete id="deleteByIds">
+  	delete from tb_meal_attr where id in 
+  	<foreach collection="ids" open="(" separator="," close=")" item="id">#{id}</foreach>
+</delete>
+
+  <select id="queryArticleMealAttr" parameterType="java.util.Map" resultType="com.resto.api.brand.dto.ArticleSellDto">
+        select tma.`name` articleFamilyName, tmi.article_name articleName,
+        IFNULL(
+        (select SUM(ti.count) from tb_order_item ti
+        where ti.parent_id in
+        (select toi.id from tb_order_item toi
+        inner join tb_order tr
+        on toi.order_id = tr.id
+        where tr.order_state in (2,10,11,12) and IF(tr.is_pos_pay = 1,tr.is_pos_pay = 1,tr.production_status in (2,3))
+        and toi.type = 3
+        and toi.article_id = #{articleId}
+        and toi.create_time &gt;= CONCAT(#{beginDate},' 00:00:00')
+        and toi.create_time &lt;= CONCAT(#{endDate},' 23:59:59')
+        ) and ti.article_id = tmi.article_id),0) brandSellNum,
+        tma.article_id articleId
+        from tb_meal_attr tma
+        inner join tb_meal_item tmi
+        on tma.id = tmi.meal_attr_id
+        where tma.article_id = #{articleId}
+        GROUP BY tmi.article_id
+        order by tma.sort asc
+    </select>
+
+</mapper>

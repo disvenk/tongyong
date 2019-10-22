@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.WechatChargeConfigMapper">
+    <resultMap id="BaseResultMap" type="com.resto.brand.web.model.WechatChargeConfig">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="appid" property="appid" jdbcType="VARCHAR"/>
+        <result column="appsecret" property="appsecret" jdbcType="VARCHAR"/>
+        <result column="mchid" property="mchid" jdbcType="VARCHAR"/>
+        <result column="mchkey" property="mchkey" jdbcType="VARCHAR"/>
+        <result column="pay_cert_path" property="payCertPath" jdbcType="VARCHAR"/>
+        <result column="wx_server_id" property="wxServerId" />
+        <result column="is_sub" property="isSub"/>
+    </resultMap>
+
+    <select id="selectByPrimaryKey" resultType="WechatChargeConfig">
+        select * from wechat_charge_config where id = #{id}
+    </select>
+
+    <insert id="createWechatChargeConfig" parameterType="com.resto.brand.web.model.WechatChargeConfig" useGeneratedKeys="true" keyProperty="true">
+        insert into wechat_charge_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="appid != null">appid,</if>
+            <if test="appsecret != null">appsecret,</if>
+            <if test="mchid != null">mchid,</if>
+            <if test="mchkey != null">mchkey,</if>
+            <if test="payCertPath != null">pay_cert_path,</if>
+            <if test="wxServerId != null">wx_server_id,</if>
+            <if test="isSub != null">is_sub,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+            <if test="appid != null">#{appid,jdbcType=VARCHAR},</if>
+            <if test="appsecret != null">#{appsecret,jdbcType=VARCHAR},</if>
+            <if test="mchid != null">#{mchid,jdbcType=VARCHAR},</if>
+            <if test="mchkey != null">#{mchkey,jdbcType=VARCHAR},</if>
+            <if test="payCertPath != null">#{payCertPath,jdbcType=VARCHAR},</if>
+            <if test="wxServerId != null">#{wxServerId,jdbcType=VARCHAR},</if>
+            <if test="isSub != null">#{isSub,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective">
+        update wechat_charge_config
+        <set>
+            <if test="appid != null">appid = #{appid,jdbcType=VARCHAR},</if>
+            <if test="appsecret != null">appsecret = #{appsecret,jdbcType=VARCHAR},</if>
+            <if test="mchid != null">mchid = #{mchid,jdbcType=VARCHAR},</if>
+            <if test="mchkey != null">mchkey = #{mchkey,jdbcType=VARCHAR},</if>
+            <if test="payCertPath != null">pay_cert_path = #{payCertPath,jdbcType=VARCHAR},</if>
+            <if test="isSub != null">is_sub = #{isSub,jdbcType=VARCHAR},</if>
+            wx_server_id = #{wxServerId,jdbcType=VARCHAR}
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

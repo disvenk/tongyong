@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.brand.web.dao.VersionPosBrandMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.VersionPosBrand" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR" />
+    <result column="version_no" property="versionNo" jdbcType="VARCHAR" />
+    <result column="download_address" property="downloadAddress" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="version_id" property="versionId" jdbcType="INTEGER" />
+    <result column="voluntarily" property="voluntarily" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, brand_id, version_no, download_address, type,version_id,voluntarily
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from version_newpos_brand
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from version_newpos_brand
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.resto.brand.web.model.VersionPosBrand" >
+    insert into version_newpos_brand (id, brand_id, version_no,
+    download_address, type,version_id,voluntarily)
+    values (#{id,jdbcType=INTEGER}, #{brandId,jdbcType=VARCHAR}, #{versionNo,jdbcType=VARCHAR},
+    #{downloadAddress,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER},#{versionId,jdbcType=INTEGER},#{voluntarily,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.VersionPosBrand" >
+    insert into version_newpos_brand
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="versionNo != null" >
+        version_no,
+      </if>
+      <if test="downloadAddress != null" >
+        download_address,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="versionId != null" >
+        version_id,
+      </if>
+      <if test="voluntarily != null" >
+        voluntarily,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="versionNo != null" >
+        #{versionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadAddress != null" >
+        #{downloadAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="versionId != null" >
+        #{versionId,jdbcType=INTEGER},
+      </if>
+      <if test="voluntarily != null" >
+        #{voluntarily,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.VersionPosBrand" >
+    update version_newpos_brand
+    <set >
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="versionNo != null" >
+        version_no = #{versionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadAddress != null" >
+        download_address = #{downloadAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="versionId != null" >
+        version_id = #{versionId,jdbcType=INTEGER},
+      </if>
+      <if test="voluntarily != null" >
+        voluntarily = #{voluntarily,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.VersionPosBrand" >
+    update version_newpos_brand
+    set brand_id = #{brandId,jdbcType=VARCHAR},
+    version_no = #{versionNo,jdbcType=VARCHAR},
+    download_address = #{downloadAddress,jdbcType=VARCHAR},
+    type = #{type,jdbcType=INTEGER},
+    version_id=#{versionId,jdbcType=INTEGER},
+    voluntarily = #{voluntarily,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectList"  resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/> FROM version_newpos_brand;
+  </select>
+  <select id="selectByBrandId" resultType="com.resto.brand.web.model.VersionPosBrand">
+    <!--SELECT <include refid="Base_Column_List"/> FROM version_newpos_brand WHERE brand_id=#{brandId};-->
+    SELECT vb.id, vb.brand_id, vb.version_no, vb.download_address, vb.type,vb.version_id,vb.voluntarily,v.message FROM version_newpos_brand vb,tb_version v WHERE vb.brand_id=#{brandId} and vb.version_id=v.id ;
+  </select>
+  <update id="updateVersionNOAndDownloadAddressByVersionId">
+        update version_newpos_brand
+        set version_no = #{versionNo,jdbcType=VARCHAR},
+            download_address = #{downloadAddress,jdbcType=VARCHAR},
+            type=#{substituteMode,jdbcType=INTEGER},
+            voluntarily = #{voluntarily,jdbcType=INTEGER}
+        where version_id=#{versionId,jdbcType=INTEGER}
+    </update>
+  <delete id="deleteByVersionId">
+    delete from version_newpos_brand where version_id=#{versionId,jdbcType=INTEGER}
+  </delete>
+  <select id="selectNotExistVersionPosBrand" resultType="com.resto.brand.web.model.Brand">
+    SELECT * FROM (SELECT b.* FROM `brand` b) p WHERE p.id  NOT IN (select v.brand_id FROM version_newpos_brand v)
+  </select>
+  <select id="selectByVersionId" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/> FROM version_newpos_brand WHERE version_id=#{versionId,jdbcType=INTEGER}
+  </select>
+</mapper>

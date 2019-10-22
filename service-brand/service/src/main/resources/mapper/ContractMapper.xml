@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.service.brand.mapper.ContractMapper">
+  <resultMap id="BaseResultMap" type="com.resto.service.brand.entity.Contract">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="constract_num" property="constractNum" jdbcType="VARCHAR"/>
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
+    <result column="shop_num" property="shopNum" jdbcType="INTEGER"/>
+    <result column="sign_time" property="signTime" jdbcType="TIMESTAMP"/>
+    <result column="sign_money" property="signMoney" jdbcType="DECIMAL"/>
+    <result column="a_company_name" property="aCompanyName" jdbcType="VARCHAR"/>
+    <result column="a_signtory" property="aSigntory" jdbcType="VARCHAR"/>
+    <result column="a_telephone" property="aTelephone" jdbcType="VARCHAR"/>
+    <result column="a_email" property="aEmail" jdbcType="VARCHAR"/>
+    <result column="b_company_name" property="bCompanyName" jdbcType="VARCHAR"/>
+    <result column="b_signtory" property="bSigntory" jdbcType="VARCHAR"/>
+    <result column="b_telephone" property="bTelephone" jdbcType="VARCHAR"/>
+    <result column="b_email" property="bEmail" jdbcType="VARCHAR"/>
+    <result column="charge_mode" property="chargeMode" jdbcType="INTEGER"/>
+    <result column="receive_money" property="receiveMoney" jdbcType="DECIMAL"/>
+    <result column="unreceive_money" property="unreceiveMoney" jdbcType="DECIMAL"/>
+    <result column="year_money" property="yearMoney" jdbcType="DECIMAL"/>
+    <result column="online_time" property="onlineTime" jdbcType="TIMESTAMP"/>
+    <result column="expiration_time" property="expirationTime" jdbcType="TIMESTAMP"/>
+    <result column="validity" property="validity" jdbcType="INTEGER"/>
+    <result column="sms_num" property="smsNum" jdbcType="INTEGER"/>
+    <result column="status" property="status" jdbcType="INTEGER"/>
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR"/>
+    <result column="account_balance" property="accountBalance" jdbcType="DECIMAL"/>
+    <result column="used_balance" property="usedBalance" jdbcType="DECIMAL"/>
+    <result column="open_new_customer_register" property="openNewCustomerRegister" jdbcType="TINYINT"/>
+    <result column="new_customer_value" property="newCustomerValue" jdbcType="DECIMAL"/>
+    <result column="open_send_sms" property="openSendSms" jdbcType="TINYINT"/>
+    <result column="send_sms_value" property="sendSmsValue" jdbcType="DECIMAL"/>
+    <result column="open_all_order" property="openAllOrder" jdbcType="TINYINT"/>
+    <result column="all_order_value" property="allOrderValue" jdbcType="DOUBLE"/>
+    <result column="open_back_customer_order" property="openBackCustomerOrder" jdbcType="TINYINT"/>
+    <result column="back_customer_order_value" property="backCustomerOrderValue" jdbcType="DECIMAL"/>
+    <result column="open_out_food_order" property="openOutFoodOrder" jdbcType="TINYINT"/>
+    <result column="out_food_order_value" property="outFoodOrderValue" jdbcType="DECIMAL"/>
+    <result column="open_third_food_order" property="openThirdFoodOrder" jdbcType="TINYINT"/>
+    <result column="third_food_order_value" property="thirdFoodOrderValue" jdbcType="DOUBLE"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+
+    <!-- 可开和已开发票 -->
+    <result column="invoice_money" property="invoiceMoney" jdbcType="DECIMAL"/>
+    <result column="has_invoice_money" property="hasInvoiceMoney" jdbcType="DECIMAL"/>
+
+
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.resto.service.brand.entity.Contract" extends="BaseResultMap">
+    <result column="shop_names" property="shopNames" jdbcType="LONGVARCHAR"/>
+  </resultMap>
+
+  <resultMap id="ContractImcomeMap" type="com.resto.service.brand.entity.Contract" extends="ResultMapWithBLOBs">
+    <collection property="incomeList" javaType="List" ofType="Income">
+    <id column="income_id" property="id"   />
+    <result column="pay_money" property="payMoney" jdbcType="DECIMAL" />
+    </collection>
+  </resultMap>
+
+  <sql id="Base_Column_List">id, constract_num, brand_name, shop_num, sign_time, sign_money, a_company_name, a_signtory, a_telephone, a_email, b_company_name, b_signtory, b_telephone, b_email, charge_mode, receive_money, unreceive_money, year_money, online_time, expiration_time, validity, sms_num, status, pic_url, account_balance, used_balance, open_new_customer_register, new_customer_value, open_send_sms, send_sms_value, open_all_order, all_order_value, open_back_customer_order, back_customer_order_value, open_out_food_order, out_food_order_value, open_third_food_order, third_food_order_value, create_time, update_time, update_user,invoice_money,has_invoice_money</sql>
+  <sql id="Blob_Column_List">shop_names</sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> , 
+    <include refid="Blob_Column_List"/> from contract where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from contract where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.service.brand.entity.Contract">insert into contract (id, constract_num, brand_name, shop_num, sign_time, sign_money, a_company_name, a_signtory, a_telephone, a_email, b_company_name, b_signtory, b_telephone, b_email, charge_mode, receive_money, unreceive_money, year_money, online_time, expiration_time, validity, sms_num, status, pic_url, account_balance, used_balance, open_new_customer_register, new_customer_value, open_send_sms, send_sms_value, open_all_order, all_order_value, open_back_customer_order, back_customer_order_value, open_out_food_order, out_food_order_value, open_third_food_order, third_food_order_value, create_time, update_time, update_user, shop_names) values (#{id,jdbcType=BIGINT}, #{constractNum,jdbcType=VARCHAR}, #{brandName,jdbcType=VARCHAR}, #{shopNum,jdbcType=INTEGER}, #{signTime,jdbcType=TIMESTAMP}, #{signMoney,jdbcType=DECIMAL}, #{aCompanyName,jdbcType=VARCHAR}, #{aSigntory,jdbcType=VARCHAR}, #{aTelephone,jdbcType=VARCHAR}, #{aEmail,jdbcType=VARCHAR}, #{bCompanyName,jdbcType=VARCHAR}, #{bSigntory,jdbcType=VARCHAR}, #{bTelephone,jdbcType=VARCHAR}, #{bEmail,jdbcType=VARCHAR}, #{chargeMode,jdbcType=INTEGER}, #{receiveMoney,jdbcType=DECIMAL}, #{unreceiveMoney,jdbcType=DECIMAL}, #{yearMoney,jdbcType=DECIMAL}, #{onlineTime,jdbcType=TIMESTAMP}, #{expirationTime,jdbcType=TIMESTAMP}, #{validity,jdbcType=INTEGER}, #{smsNum,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{picUrl,jdbcType=VARCHAR}, #{accountBalance,jdbcType=DECIMAL}, #{usedBalance,jdbcType=DECIMAL}, #{openNewCustomerRegister,jdbcType=TINYINT}, #{newCustomerValue,jdbcType=DECIMAL}, #{openSendSms,jdbcType=TINYINT}, #{sendSmsValue,jdbcType=DECIMAL}, #{openAllOrder,jdbcType=TINYINT}, #{allOrderValue,jdbcType=DOUBLE}, #{openBackCustomerOrder,jdbcType=TINYINT}, #{backCustomerOrderValue,jdbcType=DECIMAL}, #{openOutFoodOrder,jdbcType=TINYINT}, #{outFoodOrderValue,jdbcType=DECIMAL}, #{openThirdFoodOrder,jdbcType=TINYINT}, #{thirdFoodOrderValue,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{shopNames,jdbcType=LONGVARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.service.brand.entity.Contract">insert into contract
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="constractNum != null">constract_num,</if>  
+      <if test="brandName != null">brand_name,</if>  
+      <if test="shopNum != null">shop_num,</if>  
+      <if test="signTime != null">sign_time,</if>  
+      <if test="signMoney != null">sign_money,</if>  
+      <if test="aCompanyName != null">a_company_name,</if>  
+      <if test="aSigntory != null">a_signtory,</if>  
+      <if test="aTelephone != null">a_telephone,</if>  
+      <if test="aEmail != null">a_email,</if>  
+      <if test="bCompanyName != null">b_company_name,</if>  
+      <if test="bSigntory != null">b_signtory,</if>  
+      <if test="bTelephone != null">b_telephone,</if>  
+      <if test="bEmail != null">b_email,</if>  
+      <if test="chargeMode != null">charge_mode,</if>  
+      <if test="receiveMoney != null">receive_money,</if>  
+      <if test="unreceiveMoney != null">unreceive_money,</if>  
+      <if test="yearMoney != null">year_money,</if>  
+      <if test="onlineTime != null">online_time,</if>  
+      <if test="expirationTime != null">expiration_time,</if>  
+      <if test="validity != null">validity,</if>  
+      <if test="smsNum != null">sms_num,</if>  
+      <if test="status != null">status,</if>  
+      <if test="picUrl != null">pic_url,</if>  
+      <if test="accountBalance != null">account_balance,</if>  
+      <if test="usedBalance != null">used_balance,</if>  
+      <if test="openNewCustomerRegister != null">open_new_customer_register,</if>  
+      <if test="newCustomerValue != null">new_customer_value,</if>  
+      <if test="openSendSms != null">open_send_sms,</if>  
+      <if test="sendSmsValue != null">send_sms_value,</if>  
+      <if test="openAllOrder != null">open_all_order,</if>  
+      <if test="allOrderValue != null">all_order_value,</if>  
+      <if test="openBackCustomerOrder != null">open_back_customer_order,</if>  
+      <if test="backCustomerOrderValue != null">back_customer_order_value,</if>  
+      <if test="openOutFoodOrder != null">open_out_food_order,</if>  
+      <if test="outFoodOrderValue != null">out_food_order_value,</if>  
+      <if test="openThirdFoodOrder != null">open_third_food_order,</if>  
+      <if test="thirdFoodOrderValue != null">third_food_order_value,</if>  
+      <if test="createTime != null">create_time,</if>  
+      <if test="updateTime != null">update_time,</if>  
+      <if test="updateUser != null">update_user,</if>  
+      <if test="shopNames != null">shop_names,</if> 
+      <if test="invoiceMoney != null">invoice_money,</if>
+      <if test="hasInvoiceMoney != null">has_invoice_money,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="constractNum != null">#{constractNum,jdbcType=VARCHAR},</if>  
+      <if test="brandName != null">#{brandName,jdbcType=VARCHAR},</if>  
+      <if test="shopNum != null">#{shopNum,jdbcType=INTEGER},</if>  
+      <if test="signTime != null">#{signTime,jdbcType=TIMESTAMP},</if>  
+      <if test="signMoney != null">#{signMoney,jdbcType=DECIMAL},</if>  
+      <if test="aCompanyName != null">#{aCompanyName,jdbcType=VARCHAR},</if>  
+      <if test="aSigntory != null">#{aSigntory,jdbcType=VARCHAR},</if>  
+      <if test="aTelephone != null">#{aTelephone,jdbcType=VARCHAR},</if>  
+      <if test="aEmail != null">#{aEmail,jdbcType=VARCHAR},</if>  
+      <if test="bCompanyName != null">#{bCompanyName,jdbcType=VARCHAR},</if>  
+      <if test="bSigntory != null">#{bSigntory,jdbcType=VARCHAR},</if>  
+      <if test="bTelephone != null">#{bTelephone,jdbcType=VARCHAR},</if>  
+      <if test="bEmail != null">#{bEmail,jdbcType=VARCHAR},</if>  
+      <if test="chargeMode != null">#{chargeMode,jdbcType=INTEGER},</if>  
+      <if test="receiveMoney != null">#{receiveMoney,jdbcType=DECIMAL},</if>  
+      <if test="unreceiveMoney != null">#{unreceiveMoney,jdbcType=DECIMAL},</if>  
+      <if test="yearMoney != null">#{yearMoney,jdbcType=DECIMAL},</if>  
+      <if test="onlineTime != null">#{onlineTime,jdbcType=TIMESTAMP},</if>  
+      <if test="expirationTime != null">#{expirationTime,jdbcType=TIMESTAMP},</if>  
+      <if test="validity != null">#{validity,jdbcType=INTEGER},</if>  
+      <if test="smsNum != null">#{smsNum,jdbcType=INTEGER},</if>  
+      <if test="status != null">#{status,jdbcType=INTEGER},</if>  
+      <if test="picUrl != null">#{picUrl,jdbcType=VARCHAR},</if>  
+      <if test="accountBalance != null">#{accountBalance,jdbcType=DECIMAL},</if>  
+      <if test="usedBalance != null">#{usedBalance,jdbcType=DECIMAL},</if>  
+      <if test="openNewCustomerRegister != null">#{openNewCustomerRegister,jdbcType=TINYINT},</if>  
+      <if test="newCustomerValue != null">#{newCustomerValue,jdbcType=DECIMAL},</if>  
+      <if test="openSendSms != null">#{openSendSms,jdbcType=TINYINT},</if>  
+      <if test="sendSmsValue != null">#{sendSmsValue,jdbcType=DECIMAL},</if>  
+      <if test="openAllOrder != null">#{openAllOrder,jdbcType=TINYINT},</if>  
+      <if test="allOrderValue != null">#{allOrderValue,jdbcType=DOUBLE},</if>  
+      <if test="openBackCustomerOrder != null">#{openBackCustomerOrder,jdbcType=TINYINT},</if>  
+      <if test="backCustomerOrderValue != null">#{backCustomerOrderValue,jdbcType=DECIMAL},</if>  
+      <if test="openOutFoodOrder != null">#{openOutFoodOrder,jdbcType=TINYINT},</if>  
+      <if test="outFoodOrderValue != null">#{outFoodOrderValue,jdbcType=DECIMAL},</if>  
+      <if test="openThirdFoodOrder != null">#{openThirdFoodOrder,jdbcType=TINYINT},</if>  
+      <if test="thirdFoodOrderValue != null">#{thirdFoodOrderValue,jdbcType=DOUBLE},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>  
+      <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>  
+      <if test="shopNames != null">#{shopNames,jdbcType=LONGVARCHAR},</if>
+      <if test="invoiceMoney != null">#{invoiceMoney}</if>
+      <if test="hasInvoiceMoney != null">#{hasInvoiceMoney},</if>
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.service.brand.entity.Contract">update contract
+    <set> 
+      <if test="constractNum != null">constract_num = #{constractNum,jdbcType=VARCHAR},</if>  
+      <if test="brandName != null">brand_name = #{brandName,jdbcType=VARCHAR},</if>  
+      <if test="shopNum != null">shop_num = #{shopNum,jdbcType=INTEGER},</if>  
+      <if test="signTime != null">sign_time = #{signTime,jdbcType=TIMESTAMP},</if>  
+      <if test="signMoney != null">sign_money = #{signMoney,jdbcType=DECIMAL},</if>  
+      <if test="aCompanyName != null">a_company_name = #{aCompanyName,jdbcType=VARCHAR},</if>  
+      <if test="aSigntory != null">a_signtory = #{aSigntory,jdbcType=VARCHAR},</if>  
+      <if test="aTelephone != null">a_telephone = #{aTelephone,jdbcType=VARCHAR},</if>  
+      <if test="aEmail != null">a_email = #{aEmail,jdbcType=VARCHAR},</if>  
+      <if test="bCompanyName != null">b_company_name = #{bCompanyName,jdbcType=VARCHAR},</if>  
+      <if test="bSigntory != null">b_signtory = #{bSigntory,jdbcType=VARCHAR},</if>  
+      <if test="bTelephone != null">b_telephone = #{bTelephone,jdbcType=VARCHAR},</if>  
+      <if test="bEmail != null">b_email = #{bEmail,jdbcType=VARCHAR},</if>  
+      <if test="chargeMode != null">charge_mode = #{chargeMode,jdbcType=INTEGER},</if>  
+      <if test="receiveMoney != null">receive_money = #{receiveMoney,jdbcType=DECIMAL},</if>  
+      <if test="unreceiveMoney != null">unreceive_money = #{unreceiveMoney,jdbcType=DECIMAL},</if>  
+      <if test="yearMoney != null">year_money = #{yearMoney,jdbcType=DECIMAL},</if>  
+      <if test="onlineTime != null">online_time = #{onlineTime,jdbcType=TIMESTAMP},</if>  
+      <if test="expirationTime != null">expiration_time = #{expirationTime,jdbcType=TIMESTAMP},</if>  
+      <if test="validity != null">validity = #{validity,jdbcType=INTEGER},</if>  
+      <if test="smsNum != null">sms_num = #{smsNum,jdbcType=INTEGER},</if>  
+      <if test="status != null">status = #{status,jdbcType=INTEGER},</if>  
+      <if test="picUrl != null">pic_url = #{picUrl,jdbcType=VARCHAR},</if>  
+      <if test="accountBalance != null">account_balance = #{accountBalance,jdbcType=DECIMAL},</if>  
+      <if test="usedBalance != null">used_balance = #{usedBalance,jdbcType=DECIMAL},</if>  
+      <if test="openNewCustomerRegister != null">open_new_customer_register = #{openNewCustomerRegister,jdbcType=TINYINT},</if>  
+      <if test="newCustomerValue != null">new_customer_value = #{newCustomerValue,jdbcType=DECIMAL},</if>  
+      <if test="openSendSms != null">open_send_sms = #{openSendSms,jdbcType=TINYINT},</if>  
+      <if test="sendSmsValue != null">send_sms_value = #{sendSmsValue,jdbcType=DECIMAL},</if>  
+      <if test="openAllOrder != null">open_all_order = #{openAllOrder,jdbcType=TINYINT},</if>  
+      <if test="allOrderValue != null">all_order_value = #{allOrderValue,jdbcType=DOUBLE},</if>  
+      <if test="openBackCustomerOrder != null">open_back_customer_order = #{openBackCustomerOrder,jdbcType=TINYINT},</if>  
+      <if test="backCustomerOrderValue != null">back_customer_order_value = #{backCustomerOrderValue,jdbcType=DECIMAL},</if>  
+      <if test="openOutFoodOrder != null">open_out_food_order = #{openOutFoodOrder,jdbcType=TINYINT},</if>  
+      <if test="outFoodOrderValue != null">out_food_order_value = #{outFoodOrderValue,jdbcType=DECIMAL},</if>  
+      <if test="openThirdFoodOrder != null">open_third_food_order = #{openThirdFoodOrder,jdbcType=TINYINT},</if>  
+      <if test="thirdFoodOrderValue != null">third_food_order_value = #{thirdFoodOrderValue,jdbcType=DOUBLE},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>  
+      <if test="updateUser != null">update_user = #{updateUser,jdbcType=VARCHAR},</if>  
+      <if test="shopNames != null">shop_names = #{shopNames,jdbcType=LONGVARCHAR},</if>
+      <if test="invoiceMoney != null">invoice_money = #{invoiceMoney}</if>
+      <if test="hasInvoiceMoney != null">has_invoice_money = #{hasInvoiceMoney},</if>
+
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.resto.service.brand.entity.Contract">update contract set constract_num = #{constractNum,jdbcType=VARCHAR}, brand_name = #{brandName,jdbcType=VARCHAR}, shop_num = #{shopNum,jdbcType=INTEGER}, sign_time = #{signTime,jdbcType=TIMESTAMP}, sign_money = #{signMoney,jdbcType=DECIMAL}, a_company_name = #{aCompanyName,jdbcType=VARCHAR}, a_signtory = #{aSigntory,jdbcType=VARCHAR}, a_telephone = #{aTelephone,jdbcType=VARCHAR}, a_email = #{aEmail,jdbcType=VARCHAR}, b_company_name = #{bCompanyName,jdbcType=VARCHAR}, b_signtory = #{bSigntory,jdbcType=VARCHAR}, b_telephone = #{bTelephone,jdbcType=VARCHAR}, b_email = #{bEmail,jdbcType=VARCHAR}, charge_mode = #{chargeMode,jdbcType=INTEGER}, receive_money = #{receiveMoney,jdbcType=DECIMAL}, unreceive_money = #{unreceiveMoney,jdbcType=DECIMAL}, year_money = #{yearMoney,jdbcType=DECIMAL}, online_time = #{onlineTime,jdbcType=TIMESTAMP}, expiration_time = #{expirationTime,jdbcType=TIMESTAMP}, validity = #{validity,jdbcType=INTEGER}, sms_num = #{smsNum,jdbcType=INTEGER}, status = #{status,jdbcType=INTEGER}, pic_url = #{picUrl,jdbcType=VARCHAR}, account_balance = #{accountBalance,jdbcType=DECIMAL}, used_balance = #{usedBalance,jdbcType=DECIMAL}, open_new_customer_register = #{openNewCustomerRegister,jdbcType=TINYINT}, new_customer_value = #{newCustomerValue,jdbcType=DECIMAL}, open_send_sms = #{openSendSms,jdbcType=TINYINT}, send_sms_value = #{sendSmsValue,jdbcType=DECIMAL}, open_all_order = #{openAllOrder,jdbcType=TINYINT}, all_order_value = #{allOrderValue,jdbcType=DOUBLE}, open_back_customer_order = #{openBackCustomerOrder,jdbcType=TINYINT}, back_customer_order_value = #{backCustomerOrderValue,jdbcType=DECIMAL}, open_out_food_order = #{openOutFoodOrder,jdbcType=TINYINT}, out_food_order_value = #{outFoodOrderValue,jdbcType=DECIMAL}, open_third_food_order = #{openThirdFoodOrder,jdbcType=TINYINT}, third_food_order_value = #{thirdFoodOrderValue,jdbcType=DOUBLE}, create_time = #{createTime,jdbcType=TIMESTAMP}, update_time = #{updateTime,jdbcType=TIMESTAMP}, update_user = #{updateUser,jdbcType=VARCHAR}, shop_names = #{shopNames,jdbcType=LONGVARCHAR} where id = #{id,jdbcType=BIGINT}</update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.service.brand.entity.Contract">update contract set constract_num = #{constractNum,jdbcType=VARCHAR}, brand_name = #{brandName,jdbcType=VARCHAR}, shop_num = #{shopNum,jdbcType=INTEGER}, sign_time = #{signTime,jdbcType=TIMESTAMP}, sign_money = #{signMoney,jdbcType=DECIMAL}, a_company_name = #{aCompanyName,jdbcType=VARCHAR}, a_signtory = #{aSigntory,jdbcType=VARCHAR}, a_telephone = #{aTelephone,jdbcType=VARCHAR}, a_email = #{aEmail,jdbcType=VARCHAR}, b_company_name = #{bCompanyName,jdbcType=VARCHAR}, b_signtory = #{bSigntory,jdbcType=VARCHAR}, b_telephone = #{bTelephone,jdbcType=VARCHAR}, b_email = #{bEmail,jdbcType=VARCHAR}, charge_mode = #{chargeMode,jdbcType=INTEGER}, receive_money = #{receiveMoney,jdbcType=DECIMAL}, unreceive_money = #{unreceiveMoney,jdbcType=DECIMAL}, year_money = #{yearMoney,jdbcType=DECIMAL}, online_time = #{onlineTime,jdbcType=TIMESTAMP}, expiration_time = #{expirationTime,jdbcType=TIMESTAMP}, validity = #{validity,jdbcType=INTEGER}, sms_num = #{smsNum,jdbcType=INTEGER}, status = #{status,jdbcType=INTEGER}, pic_url = #{picUrl,jdbcType=VARCHAR}, account_balance = #{accountBalance,jdbcType=DECIMAL}, used_balance = #{usedBalance,jdbcType=DECIMAL}, open_new_customer_register = #{openNewCustomerRegister,jdbcType=TINYINT}, new_customer_value = #{newCustomerValue,jdbcType=DECIMAL}, open_send_sms = #{openSendSms,jdbcType=TINYINT}, send_sms_value = #{sendSmsValue,jdbcType=DECIMAL}, open_all_order = #{openAllOrder,jdbcType=TINYINT}, all_order_value = #{allOrderValue,jdbcType=DOUBLE}, open_back_customer_order = #{openBackCustomerOrder,jdbcType=TINYINT}, back_customer_order_value = #{backCustomerOrderValue,jdbcType=DECIMAL}, open_out_food_order = #{openOutFoodOrder,jdbcType=TINYINT}, out_food_order_value = #{outFoodOrderValue,jdbcType=DECIMAL}, open_third_food_order = #{openThirdFoodOrder,jdbcType=TINYINT}, third_food_order_value = #{thirdFoodOrderValue,jdbcType=DOUBLE}, create_time = #{createTime,jdbcType=TIMESTAMP}, update_time = #{updateTime,jdbcType=TIMESTAMP}, update_user = #{updateUser,jdbcType=VARCHAR} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultMap="ContractImcomeMap">
+    select c.*,i.pay_money from contract c LEFT  JOIN income i on c.id = i.contract_id ORDER  BY c.brand_name ASC
+</select>
+
+<update id="updateMoney" >
+	UPDATE contract SET  receive_money = receive_money + #{payMoney},unreceive_money = sign_money - #{payMoney} ,invoice_money = invoice_money+ #{payMoney} WHERE id = #{id}
+</update>
+
+<select id="selectGroupByBrandName" resultType="com.resto.api.brand.dto.brandContractNums">
+  SELECT brand_name,b_company_name,GROUP_CONCAT(constract_num)contractNums  from contract GROUP BY brand_name ORDER  BY brand_name DESC
+</select>
+
+<select id="selectByConstractNum" resultType="com.resto.service.brand.entity.Contract">
+  SELECT  * FROM  contract WHERE  constract_num = #{constractNum}
+</select>
+
+</mapper>

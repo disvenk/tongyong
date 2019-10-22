@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.AccountChargeOrderMapper">
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.AccountChargeOrder">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+    <result column="order_status" property="orderStatus" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="push_order_time" property="pushOrderTime" jdbcType="TIMESTAMP"/>
+    <result column="charge_money" property="chargeMoney" jdbcType="DECIMAL"/>
+    <result column="trade_no" property="tradeNo" jdbcType="VARCHAR"/>
+    <result column="pay_type" property="payType" jdbcType="INTEGER"/>
+    <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    <result column="status" property="status" jdbcType="BIT"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, brand_id, order_status, create_time, push_order_time, charge_money, trade_no, pay_type, remark, status</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from tb_account_charge_order where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from tb_account_charge_order where id = #{id,jdbcType=VARCHAR}</delete>
+  <insert id="insert" parameterType="com.resto.brand.web.model.AccountChargeOrder">insert into tb_account_charge_order (id, brand_id, order_status, create_time, push_order_time, charge_money, trade_no, pay_type, remark, status) values (#{id,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR}, #{orderStatus,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{pushOrderTime,jdbcType=TIMESTAMP}, #{chargeMoney,jdbcType=DECIMAL}, #{tradeNo,jdbcType=VARCHAR}, #{payType,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=BIT})</insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.AccountChargeOrder">insert into tb_account_charge_order 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="brandId != null">brand_id,</if>  
+      <if test="orderStatus != null">order_status,</if>  
+      <if test="createTime != null">create_time,</if>  
+      <if test="pushOrderTime != null">push_order_time,</if>  
+      <if test="chargeMoney != null">charge_money,</if>  
+      <if test="tradeNo != null">trade_no,</if>  
+      <if test="payType != null">pay_type,</if>  
+      <if test="remark != null">remark,</if>  
+      <if test="status != null">status,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+      <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>  
+      <if test="orderStatus != null">#{orderStatus,jdbcType=BIT},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="pushOrderTime != null">#{pushOrderTime,jdbcType=TIMESTAMP},</if>  
+      <if test="chargeMoney != null">#{chargeMoney,jdbcType=DECIMAL},</if>  
+      <if test="tradeNo != null">#{tradeNo,jdbcType=VARCHAR},</if>  
+      <if test="payType != null">#{payType,jdbcType=INTEGER},</if>  
+      <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>  
+      <if test="status != null">#{status,jdbcType=BIT},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.AccountChargeOrder">update tb_account_charge_order 
+    <set> 
+      <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>  
+      <if test="orderStatus != null">order_status = #{orderStatus},</if>
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="pushOrderTime != null">push_order_time = #{pushOrderTime,jdbcType=TIMESTAMP},</if>  
+      <if test="chargeMoney != null">charge_money = #{chargeMoney,jdbcType=DECIMAL},</if>  
+      <if test="tradeNo != null">trade_no = #{tradeNo,jdbcType=VARCHAR},</if>  
+      <if test="payType != null">pay_type = #{payType,jdbcType=INTEGER},</if>  
+      <if test="remark != null">remark = #{remark,jdbcType=VARCHAR},</if>  
+      <if test="status != null">status = #{status,jdbcType=BIT},</if> 
+    </set> where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.AccountChargeOrder">update tb_account_charge_order set brand_id = #{brandId,jdbcType=VARCHAR}, order_status = #{orderStatus,jdbcType=BIT}, create_time = #{createTime,jdbcType=TIMESTAMP}, push_order_time = #{pushOrderTime,jdbcType=TIMESTAMP}, charge_money = #{chargeMoney,jdbcType=DECIMAL}, trade_no = #{tradeNo,jdbcType=VARCHAR}, pay_type = #{payType,jdbcType=INTEGER}, remark = #{remark,jdbcType=VARCHAR}, status = #{status,jdbcType=BIT} where id = #{id,jdbcType=VARCHAR}</update>
+  <select id="selectList" resultType="AccountChargeOrder">select * from tb_account_charge_order</select>
+
+  <select id="selectHasPayList" resultType="AccountChargeOrder">
+    SELECT  * FROM tb_account_charge_order WHERE order_status in(1,2) AND status = 1
+
+  </select>
+
+  <select id="selectHasPayListByBrandId" resultType="AccountChargeOrder">
+	  SELECT  * FROM tb_account_charge_order WHERE order_status in(1,2) AND status = 1 AND brand_id = #{brandId}
+  </select>
+
+ <select id="selectListByBrandIdAndTime" resultType="AccountChargeOrder">
+	 SELECT  * FROM  tb_account_charge_order WHERE
+	 order_status = 1 AND status =1
+	 AND
+	 <![CDATA[
+	 	push_order_time > #{beginDate} AND  push_order_time < #{endDate}
+	 ]]>
+	 AND  brand_id = #{brandId}
+
+ </select>
+
+</mapper>

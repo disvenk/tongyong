@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.report.AppraiseMapperReport">
+  <resultMap id="BaseResultMap" type="com.resto.api.appraise.entity.Appraise">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="picture_url" property="pictureUrl" jdbcType="VARCHAR"/>
+    <result column="level" property="level" jdbcType="TINYINT"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="content" property="content" jdbcType="VARCHAR"/>
+    <result column="status" property="status" jdbcType="TINYINT"/>
+    <result column="type" property="type" jdbcType="TINYINT"/>
+    <result column="feedback" property="feedback" jdbcType="VARCHAR"/>
+    <result column="red_money" property="redMoney" jdbcType="DECIMAL"/>
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR"/>
+    <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+    <result column="article_id" property="articleId" jdbcType="VARCHAR"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+    <result column="feedback_article" property="feedbackArticle" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, picture_url, level, create_time, content, status, type, feedback, red_money, customer_id, order_id, article_id, shop_detail_id</sql>
+
+
+    <select id="selectAppraiseShopDto" parameterType="java.util.Map" resultType="com.resto.brand.web.dto.AppraiseShopDto">
+        select
+        ta.`level`,
+        CASE ta.`level`
+        WHEN 1 THEN '一星'
+        WHEN 2 THEN '二星'
+        WHEN 3 THEN '三星'
+        WHEN 4 THEN '四星'
+        WHEN 5 THEN '五星'
+        END levelName,
+        ta.feedback feedBack,
+        ta.create_time createTime,
+        IFNULL(tc.telephone,'--') telephone,
+        td.order_money orderMoney,
+        ta.red_money redMoney,
+        ta.content,
+        td.table_number tablenumber
+        from tb_appraise ta
+        inner join tb_order td
+        on ta.order_id = td.id
+        inner join tb_customer tc
+        on ta.customer_id = tc.id
+        where ta.create_time &gt;= CONCAT(#{beginDate},' 00:00:00')
+        and ta.create_time &lt;= CONCAT(#{endDate},' 23:59:59')
+        and td.shop_detail_id = #{shopId}
+    </select>
+
+    <select id="selectAppraiseNewBrand" resultType="com.resto.shop.web.dto.AppraiseNewBrandDto">
+        SELECT
+        DISTINCT(t.brand_id),
+        convert(SUM(t.brand_num)/5,decimal(10,2)) brand_num,
+        convert(SUM(t.all_level)/5,decimal(10,2)) all_level,
+        SUM(t.appraise_ratio)/5 appraise_ratio,
+        convert(SUM(t.service),decimal(10,2)) service,
+        convert(SUM(t.conditions),decimal(10,2)) conditions,
+        convert(SUM(t.price),decimal(10,2)) price,
+        convert(SUM(t.ambience),decimal(10,2)) ambience,
+        convert(SUM(t.exhibit),decimal(10,2)) exhibit
+        FROM (
+        SELECT
+        p.brand_id,
+        count(p.id) brand_num,
+        SUM(p.`level`)/COUNT(p.id) all_level,
+        COUNT(p.id)/(SELECT COUNT(1) FROM tb_order r WHERE r.order_state IN (10,11,12,2) AND r.production_status IN (2,3,4) AND UNIX_TIMESTAMP(DATE_FORMAT(r.create_time,'%Y-%m-%d')) BETWEEN  UNIX_TIMESTAMP(#{beginDate}) AND  UNIX_TIMESTAMP(#{endDate})) appraise_ratio,
+        (CASE WHEN g.type=1 THEN SUM(g.grade)/COUNT(g.id) ELSE 0 END) service,
+        (CASE WHEN g.type=2 THEN SUM(g.grade)/COUNT(g.id) ELSE 0 END) conditions,
+        (CASE WHEN g.type=3 THEN SUM(g.grade)/COUNT(g.id) ELSE 0 END) price,
+        (CASE WHEN g.type=4 THEN SUM(g.grade)/COUNT(g.id) ELSE 0 END) ambience,
+        (CASE WHEN g.type=5 THEN SUM(g.grade)/COUNT(g.id) ELSE 0 END) exhibit
+        FROM
+        (SELECT
+        a.id,
+        o.brand_id,
+        a.`level`
+        FROM tb_appraise_new a INNER JOIN tb_order o ON a.order_id =  o.id
+        WHERE o.order_state IN (11,12) AND o.production_status IN (2,3,4)
+        AND UNIX_TIMESTAMP(DATE_FORMAT(a.create_time,'%Y-%m-%d')) BETWEEN  UNIX_TIMESTAMP(#{beginDate}) AND  UNIX_TIMESTAMP(#{endDate})
+        AND o.brand_id = #{brandId}) p  LEFT JOIN  tb_appraise_grade g ON g.appraise_id=p.id GROUP BY g.type) t
+    </select>
+
+    <select id="selectAppraiseNewShop" resultType="com.resto.shop.web.dto.AppraiseNewShopDto">
+        SELECT
+        DISTINCT(t.brand_id),
+        convert(SUM(t.brand_num)/5,decimal(10,2)) shop_num,
+        convert(SUM(t.all_level)/5,decimal(10,2)) all_level,
+        SUM(t.appraise_ratio)/5 appraise_ratio,
+        convert(SUM(t.service),decimal(10,2)) service,
+        convert(SUM(t.conditions),decimal(10,2)) conditions,
+        convert(SUM(t.price),decimal(10,2)) price,
+        convert(SUM(t.ambience),decimal(10,2)) ambience,
+        convert(SUM(t.exhibit),decimal(10,2)) exhibit
+        FROM (
+        SELECT
+        p.brand_id,
+        count(p.id) brand_num,
+        SUM(p.`level`)/COUNT(p.id) all_level,
+        COUNT(p.id)/(SELECT COUNT(1) FROM tb_order r WHERE r.order_state IN (10,11,12,2) AND r.production_status IN (2,3,4) AND UNIX_TIMESTAMP(DATE_FORMAT(r.create_time,'%Y-%m-%d')) BETWEEN  UNIX_TIMESTAMP(#{beginDate}) AND  UNIX_TIMESTAMP(#{endDate}) AND r.shop_detail_id = #{shopId}) appraise_ratio,
+        (CASE WHEN g.type=1 THEN SUM(g.grade)/COUNT(g.id) ELSE 0 END) service,
+        (CASE WHEN g.type=2 THEN SUM(g.grade)/COUNT(g.id) ELSE 0 END) conditions,
+        (CASE WHEN g.type=3 THEN SUM(g.grade)/COUNT(g.id) ELSE 0 END) price,
+        (CASE WHEN g.type=4 THEN SUM(g.grade)/COUNT(g.id) ELSE 0 END) ambience,
+        (CASE WHEN g.type=5 THEN SUM(g.grade)/COUNT(g.id) ELSE 0 END) exhibit
+        FROM
+        (SELECT
+        a.id,
+        o.brand_id,
+        a.`level`
+        FROM tb_appraise_new a INNER JOIN tb_order o ON a.order_id =  o.id
+        WHERE o.order_state IN (11,12) AND o.production_status IN (2,3,4)
+        AND UNIX_TIMESTAMP(DATE_FORMAT(a.create_time,'%Y-%m-%d')) BETWEEN  UNIX_TIMESTAMP(#{beginDate}) AND  UNIX_TIMESTAMP(#{endDate})
+        AND o.shop_detail_id = #{shopId}) p  LEFT JOIN  tb_appraise_grade g ON g.appraise_id=p.id GROUP BY g.type) t
+    </select>
+
+    <select id="selectAppraiseNewShopDetail" resultType="com.resto.shop.web.dto.AppraiseNewShopDetailDto">
+        SELECT
+        n.create_time,
+        c.telephone,
+        o.order_money,
+        n.red_money,
+        n.`level`,
+        (SELECT g.grade FROM tb_appraise_grade g WHERE g.appraise_id=n.id AND g.type=1) service,
+        (SELECT g.grade FROM tb_appraise_grade g WHERE g.appraise_id=n.id AND g.type=2) conditions,
+        (SELECT g.grade FROM tb_appraise_grade g WHERE g.appraise_id=n.id AND g.type=3) price,
+        (SELECT g.grade FROM tb_appraise_grade g WHERE g.appraise_id=n.id AND g.type=4) ambience,
+        (SELECT g.grade FROM tb_appraise_grade g WHERE g.appraise_id=n.id AND g.type=5) exhibit,
+        n.content,
+        n.feedback,
+        (SELECT GROUP_CONCAT(a.`name` separator ',') FROM tb_appraise_step s,tb_article a WHERE s.appraise_id=n.id AND s.article_id=a.id AND s.state=1) zan_article,
+        (SELECT GROUP_CONCAT(a.`name` separator ',') FROM tb_appraise_step s,tb_article a WHERE s.appraise_id=n.id AND s.article_id=a.id AND s.state=0) spit_article
+        FROM
+        tb_appraise_new n,tb_order o,tb_customer c
+        WHERE n.order_id=o.id AND n.customer_id=c.id
+        AND UNIX_TIMESTAMP(DATE_FORMAT(n.create_time,'%Y-%m-%d')) BETWEEN  UNIX_TIMESTAMP(#{beginDate}) AND  UNIX_TIMESTAMP(#{endDate})
+        AND o.shop_detail_id = #{shopId}
+    </select>
+</mapper>

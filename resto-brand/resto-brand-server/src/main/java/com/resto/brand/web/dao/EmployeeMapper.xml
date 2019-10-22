@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.EmployeeMapper">
+
+
+    <select id="getEmployeeByPhone" resultType="Employee">
+        select id,brand_id as brandId  from
+         tb_user where telephone = #{phone} and state =1
+    </select>
+
+    <select id="getEmployeeById" resultType="Employee">
+       select id,brand_id as brandId  from
+         tb_user where id = #{id} and state =1
+    </select>
+
+
+    <select id="selectOneBytelephone" resultType="Employee">
+        select id,brand_id as brandId ,state  from
+        tb_user where telephone = #{phone}
+    </select>
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="employee">update tb_user
+        <set>
+            <if test="telephone != null">telephone = #{telephone},</if>
+            <if test="brandId != null">brand_id = #{brandId},</if>
+            <if test="state != null">state = #{state},</if>
+        </set> where id = #{id}
+    </update>
+
+    <insert id="insertSelective" parameterType="com.resto.brand.web.model.Employee">insert into tb_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="brandId != null">brand_Id,</if>
+            <if test="telephone != null">telephone,</if>
+            <if test="state != null">state,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="brandId != null">#{brandId},</if>
+            <if test="telephone != null">#{telephone},</if>
+            <if test="state != null">#{state},</if>
+        </trim>
+    </insert>
+
+
+    <select id="selectList" resultType="Employee">
+        select id,brand_id  as brandId ,telephone from
+        tb_user where  state =1
+    </select>
+
+</mapper>

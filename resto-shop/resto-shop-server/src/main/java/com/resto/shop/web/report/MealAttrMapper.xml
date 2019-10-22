@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.report.MealAttrMapperReport">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.MealAttr">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="sort" property="sort" jdbcType="INTEGER"/>
+    <result column="article_id" property="articleId" jdbcType="VARCHAR"/>
+    <result column="print_sort" property="printSort" jdbcType="INTEGER"/>
+
+    <result column="choice_count" property="choiceCount"/>
+    <result column="choice_type" property="choiceType"/>
+
+  </resultMap>
+  <sql id="Base_Column_List">id, name, sort, article_id,print_sort,choice_type,choice_count</sql>
+
+    <select id="queryArticleMealAttr" parameterType="java.util.Map" resultType="com.resto.brand.web.dto.ArticleSellDto">
+        select tma.`name` articleFamilyName, tmi.article_name articleName,
+        IFNULL(
+        (select SUM(ti.count) from tb_order_item ti
+        where ti.parent_id in
+        (select toi.id from tb_order_item toi
+        inner join tb_order tr
+        on toi.order_id = tr.id
+        where tr.order_state in (2,10,11,12) and IF(tr.is_pos_pay = 1,tr.is_pos_pay = 1,tr.production_status in (2,3,4))
+        and toi.type = 3
+        and toi.article_id = #{articleId}
+        and toi.create_time &gt;= CONCAT(#{beginDate},' 00:00:00')
+        and toi.create_time &lt;= CONCAT(#{endDate},' 23:59:59')
+        ) and ti.article_id = tmi.article_id),0) brandSellNum,
+        tma.article_id articleId
+        from tb_meal_attr tma
+        inner join tb_meal_item tmi
+        on tma.id = tmi.meal_attr_id
+        where tma.article_id = #{articleId}
+        GROUP BY tmi.article_id
+        order by tma.sort asc
+    </select>
+
+</mapper>

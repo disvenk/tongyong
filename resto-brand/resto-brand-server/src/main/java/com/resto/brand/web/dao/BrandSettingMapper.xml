@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.BrandSettingMapper">
+	<resultMap id="BaseResultMap" type="com.resto.brand.web.model.BrandSetting">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="brand_id" property="brandId"/>
+		<result column="brand_name" property="brandName"/>
+		<result column="sms_sign" property="smsSign" jdbcType="VARCHAR" />
+		<result column="appraise_min_money" property="appraiseMinMoney"
+			jdbcType="DECIMAL" />
+		<result column="customer_register_title" property="customerRegisterTitle"
+			jdbcType="VARCHAR" />
+		<result column="wechat_welcome_img" property="wechatWelcomeImg"
+			jdbcType="VARCHAR" />
+		<result column="wechat_welcome_title" property="wechatWelcomeTitle"
+			jdbcType="VARCHAR" />
+		<result column="wechat_welcome_url" property="wechatWelcomeUrl"
+			jdbcType="VARCHAR" />
+		<result column="member_card_url" property="memberCardUrl"
+				jdbcType="VARCHAR" />
+		<result column="wechat_welcome_content" property="wechatWelcomeContent"
+			jdbcType="VARCHAR" />
+		<result column="wechat_brand_name" property="wechatBrandName"
+				jdbcType="VARCHAR" />
+		<result column="wechat_home_name" property="wechatHomeName"
+			jdbcType="VARCHAR" />
+		<result column="wechat_tangshi_name" property="wechatTangshiName"
+			jdbcType="VARCHAR" />
+		<result column="wechat_my_name" property="wechatMyName"
+			jdbcType="VARCHAR" />
+		<result column="wechat_waimai_name" property="wechatWaimaiName"
+			jdbcType="VARCHAR" />
+		<result column="auto_confirm_time" property="autoConfirmTime"
+			jdbcType="INTEGER" />
+		<result column="close_continue_time" property="closeContinueTime"
+			jdbcType="INTEGER" />
+		<result column="delay_appraise_money_time" property="delayAppraiseMoneyTime"
+				jdbcType="INTEGER" />
+		<result column="is_choice_mode" property="isChoiceMode"
+			jdbcType="INTEGER" />
+		<result column="auto_alert_appraise" property="autoAlertAppraise" />
+		<result column="good_appraise_length" property="goodAppraiseLength" />
+		<result column="bad_appraise_length" property="badAppraiseLength" />
+		<result column="reconnect_times" property="reconnectTimes" />
+		<result column="reconnect_second" property="reconnectSecond" />
+		<result column="stock_working_day" property="stockWorkingDay" />
+		<result column="stock_weekend" property="stockWeekend" />
+		<result column="auto_print_total" property="autoPrintTotal" />
+		<result column="recommend_article" property="recommendArticle" />
+		<result column="recommend_category" property="recommendCategory" />
+		<result column="is_use_recommend" property="isUseRecommend" />
+		<result column="print_type" property="printType" />
+		<result column="is_use_service_price" property="isUseServicePrice" />
+		<result column="wait_red_envelope" property="waitRedEnvelope" />
+		<result column="base_money" property="baseMoney" />
+		<result column="high_money" property="highMoney" />
+		<result column="geekpos_price" property="geekPosPrice" />
+		<result column="biz_url" property="bizUrl" />
+		<result column="slogan" property="slogan" />
+		<result column="switch_mode" property="switchMode" />
+		<result column="is_allow_extra_price" property="isAllowExtraPrice" />
+		<result column="consumer_key" property="consumerKey" />
+		<result column="consumer_secret" property="consumerSecret" />
+		<result column="is_open_out_food" property="isOpenOutFood" />
+		<result column="ali_pay" property="aliPay" />
+		<result column="ali_appId" property="aliAppId" />
+		<result column="ali_private_key" property="aliPrivateKey" />
+		<result column="ali_public_key" property="aliPublicKey" />
+		<result column="ali_seller_id" property="aliSellerId" />
+		<result column="ali_product_code" property="aliProductCode" />
+		<result column="is_print_pay_after" property="isPrintPayAfter" />
+		<result column="is_optional_photo" property="isOptionalPhoto" />
+		<result column="is_meal_fee" property="isMealFee" />
+		<result column="export_password" property="exportPassword"/>
+        <result column="is_send_coupon_msg" property="isSendCouponMsg"/>
+		<result column="wechat_charge_config_id" property="wechatChargeConfigId"/>
+		<result column="is_pos_plus" property="isPosPlus"/>
+        <result column="open_union_pay" property="openUnionPay"/>
+		<result column="open_money_pay" property="openMoneyPay"/>
+		<result column="open_shanhui_pay" property="openShanhuiPay"/>
+		<result column="open_third_interface" property="openThirdInterface"/>
+		<result column="appid" property="appid"/>
+		<result column="integral_pay" property="integralPay"/>
+        <result column="pos_open_table" property="posOpenTable"/>
+        <result column="open_pos_charge" property="openPosCharge"/>
+		<result column="into_shop_subscribe" property="intoShopSubscribe"/>
+		<result column="allow_appraise_subscribe" property="allowAppraiseSubscribe"/>
+		<result column="qr_code_brand" property="qrCodeBrand"/>
+		<result column="open_andriod_apk" property="openAndriodApk"/>
+        <result column="open_order_remark" property="openOrderRemark"/>
+		<result column="call_tv_type" property="callTvType"/>
+		<result column="open_shoplist" property="openShoplist"/>
+		<result column="open_pos_reminder" property="openPosReminder"/>
+		<result column="open_https" property="openHttps"/>
+		<result column="recommend_time" property="recommendTime"/>
+		<result column="turntable" property="turntable" />
+		<result column="comment_time" property="commentTime"/>
+		<result column="open_comment_recommend" property="openCommentRecommend"/>
+		<result column="is_push_sms" property="isPushSms"/>
+		<result column="coupon_cd" property="couponCD" />
+		<result column="receipt_switch" property="receiptSwitch"/>
+		<!-- yz 2017-7-17 计费系统添加品牌账户相关 -->
+		<result column="open_brand_account" property="openBrandAccount"/>
+		<result column="open_bonus" property="openBonus"/>
+		<result column="sms_push_gift_coupons" property="smsPushGiftCoupons"/>
+		<result column="wechat_push_gift_coupons" property="wechatPushGiftCoupons"/>
+		<result column="open_pos_discount" property="openPosDiscount"/>
+		<result column="is_open_scm" property="isOpenScm"/>
+		<result column="share_text" property="shareText"/>
+		<result column="template_edition" property="templateEdition"/>
+		<result column="message_switch" property="messageSwitch"/>
+		<result column="appraise_edition" property="appraiseEdition"/>
+		<result column="consumption_rebate" property="consumptionRebate"/>
+		<result column="open_many_customer_order" property="openManyCustomerOrder"/>
+		<result column="loading_text_color" property="loadingTextColor"/>
+		<result column="loading_logo" property="loadingLogo"/>
+		<result column="loading_background" property="loadingBackground"/>
+		<result column="balance_reminder" property="balanceReminder"/>
+		<result column="order_before" property="orderBefore"/>
+		<result column="open_audit" property="openAudit"/>
+		<result column="open_compulsory_register" property="openCompulsoryRegister"/>
+		<result column="open_compulsory_recharge" property="openCompulsoryRecharge"/>
+		<result column="open_ticket" property="openTicket"/>
+		<result column="open_group_buy" property="openGroupBuy"/>
+		<result column="open_cash_coupon_buy" property="openCashCouponBuy"/>
+		<result column="open_rpay" property="openRpay" />
+		<result column="open_product_coupon" property="openProductCoupon" />
+		<result column="open_small_program_push" property="openSmallProgramPush" />
+		<result column="open_article_library" property="openArticleLibrary"/>
+		<result column="product_coupon_push_url" property="productCouponPushUrl" />
+		<result column="open_auto_permission" property="openAutoPermission" />
+		<association property="wechatChargeConfig"
+					 javaType="com.resto.brand.web.model.WechatChargeConfig">
+			<id column="config_id" property="id" jdbcType="VARCHAR" />
+			<result column="appid" property="appid" jdbcType="VARCHAR" />
+			<result column="appsecret" property="appsecret" jdbcType="VARCHAR" />
+			<result column="mchid" property="mchid" jdbcType="VARCHAR" />
+			<result column="mchkey" property="mchkey" jdbcType="VARCHAR" />
+			<result column="pay_cert_path" property="payCertPath"
+					jdbcType="VARCHAR" />
+			<result column="wx_server_id" property="wxServerId"
+					 />
+			<result column="config_is_sub" property="isSub"/>
+		</association>
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.resto.brand.web.model.BrandSetting"
+		extends="BaseResultMap">
+		<result column="wechat_customo_style" property="wechatCustomoStyle"
+			jdbcType="LONGVARCHAR" />
+		<result column="red_package_logo" property="redPackageLogo"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, sms_sign, appraise_min_money, customer_register_title,open_audit,
+		wechat_welcome_img, wechat_welcome_title,
+		wechat_welcome_url,member_card_url, wechat_welcome_content, wechat_brand_name, wechat_home_name, wechat_tangshi_name,
+		wechat_my_name, wechat_waimai_name,
+		auto_confirm_time,close_continue_time,is_choice_mode,auto_alert_appraise,good_appraise_length,bad_appraise_length
+		,stock_working_day,stock_weekend,delay_appraise_money_time
+		,reconnect_times,reconnect_second,auto_print_total,recommend_article,recommend_category,is_use_recommend,
+		print_type,is_use_service_price,geekpos_price,wait_red_envelope,base_money,high_money,biz_url,switch_mode,is_allow_extra_price
+		,consumer_key,consumer_secret,is_open_out_food,ali_pay,ali_appId,ali_public_key,ali_private_key,ali_seller_id,ali_product_code,is_print_pay_after
+		,is_optional_photo,is_meal_fee,slogan,queue_notice,wechat_charge_config_id,export_password,is_send_coupon_msg,is_pos_plus,open_union_pay
+		,open_money_pay,open_shanhui_pay,open_third_interface,appid,integral_pay,pos_open_table,open_pos_charge,into_shop_subscribe,allow_appraise_subscribe
+		,qr_code_brand,open_andriod_apk,open_order_remark,call_tv_type,open_shoplist,open_pos_reminder,open_https,recommend_time,open_brand_account,turntable,coupon_cd,
+		comment_time,open_comment_recommend,is_push_sms,open_bonus,sms_push_gift_coupons,wechat_push_gift_coupons,open_pos_discount,share_text
+		,sms_push_gift_coupons,consumption_rebate,is_open_scm,template_edition,appraise_edition,loading_text_color,loading_logo,loading_background,balance_reminder,open_many_customer_order,order_before
+		,receipt_switch,message_switch,trade_appid,trade_private_key,trade_public_key,open_compulsory_register,open_compulsory_recharge,open_ticket,open_group_buy,open_cash_coupon_buy,open_rpay,open_product_coupon,
+		product_coupon_push_url,open_small_program_push,open_auto_permission
+	</sql>
+	<sql id="Blob_Column_List">
+		wechat_customo_style,red_package_logo
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from brand_setting
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from brand_setting
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.resto.brand.web.model.BrandSetting">
+		insert into brand_setting (id, sms_sign, appraise_min_money,
+		customer_register_title, wechat_welcome_img,
+		wechat_welcome_title, wechat_welcome_url,member_card_url, wechat_welcome_content,
+		wechat_home_name, wechat_tangshi_name, wechat_my_name,
+		wechat_waimai_name, auto_confirm_time,
+		wechat_customo_style,reconnect_times,reconnect_second
+		,stock_working_day,stock_weekend,auto_print_total,recommend_article,recommend_category,is_use_recommend
+		,print_type,is_use_service_price,geekpos_price,wait_red_envelope,base_money,high_money
+		,biz_url,switch_mode,is_allow_extra_price,,consumer_key,consumer_secret,is_open_out_food,ali_pay
+		,ali_appId,ali_private_key,ali_public_key,ali_seller_id,ali_product_code,is_print_pay_after,is_optional_photo
+		,is_meal_fee,wechat_brand_name,is_pos_plus,open_union_pay,open_money_pay,open_shanhui_pay,integral_pay,pos_open_table,open_pos_charge
+		,into_shop_subscribe,allow_appraise_subscribe,qr_code_brand,open_andriod_apk,open_order_remark,call_tv_type,open_shoplist
+		,open_pos_reminder,turntable,is_open_scm,template_edition,appraise_edition,receipt_switch,message_switch,open_ticket,open_rpay,open_product_coupon,
+		open_small_program_push,product_coupon_push_url,open_audit,open_auto_permission)
+		values (#{id,jdbcType=VARCHAR}, #{smsSign,jdbcType=VARCHAR},
+		#{appraiseMinMoney,jdbcType=DECIMAL},
+		#{customerRegisterTitle,jdbcType=VARCHAR},
+		#{wechatWelcomeImg,jdbcType=VARCHAR},
+		#{wechatWelcomeTitle,jdbcType=VARCHAR},
+		#{wechatWelcomeUrl,jdbcType=VARCHAR},
+		#{memberCardUrl,jdbcType=VARCHAR},
+		#{wechatWelcomeContent,jdbcType=VARCHAR},
+		#{wechatHomeName,jdbcType=VARCHAR},
+		#{wechatTangshiName,jdbcType=VARCHAR},
+		#{wechatMyName,jdbcType=VARCHAR},
+		#{wechatWaimaiName,jdbcType=VARCHAR},
+		#{autoConfirmTime,jdbcType=INTEGER},
+		#{wechatCustomoStyle,jdbcType=LONGVARCHAR}
+		,#{reconnectTimes,jdbcType=INTEGER},#{reconnectSecond,jdbcType=INTEGER}
+		,#{stockWorkingDay},#{stockWeekend},#{autoPrintTotal,jdbcType=INTEGER},#{recommendArticle,jdbcType=INTEGER},
+		#{isUseRecommend,jdbcType=INTEGER},#{printType,jdbcType=INTEGER},#{isUseServicePrice,jdbcType=INTEGER},
+		#{geekPosPrice,jdbcType=INTEGER},#{waitRedEnvelope},#{baseMoney},#{highMoney},#{bizUrl},#{switchMode},
+		#{isAllowExtraPrice},#{consumerKey,jdbcType=VARCHAR},#{consumerSecret,jdbcType=VARCHAR},#{isOpenOutFood,jdbcType=INTEGER}
+		,#{aliPay,jdbcType=INTEGER},#{aliAppId,jdbcType=VARCHAR},#{aliPrivateKey,jdbcType=VARCHAR},
+		#{aliPublicKey,jdbcType=VARCHAR},#{aliSellerId,jdbcType=VARCHAR},#{aliProductCode,jdbcType=VARCHAR},#{isPrintPayAfter,jdbcType=INTEGER}
+		,#{isOptionalPhoto},#{isMealFee},#{wechatBrandName},#{isPosPlus},#{openUnionPay},#{openMoneyPay},#{openShanhuiPay},#{integralPay},#{posOpenTable},#{openPosCharge}
+		,#{intoShopSubscribe},#{allowAppraiseSubscribe},#{qrCodeBrand},#{openAndriodApk},#{openOrderRemark},#{callTvType},#{openShoplist},#{openPosReminder},#{turntable},#{isOpenScm},#{templateEdition,jdbcType=INTEGER},#{appraiseEdition,jdbcType=INTEGER},#{receiptSwitch},#{messageSwitch,jdbcType=INTEGER},
+		#{openTicket},#{openRpay},#{openProductCoupon},#{openSmallProgramPush},#{productCouponPushUrl},#{openAudit},#{openAutoPermission}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.resto.brand.web.model.BrandSetting">
+		insert into brand_setting
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="smsSign != null">sms_sign,</if>
+			<if test="appraiseMinMoney != null">appraise_min_money,</if>
+			<if test="customerRegisterTitle != null">customer_register_title,</if>
+			<if test="wechatWelcomeImg != null">wechat_welcome_img,</if>
+			<if test="wechatWelcomeTitle != null">wechat_welcome_title,</if>
+			<if test="wechatWelcomeUrl != null">wechat_welcome_url,</if>
+			<if test="memberCardUrl != null">member_card_url,</if>
+			<if test="wechatWelcomeContent != null">wechat_welcome_content,</if>
+			<if test="wechatBrandName != null">wechat_brand_name,</if>
+			<if test="wechatHomeName != null">wechat_home_name,</if>
+			<if test="wechatTangshiName != null">wechat_tangshi_name,</if>
+			<if test="wechatMyName != null">wechat_my_name,</if>
+			<if test="wechatWaimaiName != null">wechat_waimai_name,</if>
+			<if test="autoConfirmTime != null">auto_confirm_time,</if>
+			<if test="wechatCustomoStyle != null">wechat_customo_style,</if>
+			<if test="autoAlertAppraise != null">auto_alert_appraise,</if>
+			<if test="goodAppraiseLength != null">good_appraise_length,</if>
+			<if test="badAppraiseLength != null">bad_appraise_length,</if>
+			<if test="stockWorkingDay != null">stock_working_day,</if>
+			<if test="stockWeekend != null">stock_weekend,</if>
+			<if test="reconnectTimes != null">reconnect_times,</if>
+			<if test="reconnectSecond != null">reconnect_second,</if>
+			<if test="autoPrintTotal != null">auto_print_total,</if>
+			<if test="recommendArticle != null">recommend_article,</if>
+			<if test="recommendCategory != null">recommend_category,</if>
+			<if test="isUseRecommend != null">is_use_recommend,</if>
+			<if test="printType != null">print_type,</if>
+			<if test="isUseServicePrice != null">is_use_service_price,</if>
+			<if test="geekPosPrice != null">geekpos_price,</if>
+			<if test="waitRedEnvelope != null">wait_red_envelope,</if>
+			<if test="baseMoney != null">base_money,</if>
+			<if test="highMoney != null">high_money,</if>
+			<if test="bizUrl != null">biz_url,</if>
+			<if test="switchMode != null">switch_mode,</if>
+			<if test="isAllowExtraPrice != null">is_allow_extra_price,</if>
+			<if test="consumerKey != null">consumer_key,</if>
+			<if test="consumerSecret != null">consumer_secret,</if>
+			<if test="isOpenOutFood != null">is_open_out_food,</if>
+			<if test="aliPay != null">ali_pay,</if>
+			<if test="aliAppId != null">ali_appId,</if>
+			<if test="aliPrivateKey != null">ali_private_key,</if>
+			<if test="aliPublicKey != null">ali_public_key,</if>
+			<if test="aliSellerId != null">ali_seller_id,</if>
+			<if test="aliProductCode != null">ali_product_code,</if>
+			<if test="isPrintPayAfter != null">is_print_pay_after,</if>
+			<if test="isOptionalPhoto != null">is_optional_photo,</if>
+			<if test="isMealFee != null">is_meal_fee,</if>
+			<if test="slogan != null">slogan,</if>
+			<if test="queueNotice != null">queue_notice,</if>
+			<if test="isPosPlus != null">is_pos_plus,</if>
+            <if test="openUnionPay != null">open_union_pay,</if>
+			<if test="openMoneyPay != null">open_money_pay,</if>
+			<if test="openShanhuiPay != null">open_shanhui_pay,</if>
+			<if test="integralPay != null">integral_pay,</if>
+            <if test="posOpenTable != null">pos_open_table,</if>
+            <if test="openPosCharge != null">open_pos_charge,</if>
+			<if test="intoShopSubscribe != null">into_shop_subscribe,</if>
+			<if test="allowAppraiseSubscribe != null">allow_appraise_subscribe,</if>
+			<if test="qrCodeBrand != null">qr_code_brand,</if>
+			<if test="openAndriodApk != null">open_andriod_apk,</if>
+            <if test="openOrderRemark != null">open_order_remark,</if>
+			<if test="callTvType != null">call_tv_type,</if>
+			<if test="openPosReminder != null">open_pos_reminder,</if>
+			<if test="openHttps != null">open_https,</if>
+			<if test="turntable != null">turntable,</if>
+			<if test="openBonus != null">open_bonus,</if>
+			<if test="smsPushGiftCoupons != null">sms_push_gift_coupons,</if>
+			<if test="wechatPushGiftCoupons != null">wechat_push_gift_coupons,</if>
+			<if test="openPosDiscount != null">open_pos_discount,</if>
+			<if test="isOpenScm != null">is_open_scm,</if>
+			<if test="openManyCustomerOrder != null">open_many_customer_order,</if>
+			<if test="shareText != null">share_text,</if>
+			<if test="templateEdition != null">template_edition,</if>
+			<if test="appraiseEdition != null">appraise_edition,</if>
+			<if test="messageSwitch != null">message_switch,</if>
+			<if test="consumptionRebate != null">consumption_rebate,</if>
+			<if test="loadingTextColor != null">loading_text_color,</if>
+			<if test="loadingLogo != null">loading_logo,</if>
+			<if test="loadingBackground != null">loading_background,</if>
+			<if test="balanceReminder != null">balance_reminder,</if>
+			<if test="receiptSwitch != null">receipt_switch,</if>
+			<if test="delayAppraiseMoneyTime != null">delay_appraise_money_time,</if>
+			<if test="openCompulsoryRegister != null">open_compulsory_register,</if>
+			<if test="openCompulsoryRecharge != null">open_compulsory_recharge,</if>
+			<if test="openTicket != null">open_ticket,</if>
+			<if test="openGroupBuy != null">open_group_buy,</if>
+			<if test="openCashCouponBuy != null">open_cash_coupon_buy,</if>
+			<if test="openRpay != null">open_rpay,</if>
+			<if test="openProductCoupon != null">open_product_coupon,</if>
+			<if test="openSmallProgramPush != null">open_small_program_push,</if>
+			<if test="productCouponPushUrl != null">product_coupon_push_url,</if>
+			<if test="openAudit != null">open_audit,</if>
+			<if test="openArticleLibrary != null">open_article_library,</if>
+			<if test="openAutoPermission != null">open_auto_permission,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="smsSign != null">#{smsSign,jdbcType=VARCHAR},</if>
+			<if test="appraiseMinMoney != null">#{appraiseMinMoney,jdbcType=DECIMAL},</if>
+			<if test="customerRegisterTitle != null">#{customerRegisterTitle,jdbcType=VARCHAR},</if>
+			<if test="wechatWelcomeImg != null">#{wechatWelcomeImg,jdbcType=VARCHAR},</if>
+			<if test="wechatWelcomeTitle != null">#{wechatWelcomeTitle,jdbcType=VARCHAR},</if>
+			<if test="wechatWelcomeUrl != null">#{wechatWelcomeUrl,jdbcType=VARCHAR},</if>
+			<if test="memberCardUrl != null">#{memberCardUrl,jdbcType=VARCHAR},</if>
+			<if test="wechatWelcomeContent != null">#{wechatWelcomeContent,jdbcType=VARCHAR},</if>
+			<if test="wechatBrandName != null">#{wechatBrandName,jdbcType=VARCHAR},</if>
+			<if test="wechatHomeName != null">#{wechatHomeName,jdbcType=VARCHAR},</if>
+			<if test="wechatTangshiName != null">#{wechatTangshiName,jdbcType=VARCHAR},</if>
+			<if test="wechatMyName != null">#{wechatMyName,jdbcType=VARCHAR},</if>
+			<if test="wechatWaimaiName != null">#{wechatWaimaiName,jdbcType=VARCHAR},</if>
+			<if test="autoConfirmTime != null">#{autoConfirmTime,jdbcType=INTEGER},</if>
+			<if test="wechatCustomoStyle != null">#{wechatCustomoStyle,jdbcType=LONGVARCHAR},</if>
+			<if test="autoAlertAppraise != null">#{autoAlertAppraise},</if>
+			<if test="goodAppraiseLength != null">#{goodAppraiseLength},</if>
+			<if test="badAppraiseLength != null">#{badAppraiseLength},</if>
+			<if test="stockWorkingDay != null">#{stockWorkingDay},</if>
+			<if test="stockWeekend != null">#{stockWeekend},</if>
+			<if test="reconnectTimes != null">#{reconnectTimes},</if>
+			<if test="reconnectSecond != null">#{reconnectSecond},</if>
+			<if test="autoPrintTotal != null">#{autoPrintTotal},</if>
+			<if test="recommendArticle != null">#{recommendArticle},</if>
+			<if test="isUseRecommend != null">#{isUseRecommend},</if>
+			<if test="printType != null">#{printType},</if>
+			<if test="isUseServicePrice != null">#{isUseServicePrice},</if>
+			<if test="geekPosPrice != null">#{geekPosPrice},</if>
+			<if test="waitRedEnvelope != null">#{waitRedEnvelope},</if>
+			<if test="baseMoney != null">#{baseMoney},</if>
+			<if test="highMoney != null">#{highMoney},</if>
+			<if test="bizUrl != null">#{bizUrl},</if>
+			<if test="switchMode != null">#{switchMode},</if>
+			<if test="isAllowExtraPrice != null">#{isAllowExtraPrice},</if>
+			<if test="consumerKey != null">#{consumerKey},</if>
+			<if test="consumerSecret != null">#{consumerSecret},</if>
+			<if test="isOpenOutFood != null">#{isOpenOutFood},</if>
+			<if test="aliPay != null">#{aliPay},</if>
+			<if test="aliAppId != null">#{aliAppId},</if>
+			<if test="aliPrivateKey != null">#{aliPrivateKey},</if>
+			<if test="aliPublicKey != null">#{aliPublicKey},</if>
+			<if test="aliSellerId != null">#{aliSellerId},</if>
+			<if test="aliProductCode != null">#{aliProductCode},</if>
+			<if test="isPrintPayAfter != null">#{isPrintPayAfter},</if>
+			<if test="isOptionalPhoto != null">#{isOptionalPhoto},</if>
+			<if test="isMealFee != null">#{isMealFee},</if>
+			<if test="slogan != null">#{slogan},</if>
+			<if test="queueNotice != null">#{queueNotice},</if>
+			<if test="isPosPlus != null">#{isPosPlus},</if>
+            <if test="openUnionPay != null">#{openUnionPay},</if>
+			<if test="openMoneyPay != null">#{openMoneyPay},</if>
+			<if test="openShanhuiPay != null">#{openShanhuiPay},</if>
+			<if test="integralPay != null">#{integralPay},</if>
+            <if test="posOpenTable != null">#{posOpenTable},</if>
+            <if test="openPosCharge != null">#{openPosCharge},</if>
+			<if test="intoShopSubscribe != null">#{intoShopSubscribe},</if>
+			<if test="allowAppraiseSubscribe != null">#{allowAppraiseSubscribe},</if>
+			<if test="qrCodeBrand != null">#{qrCodeBrand},</if>
+			<if test="openAndriodApk != null">#{openAndriodApk},</if>
+            <if test="openOrderRemark != null">#{openOrderRemark},</if>
+			<if test="callTvType != null">#{callTvType},</if>
+			<if test="openPosReminder != null">#{openPosReminder},</if>
+			<if test="openHttps != null">#{openHttps},</if>
+			<if test="turntable != null">#{turntable},</if>
+			<if test="openBonus != null">#{openBonus},</if>
+			<if test="smsPushGiftCoupons != null">#{smsPushGiftCoupons},</if>
+			<if test="wechatPushGiftCoupons != null">#{wechatPushGiftCoupons},</if>
+			<if test="openPosDiscount != null">#{openPosDiscount},</if>
+			<if test="isOpenScm != null">#{isOpenScm},</if>
+			<if test="openManyCustomerOrder != null">#{openManyCustomerOrder},</if>
+			<if test="shareText != null">#{shareText},</if>
+			<if test="templateEdition != null">#{templateEdition},</if>
+			<if test="appraiseEdition != null">#{appraiseEdition},</if>
+			<if test="messageSwitch != null">#{messageSwitch},</if>
+			<if test="consumptionRebate != null">#{consumptionRebate},</if>
+			<if test="loadingTextColor != null">#{loadingTextColor},</if>
+			<if test="loadingLogo != null">#{loadingLogo},</if>
+			<if test="loadingBackground != null">#{loadingBackground},</if>
+			<if test="balanceReminder != null">#{balanceReminder},</if>
+			<if test="receiptSwitch != null">#{receiptSwitch},</if>
+			<if test="delayAppraiseMoneyTime != null">#{delayAppraiseMoneyTime},</if>
+			<if test="openCompulsoryRegister != null">#{openCompulsoryRegister},</if>
+			<if test="openCompulsoryRecharge != null">#{openCompulsoryRecharge},</if>
+			<if test="openTicket != null">#{openTicket},</if>
+			<if test="openGroupBuy != null">#{openGroupBuy},</if>
+			<if test="openCashCouponBuy != null">#{openCashCouponBuy},</if>
+			<if test="openRpay != null">#{openRpay},</if>
+			<if test="openProductCoupon != null">#{openProductCoupon},</if>
+			<if test="openSmallProgramPush != null">#{openSmallProgramPush},</if>
+			<if test="productCouponPushUrl != null">#{productCouponPushUrl},</if>
+			<if test="openAudit != null">#{openAudit},</if>
+			<if test="openArticleLibrary != null">#{openArticleLibrary},</if>
+			<if test="openAutoPermission != null">#{openAutoPermission},</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.BrandSetting">
+		update brand_setting
+		<set>
+			<if test="smsSign != null">sms_sign = #{smsSign,jdbcType=VARCHAR},</if>
+			<if test="appraiseMinMoney != null">appraise_min_money = #{appraiseMinMoney,jdbcType=DECIMAL},</if>
+			<if test="customerRegisterTitle != null">customer_register_title = #{customerRegisterTitle,jdbcType=VARCHAR},</if>
+			<if test="wechatWelcomeImg != null">wechat_welcome_img = #{wechatWelcomeImg,jdbcType=VARCHAR},</if>
+			<if test="wechatWelcomeTitle != null">wechat_welcome_title = #{wechatWelcomeTitle,jdbcType=VARCHAR},</if>
+			<if test="wechatWelcomeUrl != null">wechat_welcome_url = #{wechatWelcomeUrl,jdbcType=VARCHAR},</if>
+			<if test="memberCardUrl != null">member_card_url = #{memberCardUrl,jdbcType=VARCHAR},</if>
+			<if test="wechatWelcomeContent != null">wechat_welcome_content = #{wechatWelcomeContent,jdbcType=VARCHAR},</if>
+			<if test="wechatBrandName != null">wechat_brand_name = #{wechatBrandName,jdbcType=VARCHAR},</if>
+			<if test="wechatHomeName != null">wechat_home_name = #{wechatHomeName,jdbcType=VARCHAR},</if>
+			<if test="wechatTangshiName != null">wechat_tangshi_name = #{wechatTangshiName,jdbcType=VARCHAR},</if>
+			<if test="wechatMyName != null">wechat_my_name = #{wechatMyName,jdbcType=VARCHAR},</if>
+			<if test="wechatWaimaiName != null">wechat_waimai_name = #{wechatWaimaiName,jdbcType=VARCHAR},</if>
+			<if test="autoConfirmTime != null">auto_confirm_time = #{autoConfirmTime,jdbcType=INTEGER},</if>
+			<if test="wechatCustomoStyle != null">wechat_customo_style = #{wechatCustomoStyle,jdbcType=LONGVARCHAR},</if>
+			<if test="redPackageLogo != null">red_package_logo = #{redPackageLogo,jdbcType=LONGVARCHAR},</if>
+			<if test="closeContinueTime != null">close_continue_time = #{closeContinueTime},</if>
+			<if test="delayAppraiseMoneyTime != null">delay_appraise_money_time = #{delayAppraiseMoneyTime},</if>
+			<if test="isChoiceMode != null">is_choice_mode = #{isChoiceMode},</if>
+			<if test="autoAlertAppraise != null">auto_alert_appraise = #{autoAlertAppraise},</if>
+			<if test="goodAppraiseLength != null">good_appraise_length = #{goodAppraiseLength},</if>
+			<if test="badAppraiseLength != null">bad_appraise_length = #{badAppraiseLength},</if>
+			<if test="stockWorkingDay != null">stock_working_day = #{stockWorkingDay},</if>
+			<if test="stockWeekend != null">stock_weekend = #{stockWeekend},</if>
+			<if test="reconnectTimes != null">reconnect_times = #{reconnectTimes},</if>
+			<if test="reconnectSecond != null">reconnect_second = #{reconnectSecond},</if>
+			<if test="autoPrintTotal != null">auto_print_total = #{autoPrintTotal},</if>
+			<if test="recommendArticle != null">recommend_article = #{recommendArticle},</if>
+			<if test="recommendCategory != null">recommend_category = #{recommendCategory},</if>
+			<if test="isUseRecommend != null">is_use_recommend = #{isUseRecommend},</if>
+			<if test="printType != null">print_type = #{printType},</if>
+			<if test="isUseServicePrice != null">is_use_service_price = #{isUseServicePrice},</if>
+			<if test="waitRedEnvelope != null">wait_red_envelope = #{waitRedEnvelope},</if>
+			<if test="baseMoney != null">base_money = #{baseMoney},</if>
+			<if test="geekPosPrice != null">geekpos_price = #{geekPosPrice},</if>
+			<if test="waitRedEnvelope != null">wait_red_envelope = #{waitRedEnvelope},</if>
+			<if test="baseMoney != null">base_money = #{baseMoney},</if>
+			<if test="highMoney != null">high_money = #{highMoney},</if>
+			<if test="bizUrl != null">biz_url = #{bizUrl},</if>
+			<if test="switchMode != null">switch_mode = #{switchMode},</if>
+			<if test="isAllowExtraPrice != null">is_allow_extra_price = #{isAllowExtraPrice},</if>
+			<if test="consumerKey != null">consumer_key = #{consumerKey},</if>
+			<if test="consumerSecret != null">consumer_secret = #{consumerSecret},</if>
+			<if test="isOpenOutFood != null">is_open_out_food = #{isOpenOutFood},</if>
+			<if test="aliPay != null">ali_pay = #{aliPay},</if>
+			<if test="aliAppId != null">ali_appId = #{aliAppId},</if>
+			<if test="aliPrivateKey != null">ali_private_key = #{aliPrivateKey},</if>
+			<if test="aliPublicKey != null">ali_public_key = #{aliPublicKey},</if>
+			<if test="aliSellerId != null">ali_seller_id = #{aliSellerId},</if>
+			<if test="aliProductCode != null">ali_product_code = #{aliProductCode},</if>
+			<if test="isPrintPayAfter != null">is_print_pay_after = #{isPrintPayAfter},</if>
+			<if test="isOptionalPhoto != null">is_optional_photo = #{isOptionalPhoto},</if>
+			<if test="isMealFee != null">is_meal_fee = #{isMealFee},</if>
+			<if test="slogan != null">slogan = #{slogan},</if>
+			<if test="queueNotice != null">queue_notice = #{queueNotice},</if>
+			<if test="exportPassword != null">export_password = #{exportPassword},</if>
+            <if test="isSendCouponMsg != null">is_send_coupon_msg = #{isSendCouponMsg},</if>
+			<if test="isPosPlus != null">is_pos_plus = #{isPosPlus},</if>
+            <if test="openUnionPay != null">open_union_pay = #{openUnionPay},</if>
+			<if test="openMoneyPay != null">open_money_pay = #{openMoneyPay},</if>
+			<if test="openShanhuiPay != null">open_shanhui_pay = #{openShanhuiPay},</if>
+			<if test="openThirdInterface != null">open_third_interface = #{openThirdInterface},</if>
+			<if test="appid != null">appid = #{appid},</if>
+			<if test="integralPay != null">integral_pay = #{integralPay},</if>
+            <if test="posOpenTable != null">pos_open_table = #{posOpenTable},</if>
+            <if test="openPosCharge != null">open_pos_charge = #{openPosCharge},</if>
+			<if test="intoShopSubscribe != null">into_shop_subscribe = #{intoShopSubscribe},</if>
+			<if test="allowAppraiseSubscribe != null">allow_appraise_subscribe = #{allowAppraiseSubscribe},</if>
+			<if test="qrCodeBrand != null">qr_code_brand = #{qrCodeBrand},</if>
+			<if test="openAndriodApk != null">open_andriod_apk = #{openAndriodApk},</if>
+            <if test="openOrderRemark != null">open_order_remark = #{openOrderRemark},</if>
+			<if test="callTvType != null">call_tv_type = #{callTvType},</if>
+			<if test="recommendTime != null">recommend_time = #{recommendTime},</if>
+			<if test="openShoplist != null">open_shoplist = #{openShoplist},</if>
+			<if test="openPosReminder != null">open_pos_reminder = #{openPosReminder},</if>
+			<if test="openHttps != null">open_https = #{openHttps},</if>
+			<if test="openRpay != null">open_rpay=#{openRpay},</if>
+			<if test="openProductCoupon != null">open_product_coupon=#{openProductCoupon},</if>
+			<if test="openSmallProgramPush != null">open_small_program_push=#{openSmallProgramPush},</if>
+			<if test="productCouponPushUrl != null">product_coupon_push_url=#{productCouponPushUrl},</if>
+
+            <!-- yz 2017/07/17 计费系统 -->
+            <if test="openBrandAccount !=null">open_brand_account = #{openBrandAccount},</if>
+			<!-- yz end -->
+
+			<if test="turntable != null">turntable = #{turntable},</if>
+			<if test="openCommentRecommend != null">open_comment_recommend = #{openCommentRecommend},</if>
+			<if test="commentTime != null">comment_time = #{commentTime},</if>
+			<if test="isPushSms != null">is_push_sms = #{isPushSms},</if>
+			<if test="couponCD != null">coupon_cd = #{couponCD},</if>
+			<if test="openBonus != null">open_bonus = #{openBonus},</if>
+			<if test="smsPushGiftCoupons != null">sms_push_gift_coupons = #{smsPushGiftCoupons},</if>
+			<if test="wechatPushGiftCoupons != null">wechat_push_gift_coupons = #{wechatPushGiftCoupons},</if>
+			<if test="openPosDiscount != null">open_pos_discount = #{openPosDiscount},</if>
+			<if test="openManyCustomerOrder != null">open_many_customer_order = #{openManyCustomerOrder},</if>
+			<if test="shareText != null">share_text = #{shareText},</if>
+			<if test="templateEdition != null">template_edition = #{templateEdition},</if>
+			<if test="appraiseEdition != null">appraise_edition = #{appraiseEdition},</if>
+			<if test="messageSwitch != null">message_switch = #{messageSwitch},</if>
+			<if test="consumptionRebate != null">consumption_rebate = #{consumptionRebate},</if>
+			<if test="isOpenScm != null">is_open_scm = #{isOpenScm},</if>
+			<if test="loadingTextColor != null">loading_text_color = #{loadingTextColor},</if>
+			<if test="loadingLogo != null">loading_logo = #{loadingLogo},</if>
+			<if test="loadingBackground != null">loading_background = #{loadingBackground},</if>
+			<if test="balanceReminder != null">balance_reminder = #{balanceReminder},</if>
+			<if test="orderBefore != null">order_before = #{orderBefore},</if>
+			<if test="receiptSwitch != null">receipt_switch = #{receiptSwitch},</if>
+			<if test="openCompulsoryRegister != null">open_compulsory_register = #{openCompulsoryRegister},</if>
+			<if test="openCompulsoryRecharge != null">open_compulsory_recharge = #{openCompulsoryRecharge},</if>
+			<if test="openTicket != null">open_ticket = #{openTicket},</if>
+			<if test="openGroupBuy != null">open_group_buy = #{openGroupBuy},</if>
+			<if test="openCashCouponBuy != null">open_cash_coupon_buy = #{openCashCouponBuy},</if>
+			<if test="openAudit != null">open_audit = #{openAudit},</if>
+			<if test="openArticleLibrary != null">open_article_library = #{openArticleLibrary},</if>
+			<if test="openAutoPermission != null">open_auto_permission = #{openAutoPermission},</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.resto.brand.web.model.BrandSetting">
+		update brand_setting
+		set sms_sign = #{smsSign,jdbcType=VARCHAR},
+		appraise_min_money = #{appraiseMinMoney,jdbcType=DECIMAL},
+		customer_register_title = #{customerRegisterTitle,jdbcType=VARCHAR},
+		wechat_welcome_img = #{wechatWelcomeImg,jdbcType=VARCHAR},
+		wechat_welcome_title = #{wechatWelcomeTitle,jdbcType=VARCHAR},
+		wechat_welcome_url = #{wechatWelcomeUrl,jdbcType=VARCHAR},
+		member_card_url = #{memberCardUrl,jdbcType=VARCHAR},
+		wechat_welcome_content = #{wechatWelcomeContent,jdbcType=VARCHAR},
+		wechat_brand_name = #{wechatBrandName,jdbcType=VARCHAR},
+		wechat_home_name = #{wechatHomeName,jdbcType=VARCHAR},
+		wechat_tangshi_name = #{wechatTangshiName,jdbcType=VARCHAR},
+		wechat_my_name = #{wechatMyName,jdbcType=VARCHAR},
+		wechat_waimai_name = #{wechatWaimaiName,jdbcType=VARCHAR},
+		auto_confirm_time = #{autoConfirmTime,jdbcType=INTEGER},
+		wechat_customo_style = #{wechatCustomoStyle,jdbcType=LONGVARCHAR},
+		red_package_logo = #{redPackageLogo,jdbcType=LONGVARCHAR},
+		geekpos_price = #{geekPosPrice,jdbcType=INTEGER},
+		wait_red_envelope = #{waitRedEnvelope},
+		base_money = #{baseMoney},high_money = #{highMoney},
+		biz_url = #{bizUrl},switch_mode = #{switchMode},
+		is_allow_extra_price = #{isAllowExtraPrice},open_pos_charge = #{openPosCharge},
+		into_shop_subscribe = #{intoShopSubscribe},allow_appraise_subscribe = #{allowAppraiseSubscribe},
+		qr_code_brand = #{qrCodeBrand},open_andriod_apk = #{openAndriodApk},open_order_remark = #{openOrderRemark},
+		call_tv_type = #{callTvType},open_shoplist = #{openShoplist},open_pos_reminder = #{openPosReminder},
+		open_https = #{openHttps},turntable = #{turntable},open_pos_discount = #{openPosDiscount},
+		is_open_scm = #{isOpenScm},template_edition = #{templateEdition},appraise_edition = #{appraiseEdition},message_switch = #{messageSwitch},
+		open_many_customer_order = #{openManyCustomerOrder},receipt_switch = #{receiptSwitch},open_ticket=#{openTicket},open_rpay=#{openRpay},
+		open_product_coupon=#{openProductCoupon},product_coupon_push_url=#{productCouponPushUrl},open_small_program_push=#{openSmallProgramPush},
+		open_auto_permission = #{openAutoPermission}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.BrandSetting">
+		update brand_setting
+		set sms_sign = #{smsSign,jdbcType=VARCHAR},
+		appraise_min_money = #{appraiseMinMoney,jdbcType=DECIMAL},
+		customer_register_title = #{customerRegisterTitle,jdbcType=VARCHAR},
+		wechat_welcome_img = #{wechatWelcomeImg,jdbcType=VARCHAR},
+		wechat_welcome_title = #{wechatWelcomeTitle,jdbcType=VARCHAR},
+		wechat_welcome_url = #{wechatWelcomeUrl,jdbcType=VARCHAR},
+		member_card_url = #{memberCardUrl,jdbcType=VARCHAR},
+		wechat_welcome_content = #{wechatWelcomeContent,jdbcType=VARCHAR},
+		wechat_home_name = #{wechatHomeName,jdbcType=VARCHAR},
+		wechat_tangshi_name = #{wechatTangshiName,jdbcType=VARCHAR},
+		wechat_my_name = #{wechatMyName,jdbcType=VARCHAR},
+		wechat_waimai_name = #{wechatWaimaiName,jdbcType=VARCHAR},
+		auto_confirm_time = #{autoConfirmTime,jdbcType=INTEGER},
+		geekpos_price = #{geekPosPrice,jdbcType=INTEGER},
+		wait_red_envelope = #{waitRedEnvelope},
+		base_money = #{baseMoney},high_money = #{highMoney},
+		biz_url = #{bizUrl},switch_mode = #{switchMode},
+		is_allow_extra_price = #{isAllowExtraPrice},
+		ali_pay = #{aliPay,jdbcType=INTEGER},integral_pay = #{integralPay},pos_open_table = #{posOpenTable},open_pos_charge = #{openPosCharge},
+		into_shop_subscribe = #{intoShopSubscribe},allow_appraise_subscribe = #{allowAppraiseSubscribe},
+		qr_code_brand = #{qrCodeBrand},open_andriod_apk = #{openAndriodApk},open_order_remark = #{openOrderRemark},
+		call_tv_type = #{callTvType},open_shoplist = #{openShoplist},open_pos_reminder = #{openPosReminder},
+		open_https = #{openHttps},turntable = #{turntable},open_pos_discount = #{openPosDiscount},is_open_scm = #{isOpenScm},template_edition = #{templateEdition},appraise_edition = #{appraiseEdition},
+		open_many_customer_order = #{openManyCustomerOrder},receipt_switch = #{receiptSwitch},message_switch = #{messageSwitch},open_ticket=#{openTicket},open_rpay=#{openRpay},
+		open_product_coupon=#{openProductCoupon},product_coupon_push_url=#{productCouponPushUrl},open_small_program_push=#{openSmallProgramPush},openAudit=#{openAudit}},
+		open_auto_permission = #{openAutoPermission}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<select id="selectList" resultMap="BaseResultMap">
+		SELECT bs.* ,b.id brand_id,b.brand_name ,
+		 wcc.appid,wcc.appsecret,wcc.mchid,wcc.mchkey,wcc.pay_cert_path,wcc.wx_server_id,
+		 wcc.id as config_id,wcc.is_sub as config_is_sub
+		 from brand_setting bs
+		 LEFT JOIN brand b on bs.id =
+		 b.brand_setting_id
+		 left JOIN wechat_charge_config wcc on wcc.id = bs.wechat_charge_config_id
+		 where b.state=1 ORDER BY b.create_time DESC
+	</select>
+
+
+	<select id="selectByBrandId" resultType="BrandSetting">
+		select * from brand_setting s,brand b
+		where b.brand_setting_id = s.id
+		and b.id=#{0}
+	</select>
+
+    <select id="selectByAppid" resultType="BrandSetting">
+       SELECT s.id,b.id brandId,s.open_third_interface FROM brand_setting s INNER JOIN brand b
+		on b.brand_setting_id = s.id
+		WHERE b.state=1 AND s.appid=#{appid}
+    </select>
+
+	<update id="updateWechatChargeConfig">
+		update brand_setting
+		set wechat_charge_config_id = #{configId}
+		where id = #{settingId}
+	</update>
+
+    <select id="selectListByState" resultType="BrandSetting">
+	   SELECT s.id,b.id brandId,s.open_third_interface,s.appid FROM brand_setting s INNER JOIN brand b
+		on b.brand_setting_id = s.id
+		WHERE b.state=1 AND s.open_third_interface=1
+    </select>
+
+	<select id="posSelectByBrandId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT bs.id, bs.print_type, bs.is_allow_extra_price, bs.ali_pay, bs.open_union_pay, bs.open_shanhui_pay, bs.open_money_pay,
+		bs.integral_pay, bs.is_use_service_price, bs.is_meal_fee, bs.open_pos_charge, bs.open_pos_reminder, bs.open_order_remark,
+		bs.turntable, bs.open_pos_discount, bs.receipt_switch,bs.open_audit,bs.open_auto_permission
+ 		from brand_setting bs LEFT JOIN brand b on bs.id = b.brand_setting_id where b.id = #{brandId}
+	</select>
+</mapper>

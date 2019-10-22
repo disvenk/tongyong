@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.AccountSettingMapper">
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.AccountSetting">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="account_id" property="accountId" jdbcType="INTEGER"/>
+    <result column="brand_setting_id" property="brandSettingId" jdbcType="VARCHAR"/>
+    <result column="open_new_customer_register" property="openNewCustomerRegister" jdbcType="TINYINT"/>
+    <result column="new_customer_value" property="newCustomerValue" jdbcType="DECIMAL"/>
+    <result column="open_send_sms" property="openSendSms" jdbcType="TINYINT"/>
+    <result column="send_sms_value" property="sendSmsValue" jdbcType="DECIMAL"/>
+    <result column="open_all_order" property="openAllOrder" jdbcType="TINYINT"/>
+    <result column="all_order_value" property="allOrderValue" jdbcType="DOUBLE"/>
+    <result column="open_back_customer_order" property="openBackCustomerOrder" jdbcType="TINYINT"/>
+    <result column="back_customer_order_value" property="backCustomerOrderValue" jdbcType="DOUBLE"/>
+    <result column="open_out_food_order" property="openOutFoodOrder" jdbcType="TINYINT"/>
+    <result column="out_food_order_value" property="outFoodOrderValue" jdbcType="DOUBLE"/>
+    <result column="open_third_food_order" property="openThirdFoodOrder" jdbcType="TINYINT"/>
+    <result column="third_food_order_value" property="thirdFoodOrderValue" jdbcType="DOUBLE"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+	  <result column="type" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">id, account_id, brand_setting_id, open_new_customer_register, new_customer_value, open_send_sms, send_sms_value, open_all_order, all_order_value, open_back_customer_order, back_customer_order_value, open_out_food_order, out_food_order_value, open_third_food_order, third_food_order_value, create_time, update_time, telephone, type</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from tb_account_setting where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from tb_account_setting where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.brand.web.model.AccountSetting">insert into tb_account_setting (id, account_id, brand_setting_id, open_new_customer_register, new_customer_value, open_send_sms, send_sms_value, open_all_order, all_order_value, open_back_customer_order, back_customer_order_value, open_out_food_order, out_food_order_value, open_third_food_order, third_food_order_value, create_time, update_time, telephone, ,type) values (#{id,jdbcType=BIGINT}, #{accountId,jdbcType=INTEGER}, #{brandSettingId,jdbcType=VARCHAR}, #{openNewCustomerRegister,jdbcType=TINYINT}, #{newCustomerValue,jdbcType=DECIMAL}, #{openSendSms,jdbcType=TINYINT}, #{sendSmsValue,jdbcType=DECIMAL}, #{openAllOrder,jdbcType=TINYINT}, #{allOrderValue,jdbcType=DOUBLE}, #{openBackCustomerOrder,jdbcType=TINYINT}, #{backCustomerOrderValue,jdbcType=DOUBLE}, #{openOutFoodOrder,jdbcType=TINYINT}, #{outFoodOrderValue,jdbcType=DOUBLE}, #{openThirdFoodOrder,jdbcType=TINYINT}, #{thirdFoodOrderValue,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{telephone,jdbcType=VARCHAR},#{type})</insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.AccountSetting">insert into tb_account_setting 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="accountId != null">account_id,</if>  
+      <if test="brandSettingId != null">brand_setting_id,</if>
+      <if test="openNewCustomerRegister != null">open_new_customer_register,</if>  
+      <if test="newCustomerValue != null">new_customer_value,</if>  
+      <if test="openSendSms != null">open_send_sms,</if>  
+      <if test="sendSmsValue != null">send_sms_value,</if>  
+      <if test="openAllOrder != null">open_all_order,</if>  
+      <if test="allOrderValue != null">all_order_value,</if>  
+      <if test="openBackCustomerOrder != null">open_back_customer_order,</if>  
+      <if test="backCustomerOrderValue != null">back_customer_order_value,</if>  
+      <if test="openOutFoodOrder != null">open_out_food_order,</if>  
+      <if test="outFoodOrderValue != null">out_food_order_value,</if>  
+      <if test="openThirdFoodOrder != null">open_third_food_order,</if>  
+      <if test="thirdFoodOrderValue != null">third_food_order_value,</if>  
+      <if test="createTime != null">create_time,</if>  
+      <if test="updateTime != null">update_time,</if>  
+      <if test="telephone != null">telephone,</if>  
+		<if test="type != null">type,</if>
+	</trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="accountId != null">#{accountId,jdbcType=INTEGER},</if>  
+      <if test="brandSettingId != null">#{brandSettingId,jdbcType=VARCHAR},</if>
+      <if test="openNewCustomerRegister != null">#{openNewCustomerRegister,jdbcType=TINYINT},</if>  
+      <if test="newCustomerValue != null">#{newCustomerValue,jdbcType=DECIMAL},</if>  
+      <if test="openSendSms != null">#{openSendSms,jdbcType=TINYINT},</if>  
+      <if test="sendSmsValue != null">#{sendSmsValue,jdbcType=DECIMAL},</if>  
+      <if test="openAllOrder != null">#{openAllOrder,jdbcType=TINYINT},</if>  
+      <if test="allOrderValue != null">#{allOrderValue,jdbcType=DOUBLE},</if>  
+      <if test="openBackCustomerOrder != null">#{openBackCustomerOrder,jdbcType=TINYINT},</if>  
+      <if test="backCustomerOrderValue != null">#{backCustomerOrderValue,jdbcType=DOUBLE},</if>  
+      <if test="openOutFoodOrder != null">#{openOutFoodOrder,jdbcType=TINYINT},</if>  
+      <if test="outFoodOrderValue != null">#{outFoodOrderValue,jdbcType=DOUBLE},</if>  
+      <if test="openThirdFoodOrder != null">#{openThirdFoodOrder,jdbcType=TINYINT},</if>  
+      <if test="thirdFoodOrderValue != null">#{thirdFoodOrderValue,jdbcType=DOUBLE},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>  
+      <if test="telephone != null">#{telephone,jdbcType=VARCHAR},</if>  
+		<if test="type != null">#{type},</if>
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.AccountSetting">update tb_account_setting 
+    <set> 
+      <if test="accountId != null">account_id = #{accountId,jdbcType=INTEGER},</if>  
+      <if test="brandSettingId != null">brand_setting_id = #{brandSettingId,jdbcType=VARCHAR},</if>
+      <if test="openNewCustomerRegister != null">open_new_customer_register = #{openNewCustomerRegister,jdbcType=TINYINT},</if>  
+      <if test="newCustomerValue != null">new_customer_value = #{newCustomerValue,jdbcType=DECIMAL},</if>  
+      <if test="openSendSms != null">open_send_sms = #{openSendSms,jdbcType=TINYINT},</if>  
+      <if test="sendSmsValue != null">send_sms_value = #{sendSmsValue,jdbcType=DECIMAL},</if>  
+      <if test="openAllOrder != null">open_all_order = #{openAllOrder,jdbcType=TINYINT},</if>  
+      <if test="allOrderValue != null">all_order_value = #{allOrderValue,jdbcType=DOUBLE},</if>  
+      <if test="openBackCustomerOrder != null">open_back_customer_order = #{openBackCustomerOrder,jdbcType=TINYINT},</if>  
+      <if test="backCustomerOrderValue != null">back_customer_order_value = #{backCustomerOrderValue,jdbcType=DOUBLE},</if>  
+      <if test="openOutFoodOrder != null">open_out_food_order = #{openOutFoodOrder,jdbcType=TINYINT},</if>  
+      <if test="outFoodOrderValue != null">out_food_order_value = #{outFoodOrderValue,jdbcType=DOUBLE},</if>  
+      <if test="openThirdFoodOrder != null">open_third_food_order = #{openThirdFoodOrder,jdbcType=TINYINT},</if>  
+      <if test="thirdFoodOrderValue != null">third_food_order_value = #{thirdFoodOrderValue,jdbcType=DOUBLE},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>  
+      <if test="telephone != null">telephone = #{telephone,jdbcType=VARCHAR},</if>  
+		<if test="type != null">type = #{type},</if>
+
+	</set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.AccountSetting">update tb_account_setting set account_id = #{accountId,jdbcType=INTEGER}, brand_setting_id = #{brandSettingId,jdbcType=VARCHAR}, open_new_customer_register = #{openNewCustomerRegister,jdbcType=TINYINT}, new_customer_value = #{newCustomerValue,jdbcType=DECIMAL}, open_send_sms = #{openSendSms,jdbcType=TINYINT}, send_sms_value = #{sendSmsValue,jdbcType=DECIMAL}, open_all_order = #{openAllOrder,jdbcType=TINYINT}, all_order_value = #{allOrderValue,jdbcType=DOUBLE}, open_back_customer_order = #{openBackCustomerOrder,jdbcType=TINYINT}, back_customer_order_value = #{backCustomerOrderValue,jdbcType=DOUBLE}, open_out_food_order = #{openOutFoodOrder,jdbcType=TINYINT}, out_food_order_value = #{outFoodOrderValue,jdbcType=DOUBLE}, open_third_food_order = #{openThirdFoodOrder,jdbcType=TINYINT}, third_food_order_value = #{thirdFoodOrderValue,jdbcType=DOUBLE}, create_time = #{createTime,jdbcType=TIMESTAMP}, update_time = #{updateTime,jdbcType=TIMESTAMP}, telephone = #{telephone,jdbcType=VARCHAR}, type=#{type} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="AccountSetting">select * from tb_account_setting</select>
+
+  <select id="selectByBrandSettingId" resultType="AccountSetting">
+      select * from tb_account_setting where brand_setting_id = #{brandSettingId}
+  </select>
+
+</mapper>

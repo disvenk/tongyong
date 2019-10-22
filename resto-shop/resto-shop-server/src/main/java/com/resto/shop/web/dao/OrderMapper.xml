@@ -1,0 +1,3862 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.OrderMapper">
+    <!-- 一个用户多有很多订单 -->
+    <resultMap id="CustomerOrderListmap" type="com.resto.shop.web.model.Order">
+        <id column="id" property="id"/>
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="order_state" property="orderState" jdbcType="INTEGER"/>
+        <result column="order_money" property="orderMoney" jdbcType="DECIMAL"/>
+        <result column="production_status" property="productionStatus" jdbcType="INTEGER"/>
+        <!-- 顾客 -->
+        <association property="customer" javaType="com.resto.shop.web.model.Customer">
+            <id column="customer_id" property="id"/>
+            <result column="telephone" property="telephone"/>
+        </association>
+        <!-- 评论 -->
+        <association property="appraise" javaType="com.resto.api.appraise.entity.Appraise">
+            <id column="appraise_id" property="id"/>
+            <result column="level" property="level"/>
+            <result column="content" property="content"/>
+        </association>
+        <!-- 支付方式的id -->
+        <collection property="orderPaymentItems" ofType="com.resto.shop.web.model.OrderPaymentItem" javaType="List">
+            <result column="pay_value" property="payValue"/>
+            <result column="payment_mode_id" property="paymentModeId"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="consumedOrderByshopId" type="com.resto.shop.web.model.Order">
+        <id column="id" property="id"/>
+        <result column="order_money" property="orderMoney"/>
+        <result column="order_mode" property="orderMode"/>
+        <result column="pay_type" property="payType"/>
+        <result column="amount_with_children" property="amountWithChildren"/>
+        <result column="create_time" property="createTime"/>
+        <collection property="orderPaymentItems" javaType="List" ofType="orderPaymentItem">
+            <id column="orderPaymentItemId" property="id"/>
+            <result column="payment_mode_id" property="paymentModeId"/>
+            <result column="pay_value" property="payValue"/>
+        </collection>
+    </resultMap>
+
+    <!-- 每日短信报表数据 -->
+    <resultMap id="everdayReport" type="com.resto.shop.web.model.Order">
+        <id column="id" property="id"/>
+        <result column="order_state" property="orderState" jdbcType="INTEGER"/>
+        <result column="production_status" property="productionStatus" jdbcType="INTEGER"/>
+        <result column="order_money" property="orderMoney" jdbcType="DECIMAL"/>
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="parent_order_id" property="parentOrderId"/>
+        <result column="count_with_child" property="countWithChild"/>
+        <result column="order_mode" property="orderMode"/>
+        <result column="create_time" property="createTime"/>
+        <result column="amount_with_children" property="amountWithChildren"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="order_mode" property="orderMode" />
+        <result column="pay_type" property="payType" />
+        <!-- 用户 -->
+        <association property="customer" javaType="com.resto.shop.web.model.Customer">
+            <id column="customerId" property="id"/>
+            <result column="nickname" property="nickname"/>
+            <result column="regiest_time" property="regiestTime"/>
+            <result column="is_share" property="isShare"/>
+            <result column="share_customer" property="shareCustomer"/>
+        </association>
+
+        <!-- 支付方式的id -->
+        <collection property="orderPaymentItems" ofType="com.resto.shop.web.model.OrderPaymentItem" javaType="List">
+            <result column="pay_value" property="payValue"/>
+            <result column="payment_mode_id" property="paymentModeId"/>
+        </collection>
+    </resultMap>
+    <!-- 结束 -->
+    <!-- 每日短信报表数据 用户数分析 -->
+    <resultMap id="selectOrderHistoryListMap" type="com.resto.shop.web.model.Order">
+        <id column="id" property="id"/>
+        <result column="order_state" property="orderState" jdbcType="INTEGER"/>
+        <result column="production_status" property="productionStatus" jdbcType="INTEGER"/>
+        <result column="order_money" property="orderMoney" jdbcType="DECIMAL"/>
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="parent_order_id" property="parentOrderId"/>
+        <result column="count_with_child" property="countWithChild"/>
+        <result column="order_mode" property="orderMode"/>
+        <result column="create_time" property="createTime"/>
+        <result column="customer_id" property="customerId"/>
+        <!-- 用户 -->
+        <association property="customer" javaType="com.resto.shop.web.model.Customer">
+            <id column="customerId" property="id"/>
+            <result column="nickname" property="nickname"/>
+            <result column="regiest_time" property="regiestTime"/>
+            <result column="is_share" property="isShare"/>
+            <result column="share_customer" property="shareCustomer"/>
+        </association>
+        <!-- 评论 -->
+    </resultMap>
+
+
+    <!--2017-03-09 yz 查询新用户的订单详情 -->
+    <resultMap id="NewCustomerOrderByShopIdAndTimeMap" type="com.resto.shop.web.model.Order">
+        <id column="id" property="id"/>
+        <result column="order_mode" property="orderMode"/>
+        <result column="pay_type" property="payType"/>
+        <result column="order_state" property="orderState" jdbcType="INTEGER"/>
+        <result column="production_status" property="productionStatus" jdbcType="INTEGER"/>
+        <result column="order_money" property="orderMoney" jdbcType="DECIMAL"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="parent_order_id" property="parentOrderId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="amount_with_children" property="amountWithChildren"/>
+        <result column="customer_id" property="customerId"/>
+        <!-- 用户 -->
+        <association property="customer" javaType="com.resto.shop.web.model.Customer">
+            <id column="customerId" property="id"/>
+            <result column="share_customer" property="shareCustomer"/>
+        </association>
+        <collection property="orderPaymentItems" ofType="com.resto.shop.web.model.OrderPaymentItem" javaType="List">
+            <result column="payment_mode_id" property="paymentModeId"/>
+        </collection>
+
+    </resultMap>
+
+    <resultMap id="CompleteByShopIdAndTimeMap" type="com.resto.shop.web.model.Order">
+        <id column="id" property="id"/>
+        <result column="order_state" property="orderState" jdbcType="INTEGER"/>
+        <result column="production_status" property="productionStatus" jdbcType="INTEGER"/>
+        <result column="order_mode" property="orderMode" />
+        <result column="pay_type" property="payType" />
+        <result column="order_money" property="orderMoney" jdbcType="DECIMAL"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="parent_order_id" property="parentOrderId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="amount_with_children" property="amountWithChildren"/>
+        <result column="orderPosDiscountMoney" property="orderPosDiscountMoney"/>
+        <result column="memberDiscountMoney" property="memberDiscountMoney"/>
+        <result column="realEraseMoney" property="realEraseMoney"/>
+        <result column="exemptionMoney" property="exemptionMoney"/>
+        <result column="grant_money" property="grantMoney"/>
+        <result column="customer_id" property="customerId"/>
+        <collection property="orderPaymentItems" ofType="com.resto.shop.web.model.OrderPaymentItem" javaType="List">
+            <result column="payment_mode_id" property="paymentModeId"/>
+            <result column="pay_value" property="payValue"/>
+        </collection>
+
+    </resultMap>
+
+
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.Order">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="table_number" property="tableNumber" jdbcType="VARCHAR"/>
+        <result column="customer_count" property="customerCount" jdbcType="INTEGER"/>
+        <result column="accounting_time" property="accountingTime" jdbcType="DATE"/>
+        <result column="order_state" property="orderState" jdbcType="INTEGER"/>
+        <result column="production_status" property="productionStatus"  jdbcType="INTEGER"/>
+        <result column="original_amount" property="originalAmount" jdbcType="DECIMAL"/>
+        <result column="reduction_amount" property="reductionAmount" jdbcType="DECIMAL"/>
+        <result column="payment_amount" property="paymentAmount"  jdbcType="DECIMAL"/>
+        <result column="order_money" property="orderMoney" jdbcType="DECIMAL"/>
+        <result column="ali_pay_discount_money" property="aliPayDiscountMoney"/>
+        <result column="article_count" property="articleCount" jdbcType="INTEGER"/>
+        <result column="serial_number" property="serialNumber" jdbcType="VARCHAR"/>
+        <result column="confirm_time" property="confirmTime" jdbcType="TIMESTAMP"/>
+        <result column="print_times" property="printTimes" jdbcType="INTEGER"/>
+        <result column="allow_cancel" property="allowCancel" jdbcType="BIT"/>
+        <result column="allow_appraise" property="allowAppraise"  jdbcType="BIT"/>
+        <result column="closed" property="closed" jdbcType="BIT"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="operator_id" property="operatorId" jdbcType="VARCHAR"/>
+        <result column="customer_id" property="customerId" jdbcType="VARCHAR"/>
+        <result column="customer_address_id" property="customerAddressId" jdbcType="VARCHAR"/>
+        <result column="distribution_date" property="distributionDate"  jdbcType="DATE"/>
+        <result column="distribution_time_id" property="distributionTimeId"  jdbcType="INTEGER"/>
+        <result column="delivery_point_id" property="deliveryPointId"  jdbcType="INTEGER"/>
+        <result column="shop_detail_id" property="shopDetailId"  jdbcType="VARCHAR"/>
+        <result column="distribution_mode_id" property="distributionModeId"  jdbcType="INTEGER"/>
+        <result column="ver_code" property="verCode" jdbcType="VARCHAR"/>
+        <result column="push_order_time" property="pushOrderTime" jdbcType="TIMESTAMP"/>
+        <result column="print_order_time" property="printOrderTime"  jdbcType="TIMESTAMP"/>
+        <result column="call_number_time" property="callNumberTime" jdbcType="TIMESTAMP"/>
+        <result column="order_mode" property="orderMode" jdbcType="INTEGER"/>
+        <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+        <result column="amount_with_children" property="amountWithChildren" jdbcType="DECIMAL"/>
+        <result column="parent_order_id" property="parentOrderId" jdbcType="VARCHAR"/>
+        <result column="allow_continue_order" property="allowContinueOrder"  jdbcType="BIT"/>
+        <result column="count_with_child" property="countWithChild" jdbcType="INTEGER"/>
+        <result column="last_order_time" property="lastOrderTime"  jdbcType="TIMESTAMP"/>
+        <result column="orderCount" property="orderCount"/>
+        <result column="orderTotal" property="orderTotal"/>
+        <result column="service_price" property="servicePrice"/>
+        <result column="pay_mode" property="payMode"/>
+        <result column="base_money" property="baseMoney"/>
+        <result column="base_order_money" property="baseOrderMoney"/>
+        <result column="base_customer_count" property="baseCustomerCount"/>
+        <result column="meal_fee_price" property="mealFeePrice"/>
+        <result column="meal_all_number" property="mealAllNumber"/>
+        <result column="is_pay" property="isPay"/>
+        <result column="base_meal_all_count" property="baseMealAllCount"/>
+        <result column="pay_type" property="payType"/>
+        <result column="is_refund_order" property="isRefundOrder"/>
+        <result column="is_get_share_coupon" property="isGetShareCoupon"/>
+        <result column="is_pos_pay" property="isPosPay"/>
+        <result column="print_fail_flag" property="printFailFlag"/>
+        <result column="print_kitchen_flag" property="printKitchenFlag"/>
+        <result column="pos_discount" property="posDiscount"/>
+        <result column="erase_money" property="eraseMoney"/>
+        <result column="no_discount_money" property="noDiscountMoney"/>
+        <result column="is_consumption_rebate" property="isConsumptionRebate"/>
+        <result column="group_id" property="groupId"/>
+        <result column="before_id" property="beforeId"/>
+        <result column="order_before" property="orderBefore"/>
+        <result column="sauce_fee_count" property="sauceFeeCount"/>
+        <result column="sauce_fee_price" property="sauceFeePrice"/>
+        <result column="towel_fee_count" property="towelFeeCount"/>
+        <result column="towel_fee_price" property="towelFeePrice"/>
+        <result column="tableware_fee_count" property="tablewareFeeCount"/>
+        <result column="tableware_fee_price" property="tablewareFeePrice"/>
+        <result column="is_use_new_service" property="isUseNewService"/>
+        <result column="data_origin" property="dataOrigin"/>
+        <result column="order_pos_discount_money" property="orderPosDiscountMoney"/>
+        <result column="member_discount_money" property="memberDiscountMoney"/>
+        <result column="member_discount" property="memberDiscount"/>
+        <result column="need_confirm_order_item" property="needConfirmOrderItem"/>
+        <result column="reduce_money" property="reduceMoney"/>
+        <result column="real_erase_money" property="realEraseMoney"/>
+        <result column="exemption_money" property="exemptionMoney"/>
+        <result column="sync_state" property="syncState"/>
+        <result column="last_sync_time" property="lastSyncTime"/>
+        <result column="use_product_coupon" property="useProductCoupon" />
+        <result column="grant_money" property="grantMoney" />
+        <collection property="orderPaymentItems" ofType="com.resto.shop.web.model.OrderPaymentItem" javaType="List">
+            <id column="order_payment_id" property="id"/>
+            <result column="pay_value" property="payValue"/>
+            <result column="payment_mode_id" property="paymentModeId"/>
+            <result column="result_data" property="resultData"/>
+            <result column="pay_time" property="payTime"/>
+        </collection>
+        <collection property="orderItems" ofType="com.resto.shop.web.model.OrderItem" javaType="List">
+            <id column="order_item_id" property="id"/>
+            <result column="article_name" property="articleName"/>
+            <result column="article_id" property="articleId"/>
+            <result column="count" property="count"/>
+            <result column="original_price" property="originalPrice"/>
+            <result column="unit_price" property="unitPrice"/>
+            <result column="original_count" property="originalCount"/>
+            <result column="refund_count" property="refundCount"/>
+            <result column="type" property="type"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="selectOrderDetailsMap" type="com.resto.shop.web.model.Order">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="order_state" property="orderState" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="distribution_mode_id" property="distributionModeId" jdbcType="INTEGER"/>
+        <result column="ver_code" property="verCode" jdbcType="VARCHAR"/>
+        <result column="order_state" property="orderState" jdbcType="VARCHAR"/>
+        <result column="order_money" property="orderMoney" jdbcType="DECIMAL"/>
+        <result column="production_status" property="productionStatus"/>
+        <result column="service_price" property="servicePrice"/>
+        <result column="parent_order_id" property="parentOrderId"/>
+        <result column="order_mode" property="orderMode"/>
+        <result column="customer_address_id" property="customerAddressId"/>
+        <result column="serial_number" property="serialNumber"/>
+
+        <association property="customer" javaType="com.resto.shop.web.model.Customer">
+            <id column="customer_id" property="id"/>
+            <result column="telephone" property="telephone"/>
+        </association>
+
+        <association property="appraise" javaType="com.resto.api.appraise.entity.Appraise">
+            <id column="appraise_id" property="id"/>
+            <result column="level" property="level"/>
+            <result column="content" property="content"/>
+        </association>
+
+        <collection property="orderPaymentItems" javaType="List" ofType="com.resto.shop.web.model.OrderPaymentItem">
+            <id column="orderPaymentItem_id" property="id"/>
+            <result column="payment_mode_id" property="paymentModeId"/>
+        </collection>
+
+        <!--<collection property="orderPaymentItems" ofType="com.resto.shop.web.model.OrderPaymentItem">-->
+            <!--<id column="orderPaymentItem_id" property="id"/>-->
+            <!--<result column="payment_mode_id" property="paymentModeId"/>-->
+        <!--</collection>-->
+
+        <collection property="orderItems" javaType="List" ofType="orderItem">
+            <id column="orderItem_id" property="id"/>
+            <result column="article_name" property="articleName" jdbcType="VARCHAR"/>
+            <result column="count" property="count" jdbcType="INTEGER"/>
+            <result column="final_price" property="finalPrice" jdbcType="DECIMAL"/>
+            <result column="unit_price" property="unitPrice" jdbcType="DECIMAL"/>
+            <association property="articleFamily" javaType="com.resto.shop.web.model.ArticleFamily">
+                <id column="articleFamily_id" property="id"/>
+                <result column="articleFamilyName" property="name"/>
+            </association>
+        </collection>
+    </resultMap>
+
+    <resultMap id="selectOrdersMap" type="com.resto.shop.web.model.Order">
+        <id property="tag" column="tag"/>
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+        <result column="order_state" property="orderState" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="ver_code" property="verCode" jdbcType="VARCHAR"/>
+        <result column="order_state" property="orderState" jdbcType="VARCHAR"/>
+        <result column="order_money" property="orderMoney" jdbcType="DECIMAL"/>
+        <result column="production_status" property="productionStatus"/>
+        <result column="parent_order_id" property="parentOrderId"/>
+        <result column="service_price" property="servicePrice"/>
+        <result column="order_mode" property="orderMode"/>
+        <result column="distribution_mode_id" property="distributionModeId"/>
+        <result column="table_number" property="tableNumber"/>
+
+        <association property="customer" javaType="com.resto.shop.web.model.Customer">
+            <id column="customer_id" property="id"/>
+            <result column="telephone" property="telephone"/>
+        </association>
+
+        <association property="appraise" javaType="com.resto.api.appraise.entity.Appraise">
+            <id column="appraise_id" property="id"/>
+            <result column="level" property="level"/>
+        </association>
+
+        <collection property="orderPaymentItems" javaType="List" ofType="orderPaymentItem">
+            <id column="orderPaymentItem_id" property="id"/>
+            <result column="pay_value" property="payValue"/>
+            <result column="payment_mode_id" property="paymentModeId"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="orderPaymentlist" type="com.resto.shop.web.model.Order">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="order_state" property="orderState" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="order_money" property="orderMoney" jdbcType="DECIMAL"/>
+        <result column="amount_with_children" property="amountWithChildren" jdbcType="DECIMAL"/>
+        <result column="order_mode" property="orderMode"/>
+        <result column="parent_order_id" property="parentOrderId"/>
+        <collection property="orderPaymentItems" javaType="List" ofType="orderPaymentItem">
+            <id column="orderPaymentItem_id" property="id"/>
+            <result column="pay_value" property="payValue"/>
+            <result column="payment_mode_id" property="paymentModeId"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="selectListByshopIdmap" type="com.resto.shop.web.model.Order">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="order_money" property="orderMoney" jdbcType="DECIMAL"/>
+
+        <association property="appraise" javaType="com.resto.api.appraise.entity.Appraise">
+            <id column="appraise_id" property="id"/>
+            <result column="level" property="level"/>
+            <result column="red_money" property="redMoney"/>
+            <result column="content" property="content"/>
+            <result column="feedback" property="feedback"/>
+            <result column="create_time" property="createTime"/>
+        </association>
+
+        <association property="customer" javaType="com.resto.shop.web.model.Customer">
+            <id column="customer_id" property="id"/>
+            <result column="telephone" property="telephone"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="selectOrderTableNumberMap" type="Order">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="distribution_mode_id" property="distributionModeId" jdbcType="INTEGER"/>
+        <result column="payment_amount" property="paymentAmount" jdbcType="DECIMAL"/>
+        <result column="order_money" property="orderMoney" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, table_number, customer_count, accounting_time,
+        order_state,
+        production_status,
+        original_amount, reduction_amount,
+        payment_amount, order_money, ali_pay_discount_money, article_count,
+        serial_number,
+        confirm_time, print_times, allow_cancel, allow_appraise, closed,
+        remark,
+        create_time,
+        operator_id, customer_id,customer_address_id, distribution_date,
+        distribution_time_id,
+        delivery_point_id,
+        shop_detail_id,
+        distribution_mode_id, ver_code, push_order_time, print_order_time,
+        call_number_time, order_mode, brand_id, amount_with_children,
+        parent_order_id, allow_continue_order,
+        count_with_child,
+        last_order_time,customer_count,service_price,pay_mode,base_money,base_order_money,base_customer_count,meal_fee_price,meal_all_number
+        ,is_pay,need_scan, base_meal_all_count, pay_type,is_confirm, is_refund_order, is_get_share_coupon, give_change, is_pos_pay,
+        print_fail_flag,print_kitchen_flag, pos_discount, erase_money, no_discount_money, is_consumption_rebate, group_id, before_id, order_before
+        ,sauce_fee_count,sauce_fee_price,towel_fee_count,towel_fee_price,tableware_fee_count,tableware_fee_price,is_use_new_service,data_origin,
+        order_pos_discount_money,member_discount_money,member_discount,need_confirm_order_item,reduce_money,real_erase_money,exemption_money,sync_state,
+        last_sync_time,use_product_coupon,open_article_library,grant_money
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        ,ifnull(count_with_child,article_count) as
+        totalCount
+        from tb_order
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByOrderId" resultType="Order">
+        select * from tb_order where id = #{orderId}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from
+        tb_order
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.resto.shop.web.model.Order">
+        insert into tb_order (id,
+        table_number, customer_count,
+        accounting_time, order_state,
+        production_status,
+        original_amount, reduction_amount, payment_amount,
+        order_money, article_count, serial_number,
+        confirm_time, print_times,
+        allow_cancel,
+        allow_appraise, closed, remark,
+        create_time, operator_id,
+        customer_id,
+        distribution_date, distribution_time_id,
+        delivery_point_id,
+        shop_detail_id, distribution_mode_id, ver_code,
+        push_order_time, print_order_time, call_number_time,
+        order_mode,
+        brand_id, amount_with_children,
+        parent_order_id, allow_continue_order,
+        count_with_child,
+        last_order_time, pay_type, is_get_share_coupon,give_change,is_pos_pay)
+        values (#{id,jdbcType=VARCHAR},
+        #{tableNumber,jdbcType=VARCHAR},
+        #{customerCount,jdbcType=INTEGER},
+        #{accountingTime,jdbcType=DATE}, #{orderState,jdbcType=INTEGER},
+        #{productionStatus,jdbcType=INTEGER},
+        #{originalAmount,jdbcType=DECIMAL},
+        #{reductionAmount,jdbcType=DECIMAL},
+        #{paymentAmount,jdbcType=DECIMAL},
+        #{orderMoney,jdbcType=DECIMAL},
+        #{articleCount,jdbcType=INTEGER}, #{serialNumber,jdbcType=VARCHAR},
+        #{confirmTime,jdbcType=TIMESTAMP}, #{printTimes,jdbcType=INTEGER},
+        #{allowCancel,jdbcType=BIT},
+        #{allowAppraise,jdbcType=BIT},
+        #{closed,jdbcType=BIT}, #{remark,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}, #{operatorId,jdbcType=VARCHAR},
+        #{customerId,jdbcType=VARCHAR},
+        #{distributionDate,jdbcType=DATE},
+        #{distributionTimeId,jdbcType=INTEGER},
+        #{deliveryPointId,jdbcType=INTEGER},
+        #{shopDetailId,jdbcType=VARCHAR},
+        #{distributionModeId,jdbcType=INTEGER}, #{verCode,jdbcType=VARCHAR},
+        #{pushOrderTime,jdbcType=TIMESTAMP},
+        #{printOrderTime,jdbcType=TIMESTAMP},
+        #{callNumberTime,jdbcType=TIMESTAMP},
+        #{orderMode,jdbcType=INTEGER},
+        #{brandId,jdbcType=VARCHAR}, #{amountWithChildren,jdbcType=DECIMAL},
+        #{parentOrderId,jdbcType=VARCHAR}, #{allowContinueOrder,jdbcType=BIT},
+        #{countWithChild,jdbcType=INTEGER},
+        #{lastOrderTime,jdbcType=TIMESTAMP},
+        #{payType},#{isGetShareCoupon},#{giveChange},#{isPosPay})
+    </insert>
+    <insert id="insertSelective" parameterType="com.resto.shop.web.model.Order">
+        insert into tb_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="tableNumber != null">
+                table_number,
+            </if>
+            <if test="customerCount != null">
+                customer_count,
+            </if>
+            <if test="accountingTime != null">
+                accounting_time,
+            </if>
+            <if test="orderState != null">
+                order_state,
+            </if>
+            <if test="productionStatus != null">
+                production_status,
+            </if>
+            <if test="originalAmount != null">
+                original_amount,
+            </if>
+            <if test="reductionAmount != null">
+                reduction_amount,
+            </if>
+            <if test="paymentAmount != null">
+                payment_amount,
+            </if>
+            <if test="orderMoney != null">
+                order_money,
+            </if>
+            <if test="articleCount != null">
+                article_count,
+            </if>
+            <if test="serialNumber != null">
+                serial_number,
+            </if>
+            <if test="confirmTime != null">
+                confirm_time,
+            </if>
+            <if test="printTimes != null">
+                print_times,
+            </if>
+            <if test="allowCancel != null">
+                allow_cancel,
+            </if>
+            <if test="allowAppraise != null">
+                allow_appraise,
+            </if>
+            <if test="closed != null">
+                closed,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="operatorId != null">
+                operator_id,
+            </if>
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="customerAddressId != null">
+                customer_address_id,
+            </if>
+            <if test="distributionDate != null">
+                distribution_date,
+            </if>
+            <if test="distributionTimeId != null">
+                distribution_time_id,
+            </if>
+            <if test="deliveryPointId != null">
+                delivery_point_id,
+            </if>
+            <if test="shopDetailId != null">
+                shop_detail_id,
+            </if>
+            <if test="distributionModeId != null">
+                distribution_mode_id,
+            </if>
+            <if test="verCode != null">
+                ver_code,
+            </if>
+            <if test="pushOrderTime != null">
+                push_order_time,
+            </if>
+            <if test="printOrderTime != null">
+                print_order_time,
+            </if>
+            <if test="callNumberTime != null">
+                call_number_time,
+            </if>
+            <if test="orderMode != null">
+                order_mode,
+            </if>
+            <if test="brandId != null">
+                brand_id,
+            </if>
+            <if test="amountWithChildren != null">
+                amount_with_children,
+            </if>
+            <if test="parentOrderId != null">
+                parent_order_id,
+            </if>
+            <if test="allowContinueOrder != null">
+                allow_continue_order,
+            </if>
+            <if test="countWithChild != null">
+                count_with_child,
+            </if>
+            <if test="lastOrderTime != null">
+                last_order_time,
+            </if>
+            <if test="servicePrice != null">
+                service_price,
+            </if>
+            <if test="payMode != null">
+                pay_mode,
+            </if>
+            <if test="orderMoney != null">
+                base_money,
+            </if>
+            <if test="customerCount != null">
+                base_customer_count,
+            </if>
+            <if test="mealFeePrice != null">
+                meal_fee_price,
+            </if>
+            <if test="mealAllNumber != null">
+                meal_all_number,
+            </if>
+            <if test="needScan != null">
+                need_scan,
+            </if>
+            <if test="mealAllNumber != null">
+                base_meal_all_count,
+            </if>
+            <if test="payType != null">
+                pay_type,
+            </if>
+            <if test="isRefundOrder != null">
+                is_refund_order,
+            </if>
+            <if test="isGetShareCoupon != null">
+                is_get_share_coupon,
+            </if>
+            <if test="giveChange != null">
+                give_change,
+            </if>
+            <if test="isPosPay != null">
+                is_pos_pay,
+            </if>
+            <if test="printFailFlag != null">
+                print_fail_flag,
+            </if>
+            <if test="printKitchenFlag != null">
+                print_kitchen_flag,
+            </if>
+            <if test="posDiscount != null">
+                pos_discount,
+            </if>
+            <if test="isConsumptionRebate != null">
+                is_consumption_rebate,
+            </if>
+            <if test="groupId != null">
+                group_id,
+            </if>
+            <if test="orderBefore != null">
+                order_before,
+            </if>
+            <if test="beforeId != null">
+                before_id,
+            </if>
+            <if test="sauceFeeCount != null">
+                sauce_fee_count,
+            </if>
+            <if test="sauceFeePrice != null">
+                sauce_fee_price,
+            </if>
+            <if test="towelFeeCount != null">
+                towel_fee_count,
+            </if>
+            <if test="towelFeePrice != null">
+                towel_fee_price,
+            </if>
+            <if test="tablewareFeeCount != null">
+                tableware_fee_count,
+            </if>
+            <if test="tablewareFeePrice != null">
+                tableware_fee_price,
+            </if>
+            <if test="isUseNewService != null">
+                is_use_new_service,
+            </if>
+            <if test="posBackUps != null">
+                pos_back_ups,
+            </if>
+            <if test="dataOrigin != null">
+                data_origin,
+            </if>
+            <if test="baseOrderMoney != null">
+                base_order_money,
+            </if>
+            <if test="orderPosDiscountMoney != null">
+                order_pos_discount_money,
+            </if>
+            <if test="memberDiscountMoney != null">
+                member_discount_money,
+            </if>
+            <if test="memberDiscount != null">
+                member_discount,
+            </if>
+            <if test="needConfirmOrderItem != null">
+                need_confirm_order_item,
+            </if>
+            <if test="reduceMoney != null">
+                reduce_money,
+            </if>
+            <if test="realEraseMoney != null">
+                real_erase_money,
+            </if>
+            <if test="exemptionMoney != null">
+                exemption_money,
+            </if>
+            <if test="syncState != null">
+                sync_state,
+            </if>
+            <if test="lastSyncTime != null">
+                last_sync_time,
+            </if>
+            <if test="useProductCoupon != null">
+                use_product_coupon,
+            </if>
+            <if test="openArticleLibrary != null">
+                open_article_library,
+            </if>
+            <if test="grantMoney != null">
+                grant_money,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="tableNumber != null">
+                #{tableNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="customerCount != null">
+                #{customerCount,jdbcType=INTEGER},
+            </if>
+            <if test="accountingTime != null">
+                #{accountingTime,jdbcType=DATE},
+            </if>
+            <if test="orderState != null">
+                #{orderState,jdbcType=INTEGER},
+            </if>
+            <if test="productionStatus != null">
+                #{productionStatus,jdbcType=INTEGER},
+            </if>
+            <if test="originalAmount != null">
+                #{originalAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="reductionAmount != null">
+                #{reductionAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="paymentAmount != null">
+                #{paymentAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="orderMoney != null">
+                #{orderMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="articleCount != null">
+                #{articleCount,jdbcType=INTEGER},
+            </if>
+            <if test="serialNumber != null">
+                #{serialNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="confirmTime != null">
+                #{confirmTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="printTimes != null">
+                #{printTimes,jdbcType=INTEGER},
+            </if>
+            <if test="allowCancel != null">
+                #{allowCancel,jdbcType=BIT},
+            </if>
+            <if test="allowAppraise != null">
+                #{allowAppraise,jdbcType=BIT},
+            </if>
+            <if test="closed != null">
+                #{closed,jdbcType=BIT},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="operatorId != null">
+                #{operatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="customerId != null">
+                #{customerId,jdbcType=VARCHAR},
+            </if>
+            <if test="customerAddressId != null">
+                #{customerAddressId,jdbcType=VARCHAR},
+            </if>
+            <if test="distributionDate != null">
+                #{distributionDate,jdbcType=DATE},
+            </if>
+            <if test="distributionTimeId != null">
+                #{distributionTimeId,jdbcType=INTEGER},
+            </if>
+            <if test="deliveryPointId != null">
+                #{deliveryPointId,jdbcType=INTEGER},
+            </if>
+            <if test="shopDetailId != null">
+                #{shopDetailId,jdbcType=VARCHAR},
+            </if>
+            <if test="distributionModeId != null">
+                #{distributionModeId,jdbcType=INTEGER},
+            </if>
+            <if test="verCode != null">
+                #{verCode,jdbcType=VARCHAR},
+            </if>
+            <if test="pushOrderTime != null">
+                #{pushOrderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="printOrderTime != null">
+                #{printOrderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="callNumberTime != null">
+                #{callNumberTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderMode != null">
+                #{orderMode,jdbcType=INTEGER},
+            </if>
+            <if test="brandId != null">
+                #{brandId,jdbcType=VARCHAR},
+            </if>
+            <if test="amountWithChildren != null">
+                #{amountWithChildren,jdbcType=DECIMAL},
+            </if>
+            <if test="parentOrderId != null">
+                #{parentOrderId,jdbcType=VARCHAR},
+            </if>
+            <if test="allowContinueOrder != null">
+                #{allowContinueOrder,jdbcType=BIT},
+            </if>
+            <if test="countWithChild != null">
+                #{countWithChild,jdbcType=INTEGER},
+            </if>
+            <if test="lastOrderTime != null">
+                #{lastOrderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="servicePrice != null">
+                #{servicePrice,jdbcType=DECIMAL},
+            </if>
+            <if test="payMode != null">
+                #{payMode},
+            </if>
+            <if test="orderMoney != null">
+                #{orderMoney},
+            </if>
+            <if test="customerCount != null">
+                #{customerCount},
+            </if>
+            <if test="mealFeePrice != null">
+                #{mealFeePrice},
+            </if>
+            <if test="mealAllNumber != null">
+                #{mealAllNumber},
+            </if>
+            <if test="needScan != null">
+                #{needScan},
+            </if>
+            <if test="mealAllNumber != null">
+                #{mealAllNumber},
+            </if>
+            <if test="payType != null">
+                #{payType},
+            </if>
+            <if test="isRefundOrder != null">
+                #{isRefundOrder},
+            </if>
+            <if test="isGetShareCoupon != null">
+                #{isGetShareCoupon},
+            </if>
+            <if test="giveChange != null">
+                #{giveChange},
+            </if>
+            <if test="isPosPay != null">
+                #{isPosPay},
+            </if>
+            <if test="printFailFlag != null">
+                #{printFailFlag},
+            </if>
+            <if test="printKitchenFlag != null">
+                #{printKitchenFlag},
+            </if>
+            <if test="posDiscount != null">
+                #{posDiscount},
+            </if>
+            <if test="isConsumptionRebate != null">
+                #{isConsumptionRebate},
+            </if>
+            <if test="groupId != null">
+                #{groupId},
+            </if>
+            <if test="orderBefore != null">
+                #{orderBefore},
+            </if>
+            <if test="beforeId != null">
+                #{beforeId},
+            </if>
+            <if test="sauceFeeCount != null">
+                #{sauceFeeCount},
+            </if>
+            <if test="sauceFeePrice != null">
+                #{sauceFeePrice},
+            </if>
+            <if test="towelFeeCount != null">
+                #{towelFeeCount},
+            </if>
+            <if test="towelFeePrice != null">
+                #{towelFeePrice},
+            </if>
+            <if test="tablewareFeeCount != null">
+                #{tablewareFeeCount},
+            </if>
+            <if test="tablewareFeePrice != null">
+                #{tablewareFeePrice},
+            </if>
+            <if test="isUseNewService != null">
+                #{isUseNewService},
+            </if>
+            <if test="posBackUps != null">
+                #{posBackUps},
+            </if>
+            <if test="dataOrigin != null">
+                #{dataOrigin},
+            </if>
+            <if test="baseOrderMoney != null">
+                base_order_money = #{baseOrderMoney},
+            </if>
+            <if test="orderPosDiscountMoney != null">
+                #{orderPosDiscountMoney},
+            </if>
+            <if test="memberDiscountMoney != null">
+                #{memberDiscountMoney},
+            </if>
+            <if test="memberDiscount != null">
+                #{memberDiscount},
+            </if>
+            <if test="needConfirmOrderItem != null">
+                #{needConfirmOrderItem},
+            </if>
+            <if test="reduceMoney != null">
+                #{reduceMoney},
+            </if>
+            <if test="realEraseMoney != null">
+                #{realEraseMoney},
+            </if>
+            <if test="exemptionMoney != null">
+                #{exemptionMoney},
+            </if>
+            <if test="syncState != null">
+                #{syncState},
+            </if>
+            <if test="lastSyncTime != null">
+                #{lastSyncTime},
+            </if>
+            <if test="useProductCoupon != null">
+                #{useProductCoupon},
+            </if>
+            <if test="openArticleLibrary != null">
+                #{openArticleLibrary},
+            </if>
+            <if test="grantMoney != null">
+                #{grantMoney},
+            </if>
+        </trim>
+        ON DUPLICATE KEY UPDATE
+        <trim suffix="" suffixOverrides=",">
+            <if test="tableNumber != null">
+                table_number = #{tableNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="customerCount != null">
+                customer_count = #{customerCount,jdbcType=INTEGER},
+            </if>
+            <if test="accountingTime != null">
+                accounting_time = #{accountingTime,jdbcType=DATE},
+            </if>
+            <if test="orderState != null">
+                order_state = #{orderState,jdbcType=INTEGER},
+            </if>
+            <if test="productionStatus != null">
+                production_status = #{productionStatus,jdbcType=INTEGER},
+            </if>
+            <if test="originalAmount != null">
+                original_amount = #{originalAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="reductionAmount != null">
+                reduction_amount = #{reductionAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="paymentAmount != null">
+                payment_amount = #{paymentAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="orderMoney != null">
+                order_money = #{orderMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="aliPayDiscountMoney != null">
+                ali_pay_discount_money = #{aliPayDiscountMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="articleCount != null">
+                article_count = #{articleCount,jdbcType=INTEGER},
+            </if>
+            <if test="serialNumber != null">
+                serial_number = #{serialNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="confirmTime != null">
+                confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="printTimes != null">
+                print_times = #{printTimes,jdbcType=INTEGER},
+            </if>
+            <if test="allowCancel != null">
+                allow_cancel = #{allowCancel,jdbcType=BIT},
+            </if>
+            <if test="allowAppraise != null">
+                allow_appraise = #{allowAppraise,jdbcType=BIT},
+            </if>
+            <if test="closed != null">
+                closed = #{closed,jdbcType=BIT},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="operatorId != null">
+                operator_id = #{operatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="customerId != null">
+                customer_id = #{customerId,jdbcType=VARCHAR},
+            </if>
+            <if test="distributionDate != null">
+                distribution_date = #{distributionDate,jdbcType=DATE},
+            </if>
+            <if test="distributionTimeId != null">
+                distribution_time_id =
+                #{distributionTimeId,jdbcType=INTEGER},
+            </if>
+            <if test="deliveryPointId != null">
+                delivery_point_id = #{deliveryPointId,jdbcType=INTEGER},
+            </if>
+            <if test="shopDetailId != null">
+                shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},
+            </if>
+            <if test="distributionModeId != null">
+                distribution_mode_id =
+                #{distributionModeId,jdbcType=INTEGER},
+            </if>
+            <if test="verCode != null">
+                ver_code = #{verCode,jdbcType=VARCHAR},
+            </if>
+            <if test="pushOrderTime != null">
+                push_order_time = #{pushOrderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="printOrderTime != null">
+                print_order_time = #{printOrderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="callNumberTime != null">
+                call_number_time = #{callNumberTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderMode != null">
+                order_mode = #{orderMode,jdbcType=INTEGER},
+            </if>
+            <if test="brandId != null">
+                brand_id = #{brandId,jdbcType=VARCHAR},
+            </if>
+            <if test="amountWithChildren != null">
+                amount_with_children =
+                #{amountWithChildren,jdbcType=DECIMAL},
+            </if>
+            <if test="parentOrderId != null and  parentOrderId != ''">
+                parent_order_id = #{parentOrderId,jdbcType=VARCHAR},
+            </if>
+            <if test="allowContinueOrder != null">
+                allow_continue_order =
+                #{allowContinueOrder,jdbcType=BIT},
+            </if>
+            <if test="countWithChild != null">
+                count_with_child = #{countWithChild,jdbcType=INTEGER},
+            </if>
+            <if test="lastOrderTime != null">
+                last_order_time = #{lastOrderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="servicePrice != null">
+                service_price = #{servicePrice},
+            </if>
+            <if test="mealFeePrice != null">
+                meal_fee_price = #{mealFeePrice},
+            </if>
+            <if test="mealAllNumber != null">
+                meal_all_number = #{mealAllNumber},
+            </if>
+            <if test="isPay != null">
+                is_pay = #{isPay},
+            </if>
+            <if test="payType != null">
+                pay_type = #{payType},
+            </if>
+            <if test="payMode != null">
+                pay_mode = #{payMode},
+            </if>
+            <if test="isRefundOrder != null">
+                is_refund_order = #{isRefundOrder},
+            </if>
+            <if test="isGetShareCoupon != null">
+                is_get_share_coupon = #{isGetShareCoupon},
+            </if>
+            <if test="isPosPay != null">
+                is_pos_pay = #{isPosPay},
+            </if>
+            <if test="baseCustomerCount != null">
+                base_customer_count = #{baseCustomerCount},
+            </if>
+            <if test="giveChange != null">
+                give_change = #{giveChange},
+            </if>
+            <if test="printFailFlag != null">
+                print_fail_flag = #{printFailFlag},
+            </if>
+            <if test="printKitchenFlag != null">
+                print_kitchen_flag = #{printKitchenFlag},
+            </if>
+            <if test="posDiscount != null">
+                pos_discount = #{posDiscount},
+            </if>
+            <if test="groupId != null">
+                group_id = #{groupId},
+            </if>
+            <if test="eraseMoney != null">
+                erase_money = #{eraseMoney},
+            </if>
+            <if test="noDiscountMoney != null">
+                no_discount_money = #{noDiscountMoney},
+            </if>
+            <if test="baseOrderMoney != null">
+                base_order_money = #{baseOrderMoney},
+            </if>
+            <if test="sauceFeeCount != null">
+                sauce_fee_count = #{sauceFeeCount},
+            </if>
+            <if test="sauceFeePrice != null">
+                sauce_fee_price = #{sauceFeePrice},
+            </if>
+            <if test="towelFeeCount != null">
+                towel_fee_count = #{towelFeeCount},
+            </if>
+            <if test="towelFeePrice != null">
+                towel_fee_price = #{towelFeePrice},
+            </if>
+            <if test="tablewareFeeCount != null">
+                tableware_fee_count = #{tablewareFeeCount},
+            </if>
+            <if test="tablewareFeePrice != null">
+                tableware_fee_price = #{tablewareFeePrice},
+            </if>
+            <if test="isUseNewService != null">
+                is_use_new_service = #{isUseNewService},
+            </if>
+            <if test="isConsumptionRebate != null">
+                is_consumption_rebate = #{isConsumptionRebate},
+            </if>
+            <if test="dataOrigin != null">
+                data_origin = #{dataOrigin},
+            </if>
+            <if test="orderPosDiscountMoney != null">
+                order_pos_discount_money = #{orderPosDiscountMoney},
+            </if>
+            <if test="memberDiscountMoney != null">
+                member_discount_money = #{memberDiscountMoney},
+            </if>
+            <if test="memberDiscount != null">
+                member_discount = #{memberDiscount},
+            </if>
+            <if test="needConfirmOrderItem != null">
+                need_confirm_order_item = #{needConfirmOrderItem},
+            </if>
+            <if test="reduceMoney != null">
+                reduce_money = #{reduceMoney},
+            </if>
+            <if test="realEraseMoney != null">
+                real_erase_money = #{realEraseMoney},
+            </if>
+            <if test="exemptionMoney != null">
+                exemption_money = #{exemptionMoney},
+            </if>
+            <if test="syncState != null">
+                sync_state = #{syncState},
+            </if>
+            <if test="lastSyncTime != null">
+                last_sync_time = #{lastSyncTime},
+            </if>
+            <if test="useProductCoupon != null">
+                use_product_coupon = #{useProductCoupon},
+            </if>
+            <if test="openArticleLibrary != null">
+                open_article_library = #{openArticleLibrary},
+            </if>
+            <if test="grantMoney != null">
+                grant_money = #{grantMoney},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.Order">
+        update tb_order
+        <set>
+            <if test="tableNumber != null">
+                table_number = #{tableNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="customerCount != null">
+                customer_count = #{customerCount,jdbcType=INTEGER},
+            </if>
+            <if test="accountingTime != null">
+                accounting_time = #{accountingTime,jdbcType=DATE},
+            </if>
+            <if test="orderState != null">
+                order_state = #{orderState,jdbcType=INTEGER},
+            </if>
+            <if test="productionStatus != null">
+                production_status = #{productionStatus,jdbcType=INTEGER},
+            </if>
+            <if test="originalAmount != null">
+                original_amount = #{originalAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="reductionAmount != null">
+                reduction_amount = #{reductionAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="paymentAmount != null">
+                payment_amount = #{paymentAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="orderMoney != null">
+                order_money = #{orderMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="aliPayDiscountMoney != null">
+                ali_pay_discount_money = #{aliPayDiscountMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="articleCount != null">
+                article_count = #{articleCount,jdbcType=INTEGER},
+            </if>
+            <if test="serialNumber != null">
+                serial_number = #{serialNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="confirmTime != null">
+                confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="printTimes != null">
+                print_times = #{printTimes,jdbcType=INTEGER},
+            </if>
+            <if test="allowCancel != null">
+                allow_cancel = #{allowCancel,jdbcType=BIT},
+            </if>
+            <if test="allowAppraise != null">
+                allow_appraise = #{allowAppraise,jdbcType=BIT},
+            </if>
+            <if test="closed != null">
+                closed = #{closed,jdbcType=BIT},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <!--<if test="createTime != null">-->
+                <!--create_time = #{createTime,jdbcType=TIMESTAMP},-->
+            <!--</if>-->
+            <if test="operatorId != null">
+                operator_id = #{operatorId,jdbcType=VARCHAR},
+            </if>
+            <if test="customerId != null">
+                customer_id = #{customerId,jdbcType=VARCHAR},
+            </if>
+            <if test="distributionDate != null">
+                distribution_date = #{distributionDate,jdbcType=DATE},
+            </if>
+            <if test="distributionTimeId != null">
+                distribution_time_id =
+                #{distributionTimeId,jdbcType=INTEGER},
+            </if>
+            <if test="deliveryPointId != null">
+                delivery_point_id = #{deliveryPointId,jdbcType=INTEGER},
+            </if>
+            <if test="shopDetailId != null">
+                shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},
+            </if>
+            <if test="distributionModeId != null">
+                distribution_mode_id =
+                #{distributionModeId,jdbcType=INTEGER},
+            </if>
+            <if test="verCode != null">
+                ver_code = #{verCode,jdbcType=VARCHAR},
+            </if>
+            <if test="pushOrderTime != null">
+                push_order_time = #{pushOrderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="printOrderTime != null">
+                print_order_time = #{printOrderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="callNumberTime != null">
+                call_number_time = #{callNumberTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderMode != null">
+                order_mode = #{orderMode,jdbcType=INTEGER},
+            </if>
+            <if test="brandId != null">
+                brand_id = #{brandId,jdbcType=VARCHAR},
+            </if>
+            <if test="amountWithChildren != null">
+                amount_with_children =
+                #{amountWithChildren,jdbcType=DECIMAL},
+            </if>
+            <if test="parentOrderId != null and parentOrderId != ''">
+                parent_order_id = #{parentOrderId,jdbcType=VARCHAR},
+            </if>
+            <if test="allowContinueOrder != null">
+                allow_continue_order =
+                #{allowContinueOrder,jdbcType=BIT},
+            </if>
+            <if test="countWithChild != null">
+                count_with_child = #{countWithChild,jdbcType=INTEGER},
+            </if>
+            <if test="lastOrderTime != null">
+                last_order_time = #{lastOrderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="servicePrice != null">
+                service_price = #{servicePrice},
+            </if>
+            <if test="mealFeePrice != null">
+                meal_fee_price = #{mealFeePrice},
+            </if>
+            <if test="mealAllNumber != null">
+                meal_all_number = #{mealAllNumber},
+            </if>
+            <if test="isPay != null">
+                is_pay = #{isPay},
+            </if>
+            <if test="payType != null">
+                pay_type = #{payType},
+            </if>
+            <if test="payMode != null">
+                pay_mode = #{payMode},
+            </if>
+            <if test="isRefundOrder != null">
+                is_refund_order = #{isRefundOrder},
+            </if>
+            <if test="isGetShareCoupon != null">
+                is_get_share_coupon = #{isGetShareCoupon},
+            </if>
+            <if test="isPosPay != null">
+                is_pos_pay = #{isPosPay},
+            </if>
+            <if test="baseCustomerCount != null">
+                base_customer_count = #{baseCustomerCount},
+            </if>
+            <if test="giveChange != null">
+                give_change = #{giveChange},
+            </if>
+            <if test="printFailFlag != null">
+                print_fail_flag = #{printFailFlag},
+            </if>
+            <if test="printKitchenFlag != null">
+                print_kitchen_flag = #{printKitchenFlag},
+            </if>
+            <if test="posDiscount != null">
+                pos_discount = #{posDiscount},
+            </if>
+            <if test="groupId != null">
+                group_id = #{groupId},
+            </if>
+            <if test="eraseMoney != null">
+                erase_money = #{eraseMoney},
+            </if>
+            <if test="noDiscountMoney != null">
+                no_discount_money = #{noDiscountMoney},
+            </if>
+            <if test="baseOrderMoney != null">
+                base_order_money = #{baseOrderMoney},
+            </if>
+            <if test="sauceFeeCount != null">
+                sauce_fee_count = #{sauceFeeCount},
+            </if>
+            <if test="sauceFeePrice != null">
+                sauce_fee_price = #{sauceFeePrice},
+            </if>
+            <if test="towelFeeCount != null">
+                towel_fee_count = #{towelFeeCount},
+            </if>
+            <if test="towelFeePrice != null">
+                towel_fee_price = #{towelFeePrice},
+            </if>
+            <if test="tablewareFeeCount != null">
+                tableware_fee_count = #{tablewareFeeCount},
+            </if>
+            <if test="tablewareFeePrice != null">
+                tableware_fee_price = #{tablewareFeePrice},
+            </if>
+            <if test="isUseNewService != null">
+                is_use_new_service = #{isUseNewService},
+            </if>
+            <if test="isConsumptionRebate != null">
+                is_consumption_rebate = #{isConsumptionRebate},
+            </if>
+            <if test="dataOrigin != null">
+                data_origin = #{dataOrigin},
+            </if>
+            <if test="orderPosDiscountMoney != null">
+                order_pos_discount_money = #{orderPosDiscountMoney},
+            </if>
+            <if test="memberDiscountMoney != null">
+                member_discount_money = #{memberDiscountMoney},
+            </if>
+            <if test="memberDiscount != null">
+                member_discount = #{memberDiscount},
+            </if>
+            <if test="needConfirmOrderItem != null">
+                need_confirm_order_item = #{needConfirmOrderItem},
+            </if>
+            <if test="reduceMoney != null">
+                reduce_money = #{reduceMoney},
+            </if>
+            <if test="realEraseMoney != null">
+                real_erase_money = #{realEraseMoney},
+            </if>
+            <if test="exemptionMoney != null">
+                exemption_money = #{exemptionMoney},
+            </if>
+            <if test="syncState != null">
+                sync_state = #{syncState},
+            </if>
+            <if test="lastSyncTime != null">
+                last_sync_time = #{lastSyncTime},
+            </if>
+            <if test="useProductCoupon != null">
+                use_product_coupon = #{useProductCoupon},
+            </if>
+            <if test="openArticleLibrary != null">
+                open_article_library = #{openArticleLibrary},
+            </if>
+            <if test="grantMoney != null">
+                grant_money = #{grantMoney},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.Order">
+        update tb_order
+        set table_number = #{tableNumber,jdbcType=VARCHAR},
+        customer_count = #{customerCount,jdbcType=INTEGER},
+        accounting_time = #{accountingTime,jdbcType=DATE},
+        order_state = #{orderState,jdbcType=INTEGER},
+        production_status = #{productionStatus,jdbcType=INTEGER},
+        original_amount = #{originalAmount,jdbcType=DECIMAL},
+        reduction_amount = #{reductionAmount,jdbcType=DECIMAL},
+        payment_amount = #{paymentAmount,jdbcType=DECIMAL},
+        order_money = #{orderMoney,jdbcType=DECIMAL},
+        article_count = #{articleCount,jdbcType=INTEGER},
+        serial_number = #{serialNumber,jdbcType=VARCHAR},
+        confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
+        print_times = #{printTimes,jdbcType=INTEGER},
+        allow_cancel = #{allowCancel,jdbcType=BIT},
+        allow_appraise = #{allowAppraise,jdbcType=BIT},
+        closed = #{closed,jdbcType=BIT},
+        remark = #{remark,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        operator_id = #{operatorId,jdbcType=VARCHAR},
+        customer_id = #{customerId,jdbcType=VARCHAR},
+        distribution_date = #{distributionDate,jdbcType=DATE},
+        distribution_time_id = #{distributionTimeId,jdbcType=INTEGER},
+        delivery_point_id = #{deliveryPointId,jdbcType=INTEGER},
+        shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},
+        distribution_mode_id = #{distributionModeId,jdbcType=INTEGER},
+        ver_code = #{verCode,jdbcType=VARCHAR},
+        push_order_time = #{pushOrderTime,jdbcType=TIMESTAMP},
+        print_order_time = #{printOrderTime,jdbcType=TIMESTAMP},
+        call_number_time = #{callNumberTime,jdbcType=TIMESTAMP},
+        order_mode = #{orderMode,jdbcType=INTEGER},
+        brand_id = #{brandId,jdbcType=VARCHAR},
+        amount_with_children = #{amountWithChildren,jdbcType=DECIMAL},
+        parent_order_id = #{parentOrderId,jdbcType=VARCHAR},
+        allow_continue_order = #{allowContinueOrder,jdbcType=BIT},
+        count_with_child = #{countWithChild,jdbcType=INTEGER},
+        last_order_time = #{lastOrderTime,jdbcType=TIMESTAMP},
+        pay_type = #{payType},is_refund_order = #{isRefundOrder},is_get_share_coupon = #{isGetShareCoupon},is_pos_pay = #{isPosPay}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectList" resultType="Order">select * from tb_order</select>
+
+    <!-- 根据 店铺ID 和 用户ID 分页查询订单列表 -->
+    <select id="orderList" resultType="Order">
+        ( SELECT * from tb_order where shop_detail_id = #{shopId} and
+        customer_id = #{customerId}
+        and ( (order_state != 1 and (parent_order_id is null or parent_order_id = '') and order_mode != 5)
+        or (order_state = 1 and order_mode != 5 and (parent_order_id is null or parent_order_id = ''))
+        or (order_mode = 5 and (parent_order_id is null or parent_order_id = ''))
+        or (parent_order_id is not null and parent_order_id != '' and pay_mode in(1,2,3,4) and order_state = 1)
+        ) and is_refund_order = 0
+        <if test="orderState != null and orderState != '' ">
+            and ORDER_STATE in
+            <foreach collection="orderState" item="state" open="("
+                     separator="," close=")">
+                #{state}
+            </foreach>
+        </if> )
+        UNION ALL
+        (select * from tb_order where id in (
+          select order_id from tb_participant where customer_id = #{customerId}
+        ) and customer_id != #{customerId} and shop_detail_id = #{shopId})
+        ORDER BY create_time DESC LIMIT
+        #{start},#{datalength}
+    </select>
+
+
+    <select id="selectOrderSuccess" resultType="Order">
+        SELECT
+        *
+        FROM
+        tb_order
+        WHERE
+        create_time >= #{beginTime}
+        AND  #{endTime} >=create_time
+        AND shop_detail_id = #{shopId} AND order_state in (2,10,11) and production_status in (2,3)
+    </select>
+
+    <!-- 根据订单查询 订单状态 和 生产状态 -->
+    <select id="selectOrderStatesById" resultType="Order">
+        SELECT
+        id,order_state,production_status,allow_continue_order,allow_cancel,allow_appraise,order_before,
+        is_pay,order_mode,pay_mode,table_number
+        from tb_order where id = #{orderId}
+    </select>
+
+    <!-- 查询 用户的新订单,如果 订单ID有值。则查询订单的详情 -->
+    <select id="findCustomerNewOrder" resultType="Order">
+        SELECT * from tb_order
+        <if test="orderId == null or orderId == '' ">
+            where customer_id=#{customerId} and shop_detail_id=#{shopId} and
+            create_time > #{beginDate}
+            and order_state in
+            <foreach collection="orderState" item="state" open="("
+                     separator="," close=")">
+                #{state}
+            </foreach>
+            ORDER BY create_time DESC LIMIT 0,1
+        </if>
+        <if test="orderId != null and orderId != '' ">
+            where id=#{orderId}
+        </if>
+    </select>
+    <select id="selectShopOrderByDateAndProductionStates"
+            resultType="Order">
+        select * from tb_order
+        where shop_detail_id=#{shopId} and
+        create_time>#{date} and
+        production_status in
+        <foreach collection="proStatus" item="state" open="("
+                 separator="," close=")">
+            #{state}
+        </foreach>
+        and closed=0
+    </select>
+
+    <select id="selectHistoryOrderList" resultType="Order">
+        SELECT
+        push_order_time,
+        id,
+        ver_code,
+        article_count,
+        table_number,
+        parent_order_id,
+        order_money
+        FROM
+        tb_order
+        WHERE
+        shop_detail_id=#{shopId}
+        AND
+        <![CDATA[ create_time>#{dateBegin} AND create_time<#{dateEnd}]]>
+        and closed=0 and order_state in (2,10,11,12)
+        <if test="shopMode != null and shopMode == 2">
+            and production_status in (3,4)
+        </if>
+        <if test="shopMode != null and shopMode != 2">
+            and production_status in (2,3,4)
+        </if>
+        order by create_time DESC;
+    </select>
+
+
+    <select id="listHoufuFinishedOrder" resultType="Order">
+        SELECT
+        push_order_time,
+        id,
+        ver_code,
+        article_count,
+        table_number,
+        parent_order_id,
+        order_state,
+        order_money,
+        order_mode,
+        pay_type,
+        print_fail_flag,
+        print_kitchen_flag,
+        amount_with_children,
+        ifnull(count_with_child,article_count) as
+        totalCount,
+
+        (select count(1) from tb_order t2 where t2.parent_order_id = tb_order.id and t2.order_state not in (1,9) ) as childCount
+        FROM
+        tb_order
+        WHERE
+        shop_detail_id=#{shopId}
+        AND
+        DATE_FORMAT(NOW(),'%d %b %y') = DATE_FORMAT(create_time,'%d %b %y')
+        and order_state in (2,10,11,12)
+        and IF(is_pos_pay = 1,is_pos_pay = 1,production_status in (2,3,4))
+        and order_money != 0
+        and (parent_order_id is null or parent_order_id = '')
+        <if test="shopMode == 6">
+            and ((pay_mode in (3,4,5,6) and is_confirm = 1) or (pay_mode not in (3,4,5,6) ))
+        </if>
+        and distribution_mode_id != 2
+        order by pay_type desc,create_time DESC
+
+    </select>
+
+    <select id="listHoufuUnFinishedOrder" resultType="Order">
+        SELECT
+        push_order_time,
+        id,
+        ver_code,
+        article_count,
+        table_number,
+        parent_order_id,
+        order_money,
+        order_mode,
+        amount_with_children,
+        closed,
+        ifnull(count_with_child,article_count) as totalCount,
+        (select count(1) from tb_order t2 where t2.parent_order_id = tb_order.id ) as childCount
+        FROM
+        tb_order
+
+
+        WHERE
+        shop_detail_id=#{shopId}
+--         AND
+--         DATE_FORMAT(NOW(),'%d %b %y') = DATE_FORMAT(create_time,'%d %b %y')
+        and order_state = 1
+        and table_number is not null
+        and (parent_order_id is null or parent_order_id = '')
+        order by create_time ASC;
+
+    </select>
+
+    <!--不包含外卖订单-->
+    <select id="selectOrderByBoss" resultType="Order">
+        SELECT
+        push_order_time,
+        id,
+        ver_code,
+        article_count,
+        table_number,
+        parent_order_id,
+        order_money,
+        order_mode,
+        order_state,
+        pay_type,
+        pay_mode,
+        amount_with_children,
+        print_fail_flag,
+        print_kitchen_flag,
+        order_before,
+        closed,
+        ifnull(count_with_child,article_count) as totalCount,
+        (select count(1) from tb_order t2 where t2.parent_order_id = tb_order.id ) as childCount
+        FROM
+        tb_order
+        WHERE
+        shop_detail_id=#{shopId}
+--         AND DATE_FORMAT(NOW(),'%d %b %y') = DATE_FORMAT(create_time,'%d %b %y')
+        and order_state != 9
+        and ((
+                (
+                    (order_state = 1  and pay_type = 1)
+                    or (order_state = 1 and pay_mode in (3,4,5,6) and pay_type = 0)
+                )
+                or (order_state >= 2 and pay_mode in (3,4,5,6) and is_confirm = 0)
+            )
+            or (print_fail_flag = 1 or print_kitchen_flag = 1)
+            or (order_state = 2 and production_status = 1)
+         )
+        and table_number is not null
+        and (parent_order_id is null or parent_order_id = '')
+        and distribution_mode_id != 2
+
+        order by create_time ASC;
+
+    </select>
+    <!--外卖订单-->
+    <select id="selectOrderByBossTakeout" resultType="Order">
+         SELECT
+         *
+        FROM
+        tb_order
+        WHERE
+        shop_detail_id=#{shopId}
+        AND DATE_FORMAT(NOW(),'%d %b %y') = DATE_FORMAT(create_time,'%d %b %y')
+        and order_state != 9
+        /*and ( (((order_state = 1  and pay_type = 1 ) or (order_state = 1 and pay_mode in (3,4,5,6) and pay_type = 0)) or (order_state >= 2 and pay_mode in (3,4,5,6) and is_confirm = 0))
+        || (print_fail_flag = 1 || print_kitchen_flag = 1 ) || (order_state = 2 and production_status = 1))*/
+        and (parent_order_id is null or parent_order_id = '')
+        and distribution_mode_id = 2
+        order by create_time ASC;
+
+    </select>
+
+    <select id="selectErrorOrderList" resultType="Order">
+        SELECT
+        push_order_time,
+        id,
+        serial_number,
+        ver_code,
+        article_count,
+        table_number,
+        order_money,
+        distribution_mode_id
+        FROM
+        tb_order
+        WHERE
+        shop_detail_id=#{shopId}
+        AND
+        <![CDATA[ create_time >= #{dateBegin} AND create_time <= #{dateEnd}]]>
+        and( (production_status = 5 and order_state != 9 and print_times = 0) or
+        (production_status = 1 and order_state != 9 and pay_mode != 2 and print_times = 0 and now() - push_order_time > 40  )
+        or (production_status = 1 and order_state not in (1,9) and pay_mode = 2 and print_times = 0 and now() - push_order_time > 90  )
+        or (production_status = 0 and order_state = 1 and order_mode = 6 and pay_type = 1 and print_times = 0 and now() - create_time > 120 )
+        or (production_status = 0 and order_state = 2 and print_times = 0 and now() - create_time > 40 )
+        or (production_status = 1 and order_state = 10 and print_times = 0 and now() - create_time > 40 )
+        )
+        and order_mode != 3
+        order by push_order_time DESC;
+    </select>
+
+    <select id="listOrderByStatus" resultType="Order">
+        select
+        push_order_time,
+        id,
+        ver_code,
+        article_count,
+        table_number,
+        parent_order_id,
+        order_money,
+        order_mode,
+        amount_with_children,
+        ifnull(count_with_child,article_count) as
+        totalCount,
+        (select count(1) from tb_order t2 where t2.parent_order_id = tb_order.id ) as childCount
+        FROM
+        tb_order
+        WHERE
+        shop_detail_id=#{shopId}
+        AND
+        DATE_FORMAT(NOW(),'%d %b %y') = DATE_FORMAT(create_time,'%d %b %y')
+        and order_state in
+        <foreach collection="o_state" open="(" close=")" separator=","
+                 item="orderState">
+            #{orderState}
+        </foreach>
+        and production_status in
+        <foreach collection="p_status" open="(" close=")" separator=","
+                 item="productionStatus">
+            #{productionStatus}
+        </foreach>
+        and (parent_order_id is null or parent_order_id = '')
+        order by create_time DESC;
+    </select>
+
+    <update id="clearPushOrder">
+        update tb_order set
+        push_order_time=(NULL),production_status
+        =#{1},allow_cancel=1 where
+        id=#{0}
+    </update>
+    <update id="setOrderNumber">
+        update tb_order set table_number=#{tableNumber} where id=#{orderId}
+    </update>
+
+
+    <!-- 关联查询 订单表和客户信息表 -->
+    <resultMap id="OrderCustomerMap" type="com.resto.shop.web.model.Order">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="order_state" property="orderState" jdbcType="INTEGER"/>
+        <result column="production_status" property="productionStatus"
+                jdbcType="INTEGER"/>
+        <result column="article_count" property="articleCount"
+                jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="serial_number" property="serialNumber"
+                jdbcType="VARCHAR"/>
+        <result column="order_money" property="orderMoney" jdbcType="DECIMAL"/>
+        <association property="customer" javaType="com.resto.shop.web.model.Customer">
+            <id column="customer_id" property="id"/>
+            <result column="nickname" property="nickname"/>
+            <result column="telephone" property="telephone"/>
+        </association>
+    </resultMap>
+
+    <!-- 根据取餐码查询已支付的订单 -->
+    <select id="selectOrderByVercode" resultMap="OrderCustomerMap">
+        SELECT
+        o.id,o.order_state,o.production_status,o.article_count,o.create_time,o.serial_number,o.order_money,c.nickname,c.telephone,c.id
+        customer_id
+        from tb_order o LEFT JOIN tb_customer c on o.customer_id =
+        c.id
+        where order_state = 2 and production_status=0 and o.shop_detail_id =
+        #{shopId} and ver_code = #{vercode}
+        ORDER BY push_order_time DESC
+    </select>
+
+    <!-- 根据桌号查询已支付的订单 -->
+    <select id="selectOrderByTableNumber" resultMap="OrderCustomerMap">
+        SELECT
+        o.id,o.order_state,o.production_status,o.article_count,o.create_time,o.serial_number,o.order_money,c.nickname,c.telephone,o.customer_id
+        from tb_order o LEFT JOIN tb_customer c on o.customer_id = c.id
+        where
+        order_state = 2 and production_status=0 and o.shop_detail_id =
+        #{shopId}
+        and table_number = #{tableNumber}
+        ORDER BY push_order_time DESC
+    </select>
+
+    <select id="selectParentAmount" resultType="java.lang.Double">
+        SELECT
+        SUM(order_money) FROM tb_order WHERE id=#{orderId} OR parent_order_id=#{orderId}
+        <if test="shopMode != 5">
+            and order_state not in (1,9)
+        </if>
+        <if test="shopMode == 5">
+            and order_state != 9
+        </if>
+    </select>
+
+    <select id="selectParentAmountByBossOrder" resultType="java.lang.Double">
+        SELECT
+        SUM(order_money) FROM tb_order WHERE id=#{orderId} OR parent_order_id=#{orderId}
+        and order_state != 9
+    </select>
+
+    <update id="updateParentAmount">
+        UPDATE tb_order SET amount_with_children = #{1} where
+        id=#{0}
+    </update>
+    <update id="changeAllowContinue">
+        UPDATE tb_order SET allow_continue_order=#{1} where
+        id=#{0}
+    </update>
+    <select id="selectArticleCountById" resultType="Integer">
+        select
+        sum(article_count) from tb_order WHERE id=#{id} OR
+        parent_order_id=#{id}
+        <if test="shopMode != 5">
+            and order_state not in (1,9)
+        </if>
+        <if test="shopMode == 5">
+            and order_state != 9
+        </if>
+    </select>
+    <select id="selectArticleCountByIdBossOrder" resultType="Integer">
+        select
+        sum(article_count) from tb_order WHERE id=#{id} OR
+        parent_order_id=#{id} and order_state != 9
+    </select>
+    <select id="selectByParentId" resultType="Order">
+        select * from tb_order
+        where parent_order_id=#{parentOrderId}
+        and order_state != 9
+        <if test="parentOrderPayType == 0">
+            and order_state != 1
+        </if>
+    </select>
+
+    <select id="selectListByParentId" resultType="Order">
+        select * from tb_order
+        where parent_order_id=#{orderId}
+    </select>
+
+    <select id="selectChildIdsByParentIdByFive" resultType="String">
+        select id from
+        tb_order where parent_order_id=#{0}
+        and order_state in (1,2,10,11,12)
+    </select>
+    <select id="selectChildIdsByParentId" resultType="String">
+        select id from
+        tb_order where parent_order_id=#{0}
+        and order_state in (2,10,11,12)
+    </select>
+    <select id="selectNewCustomerPackageId" resultType="String">
+        SELECT id
+        FROM tb_order WHERE allow_appraise=1 AND confirm_time IS NOT NULL
+        and
+        customer_id=#{0} and shop_detail_id=#{1}
+        ORDER BY confirm_time DESC
+        LIMIT 0,1
+    </select>
+    <select id="selectReadyList" resultType="Order">
+        SELECT o.id,nickname as
+        remark,o.print_order_time,o.ver_code as verCode FROM tb_order o LEFT JOIN
+        tb_customer c
+        ON
+        o.customer_id=c.id
+        WHERE production_status=2 and shop_detail_id=#{0}
+        and o.order_state in (2,10)
+        and DATE_FORMAT(o.create_time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d')
+        and closed=0 ORDER BY print_order_time
+    </select>
+
+    <!--<select id="selectArticleSumCountByData" resultType="integer">-->
+
+    <!--SELECT IFNULL(sum(CASE WHEN type=3 THEN 0 ELSE count END),0)totalNum FROM tb_order_item WHERE order_id in(-->
+    <!--SELECT-->
+    <!--distinct o.id-->
+    <!--FROM-->
+    <!--tb_order o-->
+    <!--INNER JOIN tb_order_payment_item oi ON o.id = oi.order_id-->
+    <!--WHERE-->
+    <!--o.order_state IN (2,10, 11, 12) AND  o.production_status in (2,3,4) AND-->
+    <!--<![CDATA[ o.create_time >= #{beginDate} and  o.create_time <= #{endDate}]]> AND  o.brand_id=#{brandId}-->
+    <!--)-->
+    <!--</select>-->
+
+    <!--查询品牌菜品销售的总价-->
+    <select id="selectBrandArticleSell" resultType="BigDecimal">
+        SELECT sum(t.final_price)sellIncome FROM
+        (
+        SELECT final_price FROM tb_order_item oi WHERE order_id in(
+        SELECT
+        distinct o.id
+        FROM
+        tb_order o
+        INNER JOIN tb_order_payment_item oi ON o.id = oi.order_id
+        WHERE
+        o.order_state IN (2,10, 11, 12) AND  o.production_status in (2,3,4) AND
+        <![CDATA[ o.create_time >= #{beginDate} and  o.create_time <= #{endDate}]]> AND  o.brand_id=#{brandId})
+        ) as t
+    </select>
+
+
+    <!--查询品牌下每个店铺的菜品数目卖的和 2016-11-3 -->
+    <select id="selectShopArticleSum" resultType="com.resto.brand.web.dto.ShopArticleReportDto">
+        SELECT
+        SUM(oi.count) + o.meal_all_number totalNum,
+        o.shop_detail_id shop_id
+        from tb_article ta
+        LEFT JOIN tb_article_price tap on ta.id = tap.article_id
+        INNER JOIN tb_order_item oi on oi.article_id = ta.id or oi.article_id = tap.id
+        INNER JOIN  tb_order o ON o.id=oi.order_id
+        WHERE o.order_state IN (10,2,11, 12) AND  o.production_status in (2,3,4) AND oi.type != 4 AND
+        <![CDATA[ o.create_time >= #{beginDate} and  o.create_time <= #{endDate}]]> and o.brand_id =#{brandId}
+        GROUP BY o.id
+    </select>
+
+    <!-- 品牌菜品销售 -->
+    <select id="selectBrandArticleSellByDate" resultType="com.resto.brand.web.dto.ArticleSellDto">
+        SELECT
+        brand_report.articleId,brand_report.brandSellNum,IFNULL(brand_report.article_name,a.name)
+        articleName,a.article_family_id articleFamilyId,f.name
+        articleFamilyName
+        from
+        (
+        SELECT left(article_id,32) articleId ,SUM(count)
+        brandSellNum
+        ,article_name from tb_order_item where order_id in
+        (SELECT
+        id from tb_order  where order_state in (2,10,11,12) and
+        <![CDATA[ confirm_time >= #{beginDate} and confirm_time <= #{endDate}]]>
+        )
+        GROUP BY
+        left(article_id,32)
+        ) as brand_report
+        LEFT JOIN tb_article a on
+        a.id = brand_report.articleId LEFT JOIN
+        tb_article_family f on
+        a.article_family_id = f.id
+        ORDER BY ${sort}
+    </select>
+
+
+    <!-- 品牌菜品销售 按菜品分类的数据 -->
+    <select id="selectBrandArticleSellByDateAndArticleFamilyId" resultType="com.resto.brand.web.dto.ArticleSellDto">
+        SELECT
+        brand_report.articleId,brand_report.brandSellNum,IFNULL(brand_report.article_name,a.name)
+        articleName,a.article_family_id articleFamilyId,f.name
+        articleFamilyName
+        from
+        (
+        SELECT left(article_id,32) articleId ,SUM(count)
+        brandSellNum
+        ,article_name from tb_order_item where order_id in
+        (SELECT
+        id from tb_order where order_state in (2,10,11,12) and
+        <![CDATA[ confirm_time >= #{beginDate} and confirm_time <= #{endDate}]]>)
+        GROUP BY
+        left(article_id,32)
+        ) as brand_report
+        LEFT JOIN tb_article a on
+        a.id = brand_report.articleId inner JOIN
+        tb_article_family f on
+        a.article_family_id = f.id and f.id=#{articleFamilyId}
+        order by ${sort}
+    </select>
+
+    <!--店铺菜品销售详细 2016-11-3 -->
+    <select id="selectShopArticleSellByDate" resultType="com.resto.brand.web.dto.ArticleSellDto">
+        SELECT
+        t.order_id,
+        LEFT (t.article_id, 32) AS articleId,
+        SUM(t.count) shopSellNum,
+        SUM(t.refund_count)refundCount,
+        SUM(t.refund_count*t.unit_price)refundTotal,
+        t.article_name,
+        t5.id AS articleFamilyId,
+        t5. NAME AS articleFamilyName,
+        t5.peference,
+        t4.sort,
+        t.type,
+        t4.peference AS numberCode,
+        SUM(t.final_price) AS salles
+        FROM
+        tb_order_item t
+        INNER JOIN tb_order t2 ON t2.id = t.order_id
+        INNER JOIN tb_article t4 ON t4.id = LEFT (t.article_id, 32)
+        INNER JOIN tb_article_family t5 ON t5.id = t4.article_family_id
+        WHERE
+        t2.order_state IN (2, 10, 11, 12)
+        AND t2.production_status in (2,3,4) AND
+        <![CDATA[ t2.create_time >= #{beginDate} and t2.create_time <= #{endDate}]]> and t2.shop_detail_id =#{shopId}
+        GROUP BY t.article_name,t4.article_type
+    </select>
+
+    <!-- 品牌菜品销售中 店铺菜品按菜品分类的数据   品牌端显示 -->
+    <select id="selectShopArticleSellByDateAndArticleFamilyId" resultType="com.resto.brand.web.dto.ArticleSellDto">
+        SELECT
+        shop_report.articleId,shop_report.shopSellNum,shop_report.shopSellNum,cast(shop_report.shopSellNum/shop_report.shopSellNum
+        as decimal(10,2)) salesRatio,
+        IFNULL(shop_report.article_name,a.name)
+        articleName,a.article_family_id articleFamilyId,f.name
+        articleFamilyName
+        from (
+        SELECT left(article_id,32) articleId
+        ,SUM(count) shopSellNum
+        ,article_name from tb_order_item where order_id
+        in
+        (SELECT id from tb_order where order_state in (2,10,11,12) and
+        shop_detail_id
+        = #{shopId} and
+        <![CDATA[ confirm_time >= #{beginDate} and confirm_time <= #{endDate}]]>
+        ) GROUP BY left(article_id,32)
+        ) as shop_report LEFT JOIN
+        (
+        SELECT
+        left(article_id,32) articleId ,SUM(count) shopSellNum ,article_name
+        from tb_order_item where order_id in
+        (SELECT id from tb_order where
+        order_state in (2,10,11,12) and
+        <![CDATA[ confirm_time >= #{beginDate} and confirm_time <= #{endDate}]]>)
+        GROUP BY left(article_id,32)
+        ) as brand_report on shop_report.articleId
+        = brand_report.articleId
+        LEFT JOIN tb_article a on a.id =
+        shop_report.articleId INNER JOIN
+        tb_article_family f on
+        a.article_family_id = f.id AND f.id=#{articleFamilyId}
+        order by ${sort}
+    </select>
+
+
+    <!-- 店铺菜品销售记录 pos端-->
+    <select id="selectShopArticleByDate" resultType="com.resto.brand.web.dto.ArticleSellDto">
+        SELECT
+        t.order_id,
+        sum(t.refund_count)refundCount,
+        SUM(t.unit_price*t.refund_count) as refundTotal,
+        LEFT (t.article_id, 32) AS articleId,
+        SUM(IF(t.type != 4, t.count, 0)) shopSellNum,
+        t.article_name,
+        t5.id AS articleFamilyId,
+        t5. NAME AS articleFamilyName,
+        t5.peference,
+        t4.sort,
+        t.type,
+        t4.peference AS numberCode,
+        SUM(t.final_price) AS salles
+        FROM
+        tb_order_item t
+        INNER JOIN tb_order t2 ON t2.id = t.order_id
+        INNER JOIN tb_article t4 ON t4.id = LEFT (t.article_id, 32)
+        INNER JOIN tb_article_family t5 ON t5.id = t4.article_family_id
+        WHERE
+        t2.order_state IN (2, 10, 11, 12)
+        AND IF(t2.is_pos_pay = 1,t2.is_pos_pay = 1,t2.production_status in (2,3,4)) AND
+        <![CDATA[ t2.create_time >= #{beginDate} and t2.create_time <= #{endDate}]]> and t2.shop_detail_id =#{shopId}
+        GROUP BY t.article_name,t4.article_type
+        ORDER BY ${sort}
+    </select>
+
+    <!-- 店铺菜品销售按菜品分类的数据  -->
+
+    <select id="selectShopArticleByDateAndArticleFamilyId" resultType="com.resto.brand.web.dto.ArticleSellDto">
+        SELECT
+        shop_report.articleId,
+        shop_report.shopSellNum,
+        IFNULL(
+        shop_report.article_name,
+        a. NAME
+        ) articleName,
+        a.article_family_id articleFamilyId,
+        f. NAME articleFamilyName
+        FROM
+        (
+        SELECT
+        LEFT (article_id, 32) articleId,
+        SUM(count) shopSellNum,
+        article_name
+        FROM
+        tb_order_item
+        WHERE
+        order_id IN (
+        SELECT
+        id
+        FROM
+        tb_order
+        WHERE
+        order_state IN (2, 10, 11, 12)
+        AND shop_detail_id = #{shopId}
+        AND <![CDATA[ confirm_time >= #{beginDate} and confirm_time <= #{endDate}]]>)
+        GROUP BY
+        LEFT (article_id, 32)
+        ) AS shop_report
+        LEFT JOIN tb_article a ON a.id = shop_report.articleId
+        INNER JOIN tb_article_family f ON a.article_family_id = f.id and f.id=#{articleFamilyId}
+        order by ${sort}
+    </select>
+
+    <select id="selectBytimeAndState" resultType="com.resto.brand.web.dto.OrderPayDto">
+        SELECT
+        SUM(oi.pay_value) payValue,
+        COUNT(oi.order_id) orderNum
+        FROM
+        (
+        SELECT
+        pay_value,
+        order_id,
+        pay_time
+        FROM
+        tb_order_payment_item
+        WHERE
+        <![CDATA[ pay_time >= #{beginDate} and pay_time <= #{endDate}]]>
+        ) AS oi
+        LEFT JOIN tb_order o ON oi.order_id = o.id
+        WHERE
+        o.brand_id = #{brandId}
+    </select>
+
+
+    <select id="selectShopArticleDetails" resultType="com.resto.brand.web.dto.ShopArticleReportDto">
+        select sum(r.count) as totalNum,sum(r.final_price) as sellIncome,r.shopId from (SELECT
+        DISTINCT(t.order_id),t.article_name,t.count,t.final_price,t2.shop_detail_id as shopId
+        FROM
+        tb_order_item t
+        INNER JOIN tb_order t2 ON t2.id = t.order_id
+        INNER JOIN tb_order_payment_item t3 ON t3.order_id = t2.id
+        INNER JOIN tb_article t4 ON t4.id = LEFT (t.article_id, 32)
+        WHERE
+        t2.brand_id = #{brandId}
+        AND t2.order_state IN (2, 10, 11, 12)
+        AND IF(t2.is_pos_pay = 1,t2.is_pos_pay = 1,t2.production_status in (2,3,4))
+        AND t.type != 3
+        AND <![CDATA[ t2.create_time >= #{beginDate} and t2.create_time <= #{endDate}]]>
+        ) as r
+        GROUP BY r.shopId
+    </select>
+
+    <select id="selectShopArticleCom" resultType="com.resto.brand.web.dto.ShopArticleReportDto">
+        select sum(r.count) as totalNum,sum(r.final_price) as sellIncome,r.shopId from (SELECT
+        DISTINCT(t.order_id),t.article_name,t.count,t.final_price,t2.shop_detail_id as shopId
+        FROM
+        tb_order_item t
+        INNER JOIN tb_order t2 ON t2.id = t.order_id
+        INNER JOIN tb_order_payment_item t3 ON t3.order_id = t2.id
+        INNER JOIN tb_article t4 ON t4.id = LEFT (t.article_id, 32)
+
+
+        WHERE
+        t2.brand_id = #{brandId}
+        AND t2.order_state IN (2, 10, 11, 12)
+        AND t.type = 3
+        AND <![CDATA[ t2.create_time >= #{beginDate} and t2.create_time <= #{endDate}]]>
+        ) as r
+        GROUP BY r.shopId
+    </select>
+
+
+    <select id="selectShopArticleNum" resultType="Integer">
+
+        SELECT IFNULL(SUM(shop_article_report.shopSellNum),0) totalNum FROM
+        (SELECT
+        shop_report.articleId,shop_report.shopSellNum,IFNULL(shop_report.article_name,a.name)
+        articleName,a.article_family_id articleFamilyId,f.name
+        articleFamilyName
+        from
+        (
+        SELECT left(article_id,32) articleId ,SUM(count)
+        shopSellNum
+        ,article_name from tb_order_item where order_id in
+        (SELECT
+        id from tb_order where order_state in (2,10,11,12) and
+        <![CDATA[ confirm_time >= #{beginDate} and confirm_time <= #{endDate}]]> and shop_detail_id=#{shopId}
+        )
+        GROUP BY
+        left(article_id,32)
+        ) as shop_report
+        LEFT JOIN tb_article a on
+        a.id =shop_report.articleId INNER  JOIN
+        tb_article_family f on
+        a.article_family_id = f.id AND a.article_type=1
+        )as shop_article_report
+
+
+    </select>
+
+    <select id="selectBrandArticleSellByDateAndFamilyId" resultType="com.resto.brand.web.dto.ArticleSellDto">
+
+        select sum(e.count) as brandSellNum,e.articleFamilyName,sum(e.total) as salles from ( select s.peference,  s.articleFamilyName, sum(s.count) as count,sum(s.final_price)  as total,s.article_name from   (
+        SELECT
+        DISTINCT (t.order_id),
+        t5. NAME AS articleFamilyName,
+        t.article_name AS articleName,
+        t.count AS count,
+        t.article_name,
+        t.final_price,
+        t5.peference
+        FROM
+        tb_order_item t
+        INNER JOIN tb_order t2 ON t2.id = t.order_id
+        INNER JOIN tb_order_payment_item t3 ON t3.order_id = t2.id
+        INNER JOIN tb_article t4 ON t4.id = LEFT (t.article_id, 32)
+        INNER JOIN tb_article_family t5 ON t5.id = t4.article_family_id
+        WHERE
+        t2.order_state IN (2, 10, 12, 11)
+        AND
+        <![CDATA[ t2.create_time >= #{beginDate} and t2.create_time <= #{endDate}]]>
+        and t2.brand_id= #{brandId}
+        ) as s
+        GROUP BY  s.article_name
+        ) as e
+        GROUP BY e.articleFamilyName
+        order by ${sort}
+
+    </select>
+
+    <!--2016-11-3     品牌菜品销售详细 -->
+    <select id="selectBrandArticleSellByDateAndId" resultType="com.resto.brand.web.dto.ArticleSellDto">
+        SELECT
+        t.order_id,
+        sum(t.refund_count)refundCount,
+        SUM(t.unit_price*t.refund_count) as refundTotal,
+        LEFT (t.article_id, 32) AS articleId,
+        SUM(t.count) brandSellNum,
+        t.article_name,
+        t5.id AS articleFamilyId,
+        t5. NAME AS articleFamilyName,
+        t5.peference,
+        t4.sort,
+        t.type,
+        t4.peference AS numberCode,
+        SUM(t.final_price) AS salles
+        FROM
+        tb_order_item t
+        INNER JOIN tb_order t2 ON t2.id = t.order_id
+        INNER JOIN tb_article t4 ON t4.id = LEFT (t.article_id, 32)
+        INNER JOIN tb_article_family t5 ON t5.id = t4.article_family_id
+        WHERE
+        t2.order_state IN (2, 10, 11, 12)
+        AND t2.production_status in (2,3,4) AND
+        <![CDATA[ t2.create_time >= #{beginDate} and t2.create_time <= #{endDate}]]> and t2.brand_id =#{brandId}
+        GROUP BY t.article_name,t4.article_type
+        ORDER BY ${sort}
+    </select>
+
+
+    <select id="selectBrandFamilyArticleSellByDateAndArticleFamilyId"
+            resultType="com.resto.brand.web.dto.ArticleSellDto">
+
+        SELECT SUM(ap.brandSellNum)brandSellNum,SUM(ap.salles)salles ,ap.articleFamilyId ,ap.articleFamilyName ,ap.peference ,ap.articleName from
+        (
+        SELECT
+        brand_report.articleId,brand_report.brandSellNum,IFNULL(brand_report.article_name,a.name)
+        articleName,a.article_family_id articleFamilyId,f.name articleFamilyName ,brand_report.salles,f.peference
+
+        from
+        (
+        SELECT left(article_id,32) articleId ,SUM(count)brandSellNum, SUM(final_price) salles
+
+        ,article_name from tb_order_item where order_id in
+        (SELECT
+        id from tb_order  where order_state in (2,10,11,12) and
+        <![CDATA[ confirm_time >= #{beginDate} and confirm_time <= #{endDate}]]> and brand_id=#{brandId}
+        )
+        GROUP BY
+        left(article_id,32)
+        ) as brand_report
+        LEFT JOIN tb_article a on
+        a.id = brand_report.articleId LEFT JOIN
+        tb_article_family f on
+        a.article_family_id = f.id
+        ) as ap  where ap.articleFamilyId = #{articleFamilyId}
+        ORDER BY ${sort}
+
+    </select>
+
+
+    <select id="selectMoneyAndNumByDate" resultMap="orderPaymentlist">
+        SELECT
+        o.id,
+        o.shop_detail_id,
+        o.amount_with_children,
+        o.order_money,
+        o.order_mode,
+        o.parent_order_id,
+        oi.payment_mode_id,
+        oi.pay_value
+        FROM
+        tb_order o
+        LEFT JOIN tb_order_payment_item oi ON o.id = oi.order_id
+        WHERE
+        o.order_state IN (2,10, 11, 12) AND  o.production_status in (2,3,4) AND
+        <![CDATA[ o.create_time >= #{beginDate} and o.create_time <= #{endDate}]]>  and brand_id=#{brandId}
+    </select>
+
+    <select id="selectShopArticleSellByDateAndFamilyId" resultType="com.resto.brand.web.dto.ArticleSellDto">
+
+        SELECT SUM(ap.shopSellNum)shopSellNum,SUM(ap.salles)salles ,ap.articleFamilyId ,ap.articleFamilyName ,ap.peference from
+        (
+        SELECT
+        shop_report.articleId,shop_report.shopSellNum,IFNULL(shop_report.article_name,a.name)
+        articleName,a.article_family_id articleFamilyId,f.name articleFamilyName ,shop_report.salles,f.peference
+        from
+        (
+        SELECT left(article_id,32) articleId ,SUM(count)shopSellNum, SUM(final_price) salles
+        ,article_name from tb_order_item where order_id in
+        (SELECT
+        id from tb_order  where order_state in (2,10,11,12) and
+        <![CDATA[ confirm_time >= #{beginDate} and confirm_time <= #{endDate}]]> and shop_detail_id=#{shopId}
+        )
+        GROUP BY
+        left(article_id,32)
+        ) as shop_report
+        LEFT JOIN tb_article a on
+        a.id = shop_report.articleId LEFT JOIN
+        tb_article_family f on
+        a.article_family_id = f.id
+        ) as ap GROUP BY ap.articleFamilyId
+        ORDER BY ${sort}
+
+    </select>
+
+
+    <select id="selectShopArticleSellByDateAndId" resultType="com.resto.brand.web.dto.ArticleSellDto">
+        SELECT
+        shop_report.articleId,shop_report.shopSellNum,IFNULL(shop_report.article_name,a.name)
+        articleName,a.article_family_id articleFamilyId,f.name articleFamilyName ,shop_report.salles,f.peference
+        from
+        (
+        SELECT left(article_id,32) articleId ,SUM(count)shopSellNum, SUM(final_price) salles
+        ,article_name from tb_order_item where order_id in
+        (SELECT
+        id from tb_order  where order_state in (2,10,11,12) and
+        <![CDATA[ confirm_time >= #{beginDate} and confirm_time <= #{endDate}]]> and shop_detail_id=#{shopId}
+        )
+        GROUP BY
+        left(article_id,32)
+        ) as shop_report
+        LEFT JOIN tb_article a on
+        a.id = shop_report.articleId LEFT JOIN
+        tb_article_family f on
+        a.article_family_id = f.id
+        ORDER BY ${sort}
+
+    </select>
+
+    <select id="selectOrderDetails" resultMap="selectOrderDetailsMap">
+        SELECT
+        o.shop_detail_id,
+        o.id,
+        o.production_status,
+        o.create_time,
+        o.distribution_mode_id,
+        o.ver_code,
+        o.order_state,
+        o.order_money,
+        o.service_price,
+        o.order_mode,
+        o.customer_address_id,
+        o.serial_number,
+        oi.id orderItem_id,
+        oi.article_name,
+        oi.count,
+        oi.final_price,
+        oi.unit_price,
+        c.id customer_id,
+        c.telephone,
+        ap.id appraise_id,
+        ap.level ,
+        ap.content,
+        f.id articleFamily_id,
+        f.name articleFamilyName,
+        opi.id as orderPaymentItem_id,
+        opi.payment_mode_id
+        FROM
+        tb_order o
+        LEFT JOIN tb_order_item oi ON o.id = oi.order_id
+        LEFT JOIN tb_customer c ON o.customer_id = c.id
+        LEFT JOIN tb_appraise ap on o.id = ap.order_id
+        LEFT JOIN tb_article r on left(oi.article_id,32) = r.id
+        LEFT JOIN tb_article_family f on f.id = r.article_family_id
+        LEFT JOIN tb_order_payment_item opi on o.id = opi.order_id
+        WHERE
+        o.id = #{orderId}
+
+    </select>
+
+    <update id="setOrderPrintFail">
+        update tb_order
+        set production_status = 5
+        where id = #{orderId}
+    </update>
+
+
+    <select id="getOrderAccountHoufu" resultMap="BaseResultMap">
+        select group_concat(id) id,(count(1) - count(parent_order_id)) as orderCount,sum(orderTotal) as orderTotal,
+        sum(customer_count) as customer_count
+		from ( select t.id,t.parent_order_id,
+		if(t.amount_with_children = 0,t.order_money,t.amount_with_children) as orderTotal,
+		if(t.parent_order_id
+			is null,t.customer_count,0) customer_count 
+		from tb_order t
+		INNER JOIN tb_order_payment_item t2 on t2.order_id = t.id
+		where
+		shop_detail_id = #{shopId} and  t.order_state in (2,10,11,12,13) and
+		DATE_FORMAT(NOW(),'%d %b %y') = DATE_FORMAT(t.create_time,'%d %b %y')and t.production_status in (2,3,4)
+		GROUP BY t.id
+		) as r
+    </select>
+
+    <select id="getOrderAccountBoss" resultMap="BaseResultMap">
+        select group_concat(id) id,(count(1) - count(parent_order_id)) as orderCount,sum(orderTotal) as orderTotal,
+        sum(customer_count) as customer_count
+        from ( select t.id,t.parent_order_id,
+        SUM(t2.unit_price * t2.count) + t.service_price + t.meal_fee_price as orderTotal,
+        if(t.parent_order_id
+        is null,t.customer_count,0) customer_count
+        from tb_order t
+        INNER JOIN tb_order_item t2 on t2.order_id = t.id
+        where
+        shop_detail_id = #{shopId} and t.order_state in (2,10,11,12,13) and
+        DATE_FORMAT(NOW(),'%d %b %y') = DATE_FORMAT(t.create_time,'%d %b %y')
+        and t.production_status in (2,3,4)
+        GROUP BY t.id
+        ) as r
+    </select>
+
+
+    <select id="getOrderAccount" resultMap="BaseResultMap">
+        select group_concat(id) id,(count(1) - count(parent_order_id)) as orderCount,sum(orderTotal) as orderTotal,
+        sum(customer_count) as customer_count
+		from (select t.id,t.parent_order_id,
+        SUM(toi.final_price) + service_price + meal_fee_price as orderTotal,
+        if(t.parent_order_id
+        is null,t.customer_count,0) customer_count
+        from tb_order t
+        inner join tb_order_item toi
+        on toi.order_id = t.id
+        where
+        shop_detail_id = #{shopId} and  t.order_state in (2,10,11,12,13) and
+        DATE_FORMAT(NOW(),'%d %b %y') = DATE_FORMAT(t.create_time,'%d %b %y')
+        and t.production_status in (2,3,4)
+        GROUP BY t.id
+        ) as r
+    </select>
+
+    <select id="getOrderAccountByTime" parameterType="java.util.Map" resultType="com.resto.shop.web.model.Order">
+        select t.id, SUM(toi.original_price * toi.count) + service_price + meal_fee_price originalAmount,
+        t.parent_order_id parentOrderId,
+        SUM(toi.final_price) + service_price + meal_fee_price orderMoney,
+        SUM((toi.original_price - toi.unit_price) * toi.count) discountMoney,
+        IFNULL(t.customer_count,0) customerCount,
+        t.production_status productionStatus
+        from tb_order t
+        inner join tb_order_item toi
+        on t.id = toi.order_id
+        where
+        shop_detail_id = #{shopId}
+        and IF(t.production_status = 6,t.production_status = 6,t.order_state in (2,10,11,12)
+        and IF(t.is_pos_pay = 1,t.is_pos_pay = 1,t.production_status in (2,3,4)))
+        and t.create_time &gt;= CONCAT(#{beginDate}, ' 00:00:00')
+        and t.create_time &lt;= CONCAT(#{endDate}, ' 23:59:59')
+        GROUP BY t.id
+    </select>
+
+
+
+
+    <select id="selectAppraiseByShopId" resultMap="selectListByshopIdmap">
+        SELECT
+        o.id , o.order_money ,a.level,a.red_money,a.content,a.feedback ,a.create_time,c.telephone  from tb_order o
+        INNER JOIN tb_order_payment_item oi
+        on o.id = oi.order_id
+        LEFT JOIN  tb_appraise a
+        on o.id = a.order_id
+        LEFT JOIN tb_customer c
+        on o.customer_id = c.id
+        WHERE o.order_state in (10,11,12) and o.production_status in (2,3,4)
+        and  <![CDATA[ o.create_time >= #{beginDate} and o.create_time <= #{endDate}]]>
+        and o.shop_detail_id = #{shopId} and a.level in(1,2,3,4,5)
+        GROUP BY o.id
+
+    </select>
+
+
+    <!--根据菜品id查找菜品库存(无规格)-->
+    <select id="selectArticleCount" resultType="java.lang.Integer">
+        select current_working_stock from tb_article
+        where id = #{articleId}
+    </select>
+
+
+    <!--根据菜品id查找菜品库存(有规格)-->
+    <select id="selectArticlePriceCount" resultType="java.lang.Integer">
+        select current_working_stock from tb_article_price
+        where id = #{articleId}
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+    <select id="getPayment" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+        select ifnull(sum(t2.pay_value),0) from tb_order t
+        INNER JOIN tb_order_payment_item t2 on t2.order_id = t.id
+        where t.create_time &gt;= CONCAT(#{beginDate}, ' 00:00:00')
+        and t.create_time &lt;= CONCAT(#{endDate}, ' 23:59:59')
+        and t2.payment_mode_id = #{type}
+        and t.shop_detail_id = #{shopId}
+        and IF(t.is_pos_pay = 1,t.is_pos_pay = 1,t.production_status in (2,3,4))
+        and t.order_state in (2,10,11,12)
+    </select>
+
+
+    <select id="getArticleCount" resultType="java.lang.Integer">
+
+        select IFNULL(SUM(shopSellNum),0) from ( SELECT sum(r.count) as shopSellNum,r.id,r.article_name,r.articleFamilyName FROM(
+        SELECT
+        DISTINCT(t.order_id),
+        LEFT (t.article_id, 32) AS articleId,
+        t.count,
+        t.article_name,
+        t5.id AS articleFamilyId,
+        t5. NAME AS articleFamilyName,
+        t5.peference,
+        t4.sort,
+        t5.id
+
+        FROM
+        tb_order_item t
+        INNER JOIN tb_order t2 ON t2.id = t.order_id
+        INNER JOIN tb_order_payment_item t3 ON t3.order_id = t2.id
+        INNER JOIN tb_article t4 ON t4.id = LEFT (t.article_id, 32)
+        INNER JOIN tb_article_family t5 ON t5.id = t4.article_family_id
+        WHERE
+        t2.production_status in (2,3,4)
+        and
+        DATE_FORMAT(NOW(),'%d %b %y') = DATE_FORMAT(t.create_time,'%d %b %y')   and t2.shop_detail_id= #{shopId}
+        ) as r
+        GROUP BY r.article_name
+        ) as g
+        where g.id = #{familyId}
+        GROUP BY g.articleFamilyName
+
+    </select>
+
+    <select id="getLastOrderBySevenMode" resultType="Order">
+        select * from tb_order where customer_id = #{customerId}
+        and order_mode = 7 and parent_order_id is null
+        order by create_time desc limit 1
+    </select>
+
+    <select id="selectOrderArticle" resultType="com.resto.brand.web.dto.OrderArticleDto">
+        SELECT
+        o.id orderId,
+        o.create_time as orderTime,
+        o.shop_detail_id as shopId,
+        oi.article_id,
+        oi.article_name,
+        oi.count as articleNum,
+        c.telephone
+        FROM
+        tb_order o
+        INNER JOIN tb_order_item oi ON o.id = oi.order_id
+        INNER JOIN tb_customer c ON o.customer_id = c.id
+        WHERE
+        o.order_state IN (2, 10, 11, 12)
+        AND o.production_status in (2,3,4)
+        AND
+        <![CDATA[ o.create_time >= #{beginTime} and o.create_time <= #{endTime}]]>
+        AND o.brand_id = #{brandId}
+    </select>
+
+
+    <select id="selectBrandArticleSellList" resultType="java.util.HashMap">
+        select r.type, r.shop_id, r.article_id, r.article_name,sum(r.count) as salles,r.article_family_name,r.sort,r.order_id,sum(r.final_price) as sell from (	SELECT
+        DISTINCT(t.order_id),
+        LEFT (t.article_id, 32) AS article_id,
+        t2.shop_detail_id AS shop_id,
+        t.count,
+        t.article_name,
+        t5. NAME AS article_family_name,
+        t4.sort,
+        t.type,
+        t.final_price
+        FROM
+        tb_order_item t
+        INNER JOIN tb_order t2 ON t2.id = t.order_id
+        INNER JOIN tb_order_payment_item t3 ON t3.order_id = t2.id
+        INNER JOIN tb_article t4 ON t4.id = LEFT (t.article_id, 32)
+        INNER JOIN tb_article_family t5 ON t5.id = t4.article_family_id
+        WHERE
+        t2.order_state in (2,10,11,12)
+        and t2.production_status in (2,3,4)
+        and
+        <![CDATA[ t2.create_time >= #{beginDate} and t2.create_time <= #{endDate}]]>   and t2.brand_id= #{brandId}
+        ) as r
+        GROUP BY r.article_name
+    </select>
+
+    <select id="selectListByTimeAndBrandId" resultMap="selectOrdersMap">
+        SELECT
+        o.id,
+        o.shop_detail_id,
+        o.create_time,
+        o.distribution_mode_id,
+        o.ver_code,
+        o.order_money,
+        o.order_state,
+        o.production_status,
+        c.telephone,
+        a.level,
+        oi.pay_value,
+        oi.payment_mode_id
+        FROM
+        tb_order o
+        LEFT JOIN tb_customer c ON o.customer_id = c.id
+        LEFT JOIN tb_appraise a ON o.id = a.order_id
+        LEFT JOIN tb_order_payment_item oi on o.id = oi.order_id
+        where
+        <![CDATA[o.create_time >= #{beginDate} and o.create_time <= #{endDate}]]> and o.brand_id=#{brandId}
+    </select>
+
+
+    <select id="selectShopArticleSellList" resultType="java.util.HashMap">
+        select r.articleId as article_id,r.type, r.article_name,sum(r.count) as salles,r.articleFamilyName as article_family_name,r.order_id,sum(r.final_price) as sell,r.shopId as shop_id from (	SELECT
+        DISTINCT(t.order_id),
+        LEFT (t.article_id, 32) AS articleId,
+        t.count,
+        t.article_name,
+        t5.id AS articleFamilyId,
+        t5. NAME AS articleFamilyName,
+        t4.sort,
+        t.type,
+        t.final_price,
+        t2.shop_detail_id as shopId
+        FROM
+        tb_order_item t
+        INNER JOIN tb_order t2 ON t2.id = t.order_id
+        INNER JOIN tb_order_payment_item t3 ON t3.order_id = t2.id
+        INNER JOIN tb_article t4 ON t4.id = LEFT (t.article_id, 32)
+        INNER JOIN tb_article_family t5 ON t5.id = t4.article_family_id
+        WHERE
+        t2.order_state in (2,10,11,12)
+        and t2.production_status in (2,3,4)
+        and
+        <![CDATA[ t2.create_time >= #{beginDate} and  t2.create_time <= #{endDate}]]> and t2.shop_detail_id=#{shopId}
+        ) as r
+        GROUP BY r.article_name
+    </select>
+
+
+    <select id="getTableNumberAll" resultType="Order">
+         select r.* from (select tb_order.id,table_number,article_count,create_time,person_count
+ from tb_order
+left join tb_order_payment_item on tb_order_payment_item.order_id = tb_order.id
+where table_number is not null and table_number != '' and payment_mode_id is not null and tb_order.production_status in (2,3,4)
+and (tb_order.order_mode = 1 or tb_order.table_no != null ) and tb_order.shop_detail_id =  #{shopId}
+GROUP BY tb_order.id
+order by create_time desc ) as r
+GROUP BY r.table_number
+
+
+    </select>
+    <select id="selectOrderPaymentItems" resultType="OrderPaymentItem">
+        select op.id as orderPaymentItem_id,payment_mode_id from tb_order_payment_item op
+        LEFT JOIN tb_order o on o.id = op.order_id
+        where op.order_id = #{orderId}
+    </select>
+
+    <select id="selectOrderItems" resultType="OrderItem">
+        select oi.id as orderItem_id,article_name,article_id from tb_order_item oi
+        LEFT JOIN tb_order o on o.id = oi.order_id
+        where oi.order_id = #{orderId}
+    </select>
+
+
+    <select id="getOrderDetail" resultMap="selectOrderTableNumberMap">
+        select id,distribution_mode_id,order_money,payment_amount from tb_order where id = #{orderId}
+    </select>
+
+
+    <resultMap id="getOrderItemList" type="Order">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="original_amount" property="originalAmount"/>
+        <result column="payment_amount" property="paymentAmount"/>
+        <result column="order_money" property="orderMoney"/>
+        <result column="payment_amount" property="paymentAmount"/>
+        <result column="amount_with_children" property="amountWithChildren"/>
+        <result column="parent_order_id" property="parentOrderId"/>
+        <result column="service_price" property="servicePrice"/>
+        <collection property="orderItems" javaType="List" ofType="orderItem">
+            <id column="orderItemId" property="id"/>
+            <result column="final_price" property="finalPrice"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="EmployeeResultMap" type="Order">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="tableNumber" property="tableNumber"/>
+        <result column="article_count" property="articleCount"/>
+        <result column="order_state" property="orderState"/>
+        <result column="create_time" property="createTime"/>
+        <result column="payment_amount" property="paymentAmount"/>
+        <result column="order_money" property="orderMoney"/>
+        <result column="person_count" property="personCount"/>
+        <result column="pay_mode" property="paymentModeId"/>
+        <result column="customer_count" property="customerCount"/>
+        <result column="order_money" property="orderMoney"/>
+        <result column="original_amount" property="originalAmount"/>
+
+        <collection property="orderItems" javaType="List" ofType="orderItem">
+            <id column="orderItem_id" property="id"/>
+            <result column="article_name" property="articleName" jdbcType="VARCHAR"/>
+            <result column="article_id" property="articleId" jdbcType="VARCHAR"/>
+        </collection>
+
+        <collection property="orderPaymentItems" javaType="List" ofType="orderPaymentItem">
+            <id column="orderPaymentItem_id" property="id"/>
+            <result column="pay_value" property="payValue"/>
+            <result column="payment_mode_id" property="paymentModeId"/>
+        </collection>
+
+    </resultMap>
+
+    <select id="getOrderByEmployee" resultMap="EmployeeResultMap">
+        select t.id,ifnull(t.table_no,t.table_number) as tableNumber,t.article_count,t.order_state,
+        t.create_time,t.payment_amount,t.order_money,t3.id as orderPaymentItem_id,
+        t3.payment_mode_id,t2.article_id,t2.article_name,t2.id as orderItem_id
+        ,t.person_count,t.pay_mode,t.customer_count,t.order_money,t.original_amount from tb_order t
+        left join tb_order_item t2 on t2.order_id = t.id
+        left join tb_order_payment_item t3 on t3.order_id = t.id
+        where DATE_FORMAT(NOW(),'%d %b %y') = DATE_FORMAT(t.create_time,'%d %b %y')
+        and t.employee_id = #{employeeId} and t.shop_detail_id = #{shopId}
+
+    </select>
+
+    <!-- 根据订单状态和生产状态查询指定店铺的订单   不包含包含外卖订单-->
+    <select id="selectByOrderSatesAndProductionStates" resultType="Order">
+        SELECT tb_order.*,
+        ifnull(count_with_child,article_count) as
+        totalCount
+        from tb_order where shop_detail_id = #{shopId}
+        <if test="orderStates != null and orderStates != '' ">
+            and ORDER_STATE in
+            <foreach collection="orderStates" item="state" open="("
+                     separator="," close=")">
+                #{state}
+            </foreach>
+        </if>
+        <if test="productionStates != null and productionStates != '' ">
+            and production_status in
+            <foreach collection="productionStates" item="state" open="("
+                     separator="," close=")">
+                #{state}
+            </foreach>
+        </if>
+        and DATE_FORMAT(NOW(),'%d %b %y') = DATE_FORMAT(create_time,'%d %b %y')
+        and distribution_mode_id!=2
+        ORDER BY create_time ASC
+    </select>
+
+    <!-- 根据订单状态和生产状态查询指定店铺的订单   包含外卖订单-->
+    <select id="selectByOrderSatesAndProductionStatesTakeout" resultType="Order">
+        SELECT tb_order.*,
+        ifnull(count_with_child,article_count) as
+        totalCount
+        from tb_order where shop_detail_id = #{shopId}
+        <if test="orderStates != null and orderStates != '' ">
+            and ORDER_STATE in
+            <foreach collection="orderStates" item="state" open="("
+                     separator="," close=")">
+                #{state}
+            </foreach>
+        </if>
+        <if test="productionStates != null and productionStates != '' ">
+            and production_status in
+            <foreach collection="productionStates" item="state" open="("
+                     separator="," close=")">
+                #{state}
+            </foreach>
+        </if>
+        and DATE_FORMAT(NOW(),'%d %b %y') = DATE_FORMAT(create_time,'%d %b %y')
+        and order_state!=1
+        and distribution_mode_id=2
+        ORDER BY create_time ASC
+    </select>
+
+
+    <select id="getOrderNoPayList" resultType="Order">
+        select * from tb_order
+        WHERE
+        shop_detail_id=#{shopId}
+        AND
+        <![CDATA[ create_time >#{dateBegin} AND create_time  <#{dateEnd}]]>
+        and order_state = 1 and production_status != 5
+        and table_number is not null
+        order by create_time DESC;
+
+    </select>
+
+    <select id="getLastOrderByCustomer" resultType="Order">
+        select * from tb_order where customer_id = #{customerId}
+        and shop_detail_id = #{shopId}
+        and ((order_mode = 5 and order_state = 1  and #{time} > now() - create_time)
+        or (order_mode != 5 and order_mode != 6 and #{time} > now() - create_time)
+        or(order_mode = 6 and #{time} > now() - create_time))
+        and table_number is not null
+        and allow_continue_order = 1
+        and production_status != 6
+        and order_state != 9
+        <if test="tableNumber != null and tableNumber != '' ">
+            and table_number = #{tableNumber}
+        </if>
+        order by create_time desc limit 1
+    </select>
+
+    <!--判断是否加菜元代码-->
+    <!--<select id="getLastOrderByCustomer" resultType="Order">-->
+        <!--select * from tb_order where customer_id = #{customerId}-->
+        <!--and shop_detail_id = #{shopId}-->
+        <!--and ((order_mode = 5 and order_state = 1  and #{time} > now() - create_time)-->
+        <!--or (order_mode != 5 and order_mode != 6 and #{time} > now() - create_time)-->
+        <!--or(order_mode = 6 and #{time} > now() - create_time))-->
+        <!--and table_number is not null-->
+        <!--and allow_continue_order = 1-->
+        <!--and production_status != 6-->
+        <!--and order_state != 9-->
+        <!--<if test="tableNumber != null and tableNumber != '' ">-->
+            <!--and table_number = #{tableNumber}-->
+        <!--</if>-->
+        <!--order by create_time desc limit 1-->
+    <!--</select>-->
+
+    <select id="getGroupOrderByGroupId" resultType="Order">
+        select * from tb_order where group_id = #{groupId}
+        and table_number is not null and  allow_continue_order = 1
+        and (parent_order_id is null or parent_order_id = '')
+        and production_status != 6
+        order by create_time desc limit 1
+    </select>
+
+
+    <select id="selectExceptionOrderListBybrandId" resultType="Order">
+        SELECT  o.id FROM tb_order o
+INNER JOIN tb_order_payment_item oi
+on o.id = oi.order_id
+        WHERE
+        o.brand_id=#{brandId}
+        AND
+        <![CDATA[o. create_time >#{beginDate} AND o.create_time  <#{endDate}]]>
+        AND o.order_state IN(2,10,11,12) AND o.production_status NOT  in (2,3,4)
+    </select>
+
+    <select id="selectHasPayListOrderByBrandId" resultType="Order">
+        SELECT id,order_money from tb_order
+        WHERE
+        brand_id=#{brandId}
+        AND
+        <![CDATA[ create_time >#{beginDate} AND create_time  <#{endDate}]]>
+        and order_state in(2,10,11,12) and production_status in (2,3,4)
+    </select>
+
+
+    <!--查询所有异常订单 -->
+    <select id="selectHasPayOrderPayMentItemListBybrandId" resultMap="consumedOrderByshopId">
+        SELECT
+        o.id ,
+        o.order_mode,
+        o.order_money ,
+        o.amount_with_children,
+        o.order_mode,
+        o.pay_type,
+        oi.id as orderPaymentItemId,
+        oi.pay_value,
+        oi.payment_mode_id
+        from tb_order o
+        INNER JOIN tb_order_payment_item oi
+        on o.id = oi.order_id
+        WHERE  o.brand_id = #{brandId} and o.order_state in(2,10,11,12) AND oi.payment_mode_id not in (13,14,15,20,21)
+        and  <![CDATA[ o.create_time >= #{beginDate} and o.create_time <= #{endDate}
+        ]]>
+    </select>
+
+    <select id="selectNeedCacelOrderList" resultType="Order">
+        SELECT
+        o.id , o.order_state,o.order_money ,oi.pay_value,oi.payment_mode_id  from tb_order o
+        INNER JOIN tb_order_payment_item oi
+        on o.id = oi.order_id
+        WHERE  o.brand_id = #{brandId} and o.order_state =1 AND o.production_status=0
+        and  <![CDATA[ o.create_time >= #{begin} and o.create_time <= #{end}
+        ]]>
+    </select>
+
+    <select id="getLastOrderByTableNumber" resultType="Order">
+        select * from tb_order where table_number = #{tableNumber} and order_state = 1
+          and shop_detail_id = #{shopId}
+         and
+         DATE_FORMAT(NOW(),'%d %b %y') = DATE_FORMAT(create_time,'%d %b %y')
+         and (parent_order_id is null or parent_order_id = '')
+         order by create_time desc limit 1
+    </select>
+
+    <select id="selectOrderByTableNumberNoPay" resultType="Order">
+        select * from tb_order where table_number = #{tableNumber} and order_state = 1
+        and shop_detail_id = #{shopId} and DATE_FORMAT(NOW(),'%d %b %y') = DATE_FORMAT(create_time,'%d %b %y')
+        and (parent_order_id is null or parent_order_id = '')
+        order by create_time desc limit 1
+    </select>
+
+    <select id="selectOrderListItemByBrandId" resultMap="getOrderItemList">
+        SELECT
+	o.id,
+	o.original_amount,
+	o.payment_amount,
+	o.order_money,
+	o.amount_with_children,
+	o.parent_order_id,
+	o.service_price,
+	oi.id as orderItemId,
+	oi.final_price
+FROM
+	tb_order o
+INNER JOIN tb_order_item oi ON o.id = oi.order_id
+WHERE
+	o.order_state IN (2, 10, 11, 12)
+AND o.production_status in (2,3,4)
+    and  <![CDATA[ o.create_time >= #{beginDate} and o.create_time <= #{endDate}]]>
+        AND  o.brand_id = #{brandId}
+    </select>
+
+
+    <select id="getServicePrice" resultType="java.math.BigDecimal">
+        select sum(customer_count) from tb_order where shop_detail_id = #{shopId}
+        and   DATE_FORMAT(NOW(),'%d %b %y') = DATE_FORMAT(create_time,'%d %b %y')
+        and (parent_order_id is null or parent_order_id = '')
+        and order_state in (2,10,11,12) and production_status in (2,3,4)
+    </select>
+    <update id="refundServicePrice">
+        update tb_order
+        set service_price = #{servicePrice},
+        customer_count = #{customerCount}
+        where id = #{id}
+    </update>
+
+    <select id="getMealALLNumber" resultType="java.lang.Integer">
+        select sum(meal_all_number) from tb_order where shop_detail_id = #{shopId}
+        and   DATE_FORMAT(NOW(),'%d %b %y') = DATE_FORMAT(create_time,'%d %b %y')
+        and order_state in (2,10,11,12) and production_status in (2,3,4)
+    </select>
+
+    <select id="getCustomerPerson" resultType="java.lang.Integer">
+        select sum(customer_count) from tb_order where shop_detail_id = #{shopId}
+        and   DATE_FORMAT(NOW(),'%d %b %y') = DATE_FORMAT(create_time,'%d %b %y')
+        and order_state in (2,10,11,12) and production_status in (2,3,4)
+    </select>
+
+    <select id="getRefundSumByOrderId" resultType="java.math.BigDecimal">
+        select sum(pay_value) from tb_order_payment_item
+        where order_id = #{orderId} and payment_mode_id = #{type}
+        and 0 > pay_value
+    </select>
+    <select id="selectWXOrderItems" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select tod.serial_number,tod.order_state,tod.production_status,push_order_time,
+        print_order_time,call_number_time,order_money,topi.id orderPaymentId,topi.pay_value,topi.payment_mode_id,
+        toi.article_name,(toi.orgin_count - toi.refund_count) count
+        from tb_order tod
+        inner join tb_order_payment_item topi on tod.id = topi.order_id
+        inner join tb_order_item toi on tod.id = toi.order_id
+        <where>
+            <if test="serialNumber != null">
+                tod.serial_number = #{serialNumber}
+            </if>
+            <if test="orderId != null">
+                tod.id = #{orderId}
+            </if>
+        </where>
+    </select>
+
+    <!-- 一个用户有很多订单 -->
+    <select id="getCustomerOrderList" resultMap="CustomerOrderListmap">
+
+        SELECT
+        o.id,o.shop_detail_id,o.create_time,o.order_state,o.order_money,o.production_status,c.id customer_id
+        ,c.telephone, a.id appraise_id, a.level, a.content,oi.id orderPaymentItem_id , oi.payment_mode_id , oi.pay_value
+        FROM
+        tb_customer c
+        INNER JOIN tb_order o ON c.id = o.customer_id
+        LEFT JOIN tb_appraise a on a.order_id = o.id
+        LEFT JOIN tb_order_payment_item oi ON o.id = oi.order_id
+        WHERE c.id =#{customerId}
+        <if test="beginDate != null and beginDate != ''">
+            and <![CDATA[ o.create_time >= #{ beginDate } ]]>
+        </if>
+        <if test="endDate != null and endDate != ''">
+            and <![CDATA[ o.create_time <= #{ endDate } ]]>
+        </if>
+
+
+    </select>
+
+    <select id="getAliPayment" resultType="java.math.BigDecimal">
+        select pay_value from tb_order_payment_item where order_id = #{orderId}
+        and pay_value > 0 and payment_mode_id = 10
+    </select>
+
+    <select id="selectByCustomerCount" resultType="java.lang.Integer">
+        select count(1) from tb_order where customer_id = #{customerId}
+        and (parent_order_id is null or parent_order_id = '')
+        and order_state in (2,10,11) and production_status in (2,3,4)
+        <!--<if test="consumeConfineTime != null and consumeConfineTime !=0">-->
+            <!--and #{consumeConfineTime} > TIMESTAMPDIFF(day,create_time,now())-->
+        <!--</if>-->
+    </select>
+
+    <!-- 每日短信报表数据 -->
+    <select id="selectListsmsByShopId" resultMap="everdayReport">
+    SELECT
+	o.id,
+	o.order_mode,
+	o.pay_type,
+	o.order_state,
+	o.production_status,
+	o.order_money,
+	o.shop_detail_id,
+	o.parent_order_id,
+	o.count_with_child,
+	o.amount_with_children,
+	o.order_mode,
+	o.create_time,
+	oi.id orderPaymentId,
+	oi.payment_mode_id,
+	oi.pay_value,
+	o.customer_id,
+	c.nickname,
+	c.regiest_time,
+	c.share_customer,
+	c.is_share
+FROM
+	tb_order o
+INNER JOIN tb_order_payment_item oi ON o.id = oi.order_id
+LEFT JOIN tb_customer c ON c.id = o.customer_id
+WHERE  o.shop_detail_id =#{shopId}
+and  <![CDATA[ o.create_time >= #{beginDate} and o.create_time <= #{endDate}]]>
+    AND  o.order_state in(2,10,11,12) AND  o.production_status in (2,3,4) ANd o.parent_order_id is null
+</select>
+
+
+    <!-- 每日短信报表数据 用户总数 -->
+    <select id="selectOrderHistoryList" resultMap="selectOrderHistoryListMap">
+        SELECT
+        o.id,
+        o.order_state,
+        o.production_status,
+        o.order_money,
+        o.shop_detail_id,
+        o.parent_order_id,
+        o.count_with_child,
+        o.order_mode,
+        o.customer_id,
+        o.create_time,
+        oi.id orderPaymentId,
+        oi.payment_mode_id,
+        oi.pay_value,
+        c.id customerId,
+        c.regiest_time,
+        c.is_share,
+        c.share_customer
+        FROM
+        tb_order o
+        INNER JOIN tb_order_payment_item oi ON o.id = oi.order_id
+        LEFT JOIN tb_customer c ON c.id = o.customer_id
+        WHERE  o.shop_detail_id =#{shopId}
+        and  <![CDATA[ o.create_time <= #{endDate} ]]>
+        AND  o.order_state in(2,10,11,12) AND  o.production_status in (2,3,4)
+        and o.parent_order_id is NULL
+    </select>
+
+    <!-- 每日短信报表数据 用户总数 -->
+    <select id="selectHasPayNoChangeStatus" resultType="Order">
+        SELECT
+        o.id,
+        o.production_status,
+        o.order_mode
+        FROM
+        tb_order o
+        INNER JOIN tb_order_payment_item oi ON o.id = oi.order_id
+        WHERE  o.shop_detail_id =#{shopId}
+        and  <![CDATA[ o.create_time <= #{endDate} ]]>
+        AND  o.order_state in(2,10,11,12) AND  o.production_status not in (2,3,4)
+    </select>
+    <select id="selectOrderByOrderIds" parameterType="java.util.Map" resultType="com.resto.shop.web.model.Order">
+        select * from tb_order where id in
+        <foreach collection="orderIds" item="orderId" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </select>
+
+
+    <select id="checkTableNumber" resultType="java.lang.Integer">
+        select count(1) from tb_order
+        where shop_detail_id = #{shopId}
+        and table_number = #{tableNumber}
+        and pay_type = 1 and order_state = 1
+        and (parent_order_id is null or parent_order_id = '')
+        and pay_type = 1
+        and #{closeContinueTime} > TIMESTAMPDIFF(SECOND,create_time,now())
+        and customer_id != #{customerId}
+    </select>
+
+    <update id="confirmOrderPos">
+        update tb_order
+        set is_confirm = 1,
+        order_state = 2,
+        allow_continue_order = 1
+        where id =  #{orderId}
+    </update>
+
+    <select id="selectHasPayNoChangeStatusByBrandId" resultType="Order">
+        SELECT
+        o.id,
+        o.production_status,
+        o.order_mode
+        FROM
+        tb_order o
+        INNER JOIN tb_order_payment_item oi ON o.id = oi.order_id
+        WHERE  o.brand_id =#{brandId}
+        and  <![CDATA[ o.create_time <= #{endDate} ]]>
+        AND  o.order_state in(2,10,11,12) AND  o.production_status not in (2,3,4)
+    </select>
+
+    <!--2017-01-21 查询品牌分数-->
+
+    <select id="selectAppraiseBybrandId" resultType="Double">
+    SELECT
+    IFNULL(sum(level*20)/COUNT(*),0)
+FROM
+	tb_order o
+INNER JOIN tb_appraise a ON o.id = a.order_id
+WHERE
+	o.order_state IN (2, 10, 11, 12)
+AND o.production_status in (2,3,4)
+AND o.brand_id = #{brandId}
+ and  <![CDATA[ o.create_time <= #{endDate} and o.create_time>=#{beginDate}
+        ]]>
+    </select>
+
+    <!--2017-01-21 查询店铺订单总额-->
+
+    <select id="selectOrderMoneyByShopIdAndTime" resultType="BigDecimal">
+    SELECT IFNULL(sum(b.order_money),0) FROM
+    (SELECT
+    DISTINCT(o.id),
+    if(o.order_mode = 5 and o.amount_with_children>0,o.amount_with_children,o.order_money)order_money
+    FROM
+    tb_order o
+    INNER JOIN tb_order_payment_item oi ON o.id = oi.order_id
+    WHERE
+    o.shop_detail_id = #{shopId} AND
+    o.order_state IN (2,10, 11, 12) AND  o.production_status in (2,3,4) AND
+    <![CDATA[ o.create_time <= #{endDate} and o.create_time>=#{beginDate} ]]> )as b
+</select>
+
+    <!-- 查询店铺分数 -->
+    <select id="selectAppraiseSumByShopId" resultType="Double">
+        SELECT
+        IFNULL(sum(level*20)/COUNT(*),0)
+    FROM
+    tb_order o
+    INNER JOIN tb_appraise a ON o.id = a.order_id
+    WHERE
+    o.order_state IN (2, 10, 11, 12)
+    AND o.production_status in (2,3,4)
+    AND o.shop_detail_id = #{shopId}
+    and  <![CDATA[ o.create_time <= #{endDate} and o.create_time>=#{beginDate}
+        ]]>
+    </select>
+
+    <select id="selectPayBefore" resultType="java.math.BigDecimal">
+    select IFNULL(sum(pay_value), 0) from tb_order_payment_item
+    where order_id = #{orderId} and payment_mode_id not in (13,14,15,20,21)
+</select>
+
+    <select id="getPayHoufu" resultType="java.math.BigDecimal">
+        select sum(pay_value) from tb_order_payment_item
+        where order_id = #{orderId} and payment_mode_id in (2,3,4)
+    </select>
+
+
+    <select id="getTodayFinishOrder" resultType="Order">
+        select * from tb_order where shop_detail_id = #{shopId}
+        and order_state in (2,10,11,12,13) and production_status in (2,3,4)
+        and  <![CDATA[ create_time <= #{endDate} and create_time>=#{beginDate}
+        ]]>
+        order by create_time asc
+    </select>
+
+    <select id="selectListByShopIdAndTime" resultType="com.resto.shop.web.model.OrderItem">
+SELECT
+	o.shop_detail_id shopId,
+	oi.article_name,
+	sum(oi.count)count,
+	sum(oi.unit_price)unit_price,
+	sum(oi.refund_count)refund_count,
+	IFNULL(c.telephone,'--')
+FROM
+	tb_order o
+INNER JOIN tb_order_item oi ON o.id = oi.order_id
+INNER JOIN tb_customer c on  c.id = o.customer_id
+WHERE o.order_state in(2,10,11,12) AND o.production_status in (2,3,4)
+AND  o.shop_detail_id = #{shopId} AND
+<![CDATA[ o.create_time >= #{beginTime} and o.create_time<=#{endTime}
+        ]]>
+GROUP BY oi.article_name
+
+    </select>
+
+
+    <select id="selectCustomerListByShopIdAndTime" resultType="com.resto.shop.web.model.OrderItem">
+        SELECT
+        o.shop_detail_id shopId,
+        oi.article_name,
+        sum(oi.count)count,
+        sum(oi.unit_price)unit_price,
+        sum(oi.refund_count)refund_count,
+        IFNULL(c.telephone,'--')
+        FROM
+        tb_order o
+        INNER JOIN tb_order_item oi ON o.id = oi.order_id
+        INNER JOIN tb_customer c on  c.id = o.customer_id
+        WHERE o.order_state in(2,10,11,12) AND o.production_status in (2,3,4)
+        AND oi.refund_count>0
+        AND  o.shop_detail_id = #{shopId} AND
+        <![CDATA[ o.create_time >= #{beginTime} and o.create_time<=#{endTime}
+        ]]>
+        GROUP BY c.telephone
+    </select>
+
+    <select id="selectNewCustomerOrderByShopIdAndTime" resultMap="NewCustomerOrderByShopIdAndTimeMap">
+        SELECT
+        o.id,
+        o.order_mode,
+        o.pay_type,
+        o.customer_id,
+        c.share_customer,
+        o.order_money,
+        o.amount_with_children,
+        oi.payment_mode_id
+        FROM
+        tb_order o
+        INNER JOIN tb_order_payment_item oi
+        ON o.id = oi.order_id
+        LEFT JOIN tb_customer c
+        ON o.customer_id = c.id
+        WHERE
+        o.order_state IN (2, 10, 11, 12)
+        AND o.production_status in (2,3,4)
+        AND o.shop_detail_id = #{shopId}
+        AND o.parent_order_id is null
+        <![CDATA[
+          AND o.create_time>#{beginDate}
+           AND o.create_time < #{endDate}
+         ]]>
+        AND o.customer_id NOT IN (
+        SELECT
+        customer_id
+        FROM
+        tb_order
+        WHERE
+        order_state IN (2, 10, 11, 12)
+        AND production_status in (2,3,4)
+        AND shop_detail_id = #{shopId}
+        AND
+        <![CDATA[
+           create_time<#{beginDate}
+        ]]>
+        )
+    </select>
+
+    <select id="selectBackCustomerByShopIdAndTime" resultType="com.resto.brand.web.dto.BackCustomerDto">
+        SELECT
+        o.customer_id,
+        COUNT(*)num
+        FROM
+        tb_order o
+        WHERE
+        o.order_state IN (2, 10, 11, 12)
+        AND o.production_status in (2,3,4)
+        AND
+        <![CDATA[
+        o.create_time <#{beginDate}
+       ]]>
+        AND o.shop_detail_id = #{shopId}
+        AND o.customer_id in (
+        SELECT customer_id FROM tb_order
+        WHERE order_state in(2,10,11,12)
+        AND production_status in (2,3,4)
+        AND
+        <![CDATA[
+            create_time>#{beginDate} AND create_time<#{endDate}
+        ]]>
+        AND shop_detail_id=#{shopId}
+        )
+        GROUP BY customer_id
+    </select>
+
+    <select id="selectCompleteByShopIdAndTime" resultMap="CompleteByShopIdAndTimeMap">
+        SELECT
+           o.id,
+           o.order_mode,
+           o.pay_type,
+           o.print_order_time,
+           o.customer_id,
+           o.order_money,
+           o.parent_order_id,
+           o.create_time,
+           o.amount_with_children,
+           (o.order_pos_discount_money + o.reduce_money) orderPosDiscountMoney,
+           o.member_discount_money memberDiscountMoney,
+           o.real_erase_money realEraseMoney,
+           o.exemption_money exemptionMoney,
+           oi.id orderPaymentItem_id,
+           oi.payment_mode_id,
+           o.grant_money,
+           oi.pay_value
+        FROM tb_order o
+        INNER JOIN tb_order_payment_item oi
+          on o.id = oi.order_id
+        WHERE o.order_state IN (2, 10, 11, 12)
+        AND o.production_status in (2,3,4)
+        AND o.shop_detail_id = #{shopId}
+        AND o.parent_order_id is null
+        AND
+        <![CDATA[
+          o.create_time > #{beginDate}
+        AND o.create_time < #{endDate}
+        ]]>
+    </select>
+
+    <select id="selectByOrderSatesAndNoPay" resultType="Order">
+        SELECT tb_order.*,
+        ifnull(count_with_child,article_count) as
+        totalCount
+        from tb_order where shop_detail_id = #{shopId}
+--         and DATE_FORMAT(NOW(),'%d %b %y') = DATE_FORMAT(create_time,'%d %b %y')
+        and order_state = 1 and pay_type = 0 and if(pay_type = 1,pay_mode in (2,3,4,5,6),pay_mode in (3,4,5,6)) and parent_order_id is not null
+        and parent_order_id != ''
+        ORDER BY create_time ASC
+    </select>
+
+    <!-- 2017-03-17 yz -->
+    <!-- 查询订单 -订单菜品 订单支付项 用于第三方接口 -->
+    <select id="selectBaseToThirdList" resultMap="BaseResultMap">
+      SELECT
+	o.id,
+	o.order_state,
+	o.create_time,
+	o.print_order_time,
+	o.push_order_time,
+	o.shop_detail_id,
+	o.table_number,
+	o.serial_number,
+	oi.original_price,
+    oi.id orderItemId,
+	oi.type,
+	oi.article_id,
+	oi.article_name,
+	oi.count,
+	oi.unit_price,
+	oi.refund_count,
+	oi.orgin_count,
+	opi.id orderPaymentId,
+	opi.pay_value,
+	opi.payment_mode_id
+FROM
+	tb_order o
+INNER JOIN tb_order_item oi ON o.id = oi.order_id
+INNER JOIN tb_order_payment_item opi on opi.order_id=o.id
+WHERE  o.order_state in(2,10,11,12) AND
+opi.payment_mode_id not in (13,14,15,20,21) AND
+o.production_status in(2,3,6)
+AND  <![CDATA[
+o.create_time>#{beginDate} AND  o.create_time<#{endDate}
+]]> AND  o.brand_id =#{brandId}
+
+    </select>
+
+    <select id="selectBaseToThirdListByShopId" resultMap="BaseResultMap">
+          SELECT
+	o.id,
+	o.order_state,
+	o.create_time,
+	o.push_order_time,
+	o.shop_detail_id,
+	o.table_number,
+	o.serial_number,
+	oi.original_price,
+    oi.id orderItemId,
+	oi.type,
+	oi.unit_price,
+	oi.refund_count,
+	oi.orgin_count,
+	oi.article_id,
+	oi.article_name,
+	oi.count,
+	opi.id orderPaymentId,
+	opi.pay_value,
+	opi.payment_mode_id
+FROM
+	tb_order o
+INNER JOIN tb_order_item oi ON o.id = oi.order_id
+INNER JOIN tb_order_payment_item opi on opi.order_id=o.id
+WHERE  o.order_state in(2,10,11,12) AND
+opi.payment_mode_id not in (13,14,15,20,21) AND
+o.production_status in(2,3,6)
+AND  <![CDATA[
+o.create_time>#{beginDate} AND  o.create_time<#{endDate}
+]]> AND  o.shop_detail_id =#{shopId}
+    </select>
+
+    <select id="selectBaseToKCList" resultMap="BaseResultMap">
+        SELECT
+        o.id,
+        o.shop_detail_id,
+        o.order_state,
+        o.create_time,
+        o.parent_order_id,
+        oi.id order_payment_id,
+        oi.pay_time,
+        oi.payment_mode_id,
+        oi.pay_value,
+        oi.result_data
+        FROM
+        tb_order o
+        RIGHT  JOIN tb_order_payment_item oi ON o.id = oi.order_id
+        WHERE
+        o.order_state IN (2, 10, 11, 12)
+        AND o.production_status IN (2, 3,6)
+        AND oi.payment_mode_id IN (1,6,10)
+        AND <![CDATA[
+         oi.pay_time>#{beginDate} AND  oi.pay_time<#{endDate}
+       ]]>
+        AND  o.brand_id=#{brandId}
+    </select>
+
+    <select id="selectBaseToKCListByShopId" resultMap="BaseResultMap">
+      SELECT
+        o.id,
+        o.amount_with_children,
+        o.order_money,
+        o.production_status,
+        o.shop_detail_id,
+        o.order_state,
+        o.create_time,
+        o.parent_order_id,
+        o.pay_mode,
+        oi.id order_payment_id,
+        oi.pay_time,
+        oi.payment_mode_id,
+        oi.pay_value,
+        oi.result_data
+        FROM
+        tb_order o
+        RIGHT  JOIN tb_order_payment_item oi ON o.id = oi.order_id
+        WHERE
+        o.order_state IN (2, 10, 11, 12)
+        AND o.production_status IN (2, 3,6)
+        AND oi.payment_mode_id IN (1,6,10)
+        AND <![CDATA[
+         oi.pay_time>#{beginDate} AND  oi.pay_time<#{endDate}
+       ]]> AND o.shop_detail_id =#{shopId}
+    </select>
+
+    <select id="selectMonthIncomeDto" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select td.id,td.create_time,td.original_amount,td.order_money,top.id order_payment_id,top.payment_mode_id,top.pay_value from tb_order td
+        left join tb_order_payment_item top
+        on td.id = top.order_id
+        where IF(td.production_status = 6, td.production_status = 6
+        , td.order_state in (2,10,11,12) and IF(td.is_pos_pay = 1,td.is_pos_pay = 1,td.production_status in (2,3,4)))
+        and td.create_time &gt;= CONCAT(#{beginDate},' 00:00:00')
+        and td.create_time &lt;= CONCAT(#{endDate},' 23:59:59')
+        <if test="shopId != null">
+            and td.shop_detail_id = #{shopId}
+        </if>
+        ORDER BY td.create_time ASC
+    </select>
+
+    <update id="colseOrder">
+        update tb_order set order_state = 9 where id=#{orderId}
+    </update>
+
+    <select id="customerByOrderForMyPage" resultMap="BaseResultMap">
+        select * from tb_order where customer_id = #{customerId} and shop_detail_id = #{shopId} and
+        if(order_state = 1,order_state = 1 and (43200 >= (now() - create_time)),order_state = 10 and allow_appraise = 1) order by order_state , create_time desc limit 0,1;
+    </select>
+
+
+    <select id="selectErrorOrder" resultType="Order">
+        SELECT
+        push_order_time,
+        id,
+        serial_number,
+        ver_code,
+        article_count,
+        table_number,
+        order_money,
+        shop_detail_id
+        FROM
+        tb_order
+        WHERE
+        <![CDATA[ create_time >= #{dateBegin} AND create_time <= #{dateEnd}]]>
+        and( (production_status = 5 and order_state != 9 and print_times = 0) or
+        (production_status = 1 and order_state != 9 and pay_mode != 2 and print_times = 0 and now() - push_order_time > 40  )
+        or (production_status = 1 and order_state not in (1,9) and pay_mode = 2 and print_times = 0 and now() - push_order_time > 90  )
+        or (production_status = 0 and order_state = 1 and order_mode = 6 and pay_type = 1 and print_times = 0 and now() - create_time > 120 )
+        or (production_status = 0 and order_state = 2 and print_times = 0 and now() - create_time > 40 )
+        or (production_status = 1 and order_state = 10 and print_times = 0 and now() - create_time > 40 )
+        )
+        and order_mode != 3
+        order by push_order_time DESC;
+    </select>
+
+    <update id="fixAllowContinueOrder">
+        update tb_order
+        set allow_continue_order = 0
+        where now() > create_time
+    </update>
+
+    <select id="getAllowAppraise" resultType="Order">
+        select * from tb_order where order_state = 2  and production_status in (2,3,4)
+        and create_time >= '2017-06-29'
+    </select>
+
+	<!-- yz 2017/07/28 -->
+	<select id="selectNewCustomerOrderByBrandIdAndTime" resultMap="NewCustomerOrderByShopIdAndTimeMap">
+		 SELECT
+        o.id,
+        o.order_mode,
+        o.pay_type,
+        o.customer_id,
+        c.share_customer,
+        o.order_money,
+        o.amount_with_children,
+        oi.payment_mode_id
+        FROM
+        tb_order o
+        INNER JOIN tb_order_payment_item oi
+        ON o.id = oi.order_id
+        LEFT JOIN tb_customer c
+        ON o.customer_id = c.id
+        WHERE
+        o.order_state IN (2, 10, 11, 12)
+        AND o.production_status in (2,3,4)
+        AND o.brand_id = #{brandId}
+        <![CDATA[
+          AND o.create_time>#{beginDate}
+           AND o.create_time < #{endDate}
+         ]]>
+        AND o.customer_id NOT IN (
+        SELECT
+        customer_id
+        FROM
+        tb_order
+        WHERE
+        order_state IN (2, 10, 11, 12)
+        AND production_status in (2,3,4)
+        AND brand_id = #{brandId}
+        AND
+        <![CDATA[
+           create_time<#{beginDate}
+        ]]>
+        )
+
+	</select>
+
+	<select id="selectBackCustomerByBrandIdAndTime" resultType="com.resto.brand.web.dto.BackCustomerDto">
+			SELECT
+			o.customer_id,
+			COUNT(*)num
+			FROM
+			tb_order o
+			WHERE
+			o.order_state IN (2, 10, 11, 12)
+			AND o.production_status in (2,3,4)
+			AND
+			<![CDATA[
+        o.create_time <#{beginDate}
+       ]]>
+			AND o.brand_id = #{brandId}
+			AND o.customer_id in (
+			SELECT customer_id FROM tb_order
+			WHERE order_state in(2,10,11,12)
+			AND production_status in (2,3,4)
+			AND
+			<![CDATA[
+            create_time>#{beginDate} AND create_time<#{endDate}
+        ]]>
+			AND brand_id=#{brandId}
+			)
+			GROUP BY customer_id
+
+	</select>
+
+	<select id="selectCompleteByBrandIdAndTime" resultMap="CompleteByShopIdAndTimeMap">
+		SELECT
+        o.id,
+        o.order_mode,
+        o.pay_type,
+        o.print_order_time,
+        o.customer_id,
+        o.order_money,
+        o.create_time,
+        o.amount_with_children,
+        oi.id orderPaymentItem_id,
+        oi.payment_mode_id
+        FROM tb_order o
+        INNER JOIN tb_order_payment_item oi
+        on o.id = oi.order_id
+        WHERE o.order_state IN (2, 10, 11, 12)
+        AND o.production_status in (2,3,4)
+        AND o.brand_id = #{brandId}
+        AND
+        <![CDATA[
+          o.create_time > #{beginDate}
+        AND o.create_time < #{endDate}
+        ]]>
+
+
+	</select>
+
+	<select id="selectListsmsByBrandId" resultMap="everdayReport">
+			SELECT
+			o.id,
+			o.order_mode,
+			o.pay_type,
+			o.order_state,
+			o.production_status,
+			o.order_money,
+			o.shop_detail_id,
+			o.parent_order_id,
+			o.count_with_child,
+			o.amount_with_children,
+			o.order_mode,
+			o.create_time,
+			oi.id orderPaymentId,
+			oi.payment_mode_id,
+			oi.pay_value,
+			o.customer_id,
+			c.nickname,
+			c.regiest_time,
+			c.share_customer,
+			c.is_share
+			FROM
+			tb_order o
+			INNER JOIN tb_order_payment_item oi ON o.id = oi.order_id
+			LEFT JOIN tb_customer c ON c.id = o.customer_id
+			WHERE  o.brand_id =#{brandId}
+			and  <![CDATA[ o.create_time >= #{beginDate} and o.create_time <= #{endDate}]]>
+			AND  o.order_state in(2,10,11,12) AND  o.production_status in (2,3,4) ANd o.parent_order_id is null
+		</select>
+
+	<select id="selectOrderListByCustomerIdAndShopId" resultType="Order">
+	  SELECT
+        o.id,
+        o.order_mode,
+        o.pay_type,
+        o.print_order_time,
+        o.customer_id,
+        o.order_money,
+        o.create_time,
+        o.amount_with_children,
+        oi.id orderPaymentItem_id,
+        oi.payment_mode_id
+        FROM tb_order o
+        INNER JOIN tb_order_payment_item oi
+        on o.id = oi.order_id
+        WHERE o.order_state IN (2, 10, 11, 12)
+        AND o.production_status in (2,3,4)
+        AND o.shop_detail_id = #{shopId}
+        AND o.customer_id = #{customerId}
+    </select>
+
+    <!-- 所有查询用户的订单总额-->
+    <select id="selectCustomerOrderCount" resultType="java.util.Map">
+        SELECT
+            td.customer_id customerId,
+            COUNT(1) orderCount,
+            SUM(td.order_money) orderTotal,
+            ROUND(AVG(td.order_money),2) avgOrderMoney,
+            DATE_FORMAT(td.create_time,'%Y-%m-%d %H:%i:%s') lastOrderTime
+        FROM
+            tb_order td
+        WHERE
+            td.order_state IN (2, 10, 11, 12)
+        AND td.production_status in (2,3,4)
+        <if test="list != null and list.size() > 0">
+            AND td.customer_id in
+            <foreach collection="list" item="customerId" open="(" separator="," close=")">
+                #{customerId}
+            </foreach>
+        </if>
+        GROUP BY
+            td.customer_id
+        ORDER BY
+            td.customer_id,td.create_time desc
+    </select>
+
+    <select id="selectAfterValidOrderByCustomerId" resultType="Order">
+        select * from tb_order where customer_id = #{customerId} and order_state in (2,10,11,12) and production_status != 6 order by create_time desc limit 1
+    </select>
+
+    <select id="posSyncSelectById" parameterType="java.lang.String" resultType="Order">
+        SELECT * from tb_order where id = #{orderId}
+    </select>
+
+    <select id="selectCompleteOrderCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(id) from tb_order where order_state in (2, 10, 11 ,12) and customer_id = #{customerId} and shop_detail_id = #{shopId}
+    </select>
+
+    <select id="posSelectNotCancelledOrdersIdByDate" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT id from tb_order where shop_detail_id = #{shopId} and (parent_order_id is null or parent_order_id = '') and order_state != 9
+        and <![CDATA[ create_time >= #{beginDate} and create_time <= #{endDate}]]> order by create_time ASC
+    </select>
+
+    <select id="selectBySerialNumber" parameterType="java.lang.String" resultType="Order">
+        SELECT * from tb_order where serial_number = #{serialNumber}
+    </select>
+
+    <select id="serverExceptionOrderList" resultType="java.lang.String">
+        SELECT id from tb_order where shop_detail_id = #{shopId}
+        <if test="isFirstPay == true">
+            and order_state in (2, 10, 11)
+        </if>
+        and production_status in (0, 1) and now() - create_time > 180
+        and <![CDATA[ create_time >= #{beginDate} and create_time <= #{endDate}]]> order by create_time ASC
+    </select>
+
+    <select id="selectSurplusAmountByPayMode" resultType="java.math.BigDecimal">
+        SELECT
+        IFNULL(SUM(top.pay_value),0) payValue
+        FROM
+        tb_order td
+        INNER JOIN tb_order_payment_item top ON td.id = top.order_id
+        WHERE
+        (td.id = #{orderId}
+        OR td.parent_order_id = #{orderId})
+        <if test="payMode != 3">
+            AND top.payment_mode_id = ${payMode}
+            <if test="isOnLine == 1">
+                AND top.result_data IS NOT NULL
+                AND top.result_data != ''
+            </if>
+            <if test="isOnLine == 0">
+                AND (top.result_data IS NULL OR top.result_data = '')
+            </if>
+        </if>
+        <if test="payMode == 3">
+            AND top.payment_mode_id not in (1,2,3,4,6,7,8,10,11,13,14,15,20,21)
+        </if>
+    </select>
+
+    <select id="selectNeedWeightArticle" resultType="com.resto.shop.web.model.Order">
+        select *
+        from tb_order t
+        inner join tb_order_item t1
+        on t.id = t1.order_id
+        where
+        (t.id = #{order} or t.parent_order_id = #{order})
+        and t1.count != 0 and t1.need_remind = 1
+    </select>
+
+    <select id="selectEnableTicketOrder" resultType="com.resto.shop.web.dto.EnabelTicketOrderDto">
+       select o.id,o.serial_number,sum(topi.pay_value) 'pay_value',o.order_money,DATE_FORMAT(o.create_time,'%Y-%m-%d %H:%i:%s') 'create_time' from tb_order o inner join tb_order_payment_item topi on o.id=topi.order_id
+        where o.production_status IN (2,3,4) and
+        o.order_state IN (2,10,11,12) and
+        o.ticket_status=0 and o.customer_id=#{customerId}
+        and
+         topi.payment_mode_id in (1,5,6,10,16,12,20,23,11,19,25)
+        group by o.id
+    </select>
+
+    <select id="selectLaifuShi" resultType="com.resto.shop.web.model.Order">
+        SELECT t.* FROM tb_order t
+        WHERE   t.create_time like '%2018-06-24%' and t.order_state >=2 and t.order_state !=9
+        AND t.shop_detail_id = 'b4f6b93e1f744319834534f9bc13418d'
+        and t.id not in
+        (
+        SELECT t.order_id FROM tb_collect_pos t
+        WHERE   t.type = 0  )
+    </select>
+
+    <select id="selectLastOrderByTableNumber" resultType="com.resto.shop.web.model.Order">
+        SELECT * from tb_order
+        where shop_detail_id = #{shopId} and table_number = #{tableNumber} and parent_order_id is null
+        ORDER BY create_time DESC limit 1
+    </select>
+
+    <select id="selectGrantCountByDate" resultType="java.lang.Integer">
+        select sum(t1.grant_count) from tb_order t
+        left join tb_order_item t1 on t.id = t1.order_id
+        where t.create_time BETWEEN #{beginDate} AND #{endDate}
+        and t.order_state in (2,10,11,12) and t.grant_money > 0
+    </select>
+
+    <select id="selectCashRefundInfo" parameterType="java.lang.String" resultType="com.resto.shop.web.model.OrderPaymentItem">
+        SELECT
+            top.*
+        FROM
+            tb_order td
+        INNER JOIN tb_order_payment_item top ON td.id = top.order_id
+        WHERE
+        (td.id = #{orderId}
+        OR td.parent_order_id = #{orderId})
+        AND top.payment_mode_id not in (1,2,3,4,6,7,8,10,11,13,14,15,19,20,21)
+    </select>
+</mapper>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.shop.web.dao.ArticleRecommendMapper">
+
+
+    <resultMap id="RecommendResultMap" type="com.resto.shop.web.model.ArticleRecommend">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="is_used" property="isUsed"/>
+        <result column="count" property="count"/>
+        <result column="print_type" property="printType"/>
+        <result column="kitchen_id" property="kitchenId"/>
+        <result column="choice_type" property="choiceType"/>
+        <result column="open_article_library" property="openArticleLibrary"/>
+        <collection property="articles" javaType="List" ofType="com.resto.shop.web.model.ArticleRecommendPrice">
+            <id column="article_recommend_price_id" property="id"/>
+            <result column="article_id" property="articleId"/>
+            <result column="article_name" property="articleName"/>
+            <result column="price" property="price"/>
+            <result column="max_count" property="maxCount"/>
+            <result column="sort" property="sort"/>
+            <result column="photo_small" property="imageUrl"/>
+            <result column="article_kitchen_id" property="kitchenId"/>
+            <result column="imageUrl" property="imageUrl"/>
+        </collection>
+
+    </resultMap>
+
+    <select id="getRecommendList" resultMap="RecommendResultMap">
+        select t.id,t.name,t.count,t.is_used,t.sort,t2.id as article_recommend_price_id,t2.article_id,t2.article_name,t.print_type,t.kitchen_Id,
+        t2.price,t2.max_count,t2.sort as count,t2.kitchen_id as article_kitchen_id from tb_recommend t
+        left join tb_recommend_article t2 on t2.recommend_id = t.id
+         where t.shop_detail_id = #{shopId}
+        and t.is_used = 0
+        order by t.create_time desc,t2.sort
+    </select>
+
+    <select id="getBrandRecommendList" resultMap="RecommendResultMap">
+        select t.id,t.name,t.count,t.is_used,t.sort,t.open_article_library,t2.id as article_recommend_price_id,t2.article_id,t2.article_name,t.print_type,t.kitchen_Id,
+        t2.price,t2.max_count,t2.sort as count,t2.kitchen_id as article_kitchen_id from tb_recommend t
+        left join tb_recommend_article t2 on t2.recommend_id = t.id
+        where t.shop_detail_id = #{shopId}
+        and t.is_used = 0 and t.open_article_library=1
+        order by t.create_time desc,t2.sort
+    </select>
+
+    <select id="getRecommendPackage" resultMap="RecommendResultMap">
+        select t.id,t.name,t.count,t.is_used,t.sort,t2.id as article_recommend_price_id,t2.article_id,t2.article_name,t.print_type,t.kitchen_Id,
+        t2.price,t2.max_count,t2.sort as count,t2.kitchen_id as article_kitchen_id from tb_recommend t
+        left join tb_recommend_article t2 on t2.recommend_id = t.id
+        where t.shop_detail_id =-1
+        and t.is_used = 0 AND open_article_library=1
+        order by t.create_time desc,t2.sort
+    </select>
+
+    <insert id="insertSelective" parameterType="ArticleRecommend" >
+       insert into tb_recommend
+       (id,count,name,shop_detail_id,print_type,kitchen_id,open_article_library)
+       values(#{id},#{count},#{name},#{shopId},#{printType},#{kitchenId},#{openArticleLibrary})
+    </insert>
+
+    <select id="selectByPrimaryKey" resultType="ArticleRecommend">
+        select * from tb_recommend where id = #{id}
+    </select>
+
+    <insert id="insertRecommendArticle">
+
+        insert into tb_recommend_article
+        (recommend_id,article_id,max_count,price,article_name,sort,kitchen_id)
+        VALUES
+        (#{recommendId}
+        ,#{articleRecommendPrice.articleId},#{articleRecommendPrice.maxCount},#{articleRecommendPrice.price}
+        ,#{articleRecommendPrice.articleName},#{articleRecommendPrice.sort},#{articleRecommendPrice.kitchenId}
+
+        )
+    </insert>
+
+
+    <update id="updateByPrimaryKeySelective">
+        update tb_recommend
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="count != null">
+                count = #{count},
+            </if>
+            <if test="printType != null">
+                print_type = #{printType},
+            </if>
+            <if test="kitchenId != null">
+                kitchen_id = #{kitchenId},
+            </if>
+            <if test="choiceType != null">
+                choice_type = #{choiceType},
+            </if>
+            <if test="openArticleLibrary != null">
+                open_article_library = #{openArticleLibrary}
+            </if>
+        </set>
+        where id = #{id}
+
+    </update>
+
+    <select id="getRecommendById" resultMap="RecommendResultMap">
+        select t.id,t.name,t.count,t.is_used,t.print_type,t.kitchen_id,t.choice_type,t.open_article_library,
+        t2.id as article_recommend_price_id,t2.article_id,t2.max_count,t2.price,t2.article_name,
+        t2.sort,t2.kitchen_id  as  article_kitchen_id
+        from tb_recommend t
+        left join tb_recommend_article t2 on t2.recommend_id = t.id
+        where t.id = #{id} order by t2.sort
+
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from tb_recommend where id = #{id,jdbcType=VARCHAR}</delete>
+
+
+    <delete id="deleteRecommendArticle">
+        delete from tb_recommend_article
+        where recommend_id = #{recommendId}
+    </delete>
+
+    <select id="getRecommendByArticleId" resultMap="RecommendResultMap">
+        select t4.photo_small as imageUrl, t3.article_name,t3.price,t3.article_id,t3.max_count,t2.id,t2.count,t2.name,t2.choice_type, t3.kitchen_id as article_kitchen_id  from tb_article t
+      INNER JOIN tb_recommend t2 on t2.id = t.recommend_id
+      INNER JOIN tb_recommend_article t3 on t3.recommend_id = t2.id
+			INNER JOIN tb_article t4 on t3.article_id = t4.id
+where t2.shop_detail_id = #{shopId} and t.id = #{articleId}
+
+    </select>
+
+    <delete id="deleteRecommendByArticleId">
+        delete from tb_recommend_article where article_id = #{id}
+    </delete>
+
+    <select id="selectByRecommendArticleInfo" resultType="com.resto.shop.web.model.ArticleRecommendPrice">
+        select id,price from tb_recommend_article where article_id = #{ArticleId}
+    </select>
+
+    <update id="updatePriceById">
+        update tb_recommend_article set price = #{price} where id = #{id}
+    </update>
+</mapper>

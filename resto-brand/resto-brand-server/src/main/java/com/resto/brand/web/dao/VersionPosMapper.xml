@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.brand.web.dao.VersionPosMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.VersionPos" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="version_no" property="versionNo" jdbcType="VARCHAR" />
+    <result column="download_address" property="downloadAddress" jdbcType="VARCHAR" />
+    <result column="substitute_mode" property="substituteMode" jdbcType="INTEGER" />
+    <result column="voluntarily" property="voluntarily" jdbcType="INTEGER" />
+    <result column="version_id" property="versionId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, version_no, download_address, substitute_mode, voluntarily,version_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_version_pos
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_version_pos
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.resto.brand.web.model.VersionPos" >
+    insert into tb_version_pos (id, version_no, download_address, 
+      substitute_mode, voluntarily,version_id)
+    values (#{id,jdbcType=INTEGER}, #{versionNo,jdbcType=VARCHAR}, #{downloadAddress,jdbcType=VARCHAR}, 
+      #{substituteMode,jdbcType=INTEGER}, #{voluntarily,jdbcType=INTEGER},#{versionId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.VersionPos" >
+    insert into tb_version_pos
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="versionNo != null" >
+        version_no,
+      </if>
+      <if test="downloadAddress != null" >
+        download_address,
+      </if>
+      <if test="substituteMode != null" >
+        substitute_mode,
+      </if>
+      <if test="voluntarily != null" >
+        voluntarily,
+      </if>
+      <if test="versionId != null" >
+        version_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="versionNo != null" >
+        #{versionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadAddress != null" >
+        #{downloadAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="substituteMode != null" >
+        #{substituteMode,jdbcType=INTEGER},
+      </if>
+      <if test="voluntarily != null" >
+        #{voluntarily,jdbcType=INTEGER},
+      </if>
+      <if test="versionId != null" >
+        #{versionId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.VersionPos" >
+    update tb_version_pos
+    <set >
+      <if test="versionNo != null" >
+        version_no = #{versionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadAddress != null" >
+        download_address = #{downloadAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="substituteMode != null" >
+        substitute_mode = #{substituteMode,jdbcType=INTEGER},
+      </if>
+      <if test="voluntarily != null" >
+        voluntarily = #{voluntarily,jdbcType=INTEGER},
+      </if>
+      <if test="versionId != null" >
+        version_id = #{versionId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.VersionPos" >
+    update tb_version_pos
+    set version_no = #{versionNo,jdbcType=VARCHAR},
+      download_address = #{downloadAddress,jdbcType=VARCHAR},
+      substitute_mode = #{substituteMode,jdbcType=INTEGER},
+      voluntarily = #{voluntarily,jdbcType=INTEGER},
+      version_id = #{versionId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectList" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from tb_version_pos
+  </select>
+  <update id="updateVersionNOAndDownloadAddressByVersionId">
+        update tb_version_pos
+        set version_no = #{versionNo,jdbcType=VARCHAR},
+            download_address = #{downloadAddress,jdbcType=VARCHAR},
+            substitute_mode=#{substituteMode,jdbcType=INTEGER},
+            voluntarily=#{voluntarily,jdbcType=INTEGER}
+        where version_id = #{versionId,jdbcType=INTEGER}
+    </update>
+
+  <select id="selectVersionMessage" resultType="com.resto.brand.web.model.VersionPos">
+    select vb.id,vb.version_no,vb.download_address,vb.substitute_mode,vb.voluntarily,vb.version_id,v.message FROM tb_version_pos vb,tb_version v WHERE vb.version_id=v.id ;
+  </select>
+  <select id="selectTotalversion" resultMap="BaseResultMap">
+    SELECT id,version_no FROM tb_version_pos LIMIT 0,1
+  </select>
+
+</mapper>

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.brand.web.dao.BrandTemplateEditMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.BrandTemplateEdit" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="template_number" property="templateNumber" jdbcType="VARCHAR" />
+    <result column="appid" property="appid" jdbcType="VARCHAR" />
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR" />
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR" />
+    <result column="template_sign" property="templateSign" jdbcType="INTEGER" />
+    <result column="index" property="index" jdbcType="INTEGER" />
+    <result column="pattern" property="pattern" jdbcType="VARCHAR" />
+    <result column="push_type" property="pushType" jdbcType="VARCHAR" />
+    <result column="push_title" property="pushTitle" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="start_sign" property="startSign" jdbcType="VARCHAR" />
+    <result column="end_sign" property="endSign" jdbcType="VARCHAR" />
+    <result column="old_start_sign" property="oldStartSign" jdbcType="VARCHAR" />
+    <result column="old_end_sign" property="oldEndSign" jdbcType="VARCHAR" />
+    <result column="big_open" property="bigOpen" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, template_number, appid, brand_id, shop_detail_id, template_sign, index, pattern, 
+    push_type, push_title, content, start_sign, end_sign, old_start_sign, old_end_sign, 
+    big_open
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from brand_template_edit
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from brand_template_edit
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.resto.brand.web.model.BrandTemplateEdit" >
+    insert into brand_template_edit (id, template_number, appid, 
+      brand_id, shop_detail_id, template_sign, 
+      index, pattern, push_type, 
+      push_title, content, start_sign, 
+      end_sign, old_start_sign, old_end_sign, 
+      big_open)
+    values (#{id,jdbcType=INTEGER}, #{templateNumber,jdbcType=VARCHAR}, #{appid,jdbcType=VARCHAR}, 
+      #{brandId,jdbcType=VARCHAR}, #{shopDetailId,jdbcType=VARCHAR}, #{templateSign,jdbcType=INTEGER}, 
+      #{index,jdbcType=INTEGER}, #{pattern,jdbcType=VARCHAR}, #{pushType,jdbcType=VARCHAR}, 
+      #{pushTitle,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{startSign,jdbcType=VARCHAR}, 
+      #{endSign,jdbcType=VARCHAR}, #{oldStartSign,jdbcType=VARCHAR}, #{oldEndSign,jdbcType=VARCHAR}, 
+      #{bigOpen,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.BrandTemplateEdit" >
+    insert into brand_template_edit
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="templateNumber != null" >
+        template_number,
+      </if>
+      <if test="appid != null" >
+        appid,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="shopDetailId != null" >
+        shop_detail_id,
+      </if>
+      <if test="templateSign != null" >
+        template_sign,
+      </if>
+      <if test="index != null" >
+        index,
+      </if>
+      <if test="pattern != null" >
+        pattern,
+      </if>
+      <if test="pushType != null" >
+        push_type,
+      </if>
+      <if test="pushTitle != null" >
+        push_title,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="startSign != null" >
+        start_sign,
+      </if>
+      <if test="endSign != null" >
+        end_sign,
+      </if>
+      <if test="oldStartSign != null" >
+        old_start_sign,
+      </if>
+      <if test="oldEndSign != null" >
+        old_end_sign,
+      </if>
+      <if test="bigOpen != null" >
+        big_open,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="templateNumber != null" >
+        #{templateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="appid != null" >
+        #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopDetailId != null" >
+        #{shopDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="templateSign != null" >
+        #{templateSign,jdbcType=INTEGER},
+      </if>
+      <if test="index != null" >
+        #{index,jdbcType=INTEGER},
+      </if>
+      <if test="pattern != null" >
+        #{pattern,jdbcType=VARCHAR},
+      </if>
+      <if test="pushType != null" >
+        #{pushType,jdbcType=VARCHAR},
+      </if>
+      <if test="pushTitle != null" >
+        #{pushTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="startSign != null" >
+        #{startSign,jdbcType=VARCHAR},
+      </if>
+      <if test="endSign != null" >
+        #{endSign,jdbcType=VARCHAR},
+      </if>
+      <if test="oldStartSign != null" >
+        #{oldStartSign,jdbcType=VARCHAR},
+      </if>
+      <if test="oldEndSign != null" >
+        #{oldEndSign,jdbcType=VARCHAR},
+      </if>
+      <if test="bigOpen != null" >
+        #{bigOpen,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.BrandTemplateEdit" >
+    update brand_template_edit
+    <set >
+      <if test="templateNumber != null" >
+        template_number = #{templateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="appid != null" >
+        appid = #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopDetailId != null" >
+        shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="templateSign != null" >
+        template_sign = #{templateSign,jdbcType=INTEGER},
+      </if>
+      <if test="index != null" >
+        index = #{index,jdbcType=INTEGER},
+      </if>
+      <if test="pattern != null" >
+        pattern = #{pattern,jdbcType=VARCHAR},
+      </if>
+      <if test="pushType != null" >
+        push_type = #{pushType,jdbcType=VARCHAR},
+      </if>
+      <if test="pushTitle != null" >
+        push_title = #{pushTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="startSign != null" >
+        start_sign = #{startSign,jdbcType=VARCHAR},
+      </if>
+      <if test="endSign != null" >
+        end_sign = #{endSign,jdbcType=VARCHAR},
+      </if>
+      <if test="oldStartSign != null" >
+        old_start_sign = #{oldStartSign,jdbcType=VARCHAR},
+      </if>
+      <if test="oldEndSign != null" >
+        old_end_sign = #{oldEndSign,jdbcType=VARCHAR},
+      </if>
+      <if test="bigOpen != null" >
+        big_open = #{bigOpen,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.BrandTemplateEdit" >
+    update brand_template_edit
+    set template_number = #{templateNumber,jdbcType=VARCHAR},
+      appid = #{appid,jdbcType=VARCHAR},
+      brand_id = #{brandId,jdbcType=VARCHAR},
+      shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},
+      template_sign = #{templateSign,jdbcType=INTEGER},
+      index = #{index,jdbcType=INTEGER},
+      pattern = #{pattern,jdbcType=VARCHAR},
+      push_type = #{pushType,jdbcType=VARCHAR},
+      push_title = #{pushTitle,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      start_sign = #{startSign,jdbcType=VARCHAR},
+      end_sign = #{endSign,jdbcType=VARCHAR},
+      old_start_sign = #{oldStartSign,jdbcType=VARCHAR},
+      old_end_sign = #{oldEndSign,jdbcType=VARCHAR},
+      big_open = #{bigOpen,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectList" resultType="com.resto.brand.web.model.BrandTemplateEdit">select * from brand_template_edit</select>
+
+  <select id="selectListByBrandId" resultType="com.resto.brand.web.model.BrandTemplateEdit">
+    select * from brand_template_edit bt where brand_id=#{brandId} order by bt.template_sign asc
+  </select>
+
+  <select id="selectOneByManyTerm" resultType="com.resto.brand.web.model.BrandTemplateEdit">
+    select * from brand_template_edit where appid=#{appId} and template_number=#{templateNum} and template_sign=#{templateSign}
+  </select>
+
+  <update id="resetById">
+    update brand_template_edit bt set big_open=#{bigOpen},start_sign=bt.old_start_sign,end_sign=bt.old_end_sign where id=#{id}
+  </update>
+
+  <update id="startOrOpenById" parameterType="java.lang.Integer">
+    update brand_template_edit bt set big_open=#{1} where id=#{0}
+  </update>
+
+  <insert id="distribution" parameterType="java.util.ArrayList">
+      INSERT INTO brand_template_edit(template_number,appid,brand_id,template_sign,pattern,push_type,push_title,content,start_sign,end_sign,old_start_sign,old_end_sign)
+      VALUES
+      <foreach collection="list" item="item" separator=",">
+        (#{item.templateNumber},#{item.appid},#{item.brandId},#{item.templateSign},#{item.pattern},#{item.pushType},#{item.pushTitle},#{item.content},#{item.startSign},#{item.endSign},#{item.startSign},#{item.endSign})
+      </foreach>
+  </insert>
+
+  <delete id="deleteByBrandId" parameterType="java.lang.String">
+    delete from brand_template_edit where brand_id=#{id}
+  </delete>
+
+  <insert id="addToDoUpdateRoot" parameterType="java.util.ArrayList">
+    INSERT INTO brand_template_edit(template_number,appid,brand_id,template_sign,pattern,push_type,push_title,content,start_sign,end_sign,old_start_sign,old_end_sign)
+    VALUES
+    <foreach collection="list" item="item" separator=",">
+      (#{item.templateNumber},#{item.appid},#{item.brandId},#{item.templateSign},#{item.pattern},#{item.pushType},#{item.pushTitle},#{item.content},#{item.startSign},#{item.endSign},#{item.startSign},#{item.endSign})
+    </foreach>
+  </insert>
+
+  <delete id="deleteToDoUpdataRoot" parameterType="java.util.Map">
+
+    DELETE FROM brand_template_edit where brand_id in
+      <foreach item="item" collection="list" open="(" separator="," close=")">
+        #{item.id}
+      </foreach>
+      and template_sign=#{templateSign}
+  </delete>
+
+  <update id="updateToDoUpdataRoot" parameterType="java.util.Map">
+    UPDATE brand_template_edit set template_number=#{templateNumber},template_sign=#{newtemplateSign},pattern=#{pattern},push_type=#{pushType},push_title=#{pushTitle},content=#{content},old_start_sign=#{startSign},old_end_sign=#{endSign} where brand_id in
+    <foreach item="item" collection="list" open="(" separator="," close=")">
+    #{item.id}
+  </foreach>
+    and template_sign=#{oldtemplateSign}
+  </update>
+
+</mapper>

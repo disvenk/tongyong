@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.service.shop.mapper.GetNumberMapper">
+    <resultMap id="BaseResultMap" type="com.resto.service.shop.entity.GetNumber">
+        <id column="id" property="id" />
+        <result column="shop_detail_id" property="shopDetailId" />
+        <result column="brand_id" property="brandId" />
+        <result column="state" property="state" />
+        <result column="create_time" property="createTime" />
+        <result column="eat_time" property="eatTime" />
+        <result column="pass_number_time" property="passNumberTime" />
+        <result column="person_number" property="personNumber" />
+        <result column="phone" property="phone" />
+        <result column="wait_number" property="waitNumber" />
+        <result column="table_type" property="tableType" />
+        <result column="call_number" property="callNumber" />
+        <result column="flow_money" property="flowMoney" />
+        <result column="call_number_time" property="callNumberTime" />
+        <result column="customer_id" property="customerId" />
+        <result column="final_money" property="finalMoney" />
+        <result column="high_money" property="highMoney" />
+        <result column="code_value" property="codeValue" />
+        <result column="code_id" property="codeId" />
+    </resultMap>
+    <sql id="Base_Column_List">id, shop_detail_id, brand_id, state, create_time, eat_time, pass_number_time, person_number,phone,wait_number,table_type,call_number,flow_money,call_number_time,customer_id,final_money,high_money,code_value,code_id</sql>
+
+    <insert id="insert" parameterType="com.resto.service.shop.entity.GetNumber">insert into tb_get_number (id, shop_detail_id, brand_id, state, create_time, eat_time, pass_number_time, person_number,phone,wait_number,table_type,call_number,flow_money,call_number_time,customer_id,final_money,high_money)
+      values (#{id},#{shopDetailId},#{brandId},#{state},#{createTime},#{eatTime},#{passNumberTime},#{personNumber},#{phone},#{waitNumber},#{tableType},#{callNumber},#{flowMoney},#{callNumberTime},#{customerId},#{finalMoney},#{highMoney})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.resto.service.shop.entity.GetNumber">insert into tb_get_number
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="shopDetailId != null">shop_detail_id,</if>
+            <if test="brandId != null">brand_id,</if>
+            <if test="state != null">state,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="eatTime != null">eat_time,</if>
+            <if test="passNumberTime != null">pass_number_time,</if>
+            <if test="personNumber != null">person_number,</if>
+            <if test="phone != null">phone,</if>
+            <if test="waitNumber != null">wait_number,</if>
+            <if test="tableType != null">table_type,</if>
+            <if test="callNumber != null">call_number,</if>
+            <if test="flowMoney != null">flow_money,</if>
+            <if test="callNumberTime != null">call_number_time,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="finalMoney != null">final_money,</if>
+            <if test="highMoney != null">high_money,</if>
+            <if test="codeValue != null">code_value,</if>
+            <if test="codeId != null">code_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="shopDetailId != null">#{shopDetailId},</if>
+            <if test="brandId != null">#{brandId},</if>
+            <if test="state != null">#{state},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="eatTime != null">#{eatTime},</if>
+            <if test="passNumberTime != null">#{passNumberTime},</if>
+            <if test="personNumber != null">#{personNumber},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="waitNumber != null">#{waitNumber},</if>
+            <if test="tableType != null">#{tableType},</if>
+            <if test="callNumber != null">#{callNumber},</if>
+            <if test="flowMoney != null">#{flowMoney},</if>
+            <if test="callNumberTime != null">#{callNumberTime},</if>
+            <if test="customerId != null">#{customerId},</if>
+            <if test="finalMoney != null">#{finalMoney},</if>
+            <if test="highMoney != null">#{highMoney},</if>
+            <if test="codeValue != null">#{codeValue},</if>
+            <if test="codeId != null">#{codeId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.service.shop.entity.GetNumber">update tb_get_number
+        <set>
+            <if test="shopDetailId != null">shop_detail_id = #{shopDetailId},</if>
+            <if test="brandId != null">brand_id = #{brandId},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="eatTime != null">eat_time = #{eatTime},</if>
+            <if test="passNumberTime != null">pass_number_time = #{passNumberTime},</if>
+            <if test="personNumber != null">person_number = #{personNumber},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="waitNumber != null">wait_number = #{waitNumber},</if>
+            <if test="tableType != null">table_type = #{tableType},</if>
+            <if test="callNumber != null">call_number = #{callNumber},</if>
+            <if test="flowMoney != null">flow_money = #{flowMoney},</if>
+            <if test="callNumberTime != null">call_number_time = #{callNumberTime},</if>
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="finalMoney != null">final_money = #{finalMoney},</if>
+            <if test="highMoney != null">high_money = #{highMoney},</if>
+            <if test="codeId != null">code_id = #{codeId},</if>
+        </set> where id = #{id}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.resto.service.shop.entity.GetNumber">update tb_get_number set shop_detail_id = #{shopDetailId},brand_id = #{brandId},state = #{state},create_time = #{createTime},eat_time = #{eatTime},pass_number_time = #{passNumberTime},person_number = #{personNumber},phone = #{phone},wait_number = #{waitNumber},table_type = #{tableType},call_number = #{callNumber},flow_money = #{flowMoney},call_number_time = #{callNumberTime},customer_id = #{customerId},final_money=#{finalMoney},high_money=#{highMoney},code_id = #{codeId} where id = #{id}</update>
+    
+    <select id="selectByPrimaryKey" resultType="GetNumber">
+        select <include refid="Base_Column_List" /> from tb_get_number where id = #{id}
+        and DATE_FORMAT(create_time,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d')
+    </select>
+
+    <select id="getWaitInfoByCustomerId" resultType="GetNumber">
+        select * from tb_get_number where shop_detail_id = #{shopId}
+        and  #{timeOut}         > TIMESTAMPDIFF(HOUR,create_time,now())
+        and customer_id = #{customerId} order by create_time desc limit 1
+    </select>
+
+</mapper>

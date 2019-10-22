@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:util="http://www.springframework.org/schema/util" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	   xmlns:cache="http://www.springframework.org/schema/cache" xmlns:task="http://www.springframework.org/schema/task"
+	   xsi:schemaLocation="http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/jdbc
+    http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+    http://www.springframework.org/schema/cache
+    http://www.springframework.org/schema/cache/spring-cache.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<import resource="classpath:dubbo-config.xml" />
+	<!-- 自动扫描resto包 ,将带有注解的类 纳入spring容器管理 -->
+	<context:component-scan base-package="com.resto"/>
+
+	<!-- 对JDBC配置进行解密  -->
+	<bean id="configProperties" class="com.resto.brand.core.util.DecryptPropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>file:${resources.config.path}/*.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 引入配置文件 -->
+	<bean id="configProperties2" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations">
+			<list>
+				<value>classpath:config.properties</value>
+			</list>
+		</property>
+	</bean>
+
+
+
+
+	<!-- jedis 配置 -->
+	<!--<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig" >-->
+		<!--<property name="maxIdle" value="${redis.maxIdle}" />-->
+		<!--<property name="maxWaitMillis" value="${redis.maxWait}" />-->
+		<!--<property name="testOnBorrow" value="${redis.testOnBorrow}" />-->
+	<!--</bean >-->
+	<!--&lt;!&ndash; redis服务器中心 &ndash;&gt;-->
+	<!--<bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" >-->
+		<!--<property name="poolConfig" ref="poolConfig" />-->
+		<!--<property name="port" value="${redis.port}" />-->
+		<!--<property name="hostName" value="${redis.host}" />-->
+		<!--<property name="password" value="${redis.password}" />-->
+		<!--<property name="timeout" value="${redis.timeout}" ></property>-->
+	<!--</bean >-->
+
+	<!--<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate" >-->
+		<!--<property name="connectionFactory" ref="connectionFactory" />-->
+		<!--<property name="keySerializer" >-->
+			<!--<bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />-->
+		<!--</property>-->
+		<!--<property name="valueSerializer" >-->
+			<!--<bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />-->
+		<!--</property>-->
+	<!--</bean >-->
+
+	<!--<bean id="jedisPool" class="redis.clients.jedis.JedisPool">-->
+		<!--<constructor-arg name="poolConfig" ref="poolConfig" />-->
+		<!--<constructor-arg name="host" value="${redis.host}" />-->
+		<!--<constructor-arg name="port" value="${redis.port}" type="int" />-->
+		<!--<constructor-arg name="timeout" value="${redis.timeout}" type="int" />-->
+		<!--<constructor-arg name="password" value="${redis.password}" />-->
+	<!--</bean>-->
+
+
+	<!--<bean id="redisUtil" class="com.resto.shop.web.util.RedisUtil" >-->
+		<!--<property name="redisTemplate" ref="redisTemplate" />-->
+		<!--<property name="jedisPool" ref="jedisPool" />-->
+	<!--</bean >-->
+
+	<bean id="dataSource" class="com.resto.shop.web.datasource.DynamicDataSource"/>
+	<bean id="dynamicDataSourceReport" class="com.resto.shop.web.datasource.DynamicDataSourceReport"/>
+
+	<!-- mybatis文件配置，扫描所有mapper文件 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="dataSource" p:configLocation="classpath:mybatis-config.xml"
+		p:mapperLocations="classpath:com/resto/shop/web/dao/*.xml"/>
+
+	<!-- spring与mybatis整合配置，扫描所有dao -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+		p:basePackage="com.resto.shop.web.dao" p:sqlSessionFactoryBeanName="sqlSessionFactory" />
+
+	<!-- mybatis文件配置，扫描所有mapper文件 -->
+	<bean id="sqlSessionFactoryReport" class="org.mybatis.spring.SqlSessionFactoryBean"
+		  p:dataSource-ref="dynamicDataSourceReport" p:configLocation="classpath:mybatis-config.xml"
+		  p:mapperLocations="classpath:com/resto/shop/web/report/*.xml"/>
+
+	<!-- spring与mybatis整合配置，扫描所有dao -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+		  p:basePackage="com.resto.shop.web.report" p:sqlSessionFactoryBeanName="sqlSessionFactoryReport" />
+
+	<!-- 对dataSource 数据源进行事务管理 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="dataSource"/>
+
+	<!-- 事务管理 通知 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- 对insert,update,delete 开头的方法进行事务管理,只要有异常就回滚 -->
+			<tx:method name="insert*" propagation="REQUIRED"	rollback-for="java.lang.Throwable" />
+			<tx:method name="update*" propagation="REQUIRED" 	rollback-for="java.lang.Throwable" />
+			<tx:method name="delete*" propagation="REQUIRED"	rollback-for="java.lang.Throwable" />
+			<tx:method name="create*" propagation="REQUIRED"	rollback-for="java.lang.Throwable" />
+			<tx:method name="add*"    propagation="REQUIRED"	rollback-for="java.lang.Throwable" />
+			<tx:method name="sync*"    propagation="REQUIRED"	rollback-for="java.lang.Throwable" />
+			<!-- 07-28新增  wtl 用于报表存储过程的调用 -->
+			<tx:method name="call*"    propagation="REQUIRED"	rollback-for="java.lang.Throwable" />
+			<!-- 2018-03-01新增  wtl 用于newPos R+扫码支付 -->
+			<tx:method name="use*"    propagation="REQUIRED"	rollback-for="java.lang.Throwable" />
+			<!-- select,count开头的方法,开启只读,提高数据库访问性能 -->
+			<tx:method name="select*" read-only="true" />
+			<tx:method name="list*" read-only="true" />
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="count*" read-only="true" />
+			<!-- 对其他方法 使用默认的事务管理 -->
+			<tx:method name="*" />
+		</tx:attributes>
+
+	</tx:advice>
+
+	<!-- 事务 aop 配置 -->
+	<aop:config>
+		<aop:pointcut id="serviceMethods"
+			expression="execution(* com.resto.shop.web.service..*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods" />
+	</aop:config>
+
+	<!-- 配置使Spring采用CGLIB代理 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<!-- 启用对事务注解的支持 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+
+
+</beans>

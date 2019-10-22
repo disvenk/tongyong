@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+
+    <groupId>${groupId.resto.api}</groupId>
+    <artifactId>api-brand</artifactId>
+    <packaging>jar</packaging>
+    <version>${version.resto}</version>
+
+    <parent>
+        <groupId>com.resto</groupId>
+        <artifactId>parent-brand</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>${groupId.resto.config}</groupId>
+            <artifactId>api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${groupId.resto.config}</groupId>
+            <artifactId>util_on</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>it.sauronsoftware</groupId>
+            <artifactId>ftp4j</artifactId>
+            <version>1.7.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+        <!-- google 二维码 -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>zxingorg</artifactId>
+            <version>2.2</version>
+            <classifier>sources</classifier>
+        </dependency>
+    </dependencies>
+
+
+</project>

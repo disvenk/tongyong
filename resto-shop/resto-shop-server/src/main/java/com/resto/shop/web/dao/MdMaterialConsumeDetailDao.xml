@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.MdMaterialConsumeDetailDao">
+
+    <resultMap id="mdMaterialConsumeDetailResult" type="com.resto.shop.web.model.MdMaterialConsumeDetail">
+        <result column="id" property="id"/>
+        <result column="state" property="state"/>
+        <result column="article_bom_detail_id" property="articleBomDetailId"/>
+        <result column="min_measure_unit" property="minMeasureUnit"/>
+        <result column="article_total_count" property="articleTotalCount"/>
+        <result column="article_mealfee_number" property="articleMealfeeNumber"/>
+        <result column="article_family_id" property="articleFamilyId"/>
+        <result column="material_consume" property="materialConsume"/>
+        <result column="unit_name" property="unitName"/>
+        <result column="article_id" property="articleId"/>
+        <result column="material_id" property="materialId"/>
+        <result column="material_type" property="materialType"/>
+        <result column="material_name" property="materialName"/>
+        <result column="spec_name" property="specName"/>
+        <result column="material_code" property="materialCode"/>
+        <result column="loss_factor" property="lossFactor"/>
+        <result column="act_loss_factor" property="actLossFactor"/>
+        <result column="rate" property="rate"/>
+        <result column="coefficient" property="coefficient"/>
+        <result column="material_count" property="materialCount"/>
+        <result column="creater_id" property="createrId"/>
+        <result column="creater_name" property="createrName"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+        <result column="version" property="version"/>
+        <result column="shop_id" property="shopId"/>
+    </resultMap>
+
+    <sql id="mdMaterialConsumeDetail_columns">
+        id,
+        state,
+        article_bom_detail_id,
+        min_measure_unit,
+        article_total_count,
+        article_mealfee_number,
+        article_family_id,
+        material_consume,
+        unit_name,
+        article_id,
+        material_id,
+        material_type,
+        material_name,
+        spec_name,
+        material_code,
+        loss_factor,
+        act_loss_factor,
+        rate,
+        coefficient,
+        material_count,
+        creater_id,
+        creater_name,
+        gmt_create,
+        gmt_modified,
+        version,
+        shop_id
+    </sql>
+
+    <sql id="mdMaterialConsumeDetail_sqlForInsert">
+        state,
+        article_bom_detail_id,
+        min_measure_unit,
+        article_total_count,
+        article_mealfee_number,
+        article_family_id,
+        material_consume,
+        unit_name,
+        article_id,
+        material_id,
+        material_type,
+        material_name,
+        spec_name,
+        material_code,
+        loss_factor,
+        act_loss_factor,
+        rate,
+        coefficient,
+        material_count,
+        creater_id,
+        creater_name,
+        gmt_create,
+        gmt_modified,
+        version,
+        shop_id
+    </sql>
+
+    <sql id="mdMaterialConsumeDetail_columnsForInsert">
+        #{state},
+        #{articleBomDetailId},
+        #{minMeasureUnit},
+        #{articleTotalCount},
+        #{articleMealfeeNumber},
+        #{articleFamilyId},
+        #{materialConsume},
+        #{unitName},
+        #{articleId},
+        #{materialId},
+        #{materialType},
+        #{materialName},
+        #{specName},
+        #{materialCode},
+        #{lossFactor},
+        #{actLossFactor},
+        #{rate},
+        #{coefficient},
+        #{materialCount},
+        #{createrId},
+        #{createrName},
+        now(),
+        now(),
+        #{version},
+        #{shopId}
+    </sql>
+
+    <sql id="mdMaterialConsumeDetail_setterForUpdate">
+        <set>
+            gmt_modified = now(),
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="state != null">
+                state = #{state},
+            </if>
+            <if test="articleBomDetailId != null">
+                article_bom_detail_id = #{articleBomDetailId},
+            </if>
+            <if test="minMeasureUnit != null">
+                min_measure_unit = #{minMeasureUnit},
+            </if>
+            <if test="articleTotalCount != null">
+                article_total_count = #{articleTotalCount},
+            </if>
+            <if test="articleMealfeeNumber != null">
+                article_mealfee_number = #{articleMealfeeNumber},
+            </if>
+            <if test="articleFamilyId != null">
+                article_family_id = #{articleFamilyId},
+            </if>
+            <if test="materialConsume != null">
+                material_consume = #{materialConsume},
+            </if>
+            <if test="unitName != null">
+                unit_name = #{unitName},
+            </if>
+            <if test="articleId != null">
+                article_id = #{articleId},
+            </if>
+            <if test="materialId != null">
+                material_id = #{materialId},
+            </if>
+            <if test="materialType != null">
+                material_type = #{materialType},
+            </if>
+            <if test="materialName != null">
+                material_name = #{materialName},
+            </if>
+            <if test="specName != null">
+                spec_name = #{specName},
+            </if>
+            <if test="materialCode != null">
+                material_code = #{materialCode},
+            </if>
+            <if test="lossFactor != null">
+                loss_factor = #{lossFactor},
+            </if>
+            <if test="actLossFactor != null">
+                act_loss_factor = #{actLossFactor},
+            </if>
+            <if test="rate != null">
+                rate = #{rate},
+            </if>
+            <if test="coefficient != null">
+                coefficient = #{coefficient},
+            </if>
+            <if test="materialCount != null">
+                material_count = #{materialCount},
+            </if>
+            <if test="createrId != null">
+                creater_id = #{createrId},
+            </if>
+            <if test="createrName != null">
+                creater_name = #{createrName},
+            </if>
+            <if test="version != null">
+                version = #{version},
+            </if>
+            <if test="shopId != null">
+                shop_id = #{shopId},
+            </if>
+        </set>
+    </sql>
+
+    <sql id="mdMaterialConsumeDetail_selector">
+        select
+        <include refid="mdMaterialConsumeDetail_columns"/>
+        from md_material_consume_detail
+    </sql>
+
+    <sql id="mdMaterialConsumeDetail_query_segment">
+        <trim prefix="WHERE" prefixOverrides="AND|OR">
+            <if test="data.id != null">
+                AND id = #{data.id}
+            </if>
+            <if test="data.state != null">
+                AND state = #{data.state}
+            </if>
+            <if test="data.articleBomDetailId != null">
+                AND article_bom_detail_id = #{data.articleBomDetailId}
+            </if>
+            <if test="data.minMeasureUnit != null">
+                AND min_measure_unit = #{data.minMeasureUnit}
+            </if>
+            <if test="data.articleTotalCount != null">
+                AND article_total_count = #{data.articleTotalCount}
+            </if>
+            <if test="data.articleMealfeeNumber != null">
+                AND article_mealfee_number = #{data.articleMealfeeNumber}
+            </if>
+            <if test="data.articleFamilyId != null">
+                AND article_family_id = #{data.articleFamilyId}
+            </if>
+            <if test="data.materialConsume != null">
+                AND material_consume = #{data.materialConsume}
+            </if>
+            <if test="data.unitName != null">
+                AND unit_name = #{data.unitName}
+            </if>
+            <if test="data.articleId != null">
+                AND article_id = #{data.articleId}
+            </if>
+            <if test="data.materialId != null">
+                AND material_id = #{data.materialId}
+            </if>
+            <if test="data.materialType != null">
+                AND material_type = #{data.materialType}
+            </if>
+            <if test="data.materialName != null">
+                AND material_name = #{data.materialName}
+            </if>
+            <if test="data.specName != null">
+                AND spec_name = #{data.specName}
+            </if>
+            <if test="data.materialCode != null">
+                AND material_code = #{data.materialCode}
+            </if>
+            <if test="data.lossFactor != null">
+                AND loss_factor = #{data.lossFactor}
+            </if>
+            <if test="data.actLossFactor != null">
+                AND act_loss_factor = #{data.actLossFactor}
+            </if>
+            <if test="data.rate != null">
+                AND rate = #{data.rate}
+            </if>
+            <if test="data.coefficient != null">
+                AND coefficient = #{data.coefficient}
+            </if>
+            <if test="data.materialCount != null">
+                AND material_count = #{data.materialCount}
+            </if>
+            <if test="data.createrId != null">
+                AND creater_id = #{data.createrId}
+            </if>
+            <if test="data.createrName != null">
+                AND creater_name = #{data.createrName}
+            </if>
+            <if test="data.gmtCreate != null">
+                AND gmt_create = #{data.gmtCreate}
+            </if>
+            <if test="data.gmtModified != null">
+                AND gmt_modified = #{data.gmtModified}
+            </if>
+            <if test="data.version != null">
+                AND version = #{data.version}
+            </if>
+            <if test="data.shopId != null">
+                AND shop_id = #{data.shopId}
+            </if>
+            <if test="ins != null and ins != ''">
+                AND
+                <foreach collection="ins" item="item" open="(" separator="and" close=")">
+                    ${item.column} in
+                    <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                        ${item}
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="notIns != null and notIns != ''">
+                AND
+                <foreach collection="notIns" item="item" open="(" separator="and" close=")">
+                    ${item.column} not in
+                    <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                        ${item}
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="equals != null and equals != ''">
+                AND
+                <foreach collection="equals" item="item" open="(" separator="and" close=")">
+                    ${item.column} = ${item.value}
+                </foreach>
+            </if>
+            <if test="notEquals != null and notEquals != ''">
+                AND
+                <foreach collection="notEquals" item="item" open="(" separator="and" close=")">
+                    ${item.column} != ${item.value}
+                </foreach>
+            </if>
+            <if test="lts != null and lts != ''">
+                AND
+                <foreach collection="lts" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ < ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="gts != null and gts != ''">
+                AND
+                <foreach collection="gts" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ > ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="likes != null and likes != ''">
+                AND
+                <foreach collection="likes" item="item" open="(" separator="and" close=")">
+                    ${item.column} like concat('%', ${item.value}, '%')
+                </foreach>
+            </if>
+            <if test="ltes != null and ltes != ''">
+                AND
+                <foreach collection="ltes" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ <= ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="gtes != null and gtes != ''">
+                AND
+                <foreach collection="gtes" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ >= ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="ranges != null and ranges != ''">
+                AND
+                <foreach collection="ranges" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ >= ]]> #{item.from} and ${item.column} <![CDATA[ < ]]> #{item.to}
+                </foreach>
+            </if>
+            AND is_delete = 0
+        </trim>
+    </sql>
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.MdMaterialConsumeDetail">
+        insert into md_material_consume_detail
+        (
+        <include refid="mdMaterialConsumeDetail_sqlForInsert"/>
+        ,is_delete
+        )
+        values
+        (
+        <include refid="mdMaterialConsumeDetail_columnsForInsert"/>
+        ,0
+        )
+    </insert>
+
+    <update id="update" parameterType="com.resto.shop.web.model.MdMaterialConsumeDetail">
+        update md_material_consume_detail
+        <include refid="mdMaterialConsumeDetail_setterForUpdate" />
+        where id = #{id}
+        and is_delete = 0
+    </update>
+
+
+    <update id="updateByQuery" parameterType="com.resto.shop.web.model.MdMaterialConsumeDetail">
+        update md_material_consume_detail
+        <set>
+            gmt_modified = now(),
+            <if test="update.id != null">
+                id = #{update.id},
+            </if>
+            <if test="update.state != null">
+                state = #{update.state},
+            </if>
+            <if test="update.articleBomDetailId != null">
+                article_bom_detail_id = #{update.articleBomDetailId},
+            </if>
+            <if test="update.minMeasureUnit != null">
+                min_measure_unit = #{update.minMeasureUnit},
+            </if>
+            <if test="update.articleTotalCount != null">
+                article_total_count = #{update.articleTotalCount},
+            </if>
+            <if test="update.articleMealfeeNumber != null">
+                article_mealfee_number = #{update.articleMealfeeNumber},
+            </if>
+            <if test="update.articleFamilyId != null">
+                article_family_id = #{update.articleFamilyId},
+            </if>
+            <if test="update.materialConsume != null">
+                material_consume = #{update.materialConsume},
+            </if>
+            <if test="update.unitName != null">
+                unit_name = #{update.unitName},
+            </if>
+            <if test="update.articleId != null">
+                article_id = #{update.articleId},
+            </if>
+            <if test="update.materialId != null">
+                material_id = #{update.materialId},
+            </if>
+            <if test="update.materialType != null">
+                material_type = #{update.materialType},
+            </if>
+            <if test="update.materialName != null">
+                material_name = #{update.materialName},
+            </if>
+            <if test="update.specName != null">
+                spec_name = #{update.specName},
+            </if>
+            <if test="update.materialCode != null">
+                material_code = #{update.materialCode},
+            </if>
+            <if test="update.lossFactor != null">
+                loss_factor = #{update.lossFactor},
+            </if>
+            <if test="update.actLossFactor != null">
+                act_loss_factor = #{update.actLossFactor},
+            </if>
+            <if test="update.rate != null">
+                rate = #{update.rate},
+            </if>
+            <if test="update.coefficient != null">
+                coefficient = #{update.coefficient},
+            </if>
+            <if test="update.materialCount != null">
+                material_count = #{update.materialCount},
+            </if>
+            <if test="update.createrId != null">
+                creater_id = #{update.createrId},
+            </if>
+            <if test="update.createrName != null">
+                creater_name = #{update.createrName},
+            </if>
+            <if test="update.version != null">
+                version = #{update.version},
+            </if>
+            <if test="update.shopId != null">
+                shop_id = #{update.shopId},
+            </if>
+        </set>
+        <include refid="mdMaterialConsumeDetail_query_segment"/>
+    </update>
+
+
+    <insert id="insertOrUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.MdMaterialConsumeDetail">
+        insert into md_material_consume_detail
+        (
+        <include refid="mdMaterialConsumeDetail_sqlForInsert"/>
+        ,is_delete
+        )
+        values
+        (
+        <include refid="mdMaterialConsumeDetail_columnsForInsert"/>
+        ,0
+        )
+        on duplicate key update
+        gmt_modified = now()
+        <if test="id != null">
+            ,id = #{id}
+        </if>
+        <if test="state != null">
+            ,state = #{state}
+        </if>
+        <if test="articleBomDetailId != null">
+            ,article_bom_detail_id = #{articleBomDetailId}
+        </if>
+        <if test="minMeasureUnit != null">
+            ,min_measure_unit = #{minMeasureUnit}
+        </if>
+        <if test="articleTotalCount != null">
+            ,article_total_count = #{articleTotalCount}
+        </if>
+        <if test="articleMealfeeNumber != null">
+            ,article_mealfee_number = #{articleMealfeeNumber}
+        </if>
+        <if test="articleFamilyId != null">
+            ,article_family_id = #{articleFamilyId}
+        </if>
+        <if test="materialConsume != null">
+            ,material_consume = #{materialConsume}
+        </if>
+        <if test="unitName != null">
+            ,unit_name = #{unitName}
+        </if>
+        <if test="articleId != null">
+            ,article_id = #{articleId}
+        </if>
+        <if test="materialId != null">
+            ,material_id = #{materialId}
+        </if>
+        <if test="materialType != null">
+            ,material_type = #{materialType}
+        </if>
+        <if test="materialName != null">
+            ,material_name = #{materialName}
+        </if>
+        <if test="specName != null">
+            ,spec_name = #{specName}
+        </if>
+        <if test="materialCode != null">
+            ,material_code = #{materialCode}
+        </if>
+        <if test="lossFactor != null">
+            ,loss_factor = #{lossFactor}
+        </if>
+        <if test="actLossFactor != null">
+            ,act_loss_factor = #{actLossFactor}
+        </if>
+        <if test="rate != null">
+            ,rate = #{rate}
+        </if>
+        <if test="coefficient != null">
+            ,coefficient = #{coefficient}
+        </if>
+        <if test="materialCount != null">
+            ,material_count = #{materialCount}
+        </if>
+        <if test="createrId != null">
+            ,creater_id = #{createrId}
+        </if>
+        <if test="createrName != null">
+            ,creater_name = #{createrName}
+        </if>
+        <if test="version != null">
+            ,version = #{version}
+        </if>
+        <if test="shopId != null">
+            ,shop_id = #{shopId}
+        </if>
+    </insert>
+
+    <!-- Delete -->
+    <update id="delete">
+        update md_material_consume_detail
+        set is_delete = 1, gmt_modified = now()
+        <include refid="mdMaterialConsumeDetail_query_segment"/>
+    </update>
+    <update id="deleteById">
+    update md_material_consume_detail
+    set is_delete = 1, gmt_modified = now()
+    where id = #{id}
+</update>
+
+
+    <delete id="deletePhysicalById">
+        delete from md_material_consume_detail
+        where id = #{id}
+</delete>
+
+
+
+
+    <!-- query class -->
+    <sql id="mdMaterialConsumeDetail_groupBy">
+        <if test="groupBys != null and groupBys != ''">
+            group by
+            <foreach collection="groupBys" item="item" open="" separator="," close="">
+                ${item}
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="mdMaterialConsumeDetail_orderby">
+        <if test="orderBys != null and orderBys != ''">
+            order by
+            <foreach collection="orderBys" item="item" open="" separator="," close="">
+                ${item.column} ${item.direction}
+            </foreach>
+        </if>
+    </sql>
+
+
+    <select id="query" resultMap="mdMaterialConsumeDetailResult" parameterType="com.resto.shop.web.model.MdMaterialConsumeDetail">
+        <include refid="mdMaterialConsumeDetail_selector"/>
+        <include refid="mdMaterialConsumeDetail_query_segment"/>
+        <include refid="mdMaterialConsumeDetail_groupBy"/>
+        <include refid="mdMaterialConsumeDetail_orderby"/>
+    </select>
+
+    <select id="query4Page" resultMap="mdMaterialConsumeDetailResult" parameterType="com.resto.shop.web.model.MdMaterialConsumeDetail">
+        <include refid="mdMaterialConsumeDetail_selector"/>
+        <include refid="mdMaterialConsumeDetail_query_segment"/>
+        <include refid="mdMaterialConsumeDetail_groupBy"/>
+        <include refid="mdMaterialConsumeDetail_orderby"/>
+        limit ${startRowForMysql}, ${pageSize}
+    </select>
+
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM md_material_consume_detail
+        <include refid="mdMaterialConsumeDetail_query_segment"/>
+    </select>
+
+    <select id="getById" resultMap="mdMaterialConsumeDetailResult">
+        <include refid="mdMaterialConsumeDetail_selector"/>
+        where id = #{id}
+        and is_delete = 0
+    </select>
+
+    <select id="getByIdForUpdate" resultMap="mdMaterialConsumeDetailResult">
+        <include refid="mdMaterialConsumeDetail_selector"/>
+        where id = #{id}
+        and is_delete = 0
+        for update
+    </select>
+
+
+    <select id="queryJoin4Page" resultType="com.resto.shop.web.model.MdMaterialConsumeDetail">
+        SELECT * FROM md_material_consume_detail WHERE shop_detail_id = #{shopId}
+</select>
+
+</mapper>

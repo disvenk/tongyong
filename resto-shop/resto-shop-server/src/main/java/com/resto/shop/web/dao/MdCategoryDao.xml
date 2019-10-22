@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.MdCategoryDao">
+
+    <resultMap id="mdCategoryResult" type="com.resto.shop.web.model.MdCategory">
+        <result column="id" property="id"/>
+        <result column="category_hierarchy" property="categoryHierarchy"/>
+        <result column="shop_detail_id" property="shopDetailId"/>
+        <result column="category_code" property="categoryCode"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="category_desc" property="categoryDesc"/>
+        <result column="is_leaf" property="isLeaf"/>
+        <result column="active_status" property="activeStatus"/>
+        <result column="keyword" property="keyword"/>
+        <result column="sort" property="sort"/>
+    </resultMap>
+
+    <sql id="mdCategory_columns">
+        id,
+        category_hierarchy,
+        shop_detail_id,
+        category_code,
+        category_name,
+        gmt_create,
+        gmt_modified,
+        parent_id,
+        category_desc,
+        is_leaf,
+        active_status,
+        keyword,
+        sort
+    </sql>
+
+    <sql id="mdCategory_sqlForInsert">
+        category_hierarchy,
+        shop_detail_id,
+        category_code,
+        category_name,
+        gmt_create,
+        gmt_modified,
+        parent_id,
+        category_desc,
+        is_leaf,
+        active_status,
+        keyword,
+        sort
+    </sql>
+
+    <sql id="mdCategory_columnsForInsert">
+        #{categoryHierarchy},
+        #{shopDetailId},
+        #{categoryCode},
+        #{categoryName},
+        now(),
+        now(),
+        #{parentId},
+        #{categoryDesc},
+        #{isLeaf},
+        #{activeStatus},
+        #{keyword},
+        #{sort}
+    </sql>
+
+    <sql id="mdCategory_setterForUpdate">
+        <set>
+            gmt_modified = now(),
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="categoryHierarchy != null">
+                category_hierarchy = #{categoryHierarchy},
+            </if>
+            <if test="shopDetailId != null">
+                shop_detail_id = #{shopDetailId},
+            </if>
+            <if test="categoryCode != null">
+                category_code = #{categoryCode},
+            </if>
+            <if test="categoryName != null">
+                category_name = #{categoryName},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId},
+            </if>
+            <if test="categoryDesc != null">
+                category_desc = #{categoryDesc},
+            </if>
+            <if test="isLeaf != null">
+                is_leaf = #{isLeaf},
+            </if>
+            <if test="activeStatus != null">
+                active_status = #{activeStatus},
+            </if>
+            <if test="keyword != null">
+                keyword = #{keyword},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+        </set>
+    </sql>
+
+    <sql id="mdCategory_selector">
+        select
+        <include refid="mdCategory_columns"/>
+        from md_category
+    </sql>
+
+    <sql id="mdCategory_query_segment">
+        <trim prefix="WHERE" prefixOverrides="AND|OR">
+            <if test="data.id != null">
+                AND id = #{data.id}
+            </if>
+            <if test="data.categoryHierarchy != null">
+                AND category_hierarchy = #{data.categoryHierarchy}
+            </if>
+            <if test="data.shopDetailId != null">
+                AND shop_detail_id = #{data.shopDetailId}
+            </if>
+            <if test="data.categoryCode != null">
+                AND category_code = #{data.categoryCode}
+            </if>
+            <if test="data.categoryName != null">
+                AND category_name = #{data.categoryName}
+            </if>
+            <if test="data.gmtCreate != null">
+                AND gmt_create = #{data.gmtCreate}
+            </if>
+            <if test="data.gmtModified != null">
+                AND gmt_modified = #{data.gmtModified}
+            </if>
+            <if test="data.parentId != null">
+                AND parent_id = #{data.parentId}
+            </if>
+            <if test="data.categoryDesc != null">
+                AND category_desc = #{data.categoryDesc}
+            </if>
+            <if test="data.isLeaf != null">
+                AND is_leaf = #{data.isLeaf}
+            </if>
+            <if test="data.activeStatus != null">
+                AND active_status = #{data.activeStatus}
+            </if>
+            <if test="data.keyword != null">
+                AND keyword = #{data.keyword}
+            </if>
+            <if test="data.sort != null">
+                AND sort = #{data.sort}
+            </if>
+            <if test="ins != null and ins != ''">
+                AND
+                <foreach collection="ins" item="item" open="(" separator="and" close=")">
+                    ${item.column} in
+                    <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                        ${item}
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="notIns != null and notIns != ''">
+                AND
+                <foreach collection="notIns" item="item" open="(" separator="and" close=")">
+                    ${item.column} not in
+                    <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                        ${item}
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="equals != null and equals != ''">
+                AND
+                <foreach collection="equals" item="item" open="(" separator="and" close=")">
+                    ${item.column} = ${item.value}
+                </foreach>
+            </if>
+            <if test="notEquals != null and notEquals != ''">
+                AND
+                <foreach collection="notEquals" item="item" open="(" separator="and" close=")">
+                    ${item.column} != ${item.value}
+                </foreach>
+            </if>
+            <if test="lts != null and lts != ''">
+                AND
+                <foreach collection="lts" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ < ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="gts != null and gts != ''">
+                AND
+                <foreach collection="gts" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ > ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="likes != null and likes != ''">
+                AND
+                <foreach collection="likes" item="item" open="(" separator="and" close=")">
+                    ${item.column} like concat('%', ${item.value}, '%')
+                </foreach>
+            </if>
+            <if test="ltes != null and ltes != ''">
+                AND
+                <foreach collection="ltes" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ <= ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="gtes != null and gtes != ''">
+                AND
+                <foreach collection="gtes" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ >= ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="ranges != null and ranges != ''">
+                AND
+                <foreach collection="ranges" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ >= ]]> #{item.from} and ${item.column} <![CDATA[ < ]]> #{item.to}
+                </foreach>
+            </if>
+            AND is_delete = 0
+        </trim>
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.MdCategory">
+        insert into md_category
+        (
+        <include refid="mdCategory_sqlForInsert"/>
+        ,is_delete
+        )
+        values
+        (
+        <include refid="mdCategory_columnsForInsert"/>
+        ,0
+        )
+    </insert>
+
+    <update id="update" parameterType="com.resto.shop.web.model.MdCategory">
+        update md_category
+        <include refid="mdCategory_setterForUpdate" />
+        where id = #{id}
+        and is_delete = 0
+    </update>
+
+    <update id="updateByQuery" parameterType="com.resto.shop.web.model.MdCategory">
+        update md_category
+        <set>
+            gmt_modified = now(),
+            <if test="update.id != null">
+                id = #{update.id},
+            </if>
+            <if test="update.categoryHierarchy != null">
+                category_hierarchy = #{update.categoryHierarchy},
+            </if>
+            <if test="update.shopDetailId != null">
+                shop_detail_id = #{update.shopDetailId},
+            </if>
+            <if test="update.categoryCode != null">
+                category_code = #{update.categoryCode},
+            </if>
+            <if test="update.categoryName != null">
+                category_name = #{update.categoryName},
+            </if>
+            <if test="update.parentId != null">
+                parent_id = #{update.parentId},
+            </if>
+            <if test="update.categoryDesc != null">
+                category_desc = #{update.categoryDesc},
+            </if>
+            <if test="update.isLeaf != null">
+                is_leaf = #{update.isLeaf},
+            </if>
+            <if test="update.activeStatus != null">
+                active_status = #{update.activeStatus},
+            </if>
+            <if test="update.keyword != null">
+                keyword = #{update.keyword},
+            </if>
+            <if test="update.sort != null">
+                sort = #{update.sort},
+            </if>
+        </set>
+        <include refid="mdCategory_query_segment"/>
+    </update>
+
+    <insert id="insertOrUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.MdCategory">
+        insert into md_category
+        (
+        <include refid="mdCategory_sqlForInsert"/>
+        ,is_delete
+        )
+        values
+        (
+        <include refid="mdCategory_columnsForInsert"/>
+        ,0
+        )
+        on duplicate key update
+        gmt_modified = now()
+        <if test="id != null">
+            ,id = #{id}
+        </if>
+        <if test="categoryHierarchy != null">
+            ,category_hierarchy = #{categoryHierarchy}
+        </if>
+        <if test="shopDetailId != null">
+            ,shop_detail_id = #{shopDetailId}
+        </if>
+        <if test="categoryCode != null">
+            ,category_code = #{categoryCode}
+        </if>
+        <if test="categoryName != null">
+            ,category_name = #{categoryName}
+        </if>
+        <if test="parentId != null">
+            ,parent_id = #{parentId}
+        </if>
+        <if test="categoryDesc != null">
+            ,category_desc = #{categoryDesc}
+        </if>
+        <if test="isLeaf != null">
+            ,is_leaf = #{isLeaf}
+        </if>
+        <if test="activeStatus != null">
+            ,active_status = #{activeStatus}
+        </if>
+        <if test="keyword != null">
+            ,keyword = #{keyword}
+        </if>
+        <if test="sort != null">
+            ,sort = #{sort}
+        </if>
+    </insert>
+
+    <!-- Delete -->
+    <update id="delete">
+        update md_category
+        set is_delete = 1, gmt_modified = now()
+        <include refid="mdCategory_query_segment"/>
+    </update>
+    <update id="deleteById">
+        update md_category
+        set is_delete = 1, gmt_modified = now()
+        where id = #{id}
+    </update>
+
+    <!-- query class -->
+    <sql id="mdCategory_groupBy">
+        <if test="groupBys != null and groupBys != ''">
+            group by
+            <foreach collection="groupBys" item="item" open="" separator="," close="">
+                ${item}
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="mdCategory_orderby">
+        <if test="orderBys != null and orderBys != ''">
+            order by
+            <foreach collection="orderBys" item="item" open="" separator="," close="">
+                ${item.column} ${item.direction}
+            </foreach>
+        </if>
+    </sql>
+
+
+    <select id="query" resultMap="mdCategoryResult" parameterType="com.resto.shop.web.model.MdCategory">
+        <include refid="mdCategory_selector"/>
+        <include refid="mdCategory_query_segment"/>
+        <include refid="mdCategory_groupBy"/>
+        <include refid="mdCategory_orderby"/>
+    </select>
+
+    <select id="query4Page" resultMap="mdCategoryResult" parameterType="com.resto.shop.web.model.MdCategory">
+        <include refid="mdCategory_selector"/>
+        <include refid="mdCategory_query_segment"/>
+        <include refid="mdCategory_groupBy"/>
+        <include refid="mdCategory_orderby"/>
+        limit ${startRowForMysql}, ${pageSize}
+    </select>
+
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM md_category
+        <include refid="mdCategory_query_segment"/>
+    </select>
+
+    <select id="getById" resultMap="mdCategoryResult">
+        <include refid="mdCategory_selector"/>
+        where id = #{id}
+        and is_delete = 0
+    </select>
+
+    <select id="getByIdForUpdate" resultMap="mdCategoryResult">
+        <include refid="mdCategory_selector"/>
+        where id = #{id}
+        and is_delete = 0
+        for update
+    </select>
+
+    <resultMap id="mdCategoryOneResult" type="com.resto.shop.web.dto.CategoryOne">
+        <result column="id" property="id"/>
+        <result column="category_name" property="name"/>
+        <result column="parent_id" property="parentId"/>
+        <collection property="twoList" column="id" select="findCategoryTwoList"
+                    ofType="com.resto.shop.web.dto.CategoryTwo"/>
+    </resultMap>
+
+    <resultMap id="mdCategoryTwoResult" type="com.resto.shop.web.dto.CategoryTwo">
+        <result column="id" property="id"/>
+        <result column="category_name" property="name"/>
+        <result column="parent_id" property="parentId"/>
+    </resultMap>
+
+    <resultMap id="mdCategoryThreeResult" type="com.resto.shop.web.dto.CategoryThree">
+        <result column="id" property="id"/>
+        <result column="category_name" property="name"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="shop_detail_id" property="shopId"/>
+        <collection property="materialList" column="{thirdId=id,shopId=shop_detail_id}"
+                    select="com.resto.shop.web.dao.MdMaterialDao.findMaterialByThirdId"
+                    ofType="com.resto.shop.web.dao.MdMaterialDao"/>
+    </resultMap>
+
+
+    <resultMap id="mdCategoryThreeResultWithSupPriceId" type="com.resto.shop.web.dto.CategoryThree">
+        <result column="id" property="id"/>
+        <result column="category_name" property="name"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="shop_detail_id" property="shopId"/>
+        <!--<collection property="materialList" column="{thirdId=id,shopId=shop_detail_id}"-->
+                    <!--select="com.resto.shop.web.dao.MdMaterialDao.findCategoryThreeListWithSupPriceId"-->
+                    <!--ofType="com.resto.shop.web.dto.MaterialDo"/>-->
+    </resultMap>
+
+    <resultMap id="mdCategoryThreeResultWithPmsHeadId" type="com.resto.shop.web.dto.CategoryThree">
+        <result column="id" property="id"/>
+        <result column="category_name" property="name"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="shop_detail_id" property="shopId"/>
+        <collection property="materialList" column="{thirdId=id,shopId=shop_detail_id}"
+                    select="com.resto.shop.web.dao.MdMaterialDao.findCategoryThreeListWithPmsHeadId"
+                    ofType="com.resto.shop.web.dto.MaterialDo"/>
+    </resultMap>
+
+
+
+
+    <select id="findCategoryList" resultMap="mdCategoryOneResult">
+        SELECT
+            id,
+            category_name,
+            parent_id
+        FROM
+            `md_category`
+        WHERE
+            category_hierarchy = 1
+        AND is_delete = 0
+    </select>
+
+    <select id="findCategoryTwoList" resultMap="mdCategoryTwoResult">
+        SELECT
+            id,
+            category_name,
+            parent_id
+        FROM
+            `md_category`
+        WHERE
+            parent_id = #{id}
+        AND is_delete = 0
+    </select>
+
+    <select id="findCategoryThreeList" resultMap="mdCategoryThreeResult">
+        SELECT
+            id,
+            category_name,
+            parent_id,
+            shop_detail_id
+        FROM
+            `md_category`
+        WHERE
+            parent_id = #{id}
+        AND shop_detail_id = #{shopId}
+        AND is_delete = 0
+    </select>
+
+
+    <select id="findCategoryThreeListWithSupPriceId" resultMap="mdCategoryThreeResultWithSupPriceId">
+        SELECT
+        id,
+        category_name,
+        parent_id,
+        shop_detail_id
+        FROM
+        `md_category`
+        WHERE
+        parent_id = #{id}
+        AND shop_detail_id = #{shopId}
+        AND is_delete = 0
+    </select>
+
+
+
+    <select id="findCategoryThreeListWithPmsHeadId" resultMap="mdCategoryThreeResultWithPmsHeadId">
+        SELECT
+        id,
+        category_name,
+        parent_id,
+        shop_detail_id
+        FROM
+        `md_category`
+        WHERE
+        parent_id = #{id}
+        AND shop_detail_id = #{shopId}
+        AND is_delete = 0
+    </select>
+
+
+
+
+
+
+
+
+
+
+    <select id="queryCategories" resultMap="mdCategoryResult">
+        SELECT
+        <include refid="mdCategory_columns"/>
+        FROM
+            `md_category`
+        WHERE
+            category_hierarchy = 1
+        AND is_delete = 0
+        AND id != 1
+        ORDER BY sort ASC
+    </select>
+
+</mapper>

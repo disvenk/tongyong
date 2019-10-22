@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.PrinterMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.Printer">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="ip" property="ip" jdbcType="VARCHAR"/>
+    <result column="port" property="port" jdbcType="VARCHAR"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+    <result column="print_type" property="printType" jdbcType="INTEGER"/>
+    <result column="ticket_type" property="ticketType" />
+    <result column="range" property="range"/>
+    <result column="receive_money" property="receiveMoney"/>
+    <result column="bill_of_account" property="billOfAccount"/>
+    <result column="bill_of_consumption" property="billOfConsumption"/>
+    <result column="support_tangshi" property="supportTangshi"/>
+    <result column="support_waidai" property="supportWaidai"/>
+    <result column="support_waimai" property="supportWaimai"/>
+    <result column="state" property="state"/>
+    <result column="spare_ip" property="spareIp"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, name, ip, port, shop_detail_id,print_type,ticket_type,`range`,receive_money,bill_of_account,bill_of_consumption,support_tangshi,support_waidai,support_waimai,state, spare_ip</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">select 
+    <include refid="Base_Column_List"/> from tb_printer where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">delete from tb_printer where id = #{id,jdbcType=INTEGER}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.Printer" useGeneratedKeys="true" keyProperty="id">insert into tb_printer (id, name, ip, port, shop_detail_id) values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{port,jdbcType=VARCHAR}, #{shopDetailId,jdbcType=VARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.Printer" useGeneratedKeys="true" keyProperty="id">insert into tb_printer
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="name != null">name,</if>  
+      <if test="ip != null">ip,</if>  
+      <if test="port != null">port,</if>  
+      <if test="shopDetailId != null">shop_detail_id,</if> 
+      <if test="printType != null">print_type,</if>
+      <if test="ticketType != null">ticket_type,</if>
+      <if test="range != null">`range`,</if>
+      <if test="receiveMoney != null">receive_money,</if>
+      <if test="billOfAccount != null">bill_of_account,</if>
+      <if test="billOfConsumption != null">bill_of_consumption,</if>
+      <if test="supportTangshi != null">support_tangshi,</if>
+      <if test="supportWaidai != null">support_waidai,</if>
+      <if test="supportWaimai != null">support_waimai,</if>
+      <if test="state != null">state,</if>
+      <if test="spareIp != null">spare_ip,</if>
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=INTEGER},</if>  
+      <if test="name != null">#{name,jdbcType=VARCHAR},</if>  
+      <if test="ip != null">#{ip,jdbcType=VARCHAR},</if>  
+      <if test="port != null">#{port,jdbcType=VARCHAR},</if>  
+      <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if> 
+      <if test="printType != null">#{printType,jdbcType=INTEGER},</if>
+      <if test="ticketType != null">#{ticketType},</if>
+      <if test="range != null">#{range},</if>
+      <if test="receiveMoney != null">#{receiveMoney},</if>
+      <if test="billOfAccount != null">#{billOfAccount},</if>
+      <if test="billOfConsumption != null">#{billOfConsumption},</if>
+      <if test="supportTangshi != null">#{supportTangshi},</if>
+      <if test="supportWaidai != null">#{supportWaidai},</if>
+      <if test="supportWaimai != null">#{supportWaimai},</if>
+      <if test="state != null">#{state},</if>
+      <if test="spareIp != null">#{spareIp},</if>
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.Printer">update tb_printer 
+    <set> 
+      <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>  
+      <if test="ip != null">ip = #{ip,jdbcType=VARCHAR},</if>  
+      <if test="port != null">port = #{port,jdbcType=VARCHAR},</if>  
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if> 
+      <if test="printType != null">print_type = #{printType,jdbcType=INTEGER},</if>
+      <if test="ticketType != null">ticket_type = #{ticketType},</if>
+      <if test="range != null">`range` = #{range},</if>
+      <if test="receiveMoney != null">receive_money = #{receiveMoney},</if>
+      <if test="billOfAccount != null">bill_of_account = #{billOfAccount},</if>
+      <if test="billOfConsumption != null">bill_of_consumption = #{billOfConsumption},</if>
+      <if test="supportTangshi != null">support_tangshi = #{supportTangshi},</if>
+      <if test="supportWaidai != null">support_waidai = #{supportWaidai},</if>
+      <if test="supportWaimai != null">support_waimai = #{supportWaimai},</if>
+      <if test="state != null">state = #{state},</if>
+      <if test="spareIp != null">spare_ip = #{spareIp},</if>
+    </set> where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.Printer">
+  		update tb_printer set name = #{name,jdbcType=VARCHAR}, ip = #{ip,jdbcType=VARCHAR}, port = #{port,jdbcType=VARCHAR}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR} ,print_type = #{printType,jdbcType=INTEGER} where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectList" resultType="Printer">select * from tb_printer</select>
+  
+  <!-- 根据店铺ID查询信息 -->
+  <select id="selectListByShopId" resultType="com.resto.shop.web.model.Printer">
+  	select * from tb_printer
+  	<if test="shopId!=null and shopId!=''">
+		where shop_detail_id = #{shopId} 
+	</if>
+  </select>
+  
+  <select id="selectByShopAndType" resultType="Printer">
+  	select * from tb_printer
+		where shop_detail_id = #{shopDetailId} and print_type=#{printType} and `range` = 0
+  </select>
+
+
+  <select id="checkError" resultType="java.lang.Integer">
+    select count(1) from tb_order where production_status = 5
+    and shop_detail_id = #{shopId} and DATE_FORMAT(NOW(),'%m-%d-%Y') = DATE_FORMAT(push_order_time,'%m-%d-%Y')
+    and print_times = 0 and order_state != 9
+  </select>
+
+
+  <select id="selectQiantai" resultType="Printer">
+    select * from tb_printer where shop_detail_id = #{shopId} and  print_type = 2
+    and `range` = #{type}
+  </select>
+
+  <select id="getCashPrinter" resultType="Printer">
+    select * from tb_printer where receive_money = 1
+     and shop_detail_id = #{shopId}
+     order by id desc limit 1
+  </select>
+
+  <select id="selectTicketNotSame" resultType="Printer">
+     select * from tb_printer where shop_detail_id = #{shopId} and ticket_type = 0
+     GROUP BY ip
+  </select>
+
+  <select id="selectLabelNotSame" resultType="Printer">
+    select * from tb_printer where shop_detail_id = #{shopId} and ticket_type = 1
+    GROUP BY port
+  </select>
+
+  <select id="selectPrintByType" resultType="com.resto.shop.web.model.Printer">
+    select * from tb_printer where shop_detail_id = #{shopId} and print_type = #{type} and ticket_type = 0
+  </select>
+
+  <update id="updateSpareIpByIp" parameterType="com.resto.shop.web.model.Printer">
+    update tb_printer set spare_ip = #{spareIp} where ip = #{ip}
+  </update>
+</mapper>

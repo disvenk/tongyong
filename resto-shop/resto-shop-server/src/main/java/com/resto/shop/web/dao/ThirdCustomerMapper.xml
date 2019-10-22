@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.ThirdCustomerMapper">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.ThirdCustomer">
+        <result column="id" property="id"/>
+        <result column="telephone" property="telephone"/>
+        <result column="money" property="money"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="type" property="type"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">id, telephone, money, customer_id, `type`, remark</sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select
+        <include refid="Base_Column_List"/> from tb_third_customer where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.resto.shop.web.model.ThirdCustomer">insert into tb_third_customer (id, telephone, money, customer_id, `type`, remark) values (#{id}, #{telephone}, #{money}, #{customerId}, #{type}, #{remark})</insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from tb_third_customer where id = #{id}</delete>
+
+    <insert id="insertSelective" parameterType="com.resto.shop.web.model.ThirdCustomer">insert into tb_third_customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="telephone != null">telephone,</if>
+            <if test="money != null">money,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="type != null">`type`,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="telephone != null">#{telephone},</if>
+            <if test="money != null">#{money},</if>
+            <if test="customerId != null">#{customerId},</if>
+            <if test="type null">#{type},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <select id="selectList" resultType="ThirdCustomer">select * from tb_third_customer</select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.ThirdCustomer">update tb_third_customer
+        <set>
+            <if test="telephone != null">telephone = #{telephone},</if>
+            <if test="money != null">money = #{money},</if>
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="type != null">`type` = #{type},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set> where id = #{id}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.ThirdCustomer">
+        update tb_third_customer set
+        telephone = #{telephone}, money = #{money},
+        customer_id = #{customerId}, `type` = #{type},remark = #{remark}
+        where id = #{id}
+    </update>
+
+    <select id="selectByTelephone" resultMap="BaseResultMap" parameterType="java.lang.String">select
+        <include refid="Base_Column_List"/> from tb_third_customer where telephone = #{tel} and `type` = 1
+    </select>
+
+</mapper>

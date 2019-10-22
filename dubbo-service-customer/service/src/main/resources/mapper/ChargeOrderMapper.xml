@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.service.customer.mapper.ChargeOrderMapper">
+  <resultMap id="BaseResultMap" type="com.resto.api.customer.entity.ChargeOrder">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="charge_money" jdbcType="DECIMAL" property="chargeMoney" />
+    <result column="reward_money" jdbcType="DECIMAL" property="rewardMoney" />
+    <result column="order_state" jdbcType="TINYINT" property="orderState" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="customer_id" jdbcType="VARCHAR" property="customerId" />
+    <result column="brand_id" jdbcType="VARCHAR" property="brandId" />
+    <result column="shop_detail_id" jdbcType="VARCHAR" property="shopDetailId" />
+    <result column="charge_balance" jdbcType="DECIMAL" property="chargeBalance" />
+    <result column="reward_balance" jdbcType="DECIMAL" property="rewardBalance" />
+    <result column="total_balance" jdbcType="DECIMAL" property="totalBalance" />
+    <result column="number_day_now" jdbcType="INTEGER" property="numberDayNow" />
+    <result column="arrival_amount" jdbcType="DECIMAL" property="arrivalAmount" />
+    <result column="end_amount" jdbcType="DECIMAL" property="endAmount" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="charge_setting_id" jdbcType="VARCHAR" property="chargeSettingId" />
+  </resultMap>
+
+  <update id="refundCharge">
+    update tb_charge_order
+    set charge_balance = charge_balance+#{0},
+    total_balance = charge_balance+reward_balance
+    where id=#{1}
+  </update>
+
+  <update id="refundMoney">
+    update tb_charge_order
+    set charge_balance = charge_balance+#{0},
+    reward_balance = reward_balance+#{1},
+    total_balance = charge_balance+reward_balance
+    where id=#{2}
+  </update>
+
+  <update id="refundReward">
+    update tb_charge_order
+    set reward_balance = reward_balance+#{0},
+    total_balance = charge_balance+reward_balance
+    where id=#{1}
+  </update>
+
+  <select id="selectByDateAndShopId" resultType="com.resto.api.customer.entity.ChargeOrder">
+    SELECT
+    id,
+    create_time,
+    order_state,
+    charge_money,
+    shop_detail_id,
+    brand_id
+    FROM
+    tb_charge_order
+    WHERE
+    shop_detail_id = #{shopId} and
+    <![CDATA[
+        create_time>#{beginDate} and create_time<#{endDate}
+        ]]>
+    AND order_state = 1
+  </select>
+
+  <select id="selectByDateAndBrandId" resultType="com.resto.api.customer.entity.ChargeOrder">
+    SELECT
+    id,
+    order_state,
+    charge_money,
+    shop_detail_id,
+    brand_id
+    FROM
+    tb_charge_order
+    WHERE
+    brand_id = #{brandId} and
+    <![CDATA[
+        create_time>#{beginDate} and create_time<#{endDate}
+        ]]>
+    AND order_state = 1
+  </select>
+
+  <select id="selectByShopToDay" parameterType="java.util.Map" resultType="java.util.Map">
+    select tco.charge_money chargeMoney,tc.telephone from tb_charge_order tco
+    inner join tb_customer tc on  tco.customer_id = tc.id
+    where tco.shop_detail_id = #{shopId}
+    and tco.order_state = 1
+    and tco.finish_time &gt;= CONCAT(#{beginDate}, ' 00:00:00')
+    and tco.finish_time &lt;= CONCAT(#{endDate}, ' 23:59:59')
+  </select>
+
+  <select id="selectListByDateAndShopId" resultType="com.resto.api.customer.entity.ChargeOrder">
+    SELECT
+    c.id,
+    c.charge_money,
+    c.create_time,
+    c.brand_id,
+    c.shop_detail_id,
+    c.type,
+    u.telephone
+    FROM
+    tb_charge_order c
+    LEFT JOIN tb_customer u ON c.customer_id = u.id
+    WHERE
+    c.order_state = 1
+    AND c.shop_detail_id=#{shopId}
+    AND
+    <![CDATA[
+        c.create_time>#{beginDate} and c.create_time<#{endDate}
+       ]]>
+
+  </select>
+
+  <select id="selectByCustomerIdAndBrandId" resultType="com.resto.api.customer.entity.ChargeOrder">
+    SELECT
+    c.id,
+    c.charge_money,
+    c.create_time,
+    c.brand_id,
+    c.shop_detail_id,
+    c.type,
+    u.telephone
+    FROM
+    tb_charge_order c
+    INNER JOIN tb_customer u ON c.customer_id = u.id
+    WHERE
+    c.order_state = 1
+    AND c.brand_id =#{brandId}
+    AND u.id =#{customerId}
+  </select>
+
+  <select id="getChargeSumInfo" parameterType="java.util.Map" resultType="java.util.Map">
+    select shop_detail_id shopId, COUNT(1) chargeCount, SUM(charge_money) chargeMoney from tb_charge_order where order_state = 1 and finish_time &gt;= CONCAT(#{beginDate}, ' 00:00:00') and finish_time &lt;= CONCAT(#{endDate}, ' 23:59:59')
+    <if test="shopId != null">
+      and shop_detail_id = #{shopId}
+    </if>
+    <if test="chart != null">
+      GROUP BY shop_detail_id,customer_id
+    </if>
+    <if test="chart == null">
+      GROUP BY customer_id
+    </if>
+  </select>
+
+  <select id="selectCustomerChargeOrder" resultType="java.lang.String">
+    select customer_id from tb_charge_order where order_state = 1
+    <if test="list != null and list.size() > 0">
+      and customer_id in
+      <foreach collection="list" item="customerId" open="(" separator="," close=")">
+        #{customerId}
+      </foreach>
+    </if>
+  </select>
+
+  <select id="selectTotalBalanceByTimeAndShopId" resultType="java.math.BigDecimal">
+
+    select sum(charge_money)
+    from tb_charge_order
+    where order_state = 1
+    <if test="shopId != null">
+      and shop_detail_id = #{shopId}
+    </if>
+    and finish_time &gt;= CONCAT(#{monthBegin},' 00:00:00')
+    and finish_time &lt;= CONCAT(#{monthEnd},' 23:59:59')
+
+  </select>
+
+  <select id="selectRemainderReturn" resultMap="BaseResultMap">
+    SELECT
+    tco.*,
+    tc.wechat_id,
+    tc.account_id
+    FROM
+    tb_charge_order tco
+    INNER JOIN tb_customer tc ON tco.customer_id = tc.id
+    WHERE
+    tco.order_state = 1
+    AND tco.number_day_now > 0
+  </select>
+
+  <select id="selectByCustomerIdNotChangeIdList" resultType="com.resto.api.customer.entity.ChargeOrder">
+    select * from tb_charge_order where order_state = 1 and charge_setting_id is null
+    and reward_money = 0 and customer_id = #{customerId}
+  </select>
+
+  <select id="selectByCustomerIdNotChangeId" resultType="java.math.BigDecimal">
+    select sum(charge_balance) from tb_charge_order where order_state = 1 and charge_setting_id is null
+    and reward_money = 0 and customer_id = #{customerId}
+  </select>
+</mapper>

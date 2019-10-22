@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.DocReturnDetailDao">
+
+<resultMap id="docReturnDetailResult" type="com.resto.shop.web.model.DocReturnDetail">
+    <result column="id" property="id"/>
+    <result column="creater_id" property="createrId"/>
+    <result column="gmt_modified" property="gmtModified"/>
+    <result column="auditor" property="auditor"/>
+    <result column="updater_id" property="updaterId"/>
+    <result column="updater_name" property="updaterName"/>
+    <result column="note" property="note"/>
+    <result column="creater_name" property="createrName"/>
+    <result column="gmt_create" property="gmtCreate"/>
+    <result column="line_status" property="lineStatus"/>
+    <result column="material_id" property="materialId"/>
+    <result column="return_header_id" property="returnHeaderId"/>
+    <result column="return_header_code" property="returnHeaderCode"/>
+</resultMap>
+
+<sql id="docReturnDetail_columns">
+    id,
+    creater_id,
+    gmt_modified,
+    auditor,
+    updater_id,
+    updater_name,
+    note,
+    creater_name,
+    gmt_create,
+    line_status,
+    material_id,
+    return_header_id,
+    return_header_code
+</sql>
+
+<sql id="docReturnDetail_sqlForInsert">
+    creater_id,
+    gmt_modified,
+    auditor,
+    updater_id,
+    updater_name,
+    note,
+    creater_name,
+    gmt_create,
+    line_status,
+    material_id,
+    return_header_id,
+    return_header_code
+</sql>
+
+<sql id="docReturnDetail_columnsForInsert">
+    #{createrId},
+    now(),
+    #{auditor},
+    #{updaterId},
+    #{updaterName},
+    #{note},
+    #{createrName},
+    now(),
+    #{lineStatus},
+    #{materialId},
+    #{returnHeaderId},
+    #{returnHeaderCode}
+</sql>
+
+<sql id="docReturnDetail_setterForUpdate">
+    <set>
+        gmt_modified = now(),
+        <if test="id != null">
+            id = #{id},
+        </if>
+        <if test="createrId != null">
+            creater_id = #{createrId},
+        </if>
+        <if test="auditor != null">
+            auditor = #{auditor},
+        </if>
+        <if test="updaterId != null">
+            updater_id = #{updaterId},
+        </if>
+        <if test="updaterName != null">
+            updater_name = #{updaterName},
+        </if>
+        <if test="note != null">
+            note = #{note},
+        </if>
+        <if test="createrName != null">
+            creater_name = #{createrName},
+        </if>
+        <if test="lineStatus != null">
+            line_status = #{lineStatus},
+        </if>
+        <if test="materialId != null">
+            material_id = #{materialId},
+        </if>
+        <if test="returnHeaderId != null">
+            return_header_id = #{returnHeaderId},
+        </if>
+        <if test="returnHeaderCode != null">
+            return_header_code = #{returnHeaderCode},
+        </if>
+    </set>
+</sql>
+
+<sql id="docReturnDetail_selector">
+    select
+    <include refid="docReturnDetail_columns"/>
+    from doc_return_detail
+</sql>
+
+<sql id="docReturnDetail_query_segment">
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+        <if test="data.id != null">
+            AND id = #{data.id}
+        </if>
+        <if test="data.createrId != null">
+            AND creater_id = #{data.createrId}
+        </if>
+        <if test="data.gmtModified != null">
+            AND gmt_modified = #{data.gmtModified}
+        </if>
+        <if test="data.auditor != null">
+            AND auditor = #{data.auditor}
+        </if>
+        <if test="data.updaterId != null">
+            AND updater_id = #{data.updaterId}
+        </if>
+        <if test="data.updaterName != null">
+            AND updater_name = #{data.updaterName}
+        </if>
+        <if test="data.note != null">
+            AND note = #{data.note}
+        </if>
+        <if test="data.createrName != null">
+            AND creater_name = #{data.createrName}
+        </if>
+        <if test="data.gmtCreate != null">
+            AND gmt_create = #{data.gmtCreate}
+        </if>
+        <if test="data.lineStatus != null">
+            AND line_status = #{data.lineStatus}
+        </if>
+        <if test="data.materialId != null">
+            AND material_id = #{data.materialId}
+        </if>
+        <if test="data.returnHeaderId != null">
+            AND return_header_id = #{data.returnHeaderId}
+        </if>
+        <if test="data.returnHeaderCode != null">
+            AND return_header_code = #{data.returnHeaderCode}
+        </if>
+        <if test="ins != null and ins != ''">
+            AND
+            <foreach collection="ins" item="item" open="(" separator="and" close=")">
+                ${item.column} in
+                <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                    ${item}
+                </foreach>
+            </foreach>
+        </if>
+        <if test="notIns != null and notIns != ''">
+            AND
+            <foreach collection="notIns" item="item" open="(" separator="and" close=")">
+                ${item.column} not in
+                <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                    ${item}
+                </foreach>
+            </foreach>
+        </if>
+        <if test="equals != null and equals != ''">
+            AND
+            <foreach collection="equals" item="item" open="(" separator="and" close=")">
+                ${item.column} = ${item.value}
+            </foreach>
+        </if>
+        <if test="notEquals != null and notEquals != ''">
+            AND
+            <foreach collection="notEquals" item="item" open="(" separator="and" close=")">
+                ${item.column} != ${item.value}
+            </foreach>
+        </if>
+        <if test="lts != null and lts != ''">
+            AND
+            <foreach collection="lts" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ < ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="gts != null and gts != ''">
+            AND
+            <foreach collection="gts" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ > ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="likes != null and likes != ''">
+            AND
+            <foreach collection="likes" item="item" open="(" separator="and" close=")">
+                ${item.column} like concat('%', ${item.value}, '%')
+            </foreach>
+        </if>
+        <if test="ltes != null and ltes != ''">
+            AND
+            <foreach collection="ltes" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ <= ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="gtes != null and gtes != ''">
+            AND
+            <foreach collection="gtes" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ >= ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="ranges != null and ranges != ''">
+            AND
+            <foreach collection="ranges" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ >= ]]> #{item.from} and ${item.column} <![CDATA[ < ]]> #{item.to}
+            </foreach>
+        </if>
+        AND is_delete = 0
+    </trim>
+</sql>
+
+
+<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.DocReturnDetail">
+    insert into doc_return_detail
+    (
+        <include refid="docReturnDetail_sqlForInsert"/>
+        ,is_delete
+    )
+    values
+    (
+        <include refid="docReturnDetail_columnsForInsert"/>
+        ,0
+    )
+</insert>
+
+<update id="update" parameterType="com.resto.shop.web.model.DocReturnDetail">
+    update doc_return_detail
+    <include refid="docReturnDetail_setterForUpdate" />
+    where id = #{id}
+    and is_delete = 0
+</update>
+
+
+<update id="updateByQuery" parameterType="com.resto.shop.web.model.DocReturnDetail">
+    update doc_return_detail
+    <set>
+        gmt_modified = now(),
+        <if test="update.id != null">
+            id = #{update.id},
+        </if>
+        <if test="update.createrId != null">
+            creater_id = #{update.createrId},
+        </if>
+        <if test="update.auditor != null">
+            auditor = #{update.auditor},
+        </if>
+        <if test="update.updaterId != null">
+            updater_id = #{update.updaterId},
+        </if>
+        <if test="update.updaterName != null">
+            updater_name = #{update.updaterName},
+        </if>
+        <if test="update.note != null">
+            note = #{update.note},
+        </if>
+        <if test="update.createrName != null">
+            creater_name = #{update.createrName},
+        </if>
+        <if test="update.lineStatus != null">
+            line_status = #{update.lineStatus},
+        </if>
+        <if test="update.materialId != null">
+            material_id = #{update.materialId},
+        </if>
+        <if test="update.returnHeaderId != null">
+            return_header_id = #{update.returnHeaderId},
+        </if>
+        <if test="update.returnHeaderCode != null">
+            return_header_code = #{update.returnHeaderCode},
+        </if>
+    </set>
+    <include refid="docReturnDetail_query_segment"/>
+</update>
+
+
+<insert id="insertOrUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.DocReturnDetail">
+    insert into doc_return_detail
+    (
+        <include refid="docReturnDetail_sqlForInsert"/>
+        ,is_delete
+    )
+    values
+    (
+        <include refid="docReturnDetail_columnsForInsert"/>
+        ,0
+    )
+    on duplicate key update
+    gmt_modified = now()
+    <if test="id != null">
+        ,id = #{id}
+    </if>
+    <if test="createrId != null">
+        ,creater_id = #{createrId}
+    </if>
+    <if test="auditor != null">
+        ,auditor = #{auditor}
+    </if>
+    <if test="updaterId != null">
+        ,updater_id = #{updaterId}
+    </if>
+    <if test="updaterName != null">
+        ,updater_name = #{updaterName}
+    </if>
+    <if test="note != null">
+        ,note = #{note}
+    </if>
+    <if test="createrName != null">
+        ,creater_name = #{createrName}
+    </if>
+    <if test="lineStatus != null">
+        ,line_status = #{lineStatus}
+    </if>
+    <if test="materialId != null">
+        ,material_id = #{materialId}
+    </if>
+    <if test="returnHeaderId != null">
+        ,return_header_id = #{returnHeaderId}
+    </if>
+    <if test="returnHeaderCode != null">
+        ,return_header_code = #{returnHeaderCode}
+    </if>
+</insert>
+
+<!-- Delete -->
+<update id="delete">
+    update doc_return_detail
+    set is_delete = 1, gmt_modified = now()
+    <include refid="docReturnDetail_query_segment"/>
+</update>
+<update id="deleteById">
+    update doc_return_detail
+    set is_delete = 1, gmt_modified = now()
+    where id = #{id}
+</update>
+
+
+<delete id="deletePhysicalById">
+        delete from doc_return_detail
+        where id = #{id}
+</delete>
+
+
+
+
+<!-- query class -->
+<sql id="docReturnDetail_groupBy">
+    <if test="groupBys != null and groupBys != ''">
+        group by
+        <foreach collection="groupBys" item="item" open="" separator="," close="">
+            ${item}
+        </foreach>
+    </if>
+</sql>
+
+<sql id="docReturnDetail_orderby">
+    <if test="orderBys != null and orderBys != ''">
+        order by
+        <foreach collection="orderBys" item="item" open="" separator="," close="">
+            ${item.column} ${item.direction}
+        </foreach>
+    </if>
+</sql>
+
+
+<select id="query" resultMap="docReturnDetailResult" parameterType="com.resto.shop.web.model.DocReturnDetail">
+    <include refid="docReturnDetail_selector"/>
+    <include refid="docReturnDetail_query_segment"/>
+    <include refid="docReturnDetail_groupBy"/>
+    <include refid="docReturnDetail_orderby"/>
+</select>
+
+<select id="query4Page" resultMap="docReturnDetailResult" parameterType="com.resto.shop.web.model.DocReturnDetail">
+    <include refid="docReturnDetail_selector"/>
+    <include refid="docReturnDetail_query_segment"/>
+    <include refid="docReturnDetail_groupBy"/>
+    <include refid="docReturnDetail_orderby"/>
+    limit ${startRowForMysql}, ${pageSize}
+</select>
+
+
+<select id="count" resultType="java.lang.Long">
+    SELECT COUNT(1) FROM doc_return_detail
+    <include refid="docReturnDetail_query_segment"/>
+</select>
+
+<select id="getById" resultMap="docReturnDetailResult">
+    <include refid="docReturnDetail_selector"/>
+    where id = #{id}
+    and is_delete = 0
+</select>
+
+<select id="getByIdForUpdate" resultMap="docReturnDetailResult">
+    <include refid="docReturnDetail_selector"/>
+    where id = #{id}
+    and is_delete = 0
+    for update
+</select>
+
+
+<select id="queryJoin4Page" resultType="com.resto.shop.web.model.DocReturnDetail">
+        SELECT * FROM doc_return_detail WHERE shop_detail_id = #{shopId}
+</select>
+
+</mapper>

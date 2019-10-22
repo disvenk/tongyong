@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.service.brand.mapper.ShareSettingMapper">
+ 
+  <resultMap id="BaseResultMap" type="com.resto.service.brand.entity.ShareSetting" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="share_title" property="shareTitle" jdbcType="VARCHAR" />
+    <result column="share_icon" property="shareIcon" jdbcType="VARCHAR" />
+    <result column="min_level" property="minLevel" jdbcType="INTEGER" />
+    <result column="min_length" property="minLength" jdbcType="INTEGER" />
+    <result column="rebate" property="rebate" jdbcType="DECIMAL" />
+    <result column="is_activity" property="isActivity" jdbcType="BIT" />
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR" />
+    <result column="min_money" property="minMoney" jdbcType="DECIMAL" />
+    <result column="max_money" property="maxMoney" jdbcType="DECIMAL" />
+    <result column="register_button" property="registerButton" jdbcType="VARCHAR" />
+    <result column="delay_time" property="delayTime" jdbcType="INTEGER" />
+    <result column="open_multiple_rebates" property="openMultipleRebates" />
+    <result column="after_rebate" property="afterRebate" />
+    <result column="after_min_money" property="afterMinMoney" />
+    <result column="after_max_money" property="afterMaxMoney" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.resto.service.brand.entity.ShareSetting" extends="BaseResultMap" >
+    <result column="dialog_text" property="dialogText" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, share_title, share_icon, min_level, min_length, rebate, is_activity, brand_id, 
+    min_money, max_money, register_button, delay_time, open_multiple_rebates, after_rebate,
+    after_min_money, after_max_money
+  </sql>
+  <sql id="Blob_Column_List" >
+    dialog_text
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from share_setting
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from share_setting
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.resto.service.brand.entity.ShareSetting" >
+    insert into share_setting (id, share_title, share_icon, 
+      min_level, min_length, rebate, is_activity, brand_id, min_money,
+      max_money, register_button, dialog_text,delay_time,
+      open_multiple_rebates, after_rebate, after_min_money, after_max_money)
+    values (#{id,jdbcType=VARCHAR}, #{shareTitle,jdbcType=VARCHAR}, #{shareIcon,jdbcType=VARCHAR}, 
+      #{minLevel,jdbcType=INTEGER}, #{minLength,jdbcType=INTEGER}, #{rebate,jdbcType=DECIMAL}, 
+      #{isActivity,jdbcType=BIT}, #{brandId,jdbcType=VARCHAR}, #{minMoney,jdbcType=DECIMAL}, 
+      #{maxMoney,jdbcType=DECIMAL}, #{registerButton,jdbcType=VARCHAR}, #{dialogText,jdbcType=LONGVARCHAR},
+      #{delayTime,jdbcType=INTEGER}, #{openMultipleRebates}, #{afterRebate}, #{afterMinMoney}, #{afterMaxMoney}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.service.brand.entity.ShareSetting" >
+    insert into share_setting
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="shareTitle != null" >
+        share_title,
+      </if>
+      <if test="shareIcon != null" >
+        share_icon,
+      </if>
+      <if test="minLevel != null" >
+        min_level,
+      </if>
+      <if test="minLength != null" >
+        min_length,
+      </if>
+      <if test="rebate != null" >
+        rebate,
+      </if>
+      <if test="isActivity != null" >
+        is_activity,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="minMoney != null" >
+        min_money,
+      </if>
+      <if test="maxMoney != null" >
+        max_money,
+      </if>
+      <if test="registerButton != null" >
+        register_button,
+      </if>
+      <if test="dialogText != null" >
+        dialog_text,
+      </if>
+      <if test="delayTime != null" >
+        delay_time,
+      </if>
+      <if test="openMultipleRebates != null" >
+        open_multiple_rebates,
+      </if>
+      <if test="afterRebate != null" >
+        after_rebate,
+      </if>
+      <if test="afterMinMoney != null" >
+        after_min_money,
+      </if>
+      <if test="afterMaxMoney != null" >
+        after_max_money,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="shareTitle != null" >
+        #{shareTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="shareIcon != null" >
+        #{shareIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="minLevel != null" >
+        #{minLevel,jdbcType=INTEGER},
+      </if>
+      <if test="minLength != null" >
+        #{minLength,jdbcType=INTEGER},
+      </if>
+      <if test="rebate != null" >
+        #{rebate,jdbcType=DECIMAL},
+      </if>
+      <if test="isActivity != null" >
+        #{isActivity,jdbcType=BIT},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="minMoney != null" >
+        #{minMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="maxMoney != null" >
+        #{maxMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="registerButton != null" >
+        #{registerButton,jdbcType=VARCHAR},
+      </if>
+      <if test="dialogText != null" >
+        #{dialogText,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="delayTime != null" >
+        #{delayTime,jdbcType=INTEGER},
+      </if>
+      <if test="openMultipleRebates != null" >
+        #{openMultipleRebates},
+      </if>
+      <if test="afterRebate != null" >
+        #{afterRebate},
+      </if>
+      <if test="afterMinMoney != null" >
+        #{afterMinMoney},
+      </if>
+      <if test="afterMaxMoney != null" >
+        #{afterMaxMoney},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.service.brand.entity.ShareSetting" >
+    update share_setting
+    <set >
+      <if test="shareTitle != null" >
+        share_title = #{shareTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="shareIcon != null" >
+        share_icon = #{shareIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="minLevel != null" >
+        min_level = #{minLevel,jdbcType=INTEGER},
+      </if>
+      <if test="minLength != null" >
+        min_length = #{minLength,jdbcType=INTEGER},
+      </if>
+      <if test="rebate != null" >
+        rebate = #{rebate,jdbcType=DECIMAL},
+      </if>
+      <if test="isActivity != null" >
+        is_activity = #{isActivity,jdbcType=BIT},
+      </if>
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="minMoney != null" >
+        min_money = #{minMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="maxMoney != null" >
+        max_money = #{maxMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="registerButton != null" >
+        register_button = #{registerButton,jdbcType=VARCHAR},
+      </if>
+      <if test="dialogText != null" >
+        dialog_text = #{dialogText,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="delayTime != null" >
+        delay_time = #{delayTime,jdbcType=INTEGER},
+      </if>
+      <if test="openMultipleRebates != null" >
+        open_multiple_rebates = #{openMultipleRebates},
+      </if>
+      <if test="afterRebate != null" >
+        after_rebate = #{afterRebate},
+      </if>
+      <if test="afterMinMoney != null" >
+        after_min_money = #{afterMinMoney},
+      </if>
+      <if test="afterMaxMoney != null" >
+        after_max_money = #{afterMaxMoney},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.resto.service.brand.entity.ShareSetting" >
+    update share_setting
+    set share_title = #{shareTitle,jdbcType=VARCHAR},
+      share_icon = #{shareIcon,jdbcType=VARCHAR},
+      min_level = #{minLevel,jdbcType=INTEGER},
+      min_length = #{minLength,jdbcType=INTEGER},
+      rebate = #{rebate,jdbcType=DECIMAL},
+      is_activity = #{isActivity,jdbcType=BIT},
+      brand_id = #{brandId,jdbcType=VARCHAR},
+      min_money = #{minMoney,jdbcType=DECIMAL},
+      max_money = #{maxMoney,jdbcType=DECIMAL},
+      register_button = #{registerButton,jdbcType=VARCHAR},
+      dialog_text = #{dialogText,jdbcType=LONGVARCHAR},
+      delay_time = #{delayTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.service.brand.entity.ShareSetting" >
+    update share_setting
+    set share_title = #{shareTitle,jdbcType=VARCHAR},
+      share_icon = #{shareIcon,jdbcType=VARCHAR},
+      min_level = #{minLevel,jdbcType=INTEGER},
+      min_length = #{minLength,jdbcType=INTEGER},
+      rebate = #{rebate,jdbcType=DECIMAL},
+      is_activity = #{isActivity,jdbcType=BIT},
+      brand_id = #{brandId,jdbcType=VARCHAR},
+      min_money = #{minMoney,jdbcType=DECIMAL},
+      max_money = #{maxMoney,jdbcType=DECIMAL},
+      register_button = #{registerButton,jdbcType=VARCHAR},
+      delay_time = #{delayTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectList" resultType="ShareSetting">select * from share_setting</select>
+  <select id="selectBrandShareSetting" resultType="ShareSetting">
+  	SELECT s.is_activity,b.id as brand_id,b.brand_name,s.is_open FROM brand b
+	LEFT JOIN share_setting s ON s.brand_id=b.id
+	WHERE b.state =1 
+  </select>
+  <update id="changeOpen">
+  	update share_setting set is_open=#{1}
+  	 where id=#{0}
+  </update>
+  <update id="changeOpenTime">
+  	update share_setting set open_time=now()
+  	 where id=#{0}
+  </update>
+  <update id="changeCloseTime">
+  update share_setting set close_time=now()
+  	 where id=#{0}
+  </update>
+  <select id="selectByBrandId" resultType="ShareSetting">
+  	select * from share_setting where brand_id=#{0}
+  </select>
+</mapper>

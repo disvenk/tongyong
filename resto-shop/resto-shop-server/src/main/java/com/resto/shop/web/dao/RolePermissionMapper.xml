@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.RolePermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.RolePermission" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="role_id" property="roleId" jdbcType="BIGINT" />
+    <result column="permission_id" property="permissionId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, role_id, permission_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_role_permission
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_role_permission
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.RolePermission" >
+    insert into tb_role_permission (id, role_id, permission_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, #{permissionId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.RolePermission" >
+    insert into tb_role_permission
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="permissionId != null" >
+        permission_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="permissionId != null" >
+        #{permissionId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.RolePermission" >
+    update tb_role_permission
+    <set >
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="permissionId != null" >
+        permission_id = #{permissionId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.RolePermission" >
+    update tb_role_permission
+    set role_id = #{roleId,jdbcType=BIGINT},
+      permission_id = #{permissionId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectSuperAdmin" parameterType="Long" resultType="com.resto.shop.web.dto.BrandPermissionDto">
+    SELECT * FROM resto_brand.sys_permission
+    WHERE id in (300504,300505,300506,300507,300508,300510,300511,300512,300513)
+    order by sort
+  </select>
+
+  <select id="selectPermissionsByRoleId" parameterType="Long" resultType="com.resto.shop.web.dto.BrandPermissionDto">
+    SELECT p.* FROM resto_brand.sys_permission p LEFT JOIN tb_role_permission rp ON rp.permission_id = p.id
+    WHERE rp.role_id =
+    #{id,jdbcType=BIGINT}
+    order by sort
+  </select>
+
+  <delete id="deleteRolePermissions" parameterType="Long">
+    delete from tb_role_permission where role_id = #{0}
+  </delete>
+
+  <insert id="assignRolePermissions">
+    insert into tb_role_permission (role_id,permission_id) values
+    <foreach collection="permissionIds" separator="," item="pid">
+      (#{roleId},#{pid})
+    </foreach>
+  </insert>
+</mapper>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.brand.web.dao.BrandTemplateRootMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.BrandTemplateRoot" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="template_number" property="templateNumber" jdbcType="VARCHAR" />
+    <result column="pattern" property="pattern" jdbcType="VARCHAR" />
+    <result column="push_type" property="pushType" jdbcType="VARCHAR" />
+    <result column="push_title" property="pushTitle" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="start_sign" property="startSign" jdbcType="VARCHAR" />
+    <result column="end_sign" property="endSign" jdbcType="VARCHAR" />
+    <result column="template_sign" property="templateSign" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, template_number, pattern, push_type, push_title, content, start_sign, end_sign, 
+    template_sign
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from brand_template_root
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from brand_template_root
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.resto.brand.web.model.BrandTemplateRoot" >
+    insert into brand_template_root (id, template_number, pattern, 
+      push_type, push_title, content, 
+      start_sign, end_sign, template_sign
+      )
+    values (#{id,jdbcType=INTEGER}, #{templateNumber,jdbcType=VARCHAR}, #{pattern,jdbcType=VARCHAR}, 
+      #{pushType,jdbcType=VARCHAR}, #{pushTitle,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{startSign,jdbcType=VARCHAR}, #{endSign,jdbcType=VARCHAR}, #{templateSign,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.BrandTemplateRoot" >
+    insert into brand_template_root
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="templateNumber != null" >
+        template_number,
+      </if>
+      <if test="pattern != null" >
+        pattern,
+      </if>
+      <if test="pushType != null" >
+        push_type,
+      </if>
+      <if test="pushTitle != null" >
+        push_title,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="startSign != null" >
+        start_sign,
+      </if>
+      <if test="endSign != null" >
+        end_sign,
+      </if>
+      <if test="templateSign != null" >
+        template_sign,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="templateNumber != null" >
+        #{templateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="pattern != null" >
+        #{pattern,jdbcType=VARCHAR},
+      </if>
+      <if test="pushType != null" >
+        #{pushType,jdbcType=VARCHAR},
+      </if>
+      <if test="pushTitle != null" >
+        #{pushTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="startSign != null" >
+        #{startSign,jdbcType=VARCHAR},
+      </if>
+      <if test="endSign != null" >
+        #{endSign,jdbcType=VARCHAR},
+      </if>
+      <if test="templateSign != null" >
+        #{templateSign,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.BrandTemplateRoot" >
+    update brand_template_root
+    <set >
+      <if test="templateNumber != null" >
+        template_number = #{templateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="pattern != null" >
+        pattern = #{pattern,jdbcType=VARCHAR},
+      </if>
+      <if test="pushType != null" >
+        push_type = #{pushType,jdbcType=VARCHAR},
+      </if>
+      <if test="pushTitle != null" >
+        push_title = #{pushTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="startSign != null" >
+        start_sign = #{startSign,jdbcType=VARCHAR},
+      </if>
+      <if test="endSign != null" >
+        end_sign = #{endSign,jdbcType=VARCHAR},
+      </if>
+      <if test="templateSign != null" >
+        template_sign = #{templateSign,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.BrandTemplateRoot" >
+    update brand_template_root
+    set template_number = #{templateNumber,jdbcType=VARCHAR},
+      pattern = #{pattern,jdbcType=VARCHAR},
+      push_type = #{pushType,jdbcType=VARCHAR},
+      push_title = #{pushTitle,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      start_sign = #{startSign,jdbcType=VARCHAR},
+      end_sign = #{endSign,jdbcType=VARCHAR},
+      template_sign = #{templateSign,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectList" resultType="com.resto.brand.web.model.BrandTemplateRoot">
+    select * FROM brand_template_root bt order by bt.id asc
+  </select>
+</mapper>

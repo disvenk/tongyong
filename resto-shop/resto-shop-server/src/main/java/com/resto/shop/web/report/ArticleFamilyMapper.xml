@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.report.ArticleFamilyMapperReport">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.ArticleFamily">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="peference" property="peference" jdbcType="INTEGER"/>
+    <result column="parent_id" property="parentId" jdbcType="VARCHAR"/>
+    <result column="level" property="level" jdbcType="INTEGER"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+    <result column="distribution_mode_id" property="distributionModeId" jdbcType="INTEGER"/>
+    <collection property="articleList" javaType="java.util.List" ofType="com.resto.shop.web.model.Article">
+        <id column="articleId" property="id"/>
+        <result column="articleName" property="name"/>
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">id, name, peference, parent_id, level, shop_detail_id, distribution_mode_id</sql>
+
+  <select id="selectByShopId" resultType="com.resto.brand.web.dto.ArticleSellDto">
+    select id articleFamilyId, name articleFamilyName,0 <if test="shopId != null">shopSellNum</if>
+    <if test="shopId == null">brandSellNum</if>,0 salles,0 discountMoney,0 refundCount,0 refundTotal,0 likes from tb_article_family
+    <where>
+      <if test="shopId != null">
+        shop_detail_id=#{shopId}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectByShopIdNew" resultType="com.resto.brand.web.dto.ArticleSellDto">
+    select id articleFamilyId, name articleFamilyName,0 <if test="shopId != null">shopSellNum</if>
+    <if test="shopId == null">brandSellNum</if>,0 salles,0 discountMoney,0 refundCount,0 refundTotal,0 likes from tb_article_family
+    <where>
+      <if test="shopId != null">
+        shop_detail_id=#{shopId}
+      </if>
+      AND open_article_library=1
+    </where>
+  </select>
+
+</mapper>

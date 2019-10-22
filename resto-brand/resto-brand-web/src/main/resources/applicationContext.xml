@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:util="http://www.springframework.org/schema/util" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	   xmlns:cache="http://www.springframework.org/schema/cache" xmlns:task="http://www.springframework.org/schema/task"
+	   xsi:schemaLocation="http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/jdbc
+    http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+    http://www.springframework.org/schema/cache
+    http://www.springframework.org/schema/cache/spring-cache.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<import resource="dubbo-config.xml" />
+
+	<!-- 自动扫描resto包 ,将带有注解的类 纳入spring容器管理 -->
+	<context:component-scan base-package="com.resto.brand.web"/>
+
+	<!-- 对JDBC配置进行解密  -->
+	<bean id="placeholderConfigurer" class="com.resto.brand.core.util.DecryptPropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+                <value>file:${resources.config.path}/*.properties</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<!--&lt;!&ndash; jedis 配置 &ndash;&gt;-->
+	<!--<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig" >-->
+		<!--<property name="maxIdle" value="${redis.maxIdle}" />-->
+		<!--<property name="maxWaitMillis" value="${redis.maxWait}" />-->
+		<!--<property name="testOnBorrow" value="${redis.testOnBorrow}" />-->
+	<!--</bean >-->
+	<!--&lt;!&ndash; redis服务器中心 &ndash;&gt;-->
+	<!--<bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" >-->
+		<!--<property name="poolConfig" ref="poolConfig" />-->
+		<!--<property name="port" value="${redis.port}" />-->
+		<!--<property name="hostName" value="${redis.host}" />-->
+		<!--<property name="password" value="${redis.password}" />-->
+		<!--<property name="timeout" value="${redis.timeout}" ></property>-->
+	<!--</bean >-->
+	<!--<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate" >-->
+		<!--<property name="connectionFactory" ref="connectionFactory" />-->
+		<!--<property name="keySerializer" >-->
+			<!--<bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />-->
+		<!--</property>-->
+		<!--<property name="valueSerializer" >-->
+			<!--<bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />-->
+		<!--</property>-->
+	<!--</bean >-->
+
+
+	<!--<bean id="redisUtil" class="com.resto.brand.web.util.RedisUtil" >-->
+		<!--<property name="redisTemplate" ref="redisTemplate" />-->
+	<!--</bean >-->
+
+
+	<!-- 引入配置文件 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath*:application.properties</value>
+				<!--<value>classpath*:redis.properties</value>-->
+			</list>
+		</property>
+	</bean>
+
+	<!-- redis 配置 -->
+
+	<!--<bean id="connectionFactory"-->
+		<!--class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"-->
+		<!--p:host-name="${redis.host}" p:port="${redis.port}" p:password="${redis.pass}"/>-->
+
+	<!--<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">-->
+		<!--<property name="connectionFactory" ref="connectionFactory" />-->
+	<!--</bean>-->
+
+	
+
+	<!-- 配置使Spring采用CGLIB代理 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	 <!--Cache配置 -->
+	<!--<cache:annotation-driven cache-manager="cacheManager" />-->
+
+	<!--<bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">-->
+		<!--<constructor-arg ref="redisTemplate"></constructor-arg>-->
+	<!--</bean>-->
+
+
+</beans>

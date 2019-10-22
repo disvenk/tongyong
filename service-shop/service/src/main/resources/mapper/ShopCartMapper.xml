@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.service.shop.mapper.ShopCartMapper">
+    <resultMap id="BaseResultMap" type="com.resto.service.shop.entity.ShopCart">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="number" property="number" jdbcType="INTEGER"/>
+        <result column="customer_id" property="customerId" jdbcType="VARCHAR"/>
+        <result column="article_id" property="articleId" jdbcType="VARCHAR"/>
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="distribution_mode_id" property="distributionModeId" jdbcType="INTEGER"/>
+        <result column="shop_type" property="shopType" jdbcType="VARCHAR" />
+        <result column="pid" property="pid" javaType="INTEGER" />
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="attr_id" property="attrId" jdbcType="INTEGER" />
+        <result column="recommend_id" property="recommendId"/>
+        <result column="recommend_article_id" property="recommendArticleId"/>
+        <result column="unit_new_id" property="unitNewId"/>
+        <result column="uuid" property="uuid"/>
+    </resultMap>
+    <sql id="Base_Column_List">id, number, customer_id, article_id, shop_detail_id, distribution_mode_id, shop_type, pid, user_id, attr_id,recommend_id,recommend_article_id,unit_new_id,uuid</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">select
+        <include refid="Base_Column_List"/> from tb_shop_cart where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">delete from tb_shop_cart where id = #{id,jdbcType=INTEGER}</delete>
+    <insert id="insert" parameterType="com.resto.service.shop.entity.ShopCart" useGeneratedKeys="true" keyProperty="id">insert into tb_shop_cart (id, number, customer_id, article_id, shop_detail_id, distribution_mode_id, shop_type, pid, user_id, attr_id, unit_new_id,uuid) values (#{id,jdbcType=INTEGER}, #{number,jdbcType=INTEGER}, #{customerId,jdbcType=VARCHAR}, #{articleId,jdbcType=VARCHAR}, #{shopDetailId,jdbcType=VARCHAR}, #{distributionModeId,jdbcType=INTEGER}, #{shopType,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{attrId,jdbcType=INTEGER}, #{unitNewId},#{uuid})</insert>
+    <insert id="insertSelective" parameterType="com.resto.service.shop.entity.ShopCart" useGeneratedKeys="true" keyProperty="id">insert into tb_shop_cart
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="number != null">number,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="articleId != null">article_id,</if>
+            <if test="shopDetailId != null">shop_detail_id,</if>
+            <if test="distributionModeId != null">distribution_mode_id,</if>
+            <if test="shopType != null">shop_type,</if>
+            <if test="pid != null">pid,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="attrId != null">attr_id,</if>
+            <if test="recommendId != null">recommend_id,</if>
+            <if test="recommendArticleId != null">recommend_article_id,</if>
+            <if test="unitNewId != null">unit_new_id,</if>
+            <if test="uuid != null">uuid,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=INTEGER},</if>
+            <if test="number != null">#{number,jdbcType=INTEGER},</if>
+            <if test="customerId != null">#{customerId,jdbcType=VARCHAR},</if>
+            <if test="articleId != null">#{articleId,jdbcType=VARCHAR},</if>
+            <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if>
+            <if test="distributionModeId != null">#{distributionModeId,jdbcType=INTEGER},</if>
+            <if test="shopType != null">#{shopType,jdbcType=VARCHAR},</if>
+            <if test="pid != null">#{pid,jdbcType=INTEGER},</if>
+            <if test="userId != null">#{userId,jdbcType=VARCHAR},</if>
+            <if test="attrId != null">#{attrId,jdbcType=INTEGER},</if>
+            <if test="recommendId != null">#{recommendId},</if>
+            <if test="recommendArticleId != null">#{recommendArticleId},</if>
+            <if test="unitNewId != null">#{unitNewId},</if>
+            <if test="uuid != null">#{uuid},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.service.shop.entity.ShopCart">update tb_shop_cart
+        <set>
+            <if test="number != null">number = #{number,jdbcType=INTEGER},</if>
+            <if test="customerId != null">customer_id = #{customerId,jdbcType=VARCHAR},</if>
+            <if test="articleId != null">article_id = #{articleId,jdbcType=VARCHAR},</if>
+            <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if>
+            <if test="distributionModeId != null">distribution_mode_id = #{distributionModeId,jdbcType=INTEGER},</if>
+            <if test="shopType != null">shop_type = #{shopType,jdbcType=VARCHAR},</if>
+            <if test="pid != null">pid = #{pid,jdbcType=INTEGER},</if>
+            <if test="userId != null">user_id = #{userId,jdbcType=VARCHAR},</if>
+            <if test="attrId != null">attr_id = #{attrId,jdbcType=VARCHAR},</if>
+            <if test="recommendId != null">recommend_id = #{recommendId,jdbcType=VARCHAR},</if>
+            <if test="recommendArticleId != null">recommend_article_id = #{recommendArticleId},</if>
+            <if test="unitNewId != null">unit_new_id = #{unitNewId},</if>
+            <if test="uuid != null">uuid = #{uuid},</if>
+        </set> where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.resto.service.shop.entity.ShopCart">update tb_shop_cart set number = #{number,jdbcType=INTEGER}, customer_id = #{customerId,jdbcType=VARCHAR}, article_id = #{articleId,jdbcType=VARCHAR}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR}, distribution_mode_id = #{distributionModeId,jdbcType=INTEGER}, shop_type = #{shopType,jdbcType=VARCHAR}, pid = #{pid,jdbcType=INTEGER}, user_id = #{userId,jdbcType=VARCHAR}, attr_id = #{attrId,jdbcType=VARCHAR}, unit_new_id = #{unitNewId}, uuid = #{uuid} where id = #{id,jdbcType=INTEGER}</update>
+    <select id="selectList" resultType="ShopCart">select * from tb_shop_cart</select>
+
+    <!-- 查询购物车明细 -->
+    <select id="listUserAndShop" resultType="com.resto.service.shop.entity.ShopCart">
+        select id,number,customer_id,article_id,shop_detail_id,distribution_mode_id,shop_type,pid,user_id,attr_id,recommend_id,recommend_article_id,unit_new_id,uuid from tb_shop_cart
+        where distribution_mode_id=#{distributionModeId} and customer_id=#{customerId} and shop_detail_id=#{shopDetailId}
+    </select>
+
+    <select id="listUserShopCart" resultType="com.resto.service.shop.entity.ShopCart">
+        select id,number,customer_id,article_id,shop_detail_id,distribution_mode_id,shop_type,pid,user_id,attr_id,recommend_article_id,unit_new_id,uuid from tb_shop_cart
+        where  user_id=#{0} and shop_detail_id=#{1} and distribution_mode_id=#{2} order by id
+    </select>
+
+    <select id="selectByUuId" resultType="com.resto.service.shop.entity.ShopCart">
+        select id,number,customer_id,article_id,shop_detail_id,distribution_mode_id,shop_type,pid,user_id,attr_id,recommend_id,recommend_article_id,unit_new_id,uuid from tb_shop_cart
+        where uuid = #{uuid};
+    </select>
+
+    <select id="selectShopCartItem" parameterType="com.resto.service.shop.entity.ShopCart" resultType="com.resto.service.shop.entity.ShopCart">
+        select id,number,customer_id,article_id,shop_detail_id,distribution_mode_id,shop_type,pid,user_id,attr_id,recommend_id,recommend_article_id,unit_new_id,uuid from tb_shop_cart
+        where
+        distribution_mode_id =#{distributionModeId} and
+        article_id = #{articleId} and
+        customer_id =#{customerId} and
+        pid = 0 and shop_type = #{shopType} and
+        shop_detail_id =#{shopDetailId} limit 1
+    </select>
+
+    <update id="updateShopCartItem" parameterType="com.resto.service.shop.entity.ShopCart">update tb_shop_cart
+        <set>
+            <if test="number != null">number = #{number,jdbcType=INTEGER},</if>
+            <if test="customerId != null">customer_id = #{customerId,jdbcType=VARCHAR},</if>
+            <if test="articleId != null">article_id = #{articleId,jdbcType=VARCHAR},</if>
+            <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if>
+            <if test="distributionModeId != null">distribution_mode_id = #{distributionModeId,jdbcType=INTEGER},</if>
+            <if test="shopType != null">shop_type = #{shopType,jdbcType=VARCHAR},</if>
+            <if test="pid != null">pid = #{pid,jdbcType=INTEGER},</if>
+            <if test="userId != null">user_id = #{userId,jdbcType=VARCHAR},</if>
+            <if test="attrId != null">attr_id = #{attrId,jdbcType=VARCHAR},</if>
+            <if test="recommendId != null">recommend_id = #{recommendId,jdbcType=VARCHAR},</if>
+            <if test="recommendArticleId != null">recommend_article_id = #{recommendArticleId,jdbcType=VARCHAR},</if>
+            <if test="unitNewId != null">unit_new_id = #{unitNewId},</if>
+            <if test="uuid != null">uuid = #{uuid},</if>
+        </set> where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <delete id="clearShopCart">
+        delete from tb_shop_cart where customer_id = #{0} and distribution_mode_id = #{1} and  shop_detail_id = #{2}
+    </delete>
+
+    <delete id="clearAllShopCart">
+        delete from tb_shop_cart where customer_id = #{0}  and  shop_detail_id = #{1}
+    </delete>
+
+    <delete id="clearShopCartGeekPos">
+        delete from tb_shop_cart where user_id = #{0}  and  shop_detail_id = #{1}
+    </delete>
+
+    <delete id="delMealArticle">
+        delete from tb_shop_cart where id = #{0} or pid = #{0}
+    </delete>
+
+    <delete id="delMealItem">
+      delete from tb_shop_cart where  pid = #{0}
+    </delete>
+
+
+    <delete id="deleteCustomerArticle">
+        delete from tb_shop_cart where customer_id = #{customerId} and article_id = #{articleId}
+    </delete>
+</mapper>

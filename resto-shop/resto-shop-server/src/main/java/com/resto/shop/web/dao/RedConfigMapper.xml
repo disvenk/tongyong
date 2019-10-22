@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.RedConfigMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.RedConfig">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="delay" property="delay" jdbcType="INTEGER"/>
+    <result column="min_ratio" property="minRatio" jdbcType="INTEGER"/>
+    <result column="max_ratio" property="maxRatio" jdbcType="INTEGER"/>
+    <result column="max_single_red" property="maxSingleRed" jdbcType="DECIMAL"/>
+    <result column="title" property="title" jdbcType="VARCHAR"/>
+    <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    <result column="min_signle_red" property="minSignleRed" jdbcType="DECIMAL"/>
+    <result column="is_add_ratio" property="isAddRatio" jdbcType="TINYINT"/>
+    <result column="min_translate_money" property="minTranslateMoney" jdbcType="DECIMAL"/>
+    <result column="is_activity" property="isActivity" jdbcType="INTEGER"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, delay, min_ratio, max_ratio, max_single_red, title, remark, min_signle_red, is_add_ratio, min_translate_money, is_activity, shop_detail_id</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from tb_red_config where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from tb_red_config where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.RedConfig">insert into tb_red_config (id, delay, min_ratio, max_ratio, max_single_red, title, remark, min_signle_red, is_add_ratio, min_translate_money, is_activity, shop_detail_id ) values (#{id,jdbcType=BIGINT}, #{delay,jdbcType=INTEGER}, #{minRatio,jdbcType=INTEGER}, #{maxRatio,jdbcType=INTEGER}, #{maxSingleRed,jdbcType=DECIMAL}, #{title,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{minSignleRed,jdbcType=DECIMAL}, #{isAddRatio,jdbcType=TINYINT}, #{minTranslateMoney,jdbcType=DECIMAL}, #{isActivity,jdbcType=INTEGER}, #{shopDetailId,jdbcType=VARCHAR} )</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.RedConfig">insert into tb_red_config 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="delay != null">delay,</if>  
+      <if test="minRatio != null">min_ratio,</if>  
+      <if test="maxRatio != null">max_ratio,</if>  
+      <if test="maxSingleRed != null">max_single_red,</if>  
+      <if test="title != null">title,</if>  
+      <if test="remark != null">remark,</if>  
+      <if test="minSignleRed != null">min_signle_red,</if>  
+      <if test="isAddRatio != null">is_add_ratio,</if>  
+      <if test="minTranslateMoney != null">min_translate_money,</if>  
+      <if test="isActivity != null">is_activity,</if>  
+      <if test="shopDetailId != null">shop_detail_id,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="delay != null">#{delay,jdbcType=INTEGER},</if>  
+      <if test="minRatio != null">#{minRatio,jdbcType=INTEGER},</if>  
+      <if test="maxRatio != null">#{maxRatio,jdbcType=INTEGER},</if>  
+      <if test="maxSingleRed != null">#{maxSingleRed,jdbcType=DECIMAL},</if>  
+      <if test="title != null">#{title,jdbcType=VARCHAR},</if>  
+      <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>  
+      <if test="minSignleRed != null">#{minSignleRed,jdbcType=DECIMAL},</if>  
+      <if test="isAddRatio != null">#{isAddRatio,jdbcType=TINYINT},</if>  
+      <if test="minTranslateMoney != null">#{minTranslateMoney,jdbcType=DECIMAL},</if>  
+      <if test="isActivity != null">#{isActivity,jdbcType=INTEGER},</if>  
+      <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.RedConfig">update tb_red_config 
+    <set> 
+      <if test="delay != null">delay = #{delay,jdbcType=INTEGER},</if>  
+      <if test="minRatio != null">min_ratio = #{minRatio,jdbcType=INTEGER},</if>  
+      <if test="maxRatio != null">max_ratio = #{maxRatio,jdbcType=INTEGER},</if>  
+      <if test="maxSingleRed != null">max_single_red = #{maxSingleRed,jdbcType=DECIMAL},</if>  
+      <if test="title != null">title = #{title,jdbcType=VARCHAR},</if>  
+      <if test="remark != null">remark = #{remark,jdbcType=VARCHAR},</if>  
+      <if test="minSignleRed != null">min_signle_red = #{minSignleRed,jdbcType=DECIMAL},</if>  
+      <if test="isAddRatio != null">is_add_ratio = #{isAddRatio,jdbcType=TINYINT},</if>  
+      <if test="minTranslateMoney != null">min_translate_money = #{minTranslateMoney,jdbcType=DECIMAL},</if>  
+      <if test="isActivity != null">is_activity = #{isActivity,jdbcType=INTEGER},</if>  
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if> 
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.RedConfig">update tb_red_config set delay = #{delay,jdbcType=INTEGER}, min_ratio = #{minRatio,jdbcType=INTEGER}, max_ratio = #{maxRatio,jdbcType=INTEGER}, max_single_red = #{maxSingleRed,jdbcType=DECIMAL}, title = #{title,jdbcType=VARCHAR}, remark = #{remark,jdbcType=VARCHAR}, min_signle_red = #{minSignleRed,jdbcType=DECIMAL}, is_add_ratio = #{isAddRatio,jdbcType=TINYINT}, min_translate_money = #{minTranslateMoney,jdbcType=DECIMAL}, is_activity = #{isActivity,jdbcType=INTEGER}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="RedConfig">select * from tb_red_config</select>
+  
+  <!-- 根据店铺ID查询信息 -->
+  <select id="selectListByShopId" resultType="RedConfig">
+  	select * from tb_red_config
+  	<if test="shopId!=null and shopId!=''">
+		where shop_detail_id = #{shopId} 
+	</if>
+  </select>
+</mapper>

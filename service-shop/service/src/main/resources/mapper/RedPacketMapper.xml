@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.service.shop.mapper.RedPacketMapper">
+  <resultMap id="BaseResultMap" type="com.resto.service.shop.entity.RedPacket">
+      <id column="id" property="id"/>
+      <result column="red_money" property="redMoney"/>
+      <result column="create_time" property="createTime"/>
+      <result column="finish_time" property="finishTime"/>
+      <result column="customer_id" property="customerId"/>
+      <result column="brand_id" property="brandId"/>
+      <result column="shop_detail_id" property="shopDetailId"/>
+      <result column="red_remainder_money" property="redRemainderMoney"/>
+      <result column="red_type" property="redType"/>
+      <result column="order_id" property="orderId"/>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+        id, red_money, create_time, finish_time, customer_id, brand_id, shop_detail_id, red_remainder_money, red_type, order_id
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+      select
+      <include refid="Base_Column_List"/>
+      from tb_red_packet where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+      delete from tb_red_packet where id = #{id,jdbcType=VARCHAR}
+</delete>
+
+  <insert id="insertSelective" parameterType="com.resto.service.shop.entity.RedPacket">
+      insert into tb_red_packet
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="redMoney != null">red_money,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="finishTime != null">finish_time,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="brandId != null">brand_id,</if>
+            <if test="shopDetailId != null">shop_detail_id,</if>
+            <if test="redRemainderMoney != null">red_remainder_money,</if>
+            <if test="redType != null">red_type,</if>
+            <if test="orderId != null">order_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+            <if test="redMoney != null">#{redMoney,jdbcType=DECIMAL},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="finishTime != null">#{finishTime,jdbcType=TIMESTAMP},</if>
+            <if test="customerId != null">#{customerId,jdbcType=VARCHAR},</if>
+            <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>
+            <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if>
+            <if test="redRemainderMoney != null">#{redRemainderMoney,jdbcType=DECIMAL},</if>
+            <if test="redType != null">#{redType,jdbcType=INTEGER},</if>
+            <if test="orderId != null">#{orderId},</if>
+        </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.service.shop.entity.RedPacket">
+      update tb_red_packet
+        <set>
+            <if test="redMoney != null">red_money = #{redMoney,jdbcType=DECIMAL},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="finishTime != null">finish_time = #{finishTime,jdbcType=TIMESTAMP},</if>
+            <if test="customerId != null">customer_id = #{customerId,jdbcType=VARCHAR},</if>
+            <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>
+            <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if>
+            <if test="redRemainderMoney != null">red_remainder_money = #{redRemainderMoney,jdbcType=DECIMAL},</if>
+            <if test="redType != null">red_type = #{redType,jdbcType=INTEGER},</if>
+            <if test="orderId != null">order_id = #{orderId},</if>
+        </set>
+      where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectList" resultMap="BaseResultMap">
+      select * from tb_red_packet
+  </select>
+
+    <select id="selectFirstRedPacket" resultType="com.resto.service.shop.entity.RedPacket">
+        select * from tb_red_packet where customer_id = #{customerId} and red_remainder_money > 0 and red_type = ${redType} ORDER BY create_time asc LIMIT 0,1
+    </select>
+
+    <update id="updateRedRemainderMoney" parameterType="java.util.Map">
+        update tb_red_packet set red_remainder_money = ${redRemainderMoney}
+        <if test="finishTime != null">
+            ,finish_time = #{finishTime,jdbcType=TIMESTAMP}
+        </if>
+        where id = #{id}
+    </update>
+
+    <update id="refundRedPacket">
+      update tb_red_packet set red_remainder_money = red_remainder_money + ${payValue}, finish_time = null
+      where id = #{Id}
+    </update>
+
+    <select id="selectRedPacketLog" resultType="com.resto.api.brand.dto.RedPacketDto">
+        select
+        trp.shop_detail_id shopDetailId,IFNULL(COUNT(1),0) redCount,IFNULL(SUM(red_money),0) redMoney,
+        IFNULL((SUM((select COUNT(1) from (
+        select top.result_data
+        from tb_order td
+        inner join tb_order_payment_item top
+        on td.id = top.order_id
+        where td.order_state in (2,10,11,12)
+        and IF(td.is_pos_pay = 1,td.is_pos_pay = 1,td.production_status in (2,3))
+        and top.payment_mode_id in (${payMode})
+        and top.pay_time &gt;=  CONCAT(#{useBeginDate},' 00:00:00')
+        and top.pay_time &lt;=  CONCAT(#{useEndDate},' 23:59:59')
+        GROUP BY top.result_data
+        ) r where r.result_data = trp.id))),0) useRedCount,
+        IFNULL((SUM((select SUM(r.payValue) from (
+        select top.result_data, SUM(top.pay_value) payValue from tb_order td
+        inner join tb_order_payment_item top
+        on td.id = top.order_id
+        where td.order_state in (2,10,11,12)
+        and IF(td.is_pos_pay = 1,td.is_pos_pay = 1,td.production_status in (2,3))
+        and top.payment_mode_id in (${payMode})
+        and top.pay_time &gt;=  CONCAT(#{useBeginDate},' 00:00:00')
+        and top.pay_time &lt;=  CONCAT(#{useEndDate},' 23:59:59')
+        GROUP BY top.result_data
+        ) r where r.result_data = trp.id))),0) useRedMoney
+        from tb_red_packet trp
+		where trp.red_type in (${redType})
+        and trp.create_time &gt;=  CONCAT(#{grantBeginDate},' 00:00:00')
+        and trp.create_time &lt;=  CONCAT(#{grantEndDate},' 23:59:59')
+        GROUP BY trp.shop_detail_id
+    </select>
+
+    <select id="selectUseRedOrder" resultType="java.util.Map">
+        select CONCAT_WS(',',(
+        IFNULL((select COUNT(r.count) from (
+        select COUNT(1) count from tb_order td
+        inner join tb_order_payment_item top
+        on td.id = top.order_id
+        where td.order_state in (2,10,11,12)
+        and IF(td.is_pos_pay = 1,td.is_pos_pay = 1,td.production_status in (2,3))
+        and top.payment_mode_id in (${payMode})
+        and top.pay_time &gt;=  CONCAT(#{useBeginDate},' 00:00:00')
+        and top.pay_time &lt;=  CONCAT(#{useEndDate},' 23:59:59')
+        and top.result_data in (
+        <if test="chargeOrder != null">
+            select tco.id from tb_charge_order tco
+            where tco.order_state = 1
+            and tco.reward_money > 0
+            and tco.create_time &gt;= CONCAT(#{grantBeginDate},' 00:00:00')
+            and tco.create_time &lt;= CONCAT(#{grantEndDate},' 23:59:59')
+            and tco.shop_detail_id = #{shopDetailId}
+        </if>
+        <if test="redPacket != null">
+            select trp.id from tb_red_packet trp
+            where trp.red_type in (${redType})
+            and trp.create_time &gt;=  CONCAT(#{grantBeginDate},' 00:00:00')
+            and trp.create_time &lt;=  CONCAT(#{grantEndDate},' 23:59:59')
+            and trp.shop_detail_id = #{shopDetailId}
+        </if>
+        <if test="getNumber != null">
+            select tgn.id from tb_get_number tgn
+            where tgn.state in (3)
+            and tgn.final_money > 0
+            and tgn.create_time &gt;=  CONCAT(#{grantBeginDate},' 00:00:00')
+            and tgn.create_time &lt;=  CONCAT(#{grantEndDate},' 23:59:59')
+            and tgn.shop_detail_id = #{shopDetailId}
+        </if>
+        <if test="coupon != null">
+            select id from tb_coupon
+            where using_time &gt;=  CONCAT(#{useBeginDate},' 00:00:00')
+            and using_time &lt;=  CONCAT(#{useEndDate},' 23:59:59')
+            and is_used = 1
+            and coupon_type = ${couponTypeInt}
+        </if>
+        )
+        and td.parent_order_id is null
+        GROUP BY td.id) r),0)),(
+        IFNULL((select SUM(r.orderMoney) from (
+        select SUM(td.order_money) orderMoney from tb_order td
+        inner join tb_order_payment_item top
+        on td.id = top.order_id
+        where td.order_state in (2,10,11,12)
+        and IF(td.is_pos_pay = 1,td.is_pos_pay = 1,td.production_status in (2,3))
+        and top.payment_mode_id in (${payMode})
+        and top.pay_time &gt;=  CONCAT(#{useBeginDate},' 00:00:00')
+        and top.pay_time &lt;=  CONCAT(#{useEndDate},' 23:59:59')
+        and top.result_data in (
+          <if test="chargeOrder != null">
+              select tco.id from tb_charge_order tco
+              where tco.order_state = 1
+              and tco.reward_money > 0
+              and tco.create_time &gt;= CONCAT(#{grantBeginDate},' 00:00:00')
+              and tco.create_time &lt;= CONCAT(#{grantEndDate},' 23:59:59')
+              and tco.shop_detail_id = #{shopDetailId}
+          </if>
+          <if test="redPacket != null">
+              select trp.id from tb_red_packet trp
+              where trp.red_type in (${redType})
+              and trp.create_time &gt;=  CONCAT(#{grantBeginDate},' 00:00:00')
+              and trp.create_time &lt;=  CONCAT(#{grantEndDate},' 23:59:59')
+              and trp.shop_detail_id = #{shopDetailId}
+          </if>
+          <if test="getNumber != null">
+              select tgn.id from tb_get_number tgn
+              where tgn.state in (3)
+              and tgn.final_money > 0
+              and tgn.create_time &gt;=  CONCAT(#{grantBeginDate},' 00:00:00')
+              and tgn.create_time &lt;=  CONCAT(#{grantEndDate},' 23:59:59')
+              and tgn.shop_detail_id = #{shopDetailId}
+          </if>
+          <if test="coupon != null">
+              select id from tb_coupon
+              where using_time &gt;=  CONCAT(#{useBeginDate},' 00:00:00')
+              and using_time &lt;=  CONCAT(#{useEndDate},' 23:59:59')
+              and is_used = 1
+              and coupon_type = ${couponTypeInt}
+          </if>
+        )
+        GROUP BY td.id) r),0))) useOrder;
+    </select>
+
+    <select id="selectShareMoneyList" resultType="com.resto.api.shop.dto.ShareMoneyDto">
+        select trp.id id, trp.customer_id cid, trp.order_id orderId, trp.red_money `value`,
+        trp.create_time createTime, o.customer_id customerId, c.nickname nickName, c.head_photo headPhoto, d.`name` shopName
+        from tb_red_packet trp
+        LEFT JOIN tb_order o ON  trp.order_id = o.id
+        LEFT JOIN tb_customer c ON  o.customer_id = c.id
+        LEFT JOIN resto_brand.shop_detail d ON d.id = o.shop_detail_id
+        where trp.customer_id = #{customerId}
+        and trp.order_id is not null and trp.red_type = 1
+        order by trp.create_time desc  LIMIT #{currentPage},#{showCount}
+    </select>
+</mapper>

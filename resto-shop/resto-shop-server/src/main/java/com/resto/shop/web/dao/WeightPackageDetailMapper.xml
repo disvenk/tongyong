@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.WeightPackageDetailMapper">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.WeightPackageDetail">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="is_used" property="isUsed" jdbcType="INTEGER"/>
+        <result column="weight_package_id" property="weightPackageId" jdbcType="BIGINT"/>
+        <result column="weight" property="weight"/>
+    </resultMap>
+    <sql id="Base_Column_List">id, name, sort, create_time, is_used, weight_package_id, weight</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select
+        <include refid="Base_Column_List"/> from tb_weight_package_detail where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from tb_weight_package_detail where id = #{id,jdbcType=BIGINT}</delete>
+    <insert id="insert" parameterType="com.resto.shop.web.model.WeightPackageDetail">insert into tb_weight_package_detail (id, name, sort, create_time, is_used, weight_package_id) values (#{id,jdbcType=BIGINT}, #{name}, #{sort}, #{createTime,jdbcType=DATE}, #{isUsed}, #{weightPackageId})</insert>
+    <insert id="insertSelective" parameterType="com.resto.shop.web.model.WeightPackageDetail">insert into tb_weight_package_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="sort != null">sort,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="isUsed != null">is_used,</if>
+            <if test="weightPackageId != null">weight_package_id,</if>
+            <if test="weight != null">weight,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=BIGINT},</if>
+            <if test="name != null">#{name},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="createTime != null">#{createTime,jdbcType=DATE},</if>
+            <if test="isUsed != null">#{isUsed},</if>
+            <if test="weightPackageId != null">#{weightPackageId},</if>
+            <if test="weight != null">#{weight},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.WeightPackageDetail">update tb_weight_package_detail
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=DATE},</if>
+            <if test="isUsed != null">is_used = #{isUsed},</if>
+            <if test="weightPackageId != null">weight_package_id = #{weightPackageId},</if>
+            <if test="weight != null">weight = #{weight},</if>
+        </set> where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.WeightPackageDetail">update tb_weight_package_detail set iname = #{name}, sort = #{sort}, create_time = #{createTime,jdbcType=DATE}, is_used = #{isUsed}, weight_package_id = #{weightPackageId} where id = #{id,jdbcType=BIGINT}</update>
+    <select id="selectList" resultType="WeightPackageDetail">select * from tb_weight_package_detail</select>
+
+    <delete id="deleteDetails" parameterType="java.lang.Long">
+      delete from tb_weight_package_detail where weight_package_id = #{weightPackageId}
+    </delete>
+
+    <select id="selectWeightPackageDetailByShopId" resultType="WeightPackageDetail">
+      select wpd.* from tb_weight_package_detail wpd LEFT JOIN tb_weight_package wp on wpd.weight_package_id = wp.id where wp.shop_id = #{shopId}
+    </select>
+</mapper>

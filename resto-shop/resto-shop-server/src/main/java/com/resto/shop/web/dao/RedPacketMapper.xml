@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.RedPacketMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.RedPacket">
+      <id column="id" property="id"/>
+      <result column="red_money" property="redMoney"/>
+      <result column="create_time" property="createTime"/>
+      <result column="finish_time" property="finishTime"/>
+      <result column="customer_id" property="customerId"/>
+      <result column="brand_id" property="brandId"/>
+      <result column="shop_detail_id" property="shopDetailId"/>
+      <result column="red_remainder_money" property="redRemainderMoney"/>
+      <result column="red_type" property="redType"/>
+      <result column="order_id" property="orderId"/>
+      <result column="state" property="state"/>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+        id, red_money, create_time, finish_time, customer_id, brand_id, shop_detail_id, red_remainder_money, red_type, order_id, state
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+      select
+      <include refid="Base_Column_List"/>
+      from tb_red_packet where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+      delete from tb_red_packet where id = #{id,jdbcType=VARCHAR}
+</delete>
+
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.RedPacket">
+      insert into tb_red_packet
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="redMoney != null">red_money,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="finishTime != null">finish_time,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="brandId != null">brand_id,</if>
+            <if test="shopDetailId != null">shop_detail_id,</if>
+            <if test="redRemainderMoney != null">red_remainder_money,</if>
+            <if test="redType != null">red_type,</if>
+            <if test="orderId != null">order_id,</if>
+            <if test="state != null">state,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+            <if test="redMoney != null">#{redMoney,jdbcType=DECIMAL},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="finishTime != null">#{finishTime,jdbcType=TIMESTAMP},</if>
+            <if test="customerId != null">#{customerId,jdbcType=VARCHAR},</if>
+            <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>
+            <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if>
+            <if test="redRemainderMoney != null">#{redRemainderMoney,jdbcType=DECIMAL},</if>
+            <if test="redType != null">#{redType,jdbcType=INTEGER},</if>
+            <if test="orderId != null">#{orderId},</if>
+            <if test="state != null">#{state},</if>
+        </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.RedPacket">
+      update tb_red_packet
+        <set>
+            <if test="redMoney != null">red_money = #{redMoney,jdbcType=DECIMAL},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="finishTime != null">finish_time = #{finishTime,jdbcType=TIMESTAMP},</if>
+            <if test="customerId != null">customer_id = #{customerId,jdbcType=VARCHAR},</if>
+            <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>
+            <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if>
+            <if test="redRemainderMoney != null">red_remainder_money = #{redRemainderMoney,jdbcType=DECIMAL},</if>
+            <if test="redType != null">red_type = #{redType,jdbcType=INTEGER},</if>
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="state != null">state = #{state},</if>
+        </set>
+      where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectList" resultMap="BaseResultMap">
+      select * from tb_red_packet
+  </select>
+
+    <select id="selectFirstRedPacket" resultType="com.resto.shop.web.model.RedPacket">
+        select * from tb_red_packet where customer_id = #{customerId} and red_remainder_money > 0 and red_type = ${redType} ORDER BY create_time asc LIMIT 0,1
+    </select>
+
+    <update id="updateRedRemainderMoney" parameterType="java.util.Map">
+        update tb_red_packet set red_remainder_money = ${redRemainderMoney}
+        <if test="finishTime != null">
+            ,finish_time = #{finishTime,jdbcType=TIMESTAMP}
+        </if>
+        where id = #{id}
+    </update>
+
+    <update id="refundRedPacket">
+      update tb_red_packet set red_remainder_money = red_remainder_money + ${payValue}, finish_time = null
+      where id = #{Id}
+    </update>
+
+    <select id="selectShareMoneyList" resultType="com.resto.shop.web.dto.ShareMoneyDto">
+        select trp.id id, trp.customer_id cid, trp.order_id orderId, trp.red_money `value`,
+        trp.create_time createTime, o.customer_id customerId, c.nickname nickName, c.head_photo headPhoto, d.`name` shopName
+        from tb_red_packet trp
+        LEFT JOIN tb_order o ON  trp.order_id = o.id
+        LEFT JOIN tb_customer c ON  o.customer_id = c.id
+        LEFT JOIN resto_brand.shop_detail d ON d.id = o.shop_detail_id
+        where trp.customer_id = #{customerId}
+        and trp.order_id is not null and trp.red_type = 1
+        order by trp.create_time desc  LIMIT #{currentPage},#{showCount}
+    </select>
+
+    <select id="selectByStateZero" resultMap="BaseResultMap">
+        select * from tb_red_packet where state = 0
+    </select>
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.FreeDayMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.FreeDay" >
+    <id column="free_day" property="freeDay" jdbcType="DATE" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.util.Date" >
+    delete from tb_free_day
+    where free_day = #{freeDay,jdbcType=DATE}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.FreeDay" >
+    insert into tb_free_day free_day,shop_detail_id
+    values (#{freeDay},#{shopDetailId})
+  </insert>
+  
+  <!-- 新增一条记录 -->
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.FreeDay" >
+    insert into tb_free_day
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="freeDay != null" >
+        free_day,shop_detail_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="freeDay != null" >
+        #{freeDay},#{shopDetailId},
+      </if>
+    </trim>
+    
+  </insert>
+  
+  <!-- 查询 -->
+  <select id="selectList" resultType="com.resto.shop.web.model.FreeDay" parameterType="com.resto.shop.web.model.FreeDay">
+		select
+		free_day
+		from
+		tb_free_day
+		<![CDATA[
+		where FREE_DAY>=#{begin}
+		and FREE_DAY<=#{end}
+		]]>
+		and shop_detail_id=#{shopDetailId}
+	</select>
+	
+	<!-- 删除 -->
+	<delete id="deleteByDateAndId" parameterType="java.util.Date" >
+    delete from tb_free_day
+    where free_day = #{freeDay} and shop_detail_id=#{shopDetailId}
+  </delete>
+  
+  <select id="selectByDate" resultType="FreeDay">
+  	select * from tb_free_day
+  	where free_day=#{0} and shop_detail_id=#{1}
+  </select>
+
+  
+</mapper>

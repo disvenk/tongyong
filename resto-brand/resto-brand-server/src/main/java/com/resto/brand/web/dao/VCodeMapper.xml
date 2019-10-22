@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.VCodeMapper">
+    <resultMap id="BaseResultMap" type="com.resto.brand.web.model.VCode">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="vcode" property="vCode" jdbcType="VARCHAR" />
+        <result column="tel" property="tel" jdbcType="VARCHAR" />
+        <result column="max_time" property="maxTime" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, vcode, tel, max_time, create_time
+    </sql>
+    <insert id="insert" parameterType="com.resto.brand.web.model.VCode" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_vcode (vcode, tel, max_time, create_time)
+        values (#{vCode,jdbcType=VARCHAR},#{tel,jdbcType=VARCHAR},#{maxTime,jdbcType="INTEGER"},#{createTime,jdbcType="TIMESTAMP"})
+    </insert>
+    <insert id="insertVCode" parameterType="com.resto.brand.web.model.VCode" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_vcode
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="vCode != null" >
+                vcode,
+            </if>
+            <if test="tel != null" >
+                tel,
+            </if>
+            <if test="maxTime != null" >
+                max_time,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="vCode != null" >
+                #{vCode,jdbcType=DECIMAL},
+            </if>
+            <if test="tel != null" >
+                #{tel,jdbcType=TIMESTAMP},
+            </if>
+            <if test="maxTime != null" >
+                #{maxTime,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectPhoneList" resultType="com.resto.brand.web.model.VCode">
+        select * from tb_vcode where tel = #{tel} order by create_time desc limit 1
+    </select>
+</mapper>

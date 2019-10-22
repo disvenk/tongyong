@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.TvModeMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.TvMode">
+    <result column="id" property="id" jdbcType="INTEGER"/>
+    <result column="app_key" property="appKey" jdbcType="VARCHAR"/>
+    <result column="app_master_secret" property="appMasterSecret" jdbcType="VARCHAR"/>
+    <result column="device_token" property="deviceToken" jdbcType="VARCHAR"/>
+    <result column="app_source" property="appSource"/>
+    <result column="last_logon_time" property="lastLogonTime" jdbcType="TIMESTAMP"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+  </resultMap>
+  <insert id="insert" parameterType="com.resto.shop.web.model.TvMode">insert into tb_tv_mode (id, app_key, app_master_secret, device_token, app_source, last_logon_time, shop_detail_id, brand_id) values (#{id,jdbcType=INTEGER}, #{appKey,jdbcType=VARCHAR}, #{appMasterSecret,jdbcType=VARCHAR}, #{deviceToken,jdbcType=VARCHAR}, #{appSource}, #{lastLogonTime,jdbcType=TIMESTAMP}, #{shopDetailId,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.TvMode">insert into tb_tv_mode 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="appKey != null">app_key,</if>  
+      <if test="appMasterSecret != null">app_master_secret,</if>  
+      <if test="deviceToken != null">device_token,</if>  
+      <if test="appSource != null">app_source,</if>  
+      <if test="lastLogonTime != null">last_logon_time,</if>  
+      <if test="shopDetailId != null">shop_detail_id,</if>  
+      <if test="brandId != null">brand_id,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=INTEGER},</if>  
+      <if test="appKey != null">#{appKey,jdbcType=VARCHAR},</if>  
+      <if test="appMasterSecret != null">#{appMasterSecret,jdbcType=VARCHAR},</if>  
+      <if test="deviceToken != null">#{deviceToken,jdbcType=VARCHAR},</if>  
+      <if test="appSource != null">#{appSource},</if>
+      <if test="lastLogonTime != null">#{lastLogonTime,jdbcType=TIMESTAMP},</if>  
+      <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if>  
+      <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if> 
+    </trim> 
+  </insert>
+  <select id="selectList" resultType="TvMode">select * from tb_tv_mode</select>
+
+  <select id="selectByDeviceShopIdSource" resultType="TvMode">
+    select * from tb_tv_mode where shop_detail_id = #{shopId} and device_token = #{deviceToken} and app_source = #{appSource}
+  </select>
+
+  <select id="selectByShopIdSource" resultType="TvMode">
+    select * from tb_tv_mode where shop_detail_id = #{shopId} and app_source = #{appSource}
+  </select>
+</mapper>

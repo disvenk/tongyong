@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.AccountNoticeMapper">
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.AccountNotice">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="account_id" property="accountId" jdbcType="INTEGER"/>
+    <result column="notice_price" property="noticePrice" jdbcType="DECIMAL"/>
+    <result column="type" property="type" jdbcType="INTEGER"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, account_id, notice_price, type</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">select 
+    <include refid="Base_Column_List"/> from tb_account_notice where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">delete from tb_account_notice where id = #{id,jdbcType=INTEGER}</delete>
+  <insert id="insert" parameterType="com.resto.brand.web.model.AccountNotice">insert into tb_account_notice (id, account_id, notice_price, type) values (#{id,jdbcType=INTEGER}, #{accountId,jdbcType=INTEGER}, #{noticePrice,jdbcType=DECIMAL}, #{type,jdbcType=INTEGER})</insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.AccountNotice">insert into tb_account_notice 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="accountId != null">account_id,</if>  
+      <if test="noticePrice != null">notice_price,</if>  
+      <if test="type != null">type,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=INTEGER},</if>  
+      <if test="accountId != null">#{accountId,jdbcType=INTEGER},</if>  
+      <if test="noticePrice != null">#{noticePrice,jdbcType=DECIMAL},</if>  
+      <if test="type != null">#{type,jdbcType=INTEGER},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.AccountNotice">update tb_account_notice 
+    <set> 
+      <if test="accountId != null">account_id = #{accountId,jdbcType=INTEGER},</if>  
+      <if test="noticePrice != null">notice_price = #{noticePrice,jdbcType=DECIMAL},</if>  
+      <if test="type != null">type = #{type,jdbcType=INTEGER},</if> 
+    </set> where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.AccountNotice">update tb_account_notice set account_id = #{accountId,jdbcType=INTEGER}, notice_price = #{noticePrice,jdbcType=DECIMAL}, type = #{type,jdbcType=INTEGER} where id = #{id,jdbcType=INTEGER}</update>
+  <select id="selectList" resultType="AccountNotice">select * from tb_account_notice</select>
+
+  <delete id="deleteByAccountId" parameterType="java.lang.Integer">
+	  delete from tb_account_notice where account_id = #{accountId}
+
+  </delete>
+
+<select id="selectByAccountId" resultType="com.resto.brand.web.model.AccountNotice">
+	SELECT * FROM tb_account_notice WHERE account_id = #{accountId} ORDER BY notice_price DESC
+
+</select>
+</mapper>

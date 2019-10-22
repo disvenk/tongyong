@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.MdRulArticleBomHeadHistoryDao">
+
+    <resultMap id="mdRulArticleBomHeadHistoryResult" type="com.resto.shop.web.model.MdRulArticleBomHeadHistory">
+        <result column="id" property="id"/>
+        <result column="priority" property="priority"/>
+        <result column="state" property="state"/>
+        <result column="bom_code" property="bomCode"/>
+        <result column="article_id" property="articleId"/>
+        <result column="shop_detail_id" property="shopDetailId"/>
+        <result column="product_code" property="productCode"/>
+        <result column="product_name" property="productName"/>
+        <result column="creater_id" property="createrId"/>
+        <result column="article_family_id" property="articleFamilyId"/>
+        <result column="product_category" property="productCategory"/>
+        <result column="measurement_unit" property="measurementUnit"/>
+        <result column="creater_name" property="createrName"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+        <result column="version" property="version"/>
+        <result column="start_effect" property="startEffect"/>
+        <result column="end_effect" property="endEffect"/>
+        <result column="max_version" property="maxVersion"/>
+        <result column="producer" property="producer"/>
+    </resultMap>
+
+    <sql id="mdRulArticleBomHeadHistory_columns">
+        id,
+        priority,
+        state,
+        bom_code,
+        article_id,
+        shop_detail_id,
+        product_code,
+        product_name,
+        creater_id,
+        article_family_id,
+        product_category,
+        measurement_unit,
+        creater_name,
+        gmt_create,
+        gmt_modified,
+        version,
+        start_effect,
+        end_effect,
+        max_version,
+        producer
+    </sql>
+
+    <sql id="mdRulArticleBomHeadHistory_sqlForInsert">
+        priority,
+        state,
+        bom_code,
+        article_id,
+        shop_detail_id,
+        product_code,
+        product_name,
+        creater_id,
+        article_family_id,
+        product_category,
+        measurement_unit,
+        creater_name,
+        gmt_create,
+        gmt_modified,
+        version,
+        start_effect,
+        end_effect,
+        max_version,
+        producer
+    </sql>
+
+    <sql id="mdRulArticleBomHeadHistory_columnsForInsert">
+        #{priority},
+        #{state},
+        #{bomCode},
+        #{articleId},
+        #{shopDetailId},
+        #{productCode},
+        #{productName},
+        #{createrId},
+        #{articleFamilyId},
+        #{productCategory},
+        #{measurementUnit},
+        #{createrName},
+        now(),
+        now(),
+        #{version},
+        #{startEffect},
+        #{endEffect},
+        #{maxVersion},
+        #{producer}
+    </sql>
+
+    <sql id="mdRulArticleBomHeadHistory_setterForUpdate">
+        <set>
+            gmt_modified = now(),
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="priority != null">
+                priority = #{priority},
+            </if>
+            <if test="state != null">
+                state = #{state},
+            </if>
+            <if test="bomCode != null">
+                bom_code = #{bomCode},
+            </if>
+            <if test="articleId != null">
+                article_id = #{articleId},
+            </if>
+            <if test="shopDetailId != null">
+                shop_detail_id = #{shopDetailId},
+            </if>
+            <if test="productCode != null">
+                product_code = #{productCode},
+            </if>
+            <if test="productName != null">
+                product_name = #{productName},
+            </if>
+            <if test="createrId != null">
+                creater_id = #{createrId},
+            </if>
+            <if test="articleFamilyId != null">
+                article_family_id = #{articleFamilyId},
+            </if>
+            <if test="productCategory != null">
+                product_category = #{productCategory},
+            </if>
+            <if test="measurementUnit != null">
+                measurement_unit = #{measurementUnit},
+            </if>
+            <if test="createrName != null">
+                creater_name = #{createrName},
+            </if>
+            <if test="version != null">
+                version = #{version},
+            </if>
+            <if test="startEffect != null">
+                start_effect = #{startEffect},
+            </if>
+            <if test="endEffect != null">
+                end_effect = #{endEffect},
+            </if>
+            <if test="maxVersion != null">
+                max_version = #{maxVersion},
+            </if>
+            <if test="producer != null">
+                producer = #{producer},
+            </if>
+        </set>
+    </sql>
+
+    <sql id="mdRulArticleBomHeadHistory_selector">
+        select
+        <include refid="mdRulArticleBomHeadHistory_columns"/>
+        from md_rul_article_bom_head_history
+    </sql>
+
+    <sql id="mdRulArticleBomHeadHistory_query_segment">
+        <trim prefix="WHERE" prefixOverrides="AND|OR">
+            <if test="data.id != null">
+                AND id = #{data.id}
+            </if>
+            <if test="data.priority != null">
+                AND priority = #{data.priority}
+            </if>
+            <if test="data.state != null">
+                AND state = #{data.state}
+            </if>
+            <if test="data.bomCode != null">
+                AND bom_code = #{data.bomCode}
+            </if>
+            <if test="data.articleId != null">
+                AND article_id = #{data.articleId}
+            </if>
+            <if test="data.shopDetailId != null">
+                AND shop_detail_id = #{data.shopDetailId}
+            </if>
+            <if test="data.productCode != null">
+                AND product_code = #{data.productCode}
+            </if>
+            <if test="data.productName != null">
+                AND product_name = #{data.productName}
+            </if>
+            <if test="data.createrId != null">
+                AND creater_id = #{data.createrId}
+            </if>
+            <if test="data.articleFamilyId != null">
+                AND article_family_id = #{data.articleFamilyId}
+            </if>
+            <if test="data.productCategory != null">
+                AND product_category = #{data.productCategory}
+            </if>
+            <if test="data.measurementUnit != null">
+                AND measurement_unit = #{data.measurementUnit}
+            </if>
+            <if test="data.createrName != null">
+                AND creater_name = #{data.createrName}
+            </if>
+            <if test="data.gmtCreate != null">
+                AND gmt_create = #{data.gmtCreate}
+            </if>
+            <if test="data.gmtModified != null">
+                AND gmt_modified = #{data.gmtModified}
+            </if>
+            <if test="data.version != null">
+                AND version = #{data.version}
+            </if>
+            <if test="data.startEffect != null">
+                AND start_effect = #{data.startEffect}
+            </if>
+            <if test="data.endEffect != null">
+                AND end_effect = #{data.endEffect}
+            </if>
+            <if test="data.maxVersion != null">
+                AND max_version = #{data.maxVersion}
+            </if>
+            <if test="data.producer != null">
+                AND producer = #{data.producer}
+            </if>
+            <if test="ins != null and ins != ''">
+                AND
+                <foreach collection="ins" item="item" open="(" separator="and" close=")">
+                    ${item.column} in
+                    <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                        ${item}
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="notIns != null and notIns != ''">
+                AND
+                <foreach collection="notIns" item="item" open="(" separator="and" close=")">
+                    ${item.column} not in
+                    <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                        ${item}
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="equals != null and equals != ''">
+                AND
+                <foreach collection="equals" item="item" open="(" separator="and" close=")">
+                    ${item.column} = ${item.value}
+                </foreach>
+            </if>
+            <if test="notEquals != null and notEquals != ''">
+                AND
+                <foreach collection="notEquals" item="item" open="(" separator="and" close=")">
+                    ${item.column} != ${item.value}
+                </foreach>
+            </if>
+            <if test="lts != null and lts != ''">
+                AND
+                <foreach collection="lts" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ < ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="gts != null and gts != ''">
+                AND
+                <foreach collection="gts" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ > ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="likes != null and likes != ''">
+                AND
+                <foreach collection="likes" item="item" open="(" separator="and" close=")">
+                    ${item.column} like concat('%', ${item.value}, '%')
+                </foreach>
+            </if>
+            <if test="ltes != null and ltes != ''">
+                AND
+                <foreach collection="ltes" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ <= ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="gtes != null and gtes != ''">
+                AND
+                <foreach collection="gtes" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ >= ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="ranges != null and ranges != ''">
+                AND
+                <foreach collection="ranges" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ >= ]]> #{item.from} and ${item.column} <![CDATA[ < ]]> #{item.to}
+                </foreach>
+            </if>
+            AND is_delete = 0
+        </trim>
+    </sql>
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.MdRulArticleBomHeadHistory">
+        insert into md_rul_article_bom_head_history
+        (
+        <include refid="mdRulArticleBomHeadHistory_sqlForInsert"/>
+        ,is_delete
+        )
+        values
+        (
+        <include refid="mdRulArticleBomHeadHistory_columnsForInsert"/>
+        ,0
+        )
+    </insert>
+
+    <update id="update" parameterType="com.resto.shop.web.model.MdRulArticleBomHeadHistory">
+        update md_rul_article_bom_head_history
+        <include refid="mdRulArticleBomHeadHistory_setterForUpdate" />
+        where id = #{id}
+        and is_delete = 0
+    </update>
+
+
+    <update id="updateByQuery" parameterType="com.resto.shop.web.model.MdRulArticleBomHeadHistory">
+        update md_rul_article_bom_head_history
+        <set>
+            gmt_modified = now(),
+            <if test="update.id != null">
+                id = #{update.id},
+            </if>
+            <if test="update.priority != null">
+                priority = #{update.priority},
+            </if>
+            <if test="update.state != null">
+                state = #{update.state},
+            </if>
+            <if test="update.bomCode != null">
+                bom_code = #{update.bomCode},
+            </if>
+            <if test="update.articleId != null">
+                article_id = #{update.articleId},
+            </if>
+            <if test="update.shopDetailId != null">
+                shop_detail_id = #{update.shopDetailId},
+            </if>
+            <if test="update.productCode != null">
+                product_code = #{update.productCode},
+            </if>
+            <if test="update.productName != null">
+                product_name = #{update.productName},
+            </if>
+            <if test="update.createrId != null">
+                creater_id = #{update.createrId},
+            </if>
+            <if test="update.articleFamilyId != null">
+                article_family_id = #{update.articleFamilyId},
+            </if>
+            <if test="update.productCategory != null">
+                product_category = #{update.productCategory},
+            </if>
+            <if test="update.measurementUnit != null">
+                measurement_unit = #{update.measurementUnit},
+            </if>
+            <if test="update.createrName != null">
+                creater_name = #{update.createrName},
+            </if>
+            <if test="update.version != null">
+                version = #{update.version},
+            </if>
+            <if test="update.startEffect != null">
+                start_effect = #{update.startEffect},
+            </if>
+            <if test="update.endEffect != null">
+                end_effect = #{update.endEffect},
+            </if>
+            <if test="update.maxVersion != null">
+                max_version = #{update.maxVersion},
+            </if>
+            <if test="update.producer != null">
+                producer = #{update.producer},
+            </if>
+        </set>
+        <include refid="mdRulArticleBomHeadHistory_query_segment"/>
+    </update>
+
+
+    <insert id="insertOrUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.MdRulArticleBomHeadHistory">
+        insert into md_rul_article_bom_head_history
+        (
+        <include refid="mdRulArticleBomHeadHistory_sqlForInsert"/>
+        ,is_delete
+        )
+        values
+        (
+        <include refid="mdRulArticleBomHeadHistory_columnsForInsert"/>
+        ,0
+        )
+        on duplicate key update
+        gmt_modified = now()
+        <if test="id != null">
+            ,id = #{id}
+        </if>
+        <if test="priority != null">
+            ,priority = #{priority}
+        </if>
+        <if test="state != null">
+            ,state = #{state}
+        </if>
+        <if test="bomCode != null">
+            ,bom_code = #{bomCode}
+        </if>
+        <if test="articleId != null">
+            ,article_id = #{articleId}
+        </if>
+        <if test="shopDetailId != null">
+            ,shop_detail_id = #{shopDetailId}
+        </if>
+        <if test="productCode != null">
+            ,product_code = #{productCode}
+        </if>
+        <if test="productName != null">
+            ,product_name = #{productName}
+        </if>
+        <if test="createrId != null">
+            ,creater_id = #{createrId}
+        </if>
+        <if test="articleFamilyId != null">
+            ,article_family_id = #{articleFamilyId}
+        </if>
+        <if test="productCategory != null">
+            ,product_category = #{productCategory}
+        </if>
+        <if test="measurementUnit != null">
+            ,measurement_unit = #{measurementUnit}
+        </if>
+        <if test="createrName != null">
+            ,creater_name = #{createrName}
+        </if>
+        <if test="version != null">
+            ,version = #{version}
+        </if>
+        <if test="startEffect != null">
+            ,start_effect = #{startEffect}
+        </if>
+        <if test="endEffect != null">
+            ,end_effect = #{endEffect}
+        </if>
+        <if test="maxVersion != null">
+            ,max_version = #{maxVersion}
+        </if>
+        <if test="producer != null">
+            ,producer = #{producer}
+        </if>
+    </insert>
+
+    <!-- Delete -->
+    <update id="delete">
+        update md_rul_article_bom_head_history
+        set is_delete = 1, gmt_modified = now()
+        <include refid="mdRulArticleBomHeadHistory_query_segment"/>
+    </update>
+    <update id="deleteById">
+        update md_rul_article_bom_head_history
+        set is_delete = 1, gmt_modified = now()
+        where id = #{id}
+    </update>
+
+
+    <delete id="deletePhysicalById">
+        delete from md_rul_article_bom_head_history
+        where id = #{id}
+    </delete>
+
+
+
+
+    <!-- query class -->
+    <sql id="mdRulArticleBomHeadHistory_groupBy">
+        <if test="groupBys != null and groupBys != ''">
+            group by
+            <foreach collection="groupBys" item="item" open="" separator="," close="">
+                ${item}
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="mdRulArticleBomHeadHistory_orderby">
+        <if test="orderBys != null and orderBys != ''">
+            order by
+            <foreach collection="orderBys" item="item" open="" separator="," close="">
+                ${item.column} ${item.direction}
+            </foreach>
+        </if>
+    </sql>
+
+
+    <select id="query" resultMap="mdRulArticleBomHeadHistoryResult" parameterType="com.resto.shop.web.model.MdRulArticleBomHeadHistory">
+        <include refid="mdRulArticleBomHeadHistory_selector"/>
+        <include refid="mdRulArticleBomHeadHistory_query_segment"/>
+        <include refid="mdRulArticleBomHeadHistory_groupBy"/>
+        <include refid="mdRulArticleBomHeadHistory_orderby"/>
+    </select>
+
+    <select id="query4Page" resultMap="mdRulArticleBomHeadHistoryResult" parameterType="com.resto.shop.web.model.MdRulArticleBomHeadHistory">
+        <include refid="mdRulArticleBomHeadHistory_selector"/>
+        <include refid="mdRulArticleBomHeadHistory_query_segment"/>
+        <include refid="mdRulArticleBomHeadHistory_groupBy"/>
+        <include refid="mdRulArticleBomHeadHistory_orderby"/>
+        limit ${startRowForMysql}, ${pageSize}
+    </select>
+
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM md_rul_article_bom_head_history
+        <include refid="mdRulArticleBomHeadHistory_query_segment"/>
+    </select>
+
+    <select id="getById" resultMap="mdRulArticleBomHeadHistoryResult">
+        <include refid="mdRulArticleBomHeadHistory_selector"/>
+        where id = #{id}
+        and is_delete = 0
+    </select>
+
+    <select id="getByIdForUpdate" resultMap="mdRulArticleBomHeadHistoryResult">
+        <include refid="mdRulArticleBomHeadHistory_selector"/>
+        where id = #{id}
+        and is_delete = 0
+        for update
+    </select>
+
+
+    <select id="queryJoin4Page" parameterType="java.lang.String" resultType="com.resto.shop.web.dto.MdRulArticleBomHeadDtailDo">
+        SELECT
+        bom.id,
+        bom.bom_code AS 'bomCode',
+        bom.measurement_unit AS 'measurementUnit',
+        bom.priority AS 'priority',
+        bom.product_category AS 'productCategory',
+        bom.article_family_id AS 'articleFamilyId',
+        bom.article_id AS 'articleId',
+        bom.product_code AS 'productCode',
+        bom.product_name AS 'productName',
+        bom.version AS 'version',
+        bom.state as 'state',
+        bom.start_effect as 'startEffect',
+        bom.end_effect as 'endEffect',
+        bom.max_version as 'maxVersion',
+        bom.producer as 'producer',
+        d.id as bomDetailId,
+        d.material_code AS 'materialCode',
+        d.material_count AS 'materialCount',
+        d.material_name AS 'materialName',
+        d.material_id AS 'materialId',
+        d.min_measure_unit AS 'minMeasureUnit',
+        d.spec_name AS 'specName',
+        d.unit_name AS 'unitName',
+        d.material_type AS materialType,
+        t.`name` AS articleName,
+        taf.`name` AS familyName,
+        mm.measure_unit AS measureUnit,
+        mm.min_unit_name AS minUnitName,
+        mm.rate as 'rate',
+        mm.coefficient as 'coefficient'
+        FROM
+        md_rul_article_bom_head_history bom
+        LEFT JOIN md_rul_article_bom_detail_history d ON bom.id = d.article_bom_head_id
+        LEFT JOIN tb_article t ON bom.article_id = t.id
+        LEFT JOIN tb_article_family taf ON bom.article_family_id = taf.id
+        LEFT JOIN md_material mm ON mm.id = d.material_id
+        where  bom.shop_detail_id =#{shopDetailId}
+        and bom.article_id=#{articleId}
+        and bom.is_delete='0'
+        and d.is_delete='0'
+        order by bom.gmt_create desc ;
+    </select>
+
+
+
+
+
+
+
+
+
+</mapper>

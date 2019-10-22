@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui">
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="css/keyboard.css"/>
+		<title>登录</title>
+		<style type="text/css">
+			@media screen and (max-width: 1410px) and (min-width: 640px) {
+				.weui_logo {
+					top: 5%;
+				}
+				.login_dialog {
+					top: 90px;
+				}
+			}
+		</style>
+	</head>
+	<body id="app">
+		<div class="weui_logo">
+			<img class="restoImg" src="images/resto.png"/>
+		</div>
+		
+		<div class="login_dialog">			
+			<div class="account">
+				<div class="loginPng">
+					<img src="images/login.png" />
+				</div>
+				<input class="myAccount" id="loginname" type="text" name="" placeholder="请输入账号" v-model="account" />				
+			</div>
+			<div class="password">
+				<div class="loginPng">
+					<img src="images/password.png"/>
+				</div>				
+				<input class="myPassWord" id="password" type="password" name="" placeholder="请输入密码" v-model="passWord" />
+			</div>
+			<div class="loginBtn">
+				<button class="myBtn" type="button" @click="saveLogin">开启等位模式</button>
+			</div>
+		</div>
+		<weui-dialog :show.sync="wMessage.show" :msg="wMessage.message" :type="wMessage.type"></weui-dialog>
+		<script type="text/javascript">
+			document.addEventListener("plusready", function() {
+				var _BARCODE = 'kivviplugin',
+						B = window.plus.bridge;
+				var kivviplugin = {
+					PluginActionDisplayQR: function(Argus1, Argus2, Argus3, Argus4) {
+						return B.execSync(_BARCODE, "PluginActionDisplayQR", [Argus1, Argus2, Argus3, Argus4]);
+					},
+					PluginActionPrintQR: function(Argus1, Argus2, Argus3, Argus4) {
+						return B.execSync(_BARCODE, "PluginActionPrintQR", [Argus1, Argus2, Argus3, Argus4]);
+					},
+					PluginActionPrintText: function(Argus1, Argus2, Argus3, Argus4, Argus5, Argus6) {
+						return B.execSync(_BARCODE, "PluginActionPrintText", [Argus1, Argus2, Argus3, Argus4, Argus5, Argus6]);
+					},
+					PluginActionPlaySound: function(Argus1, Argus2, Argus3, Argus4) {
+						return B.execSync(_BARCODE, "PluginActionPlaySound", [Argus1, Argus2, Argus3, Argus4]);
+					},
+					changeUrl: function(url) {
+						document.getElementById("kivvipluginframe").src = url;
+					}
+	
+				};
+	
+				window.plus.kivviplugin = kivviplugin;
+			}, true);		
+		</script>
+		<script src="js/base.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script src="js/components.js"></script>		
+		<script src="js/common.js"></script>
+	    <script src="js/keyboard.js"></script>
+	    
+		<script type="text/javascript">
+			$(function(){
+				//读取历史保存的  账号信息
+				var userName = localStorage.getItem("userName");
+				var userPwd = localStorage.getItem("userPwd");
+				if(userName!=null && userName!=""){
+					$("#loginname").val(userName);
+				}
+				if(userPwd!=null && userPwd!=""){
+					$("#password").val(userPwd);
+				}
+				
+				//判断是否为安卓系统（Tv端不显示 js键盘）
+				if(navigator.userAgent.indexOf("android") == -1 && navigator.userAgent.indexOf("Android") == -1){
+					$("#loginname").addClass("numkeyboard");
+					$("#password").addClass("numkeyboard");					
+					$(".numkeyboard").ioskeyboard({
+					    keyboardRadix:60,
+					    keyboardRadixMin:40,
+					    keyboardRadixChange:true,
+					    clickeve:true,
+					    colorchange:false,
+					    colorchangeStep:1,
+					    colorchangeMin:154,
+					});										
+				}
+				
+				$("#loginname").focus(function () {
+		            $("#keyboard_5xbogf8c").css({"display": "block"});            
+		        });
+		        $("#loginname").blur(function () {
+		            $("#keyboard_5xbogf8c").css({"display": "none"});            
+		        });
+				$("#password").focus(function () {
+		            $("#keyboard_5xbogf8c").css({"display": "block"});            
+		        });
+		        $("#password").blur(function () {
+		            $("#keyboard_5xbogf8c").css({"display": "none"});            
+		        });
+			})
+			
+		</script>
+		
+		<script type="text/javascript">
+			
+			var vm = new Vue({
+		        el: "#app",
+		        data: function () {
+		            return {
+		            	wMessage: {show: 0, message: "",type:null},
+		                account: null,
+						passWord:null
+		            }
+		        },
+		        methods:{
+		        	showAlter: function (msg ,type, time) {
+			            this.wMessage.show = 1;
+			            this.wMessage.type = type;
+			            this.wMessage.message = msg;
+			            var that = this;
+			            setTimeout(function () {
+			                that.wMessage.show = 0;
+			            }, time || 1000);
+			        },
+			        saveLogin:function(){
+			        	var that = this;
+
+			        	if(!that.account){
+			            	that.showAlter("请输入账号",2, 3000);
+			            	return;
+			            }else if(!that.passWord) {
+							that.showAlter("请输入密码",2, 3000);
+							return;
+						}else{
+			            	loginInfo(that.account, that.passWord, function(result) {
+								if(result.code == "200") { //200成功 非200失败
+									localStorage.setItem("shopId", result.data.shopDetailId);
+									localStorage.setItem("shopName", result.data.shopName);
+									localStorage.setItem("brandId", result.data.brandId);
+									localStorage.setItem("userName",$("#loginname").val());
+									localStorage.setItem("userPwd",$("#password").val());
+									
+									window.parent.location.href = 'subpage/callNumber.html?baseUrl=' + baseUrl + "/geekqueuing";		
+								} else {
+									that.showAlter(result.msg,2,3000);
+								}
+							});
+			            }
+			        }
+		        }
+		    })
+			
+		</script>
+	</body>
+</html>

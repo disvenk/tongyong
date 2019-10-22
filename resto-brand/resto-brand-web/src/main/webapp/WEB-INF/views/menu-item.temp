@@ -1,0 +1,46 @@
+<li class="nav-item">
+	<a href="javascript:;" class="nav-link nav-toggle">
+		<i class="fa ${m.menuIcon }"></i>
+		<span class="title">${m.permissionName }</span>
+		<span class="arrow "></span>
+	</a>
+	<c:if test="${fn:length(m.children)>0 }">
+    		<ul class="sub-menu">
+    			<c:forEach items="${m.children }" var="subMenu">
+    	            <s:hasPermission name="${subMenu.permissionSign }">
+                        <li class="nav-item">
+                            <c:if test="${subMenu.isChildLink == 0 }">
+                                <a href="${subMenu.permissionSign}" class="nav-link nav-toggle ${subMenu.menuType==1?'ajaxify':''} ${subMenu.menuType==2?'iframeify':''}">
+                                    <i class="fa ${subMenu.menuIcon }"></i>
+                                    ${subMenu.permissionName}
+                                    <span class="arrow "></span>
+                                </a>
+                            </c:if>
+                            <c:if test="${subMenu.isChildLink == 1 }">
+                                <a href="javascript:;" class="nav-link nav-toggle">
+                                    <i class="fa ${subMenu.menuIcon }"></i>
+                                    ${subMenu.permissionName}
+                                    <span class="arrow "></span>
+                                </a>
+                            </c:if>
+                            <c:if test="${fn:length(subMenu.children)>0 }">
+                                <ul class="sub-menu">
+                                    <c:forEach items="${subMenu.children }" var="subMenuChild">
+                            <s:hasPermission name="${subMenuChild.permissionSign }">
+                                        <c:if test="${subMenuChild.menuType == 1 }">
+                                            <li class="nav-item">
+                                                <a href="${subMenuChild.permissionSign}" class="nav-link nav-toggle ${subMenuChild.menuType==1?'ajaxify':''} ${subMenuChild.menuType==2?'iframeify':''}">
+                                                    ${subMenuChild.permissionName}
+                                                </a>
+                                            </li>
+                                        </c:if>
+                            </s:hasPermission>
+                                    </c:forEach>
+                                </ul>
+                            </c:if>
+                        </li>
+    		        </s:hasPermission>
+    			</c:forEach>
+    		</ul>
+    </c:if>
+</li>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.AccountLogMapper">
+   <resultMap id="BaseResultMap" type="com.resto.shop.web.model.AccountLog" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="DECIMAL" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="payment_type" property="paymentType" jdbcType="INTEGER" />
+    <result column="remain" property="remain" jdbcType="DECIMAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="account_id" property="accountId" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="INTEGER" />
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+    <result column="freeze_return_date" property="freezeReturnDate"/>
+    <result column="order_id" property="orderId"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, money, create_time, payment_type, remain, remark, account_id, source, shop_detail_id, freeze_return_date, order_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_account_log
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_account_log
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.AccountLog" >
+    insert into tb_account_log (id, money, create_time, payment_type, remain, remark,
+      account_id, source, shop_detail_id, freeze_return_date, order_id)
+    values (#{id,jdbcType=VARCHAR}, #{money,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{paymentType,jdbcType=INTEGER}, #{remain,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
+      #{accountId,jdbcType=VARCHAR}, #{source,jdbcType=INTEGER}, #{shopDetailId,jdbcType=VARCHAR},
+      #{freezeReturnDate}, #{orderId})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.AccountLog" >
+    insert into tb_account_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="paymentType != null" >
+        payment_type,
+      </if>
+      <if test="remain != null" >
+        remain,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="accountId != null" >
+        account_id,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="shopDetailId != null">
+      	shop_detail_id,
+      </if>
+      <if test="freezeReturnDate != null">
+        freeze_return_date,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paymentType != null" >
+        #{paymentType,jdbcType=INTEGER},
+      </if>
+      <if test="remain != null" >
+        #{remain,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null" >
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=INTEGER},
+      </if>
+      <if test="shopDetailId != null" >
+        #{shopDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="freezeReturnDate != null" >
+        #{freezeReturnDate},
+      </if>
+      <if test="orderId != null" >
+        #{orderId},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.AccountLog" >
+    update tb_account_log
+    <set >
+      <if test="money != null" >
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paymentType != null" >
+        payment_type = #{paymentType,jdbcType=INTEGER},
+      </if>
+      <if test="remain != null" >
+        remain = #{remain,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null" >
+        account_id = #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=INTEGER},
+      </if>
+      <if test="shopDetailId != null" >
+        shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="freezeReturnDate != null" >
+        freeze_return_date = #{freezeReturnDate},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.AccountLog" >
+    update tb_account_log
+    set money = #{money,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      payment_type = #{paymentType,jdbcType=INTEGER},
+      remain = #{remain,jdbcType=DECIMAL},
+      remark = #{remark,jdbcType=VARCHAR},
+      account_id = #{accountId,jdbcType=VARCHAR},
+      source = #{source,jdbcType=INTEGER},
+      shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},
+      freeze_return_date = #{freezeReturnDate},
+      order_id = #{orderId}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectList" resultType="AccountLog">select * from tb_account_log</select>
+  
+  <!-- 根据 账户ID 查询 账户交易明细 -->
+  <select id="selectLogsByAccountId" resultType="AccountLog">
+  	SELECT * from tb_account_log where account_id = #{accountId}
+  	ORDER BY create_time DESC, source DESC
+  </select>
+  
+  <!-- 根据 账户ID 查询 账户充值的次数 -->
+  <select id="selectByCustomerIdNumber" resultType="AccountLog">
+    select t1.id from tb_customer t
+    LEFT JOIN tb_account_log t1 ON t.account_id = t1.account_id
+    where t.id = #{id} and t1.source = 2
+  </select>
+  
+  <select id="selectBrandMarketing" parameterType="java.util.Map" resultType="String">
+	(select 
+		case 
+			when source = 1 then concat_ws(':','plRedMoney',SUM(money))
+			when source = 3 then concat_ws(':','czRedMoney',SUM(money))
+			when source = 4 then concat_ws(':','fxRedMoney',SUM(money))
+		end result
+			from tb_account_log tal 
+			where source in (1,3,4) and create_time between #{beginDate} and date_add(#{endDate},interval 1 day)
+			group by source)
+	UNION
+	(select 
+		case 
+			when payment_mode_id = 8 then concat_ws(':','dwRedMoney',ABS(SUM(pay_value)))
+			when payment_mode_id = 11 then concat_ws(':','tcRedMoney',ABS(SUM(pay_value)))
+		end
+			from tb_order_payment_item
+			where payment_mode_id in (8,11) and pay_time between #{beginDate} and date_add(#{endDate},interval 1 day)
+			group by payment_mode_id)
+	UNION
+	(select
+		case 
+			when coupon_type = 0 then concat_ws(':','zcCouponMoney',SUM(`value`))
+			when coupon_type = 1 then concat_ws(':','yqCouponMoney',SUM(`value`))
+			when coupon_type = 2 then CONCAT_WS(':','birthCouponMoney',SUM(`value`))
+		end
+			from tb_coupon
+			where coupon_type in (0,1,2) and add_time between #{beginDate} and date_add(#{endDate},interval 1 day)
+			group by coupon_type)
+  </select>
+
+  <!-- 根据 账户ID 查询 分享返利总额 -->
+  <select id="selectByShareMoney" resultType="java.math.BigDecimal">
+    SELECT sum(money) from tb_account_log where account_id = #{accountId} and source = 4
+  </select>
+
+  <!-- 根据 账户ID 查询 分享返利总数 -->
+  <select id="selectByShareMoneyCount" resultType="java.lang.Integer">
+    SELECT count(1) from tb_account_log where account_id = #{accountId} and source = 4
+  </select>
+
+  <select id="selectByOrderId" resultType="AccountLog">
+    SELECT * from tb_account_log where order_id = #{orderId}
+  </select>
+</mapper>

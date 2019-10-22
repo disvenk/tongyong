@@ -1,0 +1,336 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>cn.restoplus</groupId>
+		<artifactId>resto-brand</artifactId>
+		<version>1.0.1</version>
+	</parent>
+	<artifactId>resto-brand-core</artifactId>
+	<name>resto-brand-core</name>
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<url>http://106.14.44.167:8081/nexus/content/repositories/releases/</url>
+		</repository>
+	</distributionManagement>
+	<dependencies>
+		<dependency>
+			<groupId>com.aliyun.oss</groupId>
+			<artifactId>aliyun-sdk-oss</artifactId>
+			<version>2.8.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.belerweb</groupId>
+			<artifactId>pinyin4j</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+
+        <dependency>
+            <groupId>org.csource</groupId>
+            <artifactId>fastdfs-client-java</artifactId>
+            <version>1.25</version>
+        </dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jaxen</groupId>
+			<artifactId>jaxen</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk13</classifier>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+		<!--图片压缩包 -->
+		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>0.4.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20151123</version>
+		</dependency>
+		<dependency>
+			  <groupId>org.apache.commons</groupId>
+  			  <artifactId>commons-lang3</artifactId>
+  			  <version>3.3.2</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.aliyun.openservices</groupId>
+		   <artifactId>ons-client</artifactId>
+		   <version>1.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<!--<version>4.3.4</version>-->
+			<version>4.4</version>
+			<!--<exclusions>-->
+				<!--<exclusion>-->
+					<!--<groupId>org.apache.httpcomponents</groupId>-->
+					<!--<artifactId>slf4j-simple</artifactId>-->
+				<!--</exclusion>-->
+			<!--</exclusions>-->
+		</dependency>
+		<!-- google 二维码 -->
+		<dependency>
+		  <groupId>com.google.zxing</groupId>
+		  <artifactId>zxingorg</artifactId>
+		  <version>2.2</version>
+		  <classifier>sources</classifier>
+		</dependency>
+
+		<!-- poi工具 -->
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi</artifactId>
+		    <version>3.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-schemas</artifactId>
+			<version>3.9</version>
+		</dependency>
+		<dependency>
+		    <groupId>commons-codec</groupId>
+		    <artifactId>commons-codec</artifactId>
+		</dependency>
+
+		<!-- 支付宝相关jar -->
+		<dependency>
+		  <groupId>commons-httpclient</groupId>
+		  <artifactId>commons-httpclient</artifactId>
+		  <version>3.0.1</version>
+		</dependency>
+
+		<!-- log4j -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+
+		<!-- mysql Driver -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ali</groupId>
+			<artifactId>ali-pay</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ali</groupId>
+			<artifactId>ali-pay-source</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ali</groupId>
+			<artifactId>commons-logging-sources</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ali</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
+        <!-- 本地mq -->
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+
+		<!--<dependency>-->
+			<!--<groupId>com.danga</groupId>-->
+			<!--<artifactId>java-memcached</artifactId>-->
+			<!--<version>2.6.6</version>-->
+			<!--<exclusions>-->
+				<!--<exclusion>-->
+					<!--<groupId>org.slf4j</groupId>-->
+					<!--<artifactId>slf4j-simple</artifactId>-->
+				<!--</exclusion>-->
+			<!--</exclusions>-->
+		<!--</dependency>-->
+		<dependency>
+			<groupId>it.sauronsoftware</groupId>
+			<artifactId>ftp4j</artifactId>
+			<version>1.7.2</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<!--<version>4.3.2</version>-->
+			<version>4.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.1.1.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>4.4</version>
+		</dependency>
+
+		<!-- 阿里sms sdk -->
+		<dependency>
+			<groupId>com.taobao.api</groupId>
+			<artifactId>sms-sdk</artifactId>
+			<version>1.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.taobao.sms</groupId>
+			<artifactId>sdk</artifactId>
+			<version>1.6</version>
+		</dependency>
+
+		<!-- 邮件 -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.5.0-b01</version>
+		</dependency>
+
+		<!-- 邮箱 -->
+		<dependency>
+			<groupId>io.github.biezhi</groupId>
+			<artifactId>oh-my-email</artifactId>
+			<version>0.0.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<version>1.59</version>
+		</dependency>
+
+		<!-- 微信解密工具类 -->
+		<!--<dependency>-->
+			<!--<groupId>aes</groupId>-->
+			<!--<artifactId>aes-jre</artifactId>-->
+			<!--<version>1.6</version>-->
+		<!--</dependency>-->
+
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.9.3</version>
+		</dependency>
+
+		<!--发票-->
+		<dependency>
+		<groupId>com.taobao.fapiao</groupId>
+		<artifactId>fapiao</artifactId>
+		<version>2.6.3</version>
+		</dependency>
+
+        <!-- itext -->
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
+            <version>4.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext-asian</artifactId>
+            <version>5.2.0</version>
+        </dependency>
+	</dependencies>
+
+	<!--<build>-->
+	<!--<plugins>-->
+	<!--<plugin>-->
+		<!--<groupId>org.apache.maven.plugins</groupId>-->
+		<!--<artifactId>maven-install-plugin</artifactId>-->
+		<!--<version>2.5.2</version>-->
+		<!--<executions>-->
+			<!--<execution>-->
+				<!--<id>install-external</id>-->
+				<!--<phase>clean</phase>-->
+				<!--<configuration>-->
+					<!--<file>${project.basedir}/src/main/resources/taobao-sdk-java-auto_1507778990173-20180612.jar</file>-->
+					<!--<repositoryLayout>default</repositoryLayout>-->
+					<!--<groupId>com.taobao.fapiao</groupId>-->
+					<!--<artifactId>fapiao</artifactId>-->
+					<!--<version>2.6.3</version>-->
+					<!--<packaging>jar</packaging>-->
+					<!--<generatePom>true</generatePom>-->
+				<!--</configuration>-->
+				<!--<goals>-->
+					<!--<goal>install-file</goal>-->
+				<!--</goals>-->
+			<!--</execution>-->
+		<!--</executions>-->
+	<!--</plugin>-->
+	<!--</plugins>-->
+	<!--</build>-->
+</project>

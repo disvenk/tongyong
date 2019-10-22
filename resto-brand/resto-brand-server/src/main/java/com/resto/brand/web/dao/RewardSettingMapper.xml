@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.RewardSettingMapper">
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.RewardSetting">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="title" property="title" jdbcType="VARCHAR"/>
+    <result column="money_list" property="moneyList" jdbcType="VARCHAR"/>
+    <result column="min_level" property="minLevel" jdbcType="INTEGER"/>
+    <result column="min_length" property="minLength" jdbcType="INTEGER"/>
+    <result column="is_activty" property="isActivty" jdbcType="BIT"/>
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, title, money_list, min_level, min_length, is_activty, brand_id</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select 
+    <include refid="Base_Column_List"/> from reward_setting where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from reward_setting where id = #{id,jdbcType=VARCHAR}</delete>
+  <insert id="insert" parameterType="com.resto.brand.web.model.RewardSetting">insert into reward_setting (id, title, money_list, min_level, min_length, is_activty, brand_id) values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{moneyList,jdbcType=VARCHAR}, #{minLevel,jdbcType=INTEGER}, #{minLength,jdbcType=INTEGER}, #{isActivty,jdbcType=BIT}, #{brandId,jdbcType=VARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.RewardSetting">insert into reward_setting 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="title != null">title,</if>  
+      <if test="moneyList != null">money_list,</if>  
+      <if test="minLevel != null">min_level,</if>  
+      <if test="minLength != null">min_length,</if>  
+      <if test="isActivty != null">is_activty,</if>  
+      <if test="brandId != null">brand_id,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>  
+      <if test="title != null">#{title,jdbcType=VARCHAR},</if>  
+      <if test="moneyList != null">#{moneyList,jdbcType=VARCHAR},</if>  
+      <if test="minLevel != null">#{minLevel,jdbcType=INTEGER},</if>  
+      <if test="minLength != null">#{minLength,jdbcType=INTEGER},</if>  
+      <if test="isActivty != null">#{isActivty,jdbcType=BIT},</if>  
+      <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.RewardSetting">update reward_setting 
+    <set> 
+      <if test="title != null">title = #{title,jdbcType=VARCHAR},</if>  
+      <if test="moneyList != null">money_list = #{moneyList,jdbcType=VARCHAR},</if>  
+      <if test="minLevel != null">min_level = #{minLevel,jdbcType=INTEGER},</if>  
+      <if test="minLength != null">min_length = #{minLength,jdbcType=INTEGER},</if>  
+      <if test="isActivty != null">is_activty = #{isActivty,jdbcType=BIT},</if>  
+      <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if> 
+    </set> where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.RewardSetting">update reward_setting set title = #{title,jdbcType=VARCHAR}, money_list = #{moneyList,jdbcType=VARCHAR}, min_level = #{minLevel,jdbcType=INTEGER}, min_length = #{minLength,jdbcType=INTEGER}, is_activty = #{isActivty,jdbcType=BIT}, brand_id = #{brandId,jdbcType=VARCHAR} where id = #{id,jdbcType=VARCHAR}</update>
+  <select id="selectList" resultType="RewardSetting">select * from reward_setting</select>
+  <select id="selectByBrandId" resultType="RewardSetting">
+  	select * from reward_setting where brand_id=#{0}
+  </select>
+</mapper>

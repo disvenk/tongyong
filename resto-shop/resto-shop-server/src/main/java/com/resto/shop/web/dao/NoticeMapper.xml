@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.NoticeMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.Notice">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="title" property="title" jdbcType="VARCHAR"/>
+    <result column="content" property="content" jdbcType="VARCHAR"/>
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+    <result column="sort" property="sort" jdbcType="INTEGER"/>
+    <result column="status" property="status" jdbcType="TINYINT"/>
+    <result column="notice_image" property="noticeImage" jdbcType="VARCHAR"/>
+    <result column="notice_type" property="noticeType" jdbcType="TINYINT"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, title, content, create_date, sort, status, notice_image, notice_type, shop_detail_id,show_times</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select 
+    <include refid="Base_Column_List"/> from tb_notice where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from tb_notice where id = #{id,jdbcType=VARCHAR}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.Notice">insert into tb_notice (id, title, content, create_date, sort, status, notice_image, notice_type, shop_detail_id ) values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{sort,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{noticeImage,jdbcType=VARCHAR}, #{noticeType,jdbcType=TINYINT}, #{shopDetailId,jdbcType=VARCHAR} )</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.Notice">insert into tb_notice 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="title != null">title,</if>  
+      <if test="content != null">content,</if>  
+      <if test="createDate != null">create_date,</if>  
+      <if test="sort != null">sort,</if>  
+      <if test="status != null">status,</if>  
+      <if test="noticeImage != null">notice_image,</if>  
+      <if test="noticeType != null">notice_type,</if>  
+      <if test="shopDetailId != null">shop_detail_id,</if>
+      <if test="showTimes != null">show_times,</if>
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>  
+      <if test="title != null">#{title,jdbcType=VARCHAR},</if>  
+      <if test="content != null">#{content,jdbcType=VARCHAR},</if>  
+      <if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>  
+      <if test="sort != null">#{sort,jdbcType=INTEGER},</if>  
+      <if test="status != null">#{status,jdbcType=TINYINT},</if>  
+      <if test="noticeImage != null">#{noticeImage,jdbcType=VARCHAR},</if>  
+      <if test="noticeType != null">#{noticeType,jdbcType=TINYINT},</if>  
+      <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if>
+      <if test="showTimes != null">#{showTimes},</if>
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.Notice">update tb_notice 
+    <set> 
+      <if test="title != null">title = #{title,jdbcType=VARCHAR},</if>  
+      <if test="content != null">content = #{content,jdbcType=VARCHAR},</if>  
+      <if test="createDate != null">create_date = #{createDate,jdbcType=TIMESTAMP},</if>  
+      <if test="sort != null">sort = #{sort,jdbcType=INTEGER},</if>  
+      <if test="status != null">status = #{status,jdbcType=TINYINT},</if>  
+      <if test="noticeImage != null">notice_image = #{noticeImage,jdbcType=VARCHAR},</if>  
+      <if test="noticeType != null">notice_type = #{noticeType,jdbcType=TINYINT},</if>  
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if>
+      <if test="showTimes != null">show_times = #{showTimes},</if>
+    </set> where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.Notice">update tb_notice set title = #{title,jdbcType=VARCHAR}, content = #{content,jdbcType=VARCHAR}, create_date = #{createDate,jdbcType=TIMESTAMP}, sort = #{sort,jdbcType=INTEGER}, status = #{status,jdbcType=TINYINT}, notice_image = #{noticeImage,jdbcType=VARCHAR}, notice_type = #{noticeType,jdbcType=TINYINT}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR} where id = #{id,jdbcType=VARCHAR}</update>
+  <select id="selectList" resultType="Notice">
+  	select * from tb_notice
+  </select>
+  
+  <!-- 根据店铺ID查询信息 -->
+  <select id="selectListByShopId" resultType="Notice">
+  	select *,
+    CASE WHEN show_times  >  (SELECT count(1) FROM tb_customer_notice_history WHERE customer_id= #{customerId} and notice_id = tb_notice.id) THEN 0 ELSE 1 END  is_read
+  	 from tb_notice
+	where shop_detail_id = #{shopId}
+	<if test="noticeType!=null and noticeType!=''">
+		and notice_type = #{noticeType}
+	</if>
+	and status=1
+	order by sort
+  </select>
+  <select id="selectListAllByShopId" resultType="Notice">
+  	select * from tb_notice
+	where shop_detail_id = #{shopId}
+	order by sort
+  </select>
+  <update id="addNoticeHistory">
+  	insert into tb_customer_notice_history (customer_id,notice_id)values(#{0},#{1})
+  </update>
+
+  <delete id="clearSupportTime">
+    delete from tb_notice_support_time where notice_id = #{noticeId}
+  </delete>
+
+  <insert id="insertSupportTime">
+    insert into tb_notice_support_time
+    (notice_id,support_time_id) values(#{noticeId},#{time})
+  </insert>
+
+
+  <select id="getSupportTime" resultType="Integer">
+    select  support_time_id from tb_notice_support_time where notice_id=#{noticeId}
+  </select>
+</mapper>

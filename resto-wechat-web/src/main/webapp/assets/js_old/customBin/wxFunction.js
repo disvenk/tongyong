@@ -1,0 +1,1 @@
+function wxOpenLocation(n,e,i,o){wx.openLocation({latitude:n,longitude:e,name:i,address:o,scale:20,infoUrl:""})}function wxShareToMoments(n,e,i,o,t){wx.onMenuShareTimeline({title:n,link:e,imgUrl:i,success:function(){if(o){o()}},cancel:function(){if(t){t()}}})}

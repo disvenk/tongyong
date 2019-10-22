@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.MealAttrMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.MealAttr">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="sort" property="sort" jdbcType="INTEGER"/>
+    <result column="article_id" property="articleId" jdbcType="VARCHAR"/>
+    <result column="print_sort" property="printSort" jdbcType="INTEGER"/>
+
+    <result column="choice_count" property="choiceCount"/>
+    <result column="choice_type" property="choiceType"/>
+
+  </resultMap>
+  <sql id="Base_Column_List">id, name, sort, article_id,print_sort,choice_type,choice_count</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">select 
+    <include refid="Base_Column_List"/> from tb_meal_attr where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">delete from tb_meal_attr where id = #{id,jdbcType=INTEGER}</delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.MealAttr">insert into tb_meal_attr (id, name, sort, article_id) values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER},#{articleId,jdbcType=VARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.MealAttr" useGeneratedKeys="true" keyProperty="id">
+  insert into tb_meal_attr 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="name != null">name,</if>  
+      <if test="sort != null">sort,</if>  
+      <if test="articleId != null">article_id,</if>
+      <if test="printSort != null">print_sort,</if>
+      <if test="choiceType != null">choice_type,</if>
+      <if test="choiceCount != null">choice_count,</if>
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=INTEGER},</if>  
+      <if test="name != null">#{name,jdbcType=VARCHAR},</if>  
+      <if test="sort != null">#{sort,jdbcType=INTEGER},</if>  
+      <if test="articleId != null">#{articleId,jdbcType=VARCHAR},</if>
+      <if test="printSort != null">#{printSort,jdbcType=INTEGER},</if>
+      <if test="choiceType != null">#{choiceType,jdbcType=INTEGER},</if>
+      <if test="choiceCount != null">#{choiceCount,jdbcType=INTEGER}</if>
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.MealAttr">update tb_meal_attr 
+    <set> 
+      <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>  
+      <if test="sort != null">sort = #{sort,jdbcType=INTEGER},</if>  
+      <if test="articleId != null">article_id = #{articleId,jdbcType=VARCHAR},</if>
+      <if test="printSort != null">print_sort = #{printSort,jdbcType=INTEGER},</if>
+      <if test="choiceType != null">choice_type = #{choiceType,jdbcType=INTEGER}</if>
+      <if test="choiceCount != null">choice_count = #{choiceCount,jdbcType=INTEGER}</if>
+    </set> where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.MealAttr">update tb_meal_attr set name = #{name,jdbcType=VARCHAR}, sort = #{sort,jdbcType=INTEGER},article_id = #{articleId,jdbcType=VARCHAR} where id = #{id,jdbcType=INTEGER}</update>
+  <select id="selectList" resultType="MealAttr">select * from tb_meal_attr
+  	<where>
+	  	<if test="articleId!=null ">
+	  		article_id=#{articleId}
+	  	</if>
+  	</where> order by sort
+  </select>
+  <delete id="deleteByIds">
+  	delete from tb_meal_attr where id in 
+  	<foreach collection="ids" open="(" separator="," close=")" item="id">#{id}</foreach>
+</delete>
+
+  <select id="selectMealAttrByShopId" resultType="MealAttr">
+      SELECT ma.id,ma.`name`,ma.sort,ma.article_id,ma.print_sort,ma.choice_type,ma.choice_count
+       from tb_meal_attr ma LEFT JOIN tb_article a on ma.article_id = a.id where a.shop_detail_id = #{shopId} and a.state = 1;
+  </select>
+
+</mapper>

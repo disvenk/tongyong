@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!-- 引入配置文件 -->
+    <properties resource="generator/mybatis-generator.properties"/>
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <!-- 防止部分IDE，在进行代码生成器过程中，自定义注释部分 中文乱码 -->
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 由于beginningDelimiter和endingDelimiter的默认值为双引号(")，在Mysql中不能这么写，所以还要将这两个默认值改为**反单引号(`)**，配置如下：  -->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <!--使用lombok.Data生成getter, setter-->
+        <plugin type="com.resto.conf.mybatis.plugin.GetterSetterPlugin"/>
+
+        <!-- 配置pojo的序列化 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+
+        <!--使用通用Mapper插件-->
+        <plugin type="com.resto.conf.mybatis.plugin.MyMapperPlugin">
+            <!-- 生成的Mapper都要继承的BaseMapper类 -->
+            <property name="mappers" value="com.resto.conf.mybatis.util.MyMapper"/>
+            <!-- 设置自定义注释生成器，默认是 MapperCommentGenerator -->
+            <property name="commentGeneratorType" value="com.resto.conf.mybatis.util.MyCommentGenerator"/>
+        </plugin>
+
+        <!--entity注释使用@ApiModelProperty-->
+        <commentGenerator type="com.resto.conf.mybatis.util.MyCommentGenerator"/>
+
+        <jdbcConnection driverClass="${db.driverClass}"
+                        connectionURL="${db.connectionURL}"
+                        userId="${db.userId}"
+                        password="${db.password}">
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="${javaModelGenerator.targetPackage}" targetProject="src/main/java">
+            <property name="rootClass" value="com.resto.conf.db.BaseEntityResto"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
+            <property name="rootClass" value="com.resto.conf.mybatis.util.MyMapper"/>
+        </sqlMapGenerator>
+
+        <javaClientGenerator targetPackage="${javaClientGenerator.targetPackage}" targetProject="src/main/java"
+                             type="XMLMAPPER"/>
+
+        <table tableName="tb_third_customer" domainObjectName="ThirdCustomer">
+            <!--mysql 配置-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+            <!--oracle 配置-->
+            <!--<generatedKey column="id" sqlStatement="select SEQ_{1}.nextval from dual" identity="false" type="pre"/>-->
+
+            <!--<columnOverride column="delete_flag" javaType="com.resto.conf.mybatis.enums.DeleteFlagEnum"-->
+                <!--typeHandler="com.resto.conf.mybatis.handle.ValuedEnumTypeHandler"/>-->
+
+        </table>
+    </context>
+</generatorConfiguration>

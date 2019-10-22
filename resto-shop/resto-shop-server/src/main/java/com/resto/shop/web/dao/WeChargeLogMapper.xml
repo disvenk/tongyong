@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.WeChargeLogMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.WeChargeLog">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR"/>
+    <result column="create_time" property="createTime" jdbcType="DATE"/>
+    <result column="charge_telephone" property="chargeTelephone" jdbcType="VARCHAR"/>
+    <result column="charge_type" property="chargeType" jdbcType="INTEGER"/>
+    <result column="charge_money" property="chargeMoney" jdbcType="DECIMAL"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, shop_id, create_time, charge_telephone, charge_type, charge_money</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from we_charge_log where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from we_charge_log where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.WeChargeLog">insert into we_charge_log (id, shop_id, create_time, charge_telephone, charge_type, charge_money ) values (#{id,jdbcType=BIGINT}, #{shopId,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, #{chargeTelephone,jdbcType=VARCHAR}, #{chargeType,jdbcType=INTEGER}, #{chargeMoney,jdbcType=DECIMAL} )</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.WeChargeLog">insert into we_charge_log 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="shopId != null">shop_id,</if>  
+      <if test="createTime != null">create_time,</if>  
+      <if test="chargeTelephone != null">charge_telephone,</if>  
+      <if test="chargeType != null">charge_type,</if>  
+      <if test="chargeMoney != null">charge_money,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="shopId != null">#{shopId,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=DATE},</if>  
+      <if test="chargeTelephone != null">#{chargeTelephone,jdbcType=VARCHAR},</if>  
+      <if test="chargeType != null">#{chargeType,jdbcType=INTEGER},</if>  
+      <if test="chargeMoney != null">#{chargeMoney,jdbcType=DECIMAL},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.WeChargeLog">update we_charge_log 
+    <set> 
+      <if test="shopId != null">shop_id = #{shopId,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=DATE},</if>  
+      <if test="chargeTelephone != null">charge_telephone = #{chargeTelephone,jdbcType=VARCHAR},</if>  
+      <if test="chargeType != null">charge_type = #{chargeType,jdbcType=INTEGER},</if>  
+      <if test="chargeMoney != null">charge_money = #{chargeMoney,jdbcType=DECIMAL},</if> 
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.WeChargeLog">update we_charge_log set shop_id = #{shopId,jdbcType=VARCHAR}, create_time = #{createTime,jdbcType=DATE}, charge_telephone = #{chargeTelephone,jdbcType=VARCHAR}, charge_type = #{chargeType,jdbcType=INTEGER}, charge_money = #{chargeMoney,jdbcType=DECIMAL} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="WeChargeLog">select * from we_charge_log</select>
+   <select id="selectByShopIdAndTime" resultType="WeChargeLog" >
+       SELECT  * FROM we_charge_log WHERE shop_id=#{shopId} AND  <![CDATA[create_time=#{beginTime}]]>
+   </select>
+
+    <delete id="deleteByIds" parameterType="java.util.List">
+        DELETE FROM we_charge_log WHERE id IN
+        <foreach collection="ids" index="index" item="item"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </delete>
+</mapper>

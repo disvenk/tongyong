@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.KitchenMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.Kitchen">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    <result column="printer_id" property="printerId" jdbcType="INTEGER"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+    <result column="ciprinter_id" property="ciprinterId" />
+    <result column="begin_time" property="beginTime" />
+    <result column="end_time" property="endTime" />
+    <result column="sort" property="sort" />
+    <result column="status" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">id, name, remark, printer_id, shop_detail_id,ciprinter_id</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">select 
+    <include refid="Base_Column_List"/> from tb_kitchen where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">delete from tb_kitchen where id = #{id,jdbcType=INTEGER}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.Kitchen">insert into tb_kitchen (id, name, remark, printer_id, shop_detail_id) values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{printerId,jdbcType=INTEGER}, #{shopDetailId,jdbcType=VARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.Kitchen" useGeneratedKeys="true" keyProperty="id">insert into tb_kitchen
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="name != null">name,</if>  
+      <if test="remark != null">remark,</if>  
+      <if test="printerId != null">printer_id,</if>  
+      <if test="shopDetailId != null">shop_detail_id,</if>
+      <if test="ciprinterId != null">ciprinter_id,</if>
+      <if test="beginTime != null">begin_time,</if>
+      <if test="endTime != null">end_time,</if>
+      <if test="sort != null">sort,</if>
+      <if test="status != null">status,</if>
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=INTEGER},</if>  
+      <if test="name != null">#{name,jdbcType=VARCHAR},</if>  
+      <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>  
+      <if test="printerId != null">#{printerId,jdbcType=INTEGER},</if>  
+      <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if>
+      <if test="ciprinterId != null">#{ciprinterId,jdbcType=VARCHAR},</if>
+      <if test="beginTime != null">#{beginTime,jdbcType=VARCHAR},</if>
+      <if test="endTime != null">#{endTime,jdbcType=VARCHAR},</if>
+      <if test="sort != null">#{sort,jdbcType=INTEGER},</if>
+      <if test="status != null">#{status,jdbcType=INTEGER},</if>
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.Kitchen">update tb_kitchen 
+    <set> 
+      <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>  
+      <if test="remark != null">remark = #{remark,jdbcType=VARCHAR},</if>  
+      <if test="printerId != null">printer_id = #{printerId,jdbcType=INTEGER},</if>  
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if>
+      <if test="ciprinterId != null">ciprinter_id = #{ciprinterId,jdbcType=VARCHAR},</if>
+      <if test="beginTime != null">begin_time = #{beginTime,jdbcType=VARCHAR},</if>
+      <if test="endTime != null">end_time = #{endTime,jdbcType=VARCHAR},</if>
+      <if test="sort != null">sort = #{sort,jdbcType=INTEGER},</if>
+      <if test="status != null">status = #{status,jdbcType=INTEGER},</if>
+    </set> where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.Kitchen">update tb_kitchen set name = #{name,jdbcType=VARCHAR}, remark = #{remark,jdbcType=VARCHAR}, printer_id = #{printerId,jdbcType=INTEGER}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},ciprinter_id=#{ciprinterId,jdbcType=VARCHAR},begin_time = #{beginTime,jdbcType=VARCHAR},end_time =#{endTime,jdbcType=VARCHAR},sort = #{sort,jdbcType=INTEGER},status = #{status,jdbcType=INTEGER}where id = #{id,jdbcType=INTEGER}</update>
+  <select id="selectList" resultType="Kitchen">
+  	select k.id, k.name, k.remark, k.shop_detail_id, p.name printerName,k.ciprinter_id,k.begin_time,k.end_time,k.sort,k.status from tb_kitchen k LEFT JOIN tb_printer p on k.printer_id = p.id
+  </select>
+  
+  <!-- 根据店铺ID查询信息 -->
+  <select id="selectListByShopId" resultType="Kitchen">
+  	select k.id, k.name, k.remark, k.shop_detail_id, k.printer_id, p.name printerName,k.ciprinter_id,k.begin_time as beginTime,k.end_time as endTime,k.sort,k.status from tb_kitchen k LEFT JOIN tb_printer p on k.printer_id = p.id
+  	<if test="shopId!=null and shopId!=''">
+		where k.shop_detail_id = #{shopId}
+	</if>
+  </select>
+
+  <select id="selectListByShopIdByStatus" resultType="Kitchen">
+    select k.id, k.name, k.remark, k.shop_detail_id, k.printer_id, p.name printerName,k.ciprinter_id,k.begin_time as beginTime,k.end_time as endTime,k.sort,k.status from tb_kitchen k LEFT JOIN tb_printer p on k.printer_id = p.id
+    <if test="shopId!=null and shopId!=''">
+      where k.shop_detail_id = #{shopId} and k.status=0
+    </if>
+  </select>
+  
+  <!-- 删除 菜品和厨房的关联信息 -->
+  <delete id="deleteArticleKitchen">
+	DELETE from tb_article_kitchen where article_id = #{articleId}
+  </delete>
+  
+  <!-- 添加 菜品和厨房的关联信息 -->
+  <insert id="insertArticleKitchen">
+  	insert tb_article_kitchen(article_id,kitchen_id) values
+  	<foreach collection="kitchenList" separator="," item="kitchenId">
+		(#{articleId},#{kitchenId})
+	</foreach>
+  </insert>
+  
+  <select id="selectIdsByArticleId" resultType="Integer">
+  SELECT ak.kitchen_id from tb_article_kitchen ak INNER JOIN tb_kitchen k ON ak.kitchen_id=k.id where article_id = #{articleId} AND k.`status`=0
+  </select>
+  
+  <select id="selectInfoByArticleId" resultType="Kitchen">
+  	SELECT * from tb_kitchen where id in (SELECT kitchen_id from tb_article_kitchen where article_id = #{articleId})
+  </select>
+  <select id="selectKitchenByMealsItemId" resultType="Kitchen">
+    select * from (SELECT ak.kitchen_id FROM (SELECT article_id FROM tb_order_item WHERE parent_id=#{0}) as tempa
+    LEFT JOIN tb_article_kitchen ak on ak.article_id = tempa.article_id  ) as tempb , tb_kitchen
+    where tb_kitchen.id = tempb.kitchen_id LIMIT 0,1
+  </select>
+
+    <select id="selectKitchenByOrderItem" resultType="Kitchen">
+        select * from tb_kitchen where id
+         =  (select kitchen_id from tb_meal_item where meal_attr_id in
+        <foreach collection="mealAttrIds" index="index" item="mealAttrId" open="("
+                 separator="," close=")">
+            #{mealAttrId}
+        </foreach>
+         and article_id  = #{item.articleId})
+    </select>
+
+    <select id="getMealAttrId" resultType="java.lang.Long">
+        select t.id from tb_meal_attr t
+         where article_id = (select article_id from tb_order_item where id = #{parentId})
+    </select>
+
+    <select id="getItemKitchenId" resultType="Kitchen">
+      select * from tb_kitchen where id = (select kitchen_id from tb_meal_item where id = #{mealItemId})
+    </select>
+  
+  <select id="selectArticleKitchenByShopId" resultType="ArticleKitchen">
+    SELECT * from tb_article_kitchen ak where ak.article_id in (SELECT id from tb_article a where a.shop_detail_id =  #{shopId} );
+  </select>
+  <update id="updateKitchenStatus">
+    UPDATE tb_kitchen set status=#{status} where id=#{kitchenId} and shop_detail_id=#{shopId}
+  </update>
+</mapper>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.PlatformMapper">
+    <resultMap id="BaseResultMap" type="com.resto.brand.web.model.Platform">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+
+    </resultMap>
+
+
+    <select id="selectAll" resultType="Platform">
+        select * from tb_platform  where delete_flag = 0
+    </select>
+    
+    <select id="selectPlatformByBrandId" parameterType="java.lang.String" resultType="com.resto.brand.web.model.Platform">
+        select *,        
+		(select group_concat(tpc.platform_id) from tb_platform_config tpc
+		inner join brand b
+		on tpc.brand_id = b.id and b.brand_setting_id = #{brandId}) platformId 
+		from tb_platform  where delete_flag = 0
+    </select>
+
+    <select id="selectByPrimaryKey" resultType="Platform">
+        select * from tb_platform where id = #{id}
+    </select>
+
+    <insert id="insertSelective" parameterType="Platform">
+        insert into tb_platform
+        (name) values (#{name})
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="Platform">
+        update tb_platform set name = #{name} where id = #{id}
+    </update>
+
+    <update id="deleteByPrimaryKey">
+        update tb_platform set delete_flag = 1
+        where id = #{id}
+    </update>
+
+    <insert id="insertConfig">
+        insert into tb_platform_config
+        (brand_id,platform_id)
+        values (#{brandId},#{platformId})
+    </insert>
+
+    <delete id="deleteConfig">
+        delete from  tb_platform_config where brand_id = #{brandId}
+    </delete>
+
+    <select id="selectByBrandId" resultType="Platform">
+        select * from tb_platform where id in (select platform_id from tb_platform_config where brand_id = #{brandId})
+        and delete_flag = 0
+    </select>
+
+    <select id="selectParamList" resultType="ThirdParam">
+        select third_param.*,brand.brand_name as brandName from third_param
+        left join brand on brand.id = third_param.brand_id
+         where is_delete = 0
+
+    </select>
+
+    <insert id="insertParam">
+        insert into third_param
+        (`desc`,remark,`name`,brand_id)
+        values(#{desc},#{remark},#{name},#{brandId})
+    </insert>
+
+    <update id="deleteParam">
+        update third_param
+        set is_delete = 1
+        where id = #{id}
+    </update>
+
+    <select id="getParamByBrandId" resultType="java.lang.String">
+        select  `name` from third_param
+        where is_delete = 0 and brand_id = #{brandId}
+    </select>
+</mapper>

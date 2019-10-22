@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.report.GetNumberMapperReport">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.GetNumber">
+        <id column="id" property="id" />
+        <result column="shop_detail_id" property="shopDetailId" />
+        <result column="brand_id" property="brandId" />
+        <result column="state" property="state" />
+        <result column="create_time" property="createTime" />
+        <result column="eat_time" property="eatTime" />
+        <result column="pass_number_time" property="passNumberTime" />
+        <result column="person_number" property="personNumber" />
+        <result column="phone" property="phone" />
+        <result column="wait_number" property="waitNumber" />
+        <result column="table_type" property="tableType" />
+        <result column="call_number" property="callNumber" />
+        <result column="flow_money" property="flowMoney" />
+        <result column="call_number_time" property="callNumberTime" />
+        <result column="customer_id" property="customerId" />
+        <result column="final_money" property="finalMoney" />
+        <result column="high_money" property="highMoney" />
+        <result column="code_value" property="codeValue" />
+        <result column="code_id" property="codeId" />
+    </resultMap>
+    <sql id="Base_Column_List">id, shop_detail_id, brand_id, state, create_time, eat_time, pass_number_time, person_number,phone,wait_number,table_type,call_number,flow_money,call_number_time,customer_id,final_money,high_money,code_value,code_id</sql>
+
+    <select id="selectGetNumberRed" resultType="com.resto.brand.web.dto.RedPacketDto">
+        select tgn.shop_detail_id shopDetailId,IFNULL(COUNT(1),0) redCount,IFNULL(SUM(tgn.final_money),0) redMoney,
+        IFNULL((select r.count from (
+        select COUNT(1) count,shop_detail_id from tb_get_number
+        where state in (3)
+        and final_money > 0
+        and eat_time &gt;=  CONCAT(#{useBeginDate},' 00:00:00')
+        and eat_time &lt;=  CONCAT(#{useEndDate},' 23:59:59')
+        GROUP BY shop_detail_id) r where r.shop_detail_id = tgn.shop_detail_id),0) useRedCount,
+        IFNULL((select r.money from (
+        select SUM(final_money) money,shop_detail_id from tb_get_number
+        where state in (3)
+        and final_money > 0
+        and eat_time &gt;=  CONCAT(#{useBeginDate},' 00:00:00')
+        and eat_time &lt;=  CONCAT(#{useEndDate},' 23:59:59')
+        GROUP BY shop_detail_id) r where r.shop_detail_id = tgn.shop_detail_id),0) useRedMoney
+        from tb_get_number tgn
+        where tgn.state in (1,3)
+        and tgn.final_money > 0
+        and tgn.create_time &gt;=  CONCAT(#{grantBeginDate},' 00:00:00')
+        and tgn.create_time &lt;=  CONCAT(#{grantEndDate},' 23:59:59')
+        GROUP BY tgn.shop_detail_id
+    </select>
+
+</mapper>

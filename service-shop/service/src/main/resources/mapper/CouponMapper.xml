@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.service.shop.mapper.CouponMapper">
+    <resultMap id="BaseResultMap" type="com.resto.service.shop.entity.Coupon">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="value" property="value" jdbcType="DECIMAL"/>
+        <result column="min_amount" property="minAmount" jdbcType="DECIMAL"/>
+        <result column="begin_date" property="beginDate" jdbcType="DATE"/>
+        <result column="end_date" property="endDate" jdbcType="DATE"/>
+        <result column="begin_time" property="beginTime" jdbcType="TIME"/>
+        <result column="end_time" property="endTime" jdbcType="TIME"/>
+        <result column="is_used" property="isUsed" jdbcType="BIT"/>
+        <result column="using_time" property="usingTime" jdbcType="TIMESTAMP"/>
+        <result column="add_time" property="addTime" jdbcType="TIMESTAMP"/>
+        <result column="coupon_source" property="couponSource" jdbcType="VARCHAR"/>
+        <result column="use_with_account" property="useWithAccount" jdbcType="BIT"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="distribution_mode_id" property="distributionModeId" jdbcType="INTEGER"/>
+        <result column="customer_id" property="customerId" jdbcType="VARCHAR"/>
+        <result column="shop_det" property="customerId" jdbcType="VARCHAR"/>
+        <result column="coupon_type" property="couponType"/>
+        <result column="new_custom_coupon_id" property="newCustomCouponId"/>
+    </resultMap>
+    <sql id="Base_Column_List">id, name, value, min_amount, begin_date, end_date, begin_time, end_time, is_used, using_time, coupon_source, use_with_account, remark, distribution_mode_id, customer_id, new_custom_coupon_id</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select
+        <include refid="Base_Column_List"/>
+        from tb_coupon where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey"
+            parameterType="java.lang.String">delete from tb_coupon where id = #{id,jdbcType=VARCHAR}</delete>
+    <insert id="insert"
+            parameterType="com.resto.service.shop.entity.Coupon">insert into tb_coupon (id, name, value, min_amount, begin_date, end_date, begin_time, end_time, is_used, using_time, coupon_source, use_with_account, remark, distribution_mode_id, customer_id ) values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{value,jdbcType=DECIMAL}, #{minAmount,jdbcType=DECIMAL}, #{beginDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{beginTime,jdbcType=TIME}, #{endTime,jdbcType=TIME}, #{isUsed,jdbcType=BIT}, #{usingTime,jdbcType=TIMESTAMP}, #{couponSource,jdbcType=VARCHAR}, #{useWithAccount,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{distributionModeId,jdbcType=INTEGER}, #{customerId,jdbcType=VARCHAR} )</insert>
+    <insert id="insertSelective" parameterType="com.resto.service.shop.entity.Coupon">insert into tb_coupon
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="value != null">value,</if>
+            <if test="minAmount != null">min_amount,</if>
+            <if test="beginDate != null">begin_date,</if>
+            <if test="endDate != null">end_date,</if>
+            <if test="beginTime != null">begin_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="isUsed != null">is_used,</if>
+            <if test="usingTime != null">using_time,</if>
+            <if test="couponSource != null">coupon_source,</if>
+            <if test="useWithAccount != null">use_with_account,</if>
+            <if test="remark != null">remark,</if>
+            <if test="distributionModeId != null">distribution_mode_id,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="couponType != null">coupon_type,</if>
+            <!--如果存了店铺id 说明是店铺专有的优惠券 -->
+            <if test="shopDetailId != null">shop_detail_id,</if>
+            <if test="brandId != null">brand_id,</if>
+            <if test="pushDay !=null">push_day,</if>
+            <if test="recommendDelayTime != null">recommend_delay_time,</if>
+            <if test="newCustomCouponId != null">new_custom_coupon_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+            <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+            <if test="value != null">#{value,jdbcType=DECIMAL},</if>
+            <if test="minAmount != null">#{minAmount,jdbcType=DECIMAL},</if>
+            <if test="beginDate != null">#{beginDate,jdbcType=DATE},</if>
+            <if test="endDate != null">#{endDate,jdbcType=DATE},</if>
+            <if test="beginTime != null">#{beginTime,jdbcType=TIME},</if>
+            <if test="endTime != null">#{endTime,jdbcType=TIME},</if>
+            <if test="isUsed != null">#{isUsed,jdbcType=BIT},</if>
+            <if test="usingTime != null">#{usingTime,jdbcType=TIMESTAMP},</if>
+            <if test="couponSource != null">#{couponSource,jdbcType=VARCHAR},</if>
+            <if test="useWithAccount != null">#{useWithAccount,jdbcType=BIT},</if>
+            <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>
+            <if test="distributionModeId != null">#{distributionModeId,jdbcType=INTEGER},</if>
+            <if test="customerId != null">#{customerId,jdbcType=VARCHAR},</if>
+            <if test="couponType != null">#{couponType,jdbcType=VARCHAR},</if>
+            <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if>
+            <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>
+            <if test="pushDay != null">#{pushDay,jdbcType=INTEGER},</if>
+            <if test="recommendDelayTime != null">#{recommendDelayTime},</if>
+            <if test="newCustomCouponId != null">#{newCustomCouponId},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.service.shop.entity.Coupon">update tb_coupon
+        <set>
+            <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>
+            <if test="value != null">value = #{value,jdbcType=DECIMAL},</if>
+            <if test="minAmount != null">min_amount = #{minAmount,jdbcType=DECIMAL},</if>
+            <if test="beginDate != null">begin_date = #{beginDate,jdbcType=DATE},</if>
+            <if test="endDate != null">end_date = #{endDate,jdbcType=DATE},</if>
+            <if test="beginTime != null">begin_time = #{beginTime,jdbcType=TIME},</if>
+            <if test="endTime != null">end_time = #{endTime,jdbcType=TIME},</if>
+            <if test="isUsed != null">is_used = #{isUsed,jdbcType=BIT},</if>
+            <if test="usingTime != null">using_time = #{usingTime,jdbcType=TIMESTAMP},</if>
+            <if test="couponSource != null">coupon_source = #{couponSource,jdbcType=VARCHAR},</if>
+            <if test="useWithAccount != null">use_with_account = #{useWithAccount,jdbcType=BIT},</if>
+            <if test="remark != null">remark = #{remark,jdbcType=VARCHAR},</if>
+            <if test="distributionModeId != null">distribution_mode_id = #{distributionModeId,jdbcType=INTEGER},</if>
+            <if test="customerId != null">customer_id = #{customerId,jdbcType=VARCHAR},</if>
+            <if test="couponType != null">coupon_type = #{couponType,jdbcType=VARCHAR},</if>
+            <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if>
+            <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.resto.service.shop.entity.Coupon">update tb_coupon set name = #{name,jdbcType=VARCHAR}, value = #{value,jdbcType=DECIMAL}, min_amount = #{minAmount,jdbcType=DECIMAL}, begin_date = #{beginDate,jdbcType=DATE}, end_date = #{endDate,jdbcType=DATE}, begin_time = #{beginTime,jdbcType=TIME}, end_time = #{endTime,jdbcType=TIME}, is_used = #{isUsed,jdbcType=BIT}, using_time = #{usingTime,jdbcType=TIMESTAMP}, coupon_source = #{couponSource,jdbcType=VARCHAR}, use_with_account = #{useWithAccount,jdbcType=BIT}, remark = #{remark,jdbcType=VARCHAR}, distribution_mode_id = #{distributionModeId,jdbcType=INTEGER}, customer_id = #{customerId,jdbcType=VARCHAR} where id = #{id,jdbcType=VARCHAR}</update>
+    <select id="selectList" resultType="Coupon">select * from tb_coupon</select>
+
+    <select id="listCoupon" parameterType="com.resto.service.shop.entity.Coupon"
+            resultType="com.resto.service.shop.entity.Coupon">
+  select id,name,value,min_amount,begin_date,end_date,begin_time,end_time,is_used,using_time,
+  coupon_source,use_with_account,remark,distribution_mode_id,customer_id,shop_detail_id,brand_id
+   from tb_coupon where is_used=#{isUsed} and distribution_mode_id=#{distributionModeId} and customer_id=#{customerId}
+   AND  brand_id=#{brandId}
+   <![CDATA[AND begin_date<=current_date AND end_date >=current_date AND begin_time<=NOW() AND end_time>=NOW()]]>
+   order by value DESC
+  </select>
+
+
+    <select id="listCouponByBrandId" parameterType="com.resto.service.shop.entity.Coupon"
+            resultType="com.resto.service.shop.entity.Coupon">
+        select id,name,value,min_amount,begin_date,end_date,begin_time,end_time,is_used,using_time,
+        coupon_source,use_with_account,remark,distribution_mode_id,customer_id,shop_detail_id,brand_id
+        from tb_coupon where is_used=#{isUsed} and distribution_mode_id=#{distributionModeId} and customer_id=#{customerId}
+        AND  brand_id=#{brandId}
+        <![CDATA[AND begin_date<=current_date AND end_date >=current_date AND begin_time<=NOW() AND end_time>=NOW()]]>
+        and ((coupon_type = 1 and now() - add_time >= recommend_delay_time) or coupon_type != 1)
+
+        order by value DESC
+    </select>
+
+    <select id="listCouponByShopId" parameterType="com.resto.service.shop.entity.Coupon"
+            resultType="com.resto.service.shop.entity.Coupon">
+        select id,name,value,min_amount,begin_date,end_date,begin_time,end_time,is_used,using_time,
+        coupon_source,use_with_account,remark,distribution_mode_id,customer_id,shop_detail_id,brand_id
+        from tb_coupon where is_used=#{isUsed} and distribution_mode_id=#{distributionModeId} and customer_id=#{customerId}
+        AND  shop_detail_id=#{shopDetailId}
+        <![CDATA[AND begin_date<=current_date AND end_date >=current_date AND begin_time<=NOW() AND end_time>=NOW()]]>
+        and ((coupon_type = 1 and now() - add_time >= recommend_delay_time) or coupon_type != 1)
+        order by value DESC
+    </select>
+
+
+    <!-- 根据状态查询 客户所有品牌的优惠劵 -->
+    <select id="listCouponByStatusAndBrandId" resultType="Coupon">
+        select * from tb_coupon
+        where CUSTOMER_ID = #{customerId}
+        AND brand_id = #{brandId} and shop_detail_id is null
+        <if test="status != null and status != '' ">
+            and is_used= #{status}
+        </if>
+        <if test="NOT_EXPIRE != null and NOT_EXPIRE != '' ">
+            <![CDATA[AND (begin_date<=current_date()  AND end_date >=current_date() )]]>
+        </if>
+        <if test="IS_EXPIRE != null and IS_EXPIRE != '' ">
+            <![CDATA[AND (begin_date>current_date()  OR end_date <current_date() )]]>
+        </if>
+        order by VALUE DESC
+    </select>
+
+
+    <!-- 根据状态查询 客户所有店铺的优惠劵   包含生日优惠券 -->
+    <select id="listCouponByStatusAndShopId" resultType="Coupon">
+        select * from tb_coupon
+        where CUSTOMER_ID = #{customerId}
+        AND shop_detail_id = #{shopId}
+        <if test="status != null and status != '' ">
+            and is_used= #{status}
+        </if>
+        <if test="NOT_EXPIRE != null and NOT_EXPIRE != '' ">
+            <![CDATA[AND ((begin_date<=current_date()  AND end_date >=current_date()) OR begin_date > current_date())]]>
+        </if>
+        <if test="IS_EXPIRE != null and IS_EXPIRE != '' ">
+            <![CDATA[AND end_date <current_date()]]>
+        </if>
+        order by VALUE DESC
+    </select>
+
+    <select id="getListByCustomerId" resultType="Coupon">
+    select * from tb_coupon
+    where customer_id = #{customerId}
+  </select>
+
+    <select id="selectCouponDto" resultType="com.resto.api.brand.dto.CouponDto" parameterType="java.util.Map">
+        select
+        CASE tc.coupon_type
+        WHEN -1 THEN '通用优惠券'
+        WHEN 0 THEN '注册优惠券'
+        WHEN 1 THEN '邀请优惠券'
+        WHEN 2 THEN '生日优惠券'
+        WHEN 3 THEN '分享优惠券'
+        WHEN 4 THEN '实时优惠券'
+        WHEN 5 THEN '流失唤醒优惠券'
+        END couponType,
+        IF(tc.brand_id is not null,'品牌','店铺') couponSoure,
+        tc.`name` couponName,
+        COUNT(1) couponCount,
+        SUM(tc.`value`) couponMoney,
+        CASE tc.coupon_type
+        WHEN 0 THEN COUNT(DISTINCT tc.customer_id)
+        WHEN 1 THEN COUNT(DISTINCT tc.customer_id)
+        ELSE 0
+        END customerCount,
+        tc.shop_detail_id shopDetailId,
+        tc.coupon_type couponTypeInt,
+        SUM(IF(tc.is_used = 1 and using_time &gt;= CONCAT(#{useBeginDate},' 00:00:00') and using_time &lt;= CONCAT(#{useEndDate},' 23:59:59'),1,0)) useCouponCount,
+        SUM(IF(tc.is_used = 1 and using_time &gt;= CONCAT(#{useBeginDate},' 00:00:00') and using_time &lt;= CONCAT(#{useEndDate},' 23:59:59'),tc.value,0)) useCouponMoney
+        from tb_coupon tc
+        where tc.add_time &gt;= CONCAT(#{grantBeginDate},' 00:00:00')
+        and tc.add_time &lt;= CONCAT(#{grantEndDate},' 23:59:59')
+        GROUP BY tc.`name`
+--         GROUP BY tc.new_custom_coupon_id, tc.`name`
+    </select>
+
+    <select id="usedCouponBeforeByOrderId" resultType="Coupon">
+        select * from tb_order_payment_item where order_id = #{orderId} and
+        payment_mode_id = 3
+    </select>
+
+    <select id="selectPosPayOrderCanUseCoupon" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from tb_coupon where
+        NOW() between begin_date and DATE_ADD(end_date,interval 1 day)
+        and IF(recommend_delay_time > 0,
+        NOW() >= DATE_ADD(add_time,INTERVAL (recommend_delay_time/3600) HOUR),true)
+        and DATE_FORMAT(NOW(),'%H:%i:%s') between begin_time and end_time
+        and is_used = 0
+        <if test="useWithAccount != null and useWithAccount == 1">
+          and use_with_account = 1
+        </if>
+        and distribution_mode_id = 1
+        and (shop_detail_id = #{shopId} or brand_id is not null)
+        and min_amount &lt;= #{orderMoney}
+        and customer_id = #{customerId}
+        ORDER BY `value` desc LIMIT 1
+    </select>
+
+    <select id="getCouponByShopId" resultType="Coupon">
+        select * from tb_coupon where is_used = 0
+        and #{time} = TIMESTAMPDIFF(DAY ,DATE_FORMAT(now(),"%y-%m-%d"),DATE_FORMAT(end_date,"%y-%m-%d"))
+        <if test="type == 0">
+            and brand_id = #{shopId}
+        </if>
+        <if test="type == 1">
+            and shop_detail_id = #{shopId}
+        </if>
+    </select>
+
+    <select id="listCouponUsed" parameterType="com.resto.service.shop.entity.Coupon" resultType="com.resto.service.shop.entity.Coupon">
+        SELECT
+	      c.id,c.name,c.value,c.min_amount,c.begin_date,c.end_date,c.begin_time,c.end_time,c.is_used,c.using_time,
+          c.coupon_source,c.use_with_account,c.remark,c.distribution_mode_id,c.customer_id,c.shop_detail_id,c.brand_id
+        FROM
+            tb_coupon c
+        WHERE
+            c.customer_id = #{customerId}
+        AND (
+            c.shop_detail_id = #{shopDetailId}
+            OR c.brand_id = #{brandId}
+        )
+        AND c.is_used=1
+        AND NOT ISNULL(c.using_time)
+        AND to_days(c.using_time) = to_days(now())
+        ORDER BY
+        c.using_time DESC
+    </select>
+
+
+    <insert id="insertCouponBatch">
+        insert into tb_coupon
+        (id,name,value,min_amount,begin_date,end_date,begin_time,end_time,coupon_source,use_with_account,remark,distribution_mode_id,customer_id,
+        add_time,shop_detail_id,brand_id,coupon_type,push_day,recommend_delay_time)
+        values
+        <foreach collection="list" item="item" index="index"
+                 separator=",">
+            (#{item.id},#{item.name},#{item.value},#{item.minAmount},#{item.beginDate},#{item.endDate},#{item.beginTime},#{item.endTime},
+            #{item.couponSource},#{item.useWithAccount},#{item.remark},#{item.distributionModeId},#{item.customerId},#{item.addTime},
+            #{item.shopDetailId},#{item.brandId},#{item.couponType},#{item.pushDay},#{item.recommendDelayTime}
+            )
+        </foreach>
+    </insert>
+</mapper>

@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.DocStockCountHeaderDao">
+
+    <resultMap id="docStockCountHeaderResult" type="com.resto.shop.web.model.DocStockCountHeader">
+        <result column="id" property="id"/>
+        <result column="method_type" property="methodType"/>
+        <result column="stock_count_start_time" property="stockCountStartTime"/>
+        <result column="stock_count_end_time" property="stockCountEndTime"/>
+        <result column="adjust_stock_time" property="adjustStockTime"/>
+        <result column="shop_detail_id" property="shopDetailId"/>
+        <result column="order_code" property="orderCode"/>
+        <result column="order_name" property="orderName"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="creater_id" property="createrId"/>
+        <result column="creater_name" property="createrName"/>
+        <result column="is_recheck" property="isRecheck"/>
+        <result column="updater_id" property="updaterId"/>
+        <result column="note" property="note"/>
+        <result column="updater_name" property="updaterName"/>
+        <result column="is_blind" property="isBlind"/>
+        <result column="gmt_modified" property="gmtModified"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="published_time" property="publishedTime"/>
+    </resultMap>
+
+    <sql id="docStockCountHeader_columns">
+        id,
+        method_type,
+        stock_count_start_time,
+        stock_count_end_time,
+        adjust_stock_time,
+        shop_detail_id,
+        order_code,
+        order_name,
+        order_status,
+        creater_id,
+        creater_name,
+        is_recheck,
+        updater_id,
+        note,
+        updater_name,
+        is_blind,
+        gmt_modified,
+        gmt_create,
+        published_time
+    </sql>
+
+    <sql id="docStockCountHeader_sqlForInsert">
+        method_type,
+        stock_count_start_time,
+        stock_count_end_time,
+        adjust_stock_time,
+        shop_detail_id,
+        order_code,
+        order_name,
+        order_status,
+        creater_id,
+        creater_name,
+        is_recheck,
+        updater_id,
+        note,
+        updater_name,
+        is_blind,
+        gmt_modified,
+        gmt_create,
+        published_time
+    </sql>
+
+    <sql id="docStockCountHeader_columnsForInsert">
+        #{methodType},
+        #{stockCountStartTime},
+        #{stockCountEndTime},
+        #{adjustStockTime},
+        #{shopDetailId},
+        #{orderCode},
+        #{orderName},
+        #{orderStatus},
+        #{createrId},
+        #{createrName},
+        #{isRecheck},
+        #{updaterId},
+        #{note},
+        #{updaterName},
+        #{isBlind},
+        now(),
+        now(),
+        #{publishedTime}
+    </sql>
+
+    <sql id="docStockCountHeader_setterForUpdate">
+        <set>
+            gmt_modified = now(),
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="methodType != null">
+                method_type = #{methodType},
+            </if>
+            <if test="stockCountStartTime != null">
+                stock_count_start_time = #{stockCountStartTime},
+            </if>
+            <if test="stockCountEndTime != null">
+                stock_count_end_time = #{stockCountEndTime},
+            </if>
+            <if test="adjustStockTime != null">
+                adjust_stock_time = #{adjustStockTime},
+            </if>
+            <if test="shopDetailId != null">
+                shop_detail_id = #{shopDetailId},
+            </if>
+            <if test="orderCode != null">
+                order_code = #{orderCode},
+            </if>
+            <if test="orderName != null">
+                order_name = #{orderName},
+            </if>
+            <if test="orderStatus != null">
+                order_status = #{orderStatus},
+            </if>
+            <if test="createrId != null">
+                creater_id = #{createrId},
+            </if>
+            <if test="createrName != null">
+                creater_name = #{createrName},
+            </if>
+            <if test="isRecheck != null">
+                is_recheck = #{isRecheck},
+            </if>
+            <if test="updaterId != null">
+                updater_id = #{updaterId},
+            </if>
+            <if test="note != null">
+                note = #{note},
+            </if>
+            <if test="updaterName != null">
+                updater_name = #{updaterName},
+            </if>
+            <if test="isBlind != null">
+                is_blind = #{isBlind},
+            </if>
+            <if test="publishedTime != null">
+                published_time = #{publishedTime},
+            </if>
+        </set>
+    </sql>
+
+    <sql id="docStockCountHeader_selector">
+        select
+        <include refid="docStockCountHeader_columns"/>
+        from doc_stock_count_header
+    </sql>
+
+    <sql id="docStockCountHeader_query_segment">
+        <trim prefix="WHERE" prefixOverrides="AND|OR">
+            <if test="data.id != null">
+                AND id = #{data.id}
+            </if>
+            <if test="data.methodType != null">
+                AND method_type = #{data.methodType}
+            </if>
+            <if test="data.stockCountStartTime != null">
+                AND stock_count_start_time = #{data.stockCountStartTime}
+            </if>
+            <if test="data.stockCountEndTime != null">
+                AND stock_count_end_time = #{data.stockCountEndTime}
+            </if>
+            <if test="data.adjustStockTime != null">
+                AND adjust_stock_time = #{data.adjustStockTime}
+            </if>
+            <if test="data.shopDetailId != null">
+                AND shop_detail_id = #{data.shopDetailId}
+            </if>
+            <if test="data.orderCode != null">
+                AND order_code = #{data.orderCode}
+            </if>
+            <if test="data.orderName != null">
+                AND order_name = #{data.orderName}
+            </if>
+            <if test="data.orderStatus != null">
+                AND order_status = #{data.orderStatus}
+            </if>
+            <if test="data.createrId != null">
+                AND creater_id = #{data.createrId}
+            </if>
+            <if test="data.createrName != null">
+                AND creater_name = #{data.createrName}
+            </if>
+            <if test="data.isRecheck != null">
+                AND is_recheck = #{data.isRecheck}
+            </if>
+            <if test="data.updaterId != null">
+                AND updater_id = #{data.updaterId}
+            </if>
+            <if test="data.note != null">
+                AND note = #{data.note}
+            </if>
+            <if test="data.updaterName != null">
+                AND updater_name = #{data.updaterName}
+            </if>
+            <if test="data.isBlind != null">
+                AND is_blind = #{data.isBlind}
+            </if>
+            <if test="data.gmtModified != null">
+                AND gmt_modified = #{data.gmtModified}
+            </if>
+            <if test="data.gmtCreate != null">
+                AND gmt_create = #{data.gmtCreate}
+            </if>
+            <if test="data.publishedTime != null">
+                AND published_time = #{data.publishedTime}
+            </if>
+            <if test="ins != null and ins != ''">
+                AND
+                <foreach collection="ins" item="item" open="(" separator="and" close=")">
+                    ${item.column} in
+                    <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                        ${item}
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="notIns != null and notIns != ''">
+                AND
+                <foreach collection="notIns" item="item" open="(" separator="and" close=")">
+                    ${item.column} not in
+                    <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                        ${item}
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="equals != null and equals != ''">
+                AND
+                <foreach collection="equals" item="item" open="(" separator="and" close=")">
+                    ${item.column} = ${item.value}
+                </foreach>
+            </if>
+            <if test="notEquals != null and notEquals != ''">
+                AND
+                <foreach collection="notEquals" item="item" open="(" separator="and" close=")">
+                    ${item.column} != ${item.value}
+                </foreach>
+            </if>
+            <if test="lts != null and lts != ''">
+                AND
+                <foreach collection="lts" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ < ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="gts != null and gts != ''">
+                AND
+                <foreach collection="gts" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ > ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="likes != null and likes != ''">
+                AND
+                <foreach collection="likes" item="item" open="(" separator="and" close=")">
+                    ${item.column} like concat('%', ${item.value}, '%')
+                </foreach>
+            </if>
+            <if test="ltes != null and ltes != ''">
+                AND
+                <foreach collection="ltes" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ <= ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="gtes != null and gtes != ''">
+                AND
+                <foreach collection="gtes" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ >= ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="ranges != null and ranges != ''">
+                AND
+                <foreach collection="ranges" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ >= ]]> #{item.from} and ${item.column} <![CDATA[ < ]]> #{item.to}
+                </foreach>
+            </if>
+            AND is_delete = 0
+        </trim>
+    </sql>
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.DocStockCountHeader">
+        insert into doc_stock_count_header
+        (
+        <include refid="docStockCountHeader_sqlForInsert"/>
+        ,is_delete
+        )
+        values
+        (
+        <include refid="docStockCountHeader_columnsForInsert"/>
+        ,0
+        )
+    </insert>
+
+    <update id="update" parameterType="com.resto.shop.web.model.DocStockCountHeader">
+        update doc_stock_count_header
+        <include refid="docStockCountHeader_setterForUpdate" />
+        where id = #{id}
+        and is_delete = 0
+    </update>
+
+
+    <update id="updateByQuery" parameterType="com.resto.shop.web.model.DocStockCountHeader">
+        update doc_stock_count_header
+        <set>
+            gmt_modified = now(),
+            <if test="update.id != null">
+                id = #{update.id},
+            </if>
+            <if test="update.methodType != null">
+                method_type = #{update.methodType},
+            </if>
+            <if test="update.stockCountStartTime != null">
+                stock_count_start_time = #{update.stockCountStartTime},
+            </if>
+            <if test="update.stockCountEndTime != null">
+                stock_count_end_time = #{update.stockCountEndTime},
+            </if>
+            <if test="update.adjustStockTime != null">
+                adjust_stock_time = #{update.adjustStockTime},
+            </if>
+            <if test="update.shopDetailId != null">
+                shop_detail_id = #{update.shopDetailId},
+            </if>
+            <if test="update.orderCode != null">
+                order_code = #{update.orderCode},
+            </if>
+            <if test="update.orderName != null">
+                order_name = #{update.orderName},
+            </if>
+            <if test="update.orderStatus != null">
+                order_status = #{update.orderStatus},
+            </if>
+            <if test="update.createrId != null">
+                creater_id = #{update.createrId},
+            </if>
+            <if test="update.createrName != null">
+                creater_name = #{update.createrName},
+            </if>
+            <if test="update.isRecheck != null">
+                is_recheck = #{update.isRecheck},
+            </if>
+            <if test="update.updaterId != null">
+                updater_id = #{update.updaterId},
+            </if>
+            <if test="update.note != null">
+                note = #{update.note},
+            </if>
+            <if test="update.updaterName != null">
+                updater_name = #{update.updaterName},
+            </if>
+            <if test="update.isBlind != null">
+                is_blind = #{update.isBlind},
+            </if>
+            <if test="update.publishedTime != null">
+                published_time = #{update.publishedTime},
+            </if>
+        </set>
+        <include refid="docStockCountHeader_query_segment"/>
+    </update>
+
+
+    <insert id="insertOrUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.DocStockCountHeader">
+        insert into doc_stock_count_header
+        (
+        <include refid="docStockCountHeader_sqlForInsert"/>
+        ,is_delete
+        )
+        values
+        (
+        <include refid="docStockCountHeader_columnsForInsert"/>
+        ,0
+        )
+        on duplicate key update
+        gmt_modified = now()
+        <if test="id != null">
+            ,id = #{id}
+        </if>
+        <if test="methodType != null">
+            ,method_type = #{methodType}
+        </if>
+        <if test="stockCountStartTime != null">
+            ,stock_count_start_time = #{stockCountStartTime}
+        </if>
+        <if test="stockCountEndTime != null">
+            ,stock_count_end_time = #{stockCountEndTime}
+        </if>
+        <if test="adjustStockTime != null">
+            ,adjust_stock_time = #{adjustStockTime}
+        </if>
+        <if test="shopDetailId != null">
+            ,shop_detail_id = #{shopDetailId}
+        </if>
+        <if test="orderCode != null">
+            ,order_code = #{orderCode}
+        </if>
+        <if test="orderName != null">
+            ,order_name = #{orderName}
+        </if>
+        <if test="orderStatus != null">
+            ,order_status = #{orderStatus}
+        </if>
+        <if test="createrId != null">
+            ,creater_id = #{createrId}
+        </if>
+        <if test="createrName != null">
+            ,creater_name = #{createrName}
+        </if>
+        <if test="isRecheck != null">
+            ,is_recheck = #{isRecheck}
+        </if>
+        <if test="updaterId != null">
+            ,updater_id = #{updaterId}
+        </if>
+        <if test="note != null">
+            ,note = #{note}
+        </if>
+        <if test="updaterName != null">
+            ,updater_name = #{updaterName}
+        </if>
+        <if test="isBlind != null">
+            ,is_blind = #{isBlind}
+        </if>
+        <if test="publishedTime != null">
+            ,published_time = #{publishedTime}
+        </if>
+    </insert>
+
+    <!-- Delete -->
+    <update id="delete">
+        update doc_stock_count_header
+        set is_delete = 1, gmt_modified = now()
+        <include refid="docStockCountHeader_query_segment"/>
+    </update>
+    <update id="deleteById">
+        update doc_stock_count_header
+        set is_delete = 1, gmt_modified = now()
+        where id = #{id}
+    </update>
+
+
+
+
+
+    <!-- query class -->
+    <sql id="docStockCountHeader_groupBy">
+        <if test="groupBys != null and groupBys != ''">
+            group by
+            <foreach collection="groupBys" item="item" open="" separator="," close="">
+                ${item}
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="docStockCountHeader_orderby">
+        <if test="orderBys != null and orderBys != ''">
+            order by
+            <foreach collection="orderBys" item="item" open="" separator="," close="">
+                ${item.column} ${item.direction}
+            </foreach>
+        </if>
+    </sql>
+
+
+    <select id="query" resultMap="docStockCountHeaderResult" parameterType="com.resto.shop.web.model.DocStockCountHeader">
+        <include refid="docStockCountHeader_selector"/>
+        <include refid="docStockCountHeader_query_segment"/>
+        <include refid="docStockCountHeader_groupBy"/>
+        <include refid="docStockCountHeader_orderby"/>
+    </select>
+
+    <select id="query4Page" resultMap="docStockCountHeaderResult" parameterType="com.resto.shop.web.model.DocStockCountHeader">
+        <include refid="docStockCountHeader_selector"/>
+        <include refid="docStockCountHeader_query_segment"/>
+        <include refid="docStockCountHeader_groupBy"/>
+        <include refid="docStockCountHeader_orderby"/>
+        limit ${startRowForMysql}, ${pageSize}
+    </select>
+
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM doc_stock_count_header
+        <include refid="docStockCountHeader_query_segment"/>
+    </select>
+
+    <select id="getById" resultMap="docStockCountHeaderResult">
+        <include refid="docStockCountHeader_selector"/>
+        where id = #{id}
+        and is_delete = 0
+    </select>
+
+    <select id="getByIdForUpdate" resultMap="docStockCountHeaderResult">
+        <include refid="docStockCountHeader_selector"/>
+        where id = #{id}
+        and is_delete = 0
+        for update
+    </select>
+
+    <resultMap id="docStockCountHeaderResultTwo" type="com.resto.shop.web.dto.DocStockCountHeaderDo">
+        <result column="id" property="id"/>
+        <result column="published_time" property="publishedTime"/>
+        <result column="order_name" property="orderName"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="creater_name" property="createrName"/>
+        <result column="order_code" property="orderCode"/>
+        <result column="note" property="note"/>
+        <collection property="stockCountDetailList" column="id"
+                    select="com.resto.shop.web.dao.DocStockCountDetailDao.findStockDetailListById"
+                    ofType="com.resto.shop.web.dto.DocStockCountDetailDo">
+        </collection>
+    </resultMap>
+
+
+
+    <select id="findStockListById" resultMap="docStockCountHeaderResultTwo">
+        SELECT
+            id,
+            order_code,
+            order_name,
+            order_status,
+            published_time,
+            creater_name,
+            note
+        FROM
+            `doc_stock_count_header`
+        WHERE
+            is_delete = 0
+        AND shop_detail_id = #{shopId}
+
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        ORDER BY gmt_create DESC
+        LIMIT 1
+
+    </select>
+
+
+    <select id="findStockList" resultMap="docStockCountHeaderResultTwo">
+        SELECT
+        id,
+        order_code,
+        order_name,
+        order_status,
+        published_time,
+        creater_name,
+        note
+        FROM
+        `doc_stock_count_header`
+        WHERE
+        is_delete = 0
+        AND shop_detail_id = #{shopId}
+
+        ORDER BY gmt_create DESC
+    </select>
+
+    <select id="findLastStockCountOfTime" resultType="java.lang.String">
+        SELECT
+            DATE_FORMAT(
+                MAX(stock_count_end_time),
+                '%Y-%m-%d %H:%i:%s'
+            )
+        FROM
+            `doc_stock_count_header`
+        WHERE shop_detail_id = #{shopId};
+    </select>
+
+</mapper>

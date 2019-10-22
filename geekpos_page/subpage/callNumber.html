@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title id="title"></title>
+	<script type="text/javascript">
+		var isready = false;
+		document.addEventListener("plusready", function() {
+			isready = true;
+			var _BARCODE = 'kivviplugin',
+					B = window.plus.bridge;
+			var kivviplugin = {
+				PluginActionDisplayQR: function(Argus1, Argus2, Argus3, Argus4) {
+					return B.execSync(_BARCODE, "PluginActionDisplayQR", [Argus1, Argus3, Argus3, Argus4]);
+				},
+				PluginActionPrintQR: function(Argus1, Argus2, Argus3, Argus4) {
+					return B.execSync(_BARCODE, "PluginActionPrintQR", [Argus1, Argus2, Argus3, Argus4]);
+				},
+				PluginActionPrintText: function(Argus1, Argus2, Argus3, Argus4, Argus5, Argus6) {
+					return B.execSync(_BARCODE, "PluginActionPrintText", [Argus1, Argus2, Argus3, Argus4, Argus5, Argus6]);
+				},
+				PluginActionPlaySound: function(Argus1, Argus2, Argus3, Argus4) {
+					return B.execSync(_BARCODE, "PluginActionPlaySound", [Argus1, Argus2, Argus3, Argus4]);
+				},
+				PluginActionIdle: function(Argus1, Argus2, Argus3, Argus4) {
+					return B.execSync(_BARCODE, "PluginActionIdle", [Argus1, Argus2, Argus3, Argus4]);
+				},
+			};
+			window.plus.kivviplugin = kivviplugin;
+		}, true);
+		function PluginActionPrintText(Argus1, Argus2, Argus3, Argus4, Argus5, Argus6) {
+			plus.kivviplugin.PluginActionPrintText(Argus1, Argus2, Argus3, Argus4, Argus5, Argus6);
+		}
+		function PluginActionPrintQR(Argus1, Argus2, Argus3, Argus4) {
+			plus.kivviplugin.PluginActionPrintQR("http://kc.restoplus.cn/wechat/index?subpage=tangshi", "http://kc.restoplus.cn/wechat/index?subpage=tangshi", "http://kc.restoplus.cn/wechat/index?subpage=tangshi", "http://kc.restoplus.cn/wechat/index?subpage=tangshi");
+		}
+		function PluginActionDisplayQR(Argus1, Argus2, Argus3, Argus4) {
+			plus.kivviplugin.PluginActionIdle("idle");
+			plus.kivviplugin.PluginActionDisplayQR(Argus1, '1', '3', '4');
+		}
+		function PluginPlaySounds(Argus1, Argus2, Argus3, Argus4) {
+			plus.kivviplugin.PluginActionPlaySound(Argus1, "2", "3", "4");
+		}
+		function PluginActionIdle() {
+			plus.kivviplugin.PluginActionIdle("idle");
+		}
+	</script>
+	<link href="../css/mui.min.css" rel="stylesheet" />
+	<link href="//cdn.bootcss.com/weui/1.1.1/style/weui.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/keyboard.css" />
+	<script src="../js/base.js"></script>
+
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			border: 0;
+			vertical-align: baseline;
+		}
+
+		ul,
+		li,
+		ol {
+			list-style: none;
+		}
+
+		body {
+			background: #fff;
+			font-family: "微软雅黑";
+			font-size: 4vh;
+		}
+
+		.mui-content {
+			background: #fff;
+			position: relative;
+			height: 100%;
+		}
+
+		.full-height {
+			height: 100%;
+			position: relative;
+		}				
+		
+		/*add_css*/
+		.callNum_header {
+			position: relative;
+			height: 8vh;
+			width:100%;
+			background: #000000;
+			text-align: center;
+			display: table;
+		}
+		.middle {
+			display: table-cell;
+			vertical-align: middle;
+		}
+		.mui-btn.add {
+			position: absolute;
+			left: 10px;
+			vertical-align: middle;
+			padding: 1vh 2vh;
+			font-size: 3vh;
+		}	
+		.numContent {
+			font-size: 4vh;
+		    position: relative;
+		    top: 10%;
+		}
+	</style>
+</head>
+
+<body id="vueControl">
+<!--loading-->
+<div class="weui_loading_alert" id="waitLoading">
+    <div class="weui_mask" style="background-color: #fff;"></div>
+    <div class="weui_toast_wait">		
+		<img src="../images/loading.gif" />
+		<div style="text-align: center;color: #bababa;font-size: 4vh;">正在加载中...</div>	
+    </div>
+</div>
+
+<div class="mui-content">
+	<div id="mui-article-famliy" style="overflow: hidden;position: relative;height: 17%;">
+		<div class="callNum_header">
+			<div class="middle">
+				<img class="returnImg" @click="loginout" src="../images/return.png" />
+<!--				<button type="button" class="mui-btn add" @click="loginout" style="">登出</button>-->
+				<span style="color: #fff;">Resto+等位</span>
+				<img class="reloadImg" @click="openPush" src="../images/reload.png" alt="刷新" />
+			</div>			
+		</div>
+		
+		<ul class="weui-cell" id="all_type" style="padding: initial;height: 9vh;line-height: 8vh;border-bottom: 1vh solid #F2F2F2;">
+			<li class="flex-container active" id="all" @click="getAllType">
+				<div class="flex-item">
+					<span>全部</span> 
+					<!--<span v-if="tableDetail.totalWaitCount>0">({{tableDetail.totalWaitCount}})</span>-->
+					<span class="numCount">
+				      	<i class="art-count" v-if="tableDetail.totalWaitCount>0">{{tableDetail.totalWaitCount}}</i>
+				      	<i class="art-count" :class="{artCount:tableDetail.totalWaitCount == 0}" v-if="tableDetail.totalWaitCount == 0"></i>
+				    </span>
+				</div>
+			</li>
+        	<li :id="f.codeNumber" class="flex-container" v-for="f in tableDetail.tableList" @click="changeCurrentType(f)">
+			  	<div class="flex-item">
+			  		<span>{{f.name}}</span> 
+			  		<span class="numCount">
+				      	<i class="art-count" v-if="f.waitNumber>0">{{f.waitNumber}}</i>
+				      	<i class="art-count" :class="{artCount:f.waitNumber == 0}" v-if="f.waitNumber == 0"></i>
+				    </span>
+			  	</div>
+			</li>
+        </ul>
+		<!--<div class="weui-cell" style="padding: 10px 0px;background: #f2f2f2;">
+			<div class="weui_flex_item">
+            	<span class="waitCount">等位桌数</span>
+            	<span class="headerText" v-if="!tableType">{{tableDetail.totalWaitCount}}</span>
+            	<span class="headerText" v-if="tableType">{{tableType.waitNumber}}</span>
+            </div>
+            <div class="weui_flex_item">
+            	<span class="waitCount">当前叫号</span>
+            	<span class="headerText">{{nowGetNumber}}</span>
+            </div>
+        </div>-->
+	</div>
+	
+	<div id="waitTableList">
+		<div v-if="waitList.length == 0" style="position: relative;text-align: center;top:25%;">
+			<img src="../images/none.png" style="width: 15vh;height: 15vh;" />
+			<p style="font-size: 4vh;color: #d6d5e3;;">暂无取号~</p>
+		</div>
+		<div v-if="waitList">
+			<ul class="weui-cell" id="firstCount" style="padding: 10px 0px;border-bottom: 1vh solid #f2f2f2;height: 14vh;" v-for="f in waitList">
+		    	<li class="flex-article-list">
+		    		<span class="firstNumber" :class="{active:f.codeValue == nowGetNumber}">{{f.codeValue}}</span>
+				</li>
+				<li class="flex-article-list">
+		    		<span style="color: #b0b0b0;">{{f.personNumber}}人</span>
+				</li>
+				<li class="flex-article-list">
+		    		<span style="color: #b0b0b0;">{{f.createTime}}分钟</span>
+				</li>
+				<li class="flex-article-list">
+		    		<div style="position: relative;">
+		    			<img class="numImg" @click="getCallNumber(f)" src="../images/callNum.png" alt="叫号">
+<!--						<span v-else class="callNum">{{f.callNumber}}</span>-->
+						<span class="articleCount" style="display: initial;">
+					      	<i class="art-count" v-if="f.callNumber > 0">{{f.callNumber}}</i>
+					      	<i class="art-count" :class="{artCount:f.callNumber == 0}" v-if="f.callNumber == 0"></i>
+					    </span>
+					</div>
+				</li>
+				<li class="flex-article-list">
+		    		<div><img class="numImg" @click="getMealEat(f)" src="../images/eat.png" alt="就餐" /></div>
+				</li>
+				<li class="flex-article-list">   					
+					<div><img class="numImg" @click="getPassNumber(f)" src="../images/passNum.png" alt="过号" /></div>
+				</li>		
+		   </ul>		    
+		</div>
+	</div>
+	
+	<div class="weui_loading_toast" v-if="confirm.show">
+		<div class="weui_mask_transparent"></div>
+	    <div class="weui_toast_number msg-dialog">
+	    	<div class="full-height">
+	    		<div class="numContent">
+	            	<p style="font-size: 4vh;">这个号单还没有叫号</p>
+	            	<p style="font-size: 4vh;" v-if="confirm.numberType == 1">是否确认就餐？</p>
+					<p style="font-size: 4vh;" v-if="confirm.numberType == 2">是否确认过号？</p>
+	            </div>
+				<div class="btnContent">
+	            	<button type="button" class="numBtn canel" @click="close">取消</button>
+	            	<button type="button" class="numBtn confirm" @click="confirmTable(confirm.nowcallnum, confirm.numberType)">确定</button>
+	            </div>
+	    	</div>	    	    	
+	    </div>
+    </div>
+
+	<div class="weui_loading_toast" v-if="loginOther">
+		<div class="weui_mask_transparent"></div>
+		<div class="weui_toast_number msg-dialog">
+			<div class="full-height">
+				<div class="numContent">
+					<p style="font-size: 4vh;">您已经断开连接</p>
+					<p style="font-size: 4vh;">请重新登陆</p>
+				</div>
+				<div class="btnContent">
+					<button type="button" class="numBtn canel" @click="closeExe">退出</button>
+					<button type="button" class="numBtn confirm" @click="returnLogin">登陆</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/util2.js"></script>
+<script src="../js/vue.min.js"></script>
+<script src="../js/mui.min.js"></script>
+<script src="//cdn.bootcss.com/sockjs-client/1.1.4/sockjs.js"></script>
+<script src="//cdn.bootcss.com/iScroll/5.1.3/iscroll.min.js"></script>
+<script src="//cdn.bootcss.com/iScroll/5.1.3/iscroll-probe.min.js"></script>
+
+<script>
+	document.addEventListener('touchmove', function (e) {
+		e.preventDefault();
+	}, false);
+				
+	function iScrollClick() {
+        if (/iPhone|iPad|iPod|Macintosh/i.test(navigator.userAgent)) return false;
+        if (/Chrome/i.test(navigator.userAgent)) return (/Android/i.test(navigator.userAgent));
+        if (/Silk/i.test(navigator.userAgent)) return false;
+        if (/Android/i.test(navigator.userAgent)) {
+            var s = navigator.userAgent.substr(navigator.userAgent.indexOf('Android') + 8, 3);
+            return parseFloat(s[0] + s[3]) < 44 ? false : true
+        }
+    }
+	
+</script>
+<script>
+	var vm = new Vue({
+		el: "#vueControl",
+		data: function() {
+			return {
+				brandSetting:{},
+				shop:{},
+				websocket:null,
+				showAllType: false,
+				tableType: null,
+				serverIp: null,
+				ws: null,
+				wsHeartbeatId: null,
+				tableDetail: {
+					totalWaitCount: 0,
+					tableList: []
+				},
+				callReady:true,
+				waitList: [],
+				queueCodePage: "", //用户自助取号页面链接
+				refreshTime:"",//自动刷新时间
+				scrollTableList:null,
+				nowGetNumber:null,
+				query:false,
+				confirm:{show:false,nowcallnum:null,numberType:null},
+				currentMeal:{},
+				nowGetMeal:{},
+				loginOther:false,
+			}
+		},
+		created: function() {
+			var that = this;
+			document.getElementById("title").innerHTML = localStorage.getItem("shopName");
+			getTableInfo(localStorage.getItem("brandId"), localStorage.getItem("shopId"), function(result) {
+				if(result.code == "200") { //请求成功
+					that.tableDetail.tableList = [];
+					that.tableDetail.totalWaitCount = result.data.totalWaitCount;
+					for(var i = 0; i < result.data.tableList.length; i++) {
+						var tableInfo = result.data.tableList[i];
+						that.tableDetail.tableList.push(tableInfo);
+					}
+					$("#waitLoading").css("display", "none");
+				} else {
+					mui.alert("桌位信息获取失败");
+					$("#waitLoading").css("display", "none");
+				}
+			});
+			getWaitList(localStorage.getItem("brandId"), localStorage.getItem("shopId"), "", function(result) {
+				if(result.code == "200") { //请求成功
+					if(result.data != null) {
+						for(var i = 0; i < result.data.length; i++) {
+							var waitInfo = result.data[i];
+							waitInfo.createTime = ((new Date().getTime() - waitInfo.createTime.time + 60000) / 1000 / 60).toFixed(0);
+							if(waitInfo.createTime == -0){
+								waitInfo.createTime = 0;
+							}
+							that.waitList.push(waitInfo);
+						}						
+					}
+					Vue.nextTick(function () {
+						setTimeout(function(){
+							that.scrollTableList = new IScroll("#waitTableList",{
+								probeType : 2,
+								click:iScrollClick
+							});
+						},500)
+					})
+				} else {
+					mui.alert("等待桌位信息获取失败");
+				}
+			});
+			
+			getBrandSettingInformation(localStorage.getItem("brandId"), function (result) {
+				that.brandSetting = result.data;
+				getShopInformation(localStorage.getItem("brandId"), localStorage.getItem("shopId"), function (res) {
+					that.shop = res.data;
+					that.startTV();
+					getServerIp(function (data) {
+						that.serverIp = data.serverIp;
+						that.connWebsock();
+					});
+				});
+			})
+		},
+		methods: {
+			close:function(){
+				this.confirm.show = false;
+				this.confirm.numberType = null;
+			},
+			returnLogin:function(){
+				window.location.href = baseUrl+"/pos/index";
+			},
+			confirmTable:function(f,numberType){
+				var that = this;
+				if(!that.callReady){
+					return;
+				}
+				that.callReady = false;
+				updateWaitState(localStorage.getItem("brandId"), localStorage.getItem("shopId"), f.id, numberType, function(result) {
+					if(result.code == "200") { //请求成功
+						var type = that.tableType == null ? "" : that.tableType.codeNumber;
+						that.getWaitList(type);
+						that.getTableList();
+						that.tableDetail.totalWaitCount = that.tableDetail.totalWaitCount - 1;
+						getNumberInfo(f.id, function (r) {
+							getWaitCountByCodeId(r.shopDetailId,r.codeId,function(t){
+								if(r.state == 1){
+									var data = {
+										type : "jiucan",
+										getNumber : r,
+										count : t,
+									}
+									that.sendTvMsg(JSON.stringify(data));
+								}else if (r.state == 2){
+									var data = {
+										type : "guohao",
+										getNumber : r,
+										count : t,
+									}
+									that.sendTvMsg(JSON.stringify(data));
+								}
+							});
+						});
+					} else {
+						mui.alert("叫号失败");
+					}
+				});
+				setTimeout(function () {
+					that.callReady = true;
+				}, 3000);
+				this.confirm.show = false;
+			},
+			getAllType: function() {
+				if(this.query){
+	                return;
+	            }
+	            this.query = true;
+	            var that = this;
+	            setTimeout(function(){	//禁止重复多次点击,可能会有bug
+	                that.query = false;
+	            },500);
+				that.tableType = null;
+				that.getWaitList("");
+				$("#all_type li").removeClass("active");
+				$('#all').addClass("active");				
+			},
+			changeCurrentType: function(f) {
+				if(this.query){
+	                return;
+	            }
+	            this.query = true;
+	            var that = this;
+	            setTimeout(function(){
+	                that.query = false;
+	            },500);
+				var fid = f.codeNumber;
+				this.tableType = f;
+				$("#all_type li").removeClass("active");
+				$('#' + fid).addClass("active");
+				that.getWaitList(fid);															
+			},
+			getTableList: function() {
+				var that = this;
+				that.tableDetail.tableList = [];
+				getTableInfo(localStorage.getItem("brandId"), localStorage.getItem("shopId"), function(result) {
+					if(result.code == "200") { //请求成功
+						that.tableDetail.totalWaitCount = result.data.totalWaitCount;
+						for(var i = 0; i < result.data.tableList.length; i++) {
+							var tableInfo = result.data.tableList[i];
+							that.tableDetail.tableList.push(tableInfo);
+						}
+					} else {
+						mui.alert("桌位信息获取失败");
+					}
+				})
+			},
+			getWaitList: function(type) {
+				var that = this;
+				that.waitList = [];
+				getWaitList(localStorage.getItem("brandId"), localStorage.getItem("shopId"), type, function(result) {
+					if(result.code == "200") { //请求成功
+						if(result.data != null) {
+							for(var i = 0; i < result.data.length; i++) {
+								var waitInfo = result.data[i];
+								waitInfo.createTime = ((new Date().getTime() - waitInfo.createTime.time) / 1000 / 60).toFixed(0);
+								that.waitList.push(waitInfo);
+							}
+						}
+						Vue.nextTick(function () {
+							that.scrollTableList.refresh();                
+			            })
+					} else {
+						mui.alert("等待桌位信息获取失败");
+					}
+				})
+			},
+			getCallNumber: function(f) {
+				var that = this;
+				if(!that.callReady){
+					return;
+				}
+				that.nowGetNumber = f.codeValue;
+				that.callReady = false;
+				updateWaitState(localStorage.getItem("brandId"), localStorage.getItem("shopId"), f.id, 0, function(result) {
+					if(result.code == "200") { //请求成功
+						var type = that.tableType == null ? "" : that.tableType.codeNumber;
+						that.getWaitList(type);
+						that.getTableList();
+						getNumberInfo(f.id, function (r) {
+							getWaitCountByCodeId(r.shopDetailId,r.codeId,function(t){
+								var data = {
+									type : "jiaohao",
+									getNumber : r,
+									count : t,
+								}
+								that.sendTvMsg(JSON.stringify(data));
+							});
+						});
+					}
+				});
+				setTimeout(function () {
+					that.callReady = true;
+				}, 3000);
+			},
+			getMealEat: function(f) {
+				var that = this;
+				if(f.state == 0 && f.callNumber == 0){
+					that.confirm.show = true;
+					that.confirm.nowcallnum = f;
+					that.confirm.numberType = 1;
+					return;
+				}
+				if(!that.callReady){
+					return;
+				}
+				that.callReady = false;
+				updateWaitState(localStorage.getItem("brandId"), localStorage.getItem("shopId"), f.id, 1, function(result) {
+					if(result.code == "200") { //请求成功
+						var type = that.tableType == null ? "" : that.tableType.codeNumber;
+						that.getWaitList(type);
+						that.getTableList();
+						that.tableDetail.totalWaitCount = that.tableDetail.totalWaitCount - 1;
+						getNumberInfo(f.id, function (r) {
+							getWaitCountByCodeId(r.shopDetailId,r.codeId,function(t){
+								var data = {
+									type : "jiucan",
+									getNumber : r,
+									count : t,
+								}
+								that.sendTvMsg(JSON.stringify(data));
+							});
+						});
+					} else {
+						mui.alert("叫号失败");
+					}
+				});
+				setTimeout(function () {
+					that.callReady = true;
+				}, 3000);
+			},
+			getPassNumber: function(f) {
+				var that = this;
+				if(f.state == 0 && f.callNumber == 0){
+					that.confirm.show = true;
+					that.confirm.nowcallnum = f;
+					that.confirm.numberType = 2;
+					return;
+				}
+				if(!that.callReady){
+					return;
+				}
+				that.callReady = false;
+				updateWaitState(localStorage.getItem("brandId"), localStorage.getItem("shopId"), f.id, 2, function(result) {
+					if(result.code == "200") { //请求成功
+						var type = that.tableType == null ? "" : that.tableType.codeNumber;
+						that.getWaitList(type);
+						that.getTableList();
+						that.tableDetail.totalWaitCount = that.tableDetail.totalWaitCount - 1;
+						getNumberInfo(f.id, function (r) {
+							getWaitCountByCodeId(r.shopDetailId,r.codeId,function(t){
+								var data = {
+									type : "guohao",
+									getNumber : r,
+									count : t,
+								}
+								that.sendTvMsg(JSON.stringify(data));
+							});
+						});
+					} else {
+						mui.alert("叫号失败");
+					}
+				});
+				setTimeout(function () {
+					that.callReady = true;
+				}, 3000);
+			},
+			wsOnopen: function() {
+				console.log("开始连接");
+				var data = this.getJsonData("check", null);
+				this.ws.send(data);
+				console.log("链接成功");
+				this.connStatus = true;
+				this.wsHeartbeatId = window.setInterval(this.wsHeartbeat, 30000);
+			},
+			wsHeartbeat: function () {//心跳
+				this.ws.send(this.getJsonData("heartbeat", null));
+			},
+			wsOnmessage: function(event) {
+				var that = this;
+				var data = JSON.parse(event.data);
+				console.log(data);
+				if(data.dataType == "getNumber"){//取号
+					getNumberInfo(data.id, function (r) {
+						getWaitCountByCodeId(r.shopDetailId,r.codeId,function(t){
+							r.createTime = ((new Date().getTime() - r.createTime.time) / 1000 / 60).toFixed(0);
+							that.waitList.push(r);
+							var type = that.tableType == null ? "" : that.tableType.codeNumber;
+							that.getWaitList(type);
+							that.getTableList();
+							that.tableDetail.totalWaitCount = that.tableDetail.totalWaitCount + 1;
+							var data = {
+								type : "new",
+								getNumber : r,
+								count : t,
+							}
+							that.sendTvMsg(JSON.stringify(data));
+						});
+					});
+				}else if (data.dataType == "command") {//后台推送指令
+					that.executeCommand(data.operation);
+				}
+			},
+			executeCommand: function (operation) {
+				if ("exit" == operation) {
+					this.loginOther = true;
+				}
+			},
+			getJsonData: function(type, data) {
+				var dataAPI = {};
+				dataAPI.shopId = this.shop.id;
+				dataAPI.client = "queue";
+				dataAPI.type = type;
+				dataAPI.data = data;
+				return JSON.stringify(dataAPI);
+			},
+			connWebsock: function () {
+				var that = this;
+				var url = "http://"+that.serverIp+"/pos/" + "sockjs/orderServer";
+				this.ws = new SockJS(url);
+				this.ws.onopen = function (event) {
+					that.wsOnopen()
+					editPosWaitred(that.shop.id, 1, function (data) {});
+				};
+				this.ws.onmessage = function (event) {
+					that.wsOnmessage(event)
+				};
+				this.ws.onclose = function (event) {
+					console.log("socket连接关闭了");
+//					setTimeout(function(){
+//						that.connWebsock();
+//					},5000);
+					window.clearInterval(this.wsHeartbeatId);
+				};
+				this.ws.onerror = function (evt) {
+//					setTimeout(function(){
+//						that.connWebsock();
+//					},5000);
+					window.setTimeout(this.connWebsock, 1000);
+					console.log("ws出错");
+					window.clearInterval(this.wsHeartbeatId);
+				};
+			},
+			startTV: function () {
+				this.connTVWebsock();
+			},
+			connTVWebsock: function () {
+				var that = this;
+				if(that.shop.waitIp == null && that.shop.waitIp == ''){
+					return;
+				}
+				try{
+					var host = "ws://"+that.shop.waitIp+":8008";
+					that.websocket = new WebSocket(host);
+					that.websocket.onopen = function(){
+						console.log("连接成功------");
+						var data = {
+							type : "open",
+							shop : that.shop,
+							brandSetting : that.brandSetting,
+							tableDetail : that.tableDetail
+						}
+						that.sendTvMsg(JSON.stringify(data));
+					}
+					that.websocket.onmessage = function(event){
+						console.log("接收到消息");
+					}
+					//自然断开5秒重连
+					that.websocket.onclose　= function(evt){
+						setTimeout(function(){
+							that.connTVWebsock();
+						},100);
+						console.log("关闭")
+					}
+					//异常断开5秒重连
+					that.websocket.onerror = function (evt) {
+						setTimeout(function(){
+							that.connTVWebsock();
+						},100);
+					};
+				}catch(exception){
+					console.log("111");
+				}
+			},
+			sendTvMsg:function(txt){
+				if(this.websocket != null){
+					this.websocket.send(txt);
+				}
+			},
+			loginout:function(){
+				editPosWaitred(this.shop.id, 0, function (data) {});
+				GeneralService.shutdownApplication();
+			},
+			closeExe:function(){
+				GeneralService.shutdownApplication();
+			},
+			openPush: function(){
+				window.location.reload();
+			}
+		}
+	});
+</script>
+</body>
+
+</html>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.BrandMapper">
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.Brand">
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="brand_sign" property="brandSign" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="use_state" property="useState"/>
+    <result column="wechat_config_id" property="wechatConfigId"
+            jdbcType="VARCHAR" />
+    <result column="database_config_id" property="databaseConfigId"
+            jdbcType="VARCHAR" />
+    <result column="brand_user_id" property="brandUserId" jdbcType="VARCHAR" />
+    <result column="brand_setting_id" property="brandSettingId"
+            jdbcType="VARCHAR" />
+    <result column="wechat_img_url" property="wechatImgUrl" />
+    <result column="phone_list" property="phoneList"/>
+    <result column="white_phone_list" property="whitePhoneList"/>
+    <result column="mq_id" property="mqId"/>
+    <result column="contract_id" property="contractId"/>
+    <result column="defined_self" property="definedSelf" jdbcType="BIT" />
+  </resultMap>
+
+  <sql id="Base_Column_List">id, brand_name, brand_sign, create_time, wechat_config_id,
+    database_config_id, brand_user_id,brand_setting_id, update_time, wechat_img_url,server_ip,use_state
+    ,phone_list,white_phone_list,mq_id,contract_id,defined_self
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+          parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from brand where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <update id="deleteByPrimaryKey" parameterType="java.lang.String">
+    update brand set
+    state=0 where id= #{id,jdbcType=VARCHAR}
+  </update>
+  <insert id="insert" parameterType="com.resto.brand.web.model.Brand">insert into brand (id,
+    brand_name, brand_sign, create_time, wechat_config_id,
+    database_config_id, brand_user_id, wechat_img_url) values (#{id,jdbcType=VARCHAR},
+    #{brandName,jdbcType=VARCHAR}, #{brandSign,jdbcType=VARCHAR},
+    #{createTime,jdbcType=TIMESTAMP}, #{wechatConfigId,jdbcType=VARCHAR},
+    #{databaseConfigId,jdbcType=VARCHAR}, #{brandUserId,jdbcType=VARCHAR}, #{wechatImgUrl})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.Brand">
+    insert into brand
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">id,</if>
+      <if test="brandName != null">brand_name,</if>
+      <if test="brandSign != null">brand_sign,</if>
+      <if test="createTime != null">create_time,</if>
+      <if test="wechatConfigId != null">wechat_config_id,</if>
+      <if test="databaseConfigId != null">database_config_id,</if>
+      <if test="brandUserId != null">brand_user_id,</if>
+      <if test="state != null">state,</if>
+      <if test="addUser != null">add_user,</if>
+      <if test="updateUser != null">update_user,</if>
+      <if test="brandSettingId != null">brand_setting_id,</if>
+      <if test="wechatImgUrl != null">wechat_img_url,</if>
+      <if test="serverIp != null">server_ip,</if>
+      <if test="mqId != null">mq_id,</if>
+      <if test="contractId != null">contract_id,</if>
+      <if test="definedSelf != null" >defined_self,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+      <if test="brandName != null">#{brandName,jdbcType=VARCHAR},</if>
+      <if test="brandSign != null">#{brandSign,jdbcType=VARCHAR},</if>
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+      <if test="wechatConfigId != null">#{wechatConfigId,jdbcType=VARCHAR},</if>
+      <if test="databaseConfigId != null">#{databaseConfigId,jdbcType=VARCHAR},</if>
+      <if test="brandUserId != null">#{brandUserId,jdbcType=VARCHAR},</if>
+      <if test="state != null">#{state,jdbcType=VARCHAR},</if>
+      <if test="addUser != null">#{addUser,jdbcType=VARCHAR},</if>
+      <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>
+      <if test="brandSettingId != null">#{brandSettingId,jdbcType=VARCHAR},</if>
+      <if test="wechatImgUrl != null">#{wechatImgUrl},</if>
+      <if test="serverIp != null">#{serverIp,jdbcType=VARCHAR},</if>
+      <if test="mqId != null">#{mqId},</if>
+      <if test="contractId != null">#{contractId},</if>
+      <if test="definedSelf != null" >#{definedSelf,jdbcType=BIT},</if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.Brand">
+    update brand
+    <set>
+      <if test="brandName != null">brand_name = #{brandName,jdbcType=VARCHAR},</if>
+      <if test="brandSign != null">brand_sign = #{brandSign,jdbcType=VARCHAR},</if>
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+      <if test="wechatConfigId != null">wechat_config_id = #{wechatConfigId,jdbcType=VARCHAR},</if>
+      <if test="databaseConfigId != null">database_config_id = #{databaseConfigId,jdbcType=VARCHAR},</if>
+      <if test="brandUserId != null">brand_user_id = #{brandUserId,jdbcType=VARCHAR},</if>
+      <if test="wechatImgUrl != null">wechat_img_url = #{wechatImgUrl},</if>
+      <if test="serverIp != null">server_ip = #{serverIp},</if>
+      <if test="useState != null">use_state = #{useState},</if>
+      <if test="phoneList != null">phone_list = #{phoneList},</if>
+      <if test="whitePhoneList != null">white_phone_list = #{whitePhoneList},</if>
+      <if test="mqId != null">mq_id = #{mqId},</if>
+      <if test="contractId != null">contract_id = #{contractId},</if>
+      <if test="definedSelf != null" >defined_self = #{definedSelf,jdbcType=BIT},</if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.Brand">
+    update brand set
+    brand_name = #{brandName}, brand_sign = #{brandSign},
+    wechat_config_id
+    = #{wechatConfigId},
+    database_config_id = #{databaseConfigId},
+    brand_user_id = #{brandUserId}, update_user =
+    #{updateUser}, wechat_img_url =#{wechatImgUrl} where id =
+    #{id}
+  </update>
+
+  <!-- 删掉 已无用 -->
+  <select id="selectList" resultType="Brand">
+    select * from brand where
+    state=1
+  </select>
+
+  <resultMap id="BrandDetailInfo" type="com.resto.brand.web.model.Brand">
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="brand_sign" property="brandSign" jdbcType="VARCHAR" />
+    <result column="brand_user_id" property="brandUserId" jdbcType="VARCHAR" />
+    <result column="wechat_img_url" property="wechatImgUrl" />
+    <result column="server_ip" property="serverIp" />
+    <result column="defined_self" property="definedSelf" />
+    <result column="mq_id" property="mqId"/>
+    <association property="wechatConfig"
+                 javaType="com.resto.brand.web.model.WechatConfig">
+      <id column="wechatId" property="id" jdbcType="VARCHAR" />
+      <result column="appid" property="appid" jdbcType="VARCHAR" />
+      <result column="appsecret" property="appsecret" jdbcType="VARCHAR" />
+      <result column="card_id" property="cardId" jdbcType="VARCHAR" />
+      <result column="mchid" property="mchid" jdbcType="VARCHAR" />
+      <result column="mchkey" property="mchkey" jdbcType="VARCHAR" />
+      <result column="pay_cert_path" property="payCertPath"
+              jdbcType="VARCHAR" />
+    </association>
+    <association property="databaseConfig"
+                 javaType="com.resto.brand.web.model.DatabaseConfig">
+      <id column="databaseId" property="id" jdbcType="VARCHAR" />
+      <result column="name" property="name" jdbcType="VARCHAR" />
+      <result column="url" property="url" jdbcType="VARCHAR" />
+      <result column="driver_class_name" property="driverClassName"
+              jdbcType="VARCHAR" />
+      <result column="username" property="username" jdbcType="VARCHAR" />
+      <result column="password" property="password" jdbcType="VARCHAR" />
+      <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+      <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    </association>
+    <association property="smsAcount"
+                 javaType="com.resto.brand.web.model.SmsAcount">
+      <id column="smsAountId" property="id" jdbcType="VARCHAR" />
+      <result column="smsUnitPrice" property="smsUnitPrice"
+              jdbcType="VARCHAR" />
+      <result column="remainderNum" property="remainderNum"
+              jdbcType="VARCHAR" />
+      <result column="smsRemind" property="smsRemind"
+              jdbcType="VARCHAR" />
+      <result column="smsNoticeTelephone" property="smsNoticeTelephone"/>
+    </association>
+    <collection property="shopDetail" ofType="com.resto.brand.web.model.ShopDetail">
+      <id column="shopId" property="id" jdbcType="VARCHAR"/>
+      <result column="shopName" property="name" jdbcType="VARCHAR"/>
+    </collection>
+  </resultMap>
+  <select id="selectBrandDetailInfo" resultMap="BrandDetailInfo">
+    SELECT
+    b.id,b.mq_id,b.brand_name,b.wechat_img_url,b.brand_sign,b.server_ip,b.defined_self,s.id smsAountId,s.sms_unit_price
+    smsUnitPrice,s.sms_remind smsRemind, s.remainder_num remainderNum, s.sms_notice_telephone smsNoticeTelephone,b.brand_user_id,
+    w.id wechatId,w.appid,w.appsecret,w.card_id,w.mchid,w.mchkey,w.pay_cert_path,
+    d.id databaseId,d.name,d.url,d.driver_class_name,d.username,d.password,d.create_time,d.update_time,
+    sd.id shopId,sd.`name` shopName
+    from brand b LEFT JOIN sms_acount s on b.id=s.brand_id LEFT JOIN
+    wechat_config w on b.wechat_config_id = w.id
+    LEFT JOIN database_config
+    d
+    on b.database_config_id = d.id
+    LEFT JOIN shop_detail sd
+    on b.id = sd.brand_id
+    where b.state = 1 ORDER BY b.create_time DESC
+  </select>
+
+
+  <!-- 查询 品牌 ID 和 Name -->
+  <select id="selectIdAndName" resultType="Brand">
+    select id,brand_name
+    from brand where state = 1
+  </select>
+  <select id="selectBySign" resultType="Brand">
+    select * from brand where
+    brand_sign=#{0}
+  </select>
+
+  <!-- 验证参数是否重复 -->
+  <select id="validataParam" resultType="java.lang.Integer">
+    SELECT count(id) from
+    brand where ${paramName} = #{paramValue}
+  </select>
+
+  <select id="selectBrandBySetting" resultType="Brand">
+    select * from brand where brand_setting_id = #{id}
+  </select>
+
+  <update id="definedById" parameterType="java.util.Map">
+    UPDATE brand set defined_self=#{flag} where id=#{id}
+  </update>
+</mapper>

@@ -1,0 +1,359 @@
+.buyingConfirmTitle {
+	border-top: 1px solid #d8d8d8;
+	border-bottom: 1px solid #d8d8d8;
+	background-color: #fff;
+	display: block;
+	position: relative;
+	padding: 10px 10px;
+	-webkit-tap-highlight-color: transparent;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	box-sizing: border-box;
+	flex-wrap: wrap;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	margin-bottom: 10px;
+	display:none;
+}
+
+.buyingConfirmpay .buyingConfirmTitle {
+	padding: 14px 10px;
+}
+
+.buyingConfirmTitle .text-left {
+	width: 50%;
+}
+
+.buyingConfirmTitle .TotalConsumption {
+	position: absolute;
+	font-size: 18px;
+	line-height: 44px;
+	left: 20px;
+}
+
+.buyingConfirmTitle p i {
+	font-size: 25px;
+	color: #ccc;
+}
+
+.buyingConfirmTitle p span {
+	font-size: 16px;
+	color: #797979;
+	padding-left: 10px;
+}
+
+.buyingConfirmDetails .univalent:before {
+	content: "￥";
+	margin: 0 2px 0 0;
+	font-family: Arial, sans-serif;
+	font-size: 16px;
+}
+
+.buyingConfirmDetails,.accountInfo,.PaymentInfo {
+	margin-bottom: 20px;
+	border-top: 1px solid #d8d8d8;
+	border-bottom: 1px solid #d8d8d8;
+	background-color: #fff;
+}
+
+.buyingConfirmDetails .univalent:after {
+	content: "/份";
+	margin: 0 0 0 2px;
+	font-family: Arial, sans-serif;
+	font-size: 16px;
+}
+
+.buyingConfirmDetails li {
+	list-style: none;
+	position: relative;
+	border-top: 1px solid #d8d8d8;
+	position: relative;
+	padding: 5px 10px;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
+}
+
+.numberControl {
+	-webkit-box-pack: end;
+	-ms-flex-pack: end;
+	-webkit-justify-content: flex-end;
+	justify-content: flex-end;
+}
+
+.numberControl i.iconfont {
+	font-size: 28px;
+	color: #878989;
+	cursor: pointer;
+	line-height: 40px;
+	vertical-align: middle;
+}
+.numberControl i.iconfont.minusNumber {
+	font-size:20px;
+}
+
+.univalent {
+	color: #8B8B8B;
+}
+
+.buyNumber {
+	position: relative;
+	margin-right: -1px;
+	height: 28px;
+	vertical-align: middle;
+	z-index: 1;
+	display: inline-block;
+	text-align: center;
+	line-height: 30px;
+}
+
+.DetailsTitle span {
+	display: block;
+	font-size: 16px;
+	line-height: 26px;
+}
+
+.TotalOrder {
+	position: relative;
+	border-top: 1px solid #d8d8d8;
+	position: relative;
+	padding: 5px 10px;
+}
+
+.TotalOrder div {
+	width: 100%;
+	padding: 4px 0;
+}
+
+.TotalOrder div span:last-child {
+	float: right;
+}
+
+.TotalOrder div span:last-child:before,.accountAmount:before {
+	content: "￥";
+	margin: 0 2px 0 0;
+	font-family: Arial, sans-serif;
+	font-size: 16px;
+}
+
+.TotalOrder div:first-child span {
+	color: #ccc;
+}
+
+.TotalOrder div:last-child span:last-child {
+	color: #c81623;
+	font-weight: bold;
+}
+
+.accountInfo li,.PaymentInfo li {
+	list-style: none;
+	position: relative;
+	border-top: 1px solid #d8d8d8;
+	position: relative;
+	padding: 10px;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+}
+
+.accountInfo ul li span:first-child {
+	max-width: 110px;
+	font-size: 16px;
+	line-height: 28px;
+}
+
+.accountInfo ul li span:last-child {
+	float: right;
+}
+
+.accountInfo ul li span.accountAmount {
+	color: #c81623;
+	font-weight: bold;
+}
+
+.payment {
+	font-size: 22px;
+}
+
+.buyingConfirmpay .buyingConfirmTitle span:first-child {
+	
+}
+
+.buyingConfirmTitle input[type="text"] {
+	width: 100%;
+	height: 22px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	padding: 10px;
+	text-align: right;
+	color: #f90;
+	font-size: 16px;
+}
+
+.buyingConfirmTitle input[type='text']:focus {
+	color: #f90
+}
+
+.buyingConfirmTitle input::-ms-input-placeholder {
+	text-align: right;
+}
+
+.buyingConfirmTitle input::-webkit-input-placeholder {
+	text-align: right;
+}
+
+.tips-mask {
+	z-index: 10000;
+	position: fixed;
+	_position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	opacity: 0.6;
+	filter: alpha(opacity = 60);
+	-moz-opacity: 0.6;
+}
+
+.NumberBinding {
+	width: 90vw;
+    z-index: 100001;
+    position: fixed;
+    top: 20%;
+    left: 0;
+    background: #fff;
+    box-shadow: 1px 1px 6px 3px rgba(0, 0, 0, .2);
+    text-align: center;
+    right: 0;
+    margin: auto;
+    padding-bottom:15px
+}
+
+.NumberBinding input {
+    height: 12vw;
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+    width: 61%;
+}
+
+.NumberBinding p.input-tips {
+	margin: 20px 20px 10px;
+	text-align: left;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 10px;
+	font-size: 14px;
+	color: #9D9D9D;
+}
+
+.VerificationCode,.VerificationPhone {
+	position: relative;
+    padding: 5px 15px;
+   
+}
+
+.VerificationCode button,.VerificationPhone button {
+	height: 12vw;
+    width: 33%;
+    font-size: 4vw;
+    background: #1C1C28;
+    border: none;
+    color: #fff;
+    text-align: center;
+}
+
+.VerificationPhone button {
+	background: #c81623;
+	font-size:3.5vw;
+}
+
+.custom-dialog .cancel {
+    display: block;
+    position: absolute;
+    bottom: -55px;
+    left: 45%;
+}
+
+.custom-dialog .cancel:before {
+	width:40px;
+	height:40px;
+	content: '\2716';
+    display: inline-block;
+    font-size: 18px;
+    text-align: center;
+    line-height: 40px;
+    color: #fff;
+    background: #000;
+    border-radius: 50%;
+}
+
+label+input[type='radio'],label+input[type='checkbox'] {
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+	padding-left: 25px;
+	margin-right: 10px;
+	color: #0b4c6a;
+}
+
+.PaymentInfo input[type='radio'],.PaymentInfo input[type='checkbox'] {
+	display: none;
+	cursor: pointer;
+}
+
+.PaymentInfo input[type='radio']+label,.PaymentInfo input[type='checkbox']+label
+	{
+	width: 100%;
+	height: 36px;
+	line-height: 36px;
+}
+
+.PaymentInfo input[type='radio']+label:before,.PaymentInfo input[type='checkbox']+label:before
+	{
+	top: 50%;
+	margin-top: -9px;
+}
+
+.PaymentInfo input[type='radio']+label:after,.PaymentInfo input[type='checkbox']+label:after
+	{
+	top: 50%;
+	margin-top: -7px;
+}
+
+.zhifubao label i.iconfont,.weixin label i.iconfont {
+	font-size: 25px;
+	color: #006EFF;
+	float: right;
+	margin-right: 25px;
+}
+
+.weixin label i.iconfont {
+	color: #2F9B41;
+}
+
+.buyingConfirmPayment .buyingConfirmTitle .accountAmount {
+	color: #c81623;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.PaymentInfo span.accountAmount {
+	float: right;
+	color: #c81623;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.PaymentInfo li span.PayMethod {
+	color: #9E9E9E;
+}

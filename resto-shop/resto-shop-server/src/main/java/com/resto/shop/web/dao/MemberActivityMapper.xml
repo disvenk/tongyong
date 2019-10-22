@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.MemberActivityMapper">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.MemberActivity">
+        <id column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="name" property="name"/>
+        <result column="disconut" property="disconut"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="brand_id" property="brandId"/>
+        <result column="type" property="type"/>
+    </resultMap>
+    <sql id="Base_Column_List">id, create_time, `name`, disconut, update_time, brand_id, `type`</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select
+        <include refid="Base_Column_List"/> from tb_member_activity where id = #{id}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from tb_member_activity where id = #{id}</delete>
+    <insert id="insert" parameterType="com.resto.shop.web.model.MemberActivity">insert into tb_member_activity (id, create_time, `name`, disconut, update_time, brand_id, `type`)
+    values (#{id}, #{createTime}, #{name}, #{disconut}, #{updateTime}, #{brandId}, #{type} )</insert>
+
+    <insert id="insertSelective" parameterType="com.resto.shop.web.model.MemberActivity">insert into tb_member_activity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            create_time,
+            <if test="name != null">name,</if>
+            <if test="disconut != null">disconut,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="brandId != null">brand_id,</if>
+            <if test="type != null">type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            now(),
+            <if test="name != null">#{name},</if>
+            <if test="disconut != null">#{disconut},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="brandId != null">#{brandId},</if>
+            <if test="type != null">#{type},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.MemberActivity">update tb_member_activity
+        <set>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="disconut != null">disconut = #{disconut},</if>
+            update_time = now(),
+            <if test="brandId != null">brand_id = #{brandId},</if>
+            <if test="type != null">type = #{type},</if>
+        </set> where id = #{id}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.MemberActivity">update tb_member_activity set create_time = #{createTime},name = #{name},disconut = #{disconut},update_time = #{updateTime},brand_id = #{brandId},type = #{type} where id = #{id}</update>
+    <select id="selectList" resultType="MemberActivity">
+        select * from tb_member_activity
+    </select>
+
+
+</mapper>

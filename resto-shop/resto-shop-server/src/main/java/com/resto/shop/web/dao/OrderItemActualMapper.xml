@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.OrderItemActualMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.OrderItemActual" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="order_item_id" property="orderItemId" jdbcType="VARCHAR" />
+    <result column="actual_amount" property="actualAmount" jdbcType="DECIMAL" />
+      <result column="count" property="count"/>
+      <result column="type" property="type"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_id, order_item_id, actual_amount, count, type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_order_item_actual
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_order_item_actual
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.OrderItemActual" >
+    insert into tb_order_item_actual (id, order_id, order_item_id, 
+      actual_amount)
+    values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=VARCHAR}, #{orderItemId,jdbcType=VARCHAR}, 
+      #{actualAmount,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.OrderItemActual" >
+        insert into tb_order_item_actual
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null" >
+            id,
+          </if>
+          <if test="orderId != null" >
+            order_id,
+          </if>
+          <if test="orderItemId != null" >
+            order_item_id,
+          </if>
+          <if test="actualAmount != null" >
+            actual_amount,
+          </if>
+            <if test="count != null" >
+                count,
+            </if>
+            <if test="type != null" >
+                type,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null" >
+            #{id,jdbcType=BIGINT},
+          </if>
+          <if test="orderId != null" >
+            #{orderId,jdbcType=VARCHAR},
+          </if>
+          <if test="orderItemId != null" >
+            #{orderItemId,jdbcType=VARCHAR},
+          </if>
+          <if test="actualAmount != null" >
+            #{actualAmount,jdbcType=DECIMAL},
+          </if>
+          <if test="count != null">
+              #{count},
+          </if>
+          <if test="type != null">
+              #{type},
+          </if>
+        </trim>
+          <!-- 如果存在则去执行修改 -->
+          ON DUPLICATE KEY UPDATE
+          <trim  suffix="" suffixOverrides=",">
+              <if test="orderId != null" >
+                  order_id = #{orderId,jdbcType=VARCHAR},
+              </if>
+              <if test="orderItemId != null" >
+                  order_item_id = #{orderItemId,jdbcType=VARCHAR},
+              </if>
+              <if test="actualAmount != null" >
+                  actual_amount = #{actualAmount,jdbcType=DECIMAL},
+              </if>
+              <if test="count != null">
+                  count = #{count},
+              </if>
+              <if test="type != null">
+                  type = #{type},
+              </if>
+          </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.OrderItemActual" >
+    update tb_order_item_actual
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderItemId != null" >
+        order_item_id = #{orderItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="actualAmount != null" >
+        actual_amount = #{actualAmount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.OrderItemActual" >
+    update tb_order_item_actual
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      order_item_id = #{orderItemId,jdbcType=VARCHAR},
+      actual_amount = #{actualAmount,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

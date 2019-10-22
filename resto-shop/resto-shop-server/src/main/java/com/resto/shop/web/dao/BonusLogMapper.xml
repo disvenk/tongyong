@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.BonusLogMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.BonusLog">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="charge_order_id" property="chargeOrderId" jdbcType="VARCHAR"/>
+    <result column="bonus_setting_id" property="bonusSettingId" jdbcType="VARCHAR"/>
+    <result column="bonus_amount" property="bonusAmount" jdbcType="INTEGER"/>
+    <result column="state" property="state" jdbcType="INTEGER"/>
+    <result column="shopowner_bonus_amount" property="shopownerBonusAmount" jdbcType="INTEGER"/>
+    <result column="employee_bonus_amount" property="employeeBonusAmount" jdbcType="INTEGER"/>
+    <result column="shopowner_id" property="shopownerId" jdbcType="VARCHAR"/>
+    <result column="employee_id" property="employeeId" jdbcType="VARCHAR"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="wishing" property="wishing"/>
+    <result column="shopowner_issuing_state" property="shopownerIssuingState"/>
+    <result column="employee_issuing_state" property="employeeIssuingState"/>
+    <result column="amount_disbursed" property="amountDisbursed"/>
+    <result column="employee_amount_disbursed" property="employeeAmountDisbursed"/>
+    <result column="shopowner_amount_disbursed" property="shopownerAmountDisbursed"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, charge_order_id, bonus_setting_id, bonus_amount, state, shopowner_bonus_amount, employee_bonus_amount, shopowner_id, employee_id, create_time, wishing, shopowner_issuing_state, employee_issuing_state, amount_disbursed, employee_amount_disbursed, shopowner_amount_disbursed
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select 
+    <include refid="Base_Column_List"/> from tb_bonus_log where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from tb_bonus_log where id = #{id,jdbcType=VARCHAR}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.BonusLog">insert into tb_bonus_log (id, charge_order_id, bonus_setting_id, bonus_amount, state, shopowner_bonus_amount, employee_bonus_amount, shopowner_id, employee_id, create_time, wishing, shopowner_issuing_state, employee_issuing_state) values (#{id,jdbcType=VARCHAR}, #{chargeOrderId,jdbcType=VARCHAR}, #{bonusSettingId,jdbcType=VARCHAR}, #{bonusAmount,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{shopownerBonusAmount,jdbcType=INTEGER}, #{employeeBonusAmount,jdbcType=INTEGER}, #{shopownerId,jdbcType=VARCHAR}, #{employeeId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{wishing}, #{shopownerIssuingState}, #{employeeIssuingState})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.BonusLog">insert into tb_bonus_log 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="chargeOrderId != null">charge_order_id,</if>  
+      <if test="bonusSettingId != null">bonus_setting_id,</if>  
+      <if test="bonusAmount != null">bonus_amount,</if>  
+      <if test="state != null">state,</if>  
+      <if test="shopownerBonusAmount != null">shopowner_bonus_amount,</if>  
+      <if test="employeeBonusAmount != null">employee_bonus_amount,</if>  
+      <if test="shopownerId != null">shopowner_id,</if>  
+      <if test="employeeId != null">employee_id,</if>  
+      <if test="createTime != null">create_time,</if>
+      <if test="wishing != null">wishing,</if>
+      <if test="shopownerIssuingState != null">shopowner_issuing_state,</if>
+      <if test="employeeIssuingState != null">employee_issuing_state,</if>
+        <if test="amountDisbursed != null">amount_disbursed,</if>
+        <if test="employeeAmountDisbursed != null">employee_amount_disbursed,</if>
+        <if test="shopownerAmountDisbursed != null">shopowner_amount_disbursed,</if>
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>  
+      <if test="chargeOrderId != null">#{chargeOrderId,jdbcType=VARCHAR},</if>  
+      <if test="bonusSettingId != null">#{bonusSettingId,jdbcType=VARCHAR},</if>  
+      <if test="bonusAmount != null">#{bonusAmount,jdbcType=INTEGER},</if>  
+      <if test="state != null">#{state,jdbcType=INTEGER},</if>  
+      <if test="shopownerBonusAmount != null">#{shopownerBonusAmount,jdbcType=INTEGER},</if>  
+      <if test="employeeBonusAmount != null">#{employeeBonusAmount,jdbcType=INTEGER},</if>  
+      <if test="shopownerId != null">#{shopownerId,jdbcType=VARCHAR},</if>  
+      <if test="employeeId != null">#{employeeId,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+      <if test="wishing != null">#{wishing},</if>
+      <if test="shopownerIssuingState != null">#{shopownerIssuingState},</if>
+      <if test="employeeIssuingState != null">#{employeeIssuingState},</if>
+        <if test="amountDisbursed != null">#{amountDisbursed},</if>
+        <if test="employeeAmountDisbursed != null">#{employeeAmountDisbursed},</if>
+        <if test="shopownerAmountDisbursed != null">#{shopownerAmountDisbursed},</if>
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.BonusLog">update tb_bonus_log 
+    <set> 
+      <if test="chargeOrderId != null">charge_order_id = #{chargeOrderId,jdbcType=VARCHAR},</if>  
+      <if test="bonusSettingId != null">bonus_setting_id = #{bonusSettingId,jdbcType=VARCHAR},</if>  
+      <if test="bonusAmount != null">bonus_amount = #{bonusAmount,jdbcType=INTEGER},</if>  
+      <if test="state != null">state = #{state,jdbcType=INTEGER},</if>  
+      <if test="shopownerBonusAmount != null">shopowner_bonus_amount = #{shopownerBonusAmount,jdbcType=INTEGER},</if>  
+      <if test="employeeBonusAmount != null">employee_bonus_amount = #{employeeBonusAmount,jdbcType=INTEGER},</if>  
+      <if test="shopownerId != null">shopowner_id = #{shopownerId,jdbcType=VARCHAR},</if>  
+      <if test="employeeId != null">employee_id = #{employeeId,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+      <if test="wishing != null">wishing = #{wishing},</if>
+      <if test="shopownerIssuingState != null">shopowner_issuing_state = #{shopownerIssuingState},</if>
+      <if test="employeeIssuingState != null">employee_issuing_state = #{employeeIssuingState},</if>
+        <if test="amountDisbursed != null">amount_disbursed = #{amountDisbursed},</if>
+        <if test="employeeAmountDisbursed != null">employee_amount_disbursed = #{employeeAmountDisbursed},</if>
+        <if test="shopownerAmountDisbursed != null">shopowner_amount_disbursed = #{shopownerAmountDisbursed},</if>
+    </set> where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.BonusLog">update tb_bonus_log set charge_order_id = #{chargeOrderId,jdbcType=VARCHAR}, bonus_setting_id = #{bonusSettingId,jdbcType=VARCHAR}, bonus_amount = #{bonusAmount,jdbcType=INTEGER}, state = #{state,jdbcType=INTEGER}, shopowner_bonus_amount = #{shopownerBonusAmount,jdbcType=INTEGER}, employee_bonus_amount = #{employeeBonusAmount,jdbcType=INTEGER}, shopowner_id = #{shopownerId,jdbcType=VARCHAR}, employee_id = #{employeeId,jdbcType=VARCHAR}, create_time = #{createTime,jdbcType=TIMESTAMP}, wishing = #{wishing}, shopowner_issuing_state = #{shopownerIssuingState}, employee_issuing_state = #{employeeIssuingState} where id = #{id,jdbcType=VARCHAR}</update>
+  <select id="selectList" resultType="BonusLog">select * from tb_bonus_log</select>
+
+    <select id="selectAllBonusLog" parameterType="java.lang.String" resultType="java.util.Map">
+        select
+            tbl.id,
+            tbs.shop_detail_id shopId,
+            DATE_FORMAT(tal.finish_time,'%Y-%m-%d %H:%i:%s') chargeTime,
+            IF(tal.type = 1, '微信充值', 'POS充值') chargeType,
+            IFNULL(tc.telephone,'--') telephone,
+            tal.charge_money chargeMoney,
+            tbl.bonus_amount bonusMoney,
+            tbl.employee_bonus_amount employeeBonusAmount,
+            tbl.shopowner_bonus_amount shopownerBonusAmount,
+            tbl.state,
+            CASE tbl.state
+                WHEN 0 THEN '未分红'
+                WHEN 1 THEN '审核中'
+                WHEN 2 THEN '已分红'
+                WHEN 3 THEN '发放异常'
+            END stateValue,
+            CONCAT(tbs.charge_bonus_ratio,'%') chargeBonusRatio,
+            CONCAT(tbs.shopowner_bonus_ratio,'%') shopownerBonusRatio,
+            CONCAT(tbs.employee_bonus_ratio,'%') employeeBonusRatio,
+            tbl.shopowner_id shopownerId,
+            tbl.employee_id employeeId,
+            tbl.shopowner_issuing_state shopownerIssuingState,
+            tbl.employee_issuing_state employeeIssuingState,
+            tbl.amount_disbursed amountDisbursed,
+            tbl.shopowner_amount_disbursed shopownerAmountDisbursed,
+            tbl.employee_amount_disbursed employeeAmountDisbursed
+        from tb_bonus_log tbl
+        left join tb_charge_order tal
+        on tbl.charge_order_id = tal.id
+        left join tb_customer tc
+        on tal.customer_id = tc.id
+        left join tb_bonus_setting tbs
+        on tbs.id = tbl.bonus_setting_id
+        <where>
+            <if test="id != null">
+              tbl.id = #{id}
+            </if>
+        </where>
+        GROUP BY tbl.id
+    </select>
+
+    <select id="selectBonusLogBySelectMap" parameterType="java.util.Map" resultType="java.util.Map">
+        select
+            tbl.id,
+            tbs.shop_detail_id shopId,
+            DATE_FORMAT(tbl.create_time,'%Y-%m-%d %H:%i:%s') chargeTime,
+            tco.charge_money chargeMoney,
+            IF(tco.type = 1, '微信充值', 'POS充值') chargeType,
+            CASE tbl.state
+            WHEN 0 THEN '未分红'
+            WHEN 1 THEN '审核中'
+            WHEN 2 THEN '已分红'
+            WHEN 3 THEN '发放异常'
+            END stateValue,
+            <if test="userId != null">
+            tbl.employee_bonus_amount employeeBonusAmount,
+            tbl.shopowner_bonus_amount shopownerBonusAmount,
+            tbl.shopowner_id shopownerId,
+            tbl.employee_id employeeId,
+            </if>
+            tbl.state
+        from tb_bonus_log tbl
+        inner join tb_charge_order tco
+        on tbl.charge_order_id = tco.id
+        inner join tb_bonus_setting tbs
+        on tbs.id = tbl.bonus_setting_id
+        <where>
+            <if test="shopId != null">
+                and tbs.shop_detail_id = #{shopId}
+            </if>
+            <if test="state != null">
+                and tbl.state = #{state}
+            </if>
+            <if test="date != null">
+                and tbl.create_time &gt;= CONCAT(#{date}, ' 00:00:00')
+                and tbl.create_time &lt;= CONCAT(#{date}, ' 23:59:59')
+            </if>
+            <if test="userId != null">
+                and (tbl.shopowner_id = #{userId} or tbl.employee_id = #{userId}) and tbl.state = 2
+            </if>
+        </where>
+        ORDER BY tbl.create_time ASC
+        <if test="pageNo != null">
+          LIMIT #{pageNo},10
+        </if>
+    </select>
+</mapper>

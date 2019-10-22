@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.DeliveryPointMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.DeliveryPoint">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="province" property="province" jdbcType="VARCHAR"/>
+    <result column="city" property="city" jdbcType="VARCHAR"/>
+    <result column="district" property="district" jdbcType="VARCHAR"/>
+    <result column="detail" property="detail" jdbcType="VARCHAR"/>
+    <result column="map_x" property="mapX" jdbcType="VARCHAR"/>
+    <result column="map_y" property="mapY" jdbcType="VARCHAR"/>
+    <result column="emp_phone" property="empPhone" jdbcType="VARCHAR"/>
+    <result column="emp_name" property="empName" jdbcType="VARCHAR"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, name, province, city, district, detail, map_x, map_y, emp_phone, emp_name, shop_detail_id</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">select 
+    <include refid="Base_Column_List"/> from tb_delivery_point where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">delete from tb_delivery_point where id = #{id,jdbcType=INTEGER}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.DeliveryPoint">insert into tb_delivery_point (id, name, province, city, district, detail, map_x, map_y, emp_phone, emp_name, shop_detail_id) values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, #{mapX,jdbcType=VARCHAR}, #{mapY,jdbcType=VARCHAR}, #{empPhone,jdbcType=VARCHAR}, #{empName,jdbcType=VARCHAR}, #{shopDetailId,jdbcType=VARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.DeliveryPoint">insert into tb_delivery_point 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="name != null">name,</if>  
+      <if test="province != null">province,</if>  
+      <if test="city != null">city,</if>  
+      <if test="district != null">district,</if>  
+      <if test="detail != null">detail,</if>  
+      <if test="mapX != null">map_x,</if>  
+      <if test="mapY != null">map_y,</if>  
+      <if test="empPhone != null">emp_phone,</if>  
+      <if test="empName != null">emp_name,</if>  
+      <if test="shopDetailId != null">shop_detail_id,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=INTEGER},</if>  
+      <if test="name != null">#{name,jdbcType=VARCHAR},</if>  
+      <if test="province != null">#{province,jdbcType=VARCHAR},</if>  
+      <if test="city != null">#{city,jdbcType=VARCHAR},</if>  
+      <if test="district != null">#{district,jdbcType=VARCHAR},</if>  
+      <if test="detail != null">#{detail,jdbcType=VARCHAR},</if>  
+      <if test="mapX != null">#{mapX,jdbcType=VARCHAR},</if>  
+      <if test="mapY != null">#{mapY,jdbcType=VARCHAR},</if>  
+      <if test="empPhone != null">#{empPhone,jdbcType=VARCHAR},</if>  
+      <if test="empName != null">#{empName,jdbcType=VARCHAR},</if>  
+      <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.DeliveryPoint">update tb_delivery_point 
+    <set> 
+      <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>  
+      <if test="province != null">province = #{province,jdbcType=VARCHAR},</if>  
+      <if test="city != null">city = #{city,jdbcType=VARCHAR},</if>  
+      <if test="district != null">district = #{district,jdbcType=VARCHAR},</if>  
+      <if test="detail != null">detail = #{detail,jdbcType=VARCHAR},</if>  
+      <if test="mapX != null">map_x = #{mapX,jdbcType=VARCHAR},</if>  
+      <if test="mapY != null">map_y = #{mapY,jdbcType=VARCHAR},</if>  
+      <if test="empPhone != null">emp_phone = #{empPhone,jdbcType=VARCHAR},</if>  
+      <if test="empName != null">emp_name = #{empName,jdbcType=VARCHAR},</if>  
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if> 
+    </set> where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.DeliveryPoint">update tb_delivery_point set name = #{name,jdbcType=VARCHAR}, province = #{province,jdbcType=VARCHAR}, city = #{city,jdbcType=VARCHAR}, district = #{district,jdbcType=VARCHAR}, detail = #{detail,jdbcType=VARCHAR}, map_x = #{mapX,jdbcType=VARCHAR}, map_y = #{mapY,jdbcType=VARCHAR}, emp_phone = #{empPhone,jdbcType=VARCHAR}, emp_name = #{empName,jdbcType=VARCHAR}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR} where id = #{id,jdbcType=INTEGER}</update>
+  <select id="selectList" resultType="DeliveryPoint">select * from tb_delivery_point</select>
+  <select id="selectListById" resultType="DeliveryPoint">select * from tb_delivery_point where shop_detail_id=#{shopDetailId}</select>
+</mapper>

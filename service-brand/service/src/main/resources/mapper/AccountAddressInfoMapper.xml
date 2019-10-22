@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.service.brand.mapper.AccountAddressInfoMapper">
+  <resultMap id="BaseResultMap" type="com.resto.service.brand.entity.AccountAddressInfo">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="phone" property="phone" jdbcType="VARCHAR"/>
+    <result column="address" property="address" jdbcType="VARCHAR"/>
+    <result column="state" property="state" jdbcType="TINYINT"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, brand_id, name, phone, address, state</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select 
+    <include refid="Base_Column_List"/> from account_address_info where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from account_address_info where id = #{id,jdbcType=VARCHAR}</delete>
+  <insert id="insert" parameterType="com.resto.service.brand.entity.AccountAddressInfo">insert into account_address_info (id, brand_id, name, phone, address, state ) values (#{id,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT} )</insert>
+  <insert id="insertSelective" parameterType="com.resto.service.brand.entity.AccountAddressInfo">insert into account_address_info 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="brandId != null">brand_id,</if>  
+      <if test="name != null">name,</if>  
+      <if test="phone != null">phone,</if>  
+      <if test="address != null">address,</if>  
+      <if test="state != null">state,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>  
+      <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>  
+      <if test="name != null">#{name,jdbcType=VARCHAR},</if>  
+      <if test="phone != null">#{phone,jdbcType=VARCHAR},</if>  
+      <if test="address != null">#{address,jdbcType=VARCHAR},</if>  
+      <if test="state != null">#{state,jdbcType=TINYINT},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.service.brand.entity.AccountAddressInfo">update account_address_info 
+    <set> 
+      <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>  
+      <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>  
+      <if test="phone != null">phone = #{phone,jdbcType=VARCHAR},</if>  
+      <if test="address != null">address = #{address,jdbcType=VARCHAR},</if>  
+      <if test="state != null">state = #{state,jdbcType=TINYINT},</if> 
+    </set> where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.service.brand.entity.AccountAddressInfo">update account_address_info set brand_id = #{brandId,jdbcType=VARCHAR}, name = #{name,jdbcType=VARCHAR}, phone = #{phone,jdbcType=VARCHAR}, address = #{address,jdbcType=VARCHAR}, state = #{state,jdbcType=TINYINT} where id = #{id,jdbcType=VARCHAR}</update>
+  <select id="selectList" resultType="AccountAddressInfo">select * from account_address_info</select>
+
+  <select id="selectByBrandId" resultType="AccountAddressInfo">
+	  SELECT  * FROM  account_address_info WHERE
+	  brand_id = #{brandId} AND  state = 1
+
+  </select>
+
+</mapper>

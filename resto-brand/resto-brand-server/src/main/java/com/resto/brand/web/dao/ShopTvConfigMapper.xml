@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.ShopTvConfigMapper">
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.ShopTvConfig" >
+    <id column="id" property="id" />
+    <result column="shop_detail_id" property="shopDetailId"/>
+    <result column="brand_id" property="brandId"/>
+    <result column="ready_back_color" property="readyBackColor"/>
+    <result column="take_meal_back_color" property="takeMealBackColor"/>
+    <result column="call_back_color" property="callBackColor"/>
+    <result column="tv_background" property="tvBackground"/>
+    <result column="number_color" property="numberColor"/>
+    <result column="call_number_color" property="callNumberColor"/>
+    <result column="text" property="text"/>
+    <result column="label_color" property="labelColor"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, shop_detail_id, brand_id, ready_back_color, take_meal_back_color, call_back_color, tv_background, number_color, call_number_color, text, label_color
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">select
+    <include refid="Base_Column_List"/> from shop_tv_config where id = #{id}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from shop_tv_config where id = #{id}</delete>
+
+  <insert id="insert" parameterType="com.resto.brand.web.model.ShopTvConfig">
+    insert into shop_tv_config (id, shop_detail_id, brand_id, ready_back_color, take_meal_back_color, call_back_color, tv_background, number_color, call_number_color, text, label_color)
+    values
+    (#{id}, #{shopDetailId}, #{brandId}, #{readyBackColor},#{takeMealBackColor}, #{callBackColor}, #{tvBackground}, #{numberColor}, #{callNumberColor}, #{text}, #{labelColor})</insert>
+
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.ShopTvConfig">insert into shop_tv_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">id,</if>
+      <if test="shopDetailId != null">shop_detail_id,</if>
+      <if test="brandId != null">brand_id,</if>
+      <if test="readyBackColor != null">ready_back_color,</if>
+      <if test="takeMealBackColor != null">take_meal_back_color,</if>
+      <if test="callBackColor != null">call_back_color,</if>
+      <if test="tvBackground != null">tv_background,</if>
+      <if test="numberColor != null">number_color,</if>
+      <if test="callNumberColor != null">call_number_color,</if>
+      <if test="text != null">text,</if>
+      <if test="labelColor != null">label_color,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">#{id},</if>
+      <if test="shopDetailId != null">#{shopDetailId},</if>
+      <if test="brandId != null">#{brandId},</if>
+      <if test="readyBackColor != null">#{readyBackColor},</if>
+      <if test="takeMealBackColor != null">#{takeMealBackColor},</if>
+      <if test="callBackColor != null">#{callBackColor},</if>
+      <if test="tvBackground != null">#{tvBackground},</if>
+      <if test="numberColor != null">#{numberColor},</if>
+      <if test="callNumberColor != null">#{callNumberColor},</if>
+      <if test="text != null">#{text},</if>
+      <if test="labelColor != null">#{labelColor},</if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.ShopTvConfig">update shop_tv_config
+    <set>
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId},</if>
+      <if test="brandId != null">brand_id = #{brandId},</if>
+      <if test="readyBackColor != null">ready_back_color = #{readyBackColor},</if>
+      <if test="takeMealBackColor != null">take_meal_back_color = #{takeMealBackColor},</if>
+      <if test="callBackColor != null">call_back_color = #{callBackColor},</if>
+      <if test="tvBackground != null">tv_background = #{tvBackground},</if>
+      <if test="numberColor != null">number_color = #{numberColor},</if>
+      <if test="callNumberColor != null">call_number_color = #{callNumberColor},</if>
+      <if test="text != null">text = #{text},</if>
+      <if test="labelColor != null">label_color = #{labelColor},</if>
+    </set> where id = #{id}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.ShopTvConfig">
+    update shop_tv_config set shop_detail_id = #{shopDetailId},brand_id = #{brandId},ready_back_color = #{readyBackColor},take_meal_back_color = #{takeMealBackColor},call_back_color = #{callBackColor},
+    tv_background = #{tvBackground},number_color = #{numberColor},call_number_color = #{callNumberColor},text = #{text},label_color = #{labelColor} where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectList" resultType="ShopTvConfig"> select * from shop_tv_config </select>
+
+  <select id="selectByShopId" parameterType="java.lang.Long" resultMap="BaseResultMap">select
+    <include refid="Base_Column_List"/> from shop_tv_config where shop_detail_id = #{shopId}
+  </select>
+</mapper>

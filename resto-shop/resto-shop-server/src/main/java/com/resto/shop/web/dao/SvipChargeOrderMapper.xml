@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.SvipChargeOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.SvipChargeOrder" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="charge_money" property="chargeMoney" jdbcType="DECIMAL" />
+    <result column="order_state" property="orderState" jdbcType="BIT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR" />
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR" />
+    <result column="activity_id" property="activityId" jdbcType="VARCHAR" />
+    <result column="svip_id" property="svipId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, charge_money, order_state, create_time, finish_time, customer_id, brand_id, shop_detail_id, 
+    activity_id,svip_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_svip_charge_order
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_svip_charge_order
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.SvipChargeOrder" >
+    insert into tb_svip_charge_order (id, charge_money, order_state, 
+      create_time, finish_time, customer_id, 
+      brand_id, shop_detail_id, activity_id,svip_id)
+    values (#{id,jdbcType=VARCHAR}, #{chargeMoney,jdbcType=DECIMAL}, #{orderState,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{finishTime,jdbcType=TIMESTAMP}, #{customerId,jdbcType=VARCHAR}, 
+      #{brandId,jdbcType=VARCHAR}, #{shopDetailId,jdbcType=VARCHAR}, #{activityId,jdbcType=VARCHAR},#{svipId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.SvipChargeOrder" >
+    insert into tb_svip_charge_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="chargeMoney != null" >
+        charge_money,
+      </if>
+      <if test="orderState != null" >
+        order_state,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="finishTime != null" >
+        finish_time,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="shopDetailId != null" >
+        shop_detail_id,
+      </if>
+      <if test="activityId != null" >
+        activity_id,
+      </if>
+      <if test="svipId != null" >
+        svip_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeMoney != null" >
+        #{chargeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="orderState != null" >
+        #{orderState,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null" >
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopDetailId != null" >
+        #{shopDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="activityId != null" >
+        #{activityId,jdbcType=VARCHAR},
+      </if>
+      <if test="svipId != null" >
+        #{svipId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.SvipChargeOrder" >
+    update tb_svip_charge_order
+    <set >
+      <if test="chargeMoney != null" >
+        charge_money = #{chargeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="orderState != null" >
+        order_state = #{orderState,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null" >
+        finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopDetailId != null" >
+        shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="activityId != null" >
+        activity_id = #{activityId,jdbcType=VARCHAR},
+      </if>
+      <if test="svipId != null" >
+        svip_id = #{svipId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.SvipChargeOrder" >
+    update tb_svip_charge_order
+    set charge_money = #{chargeMoney,jdbcType=DECIMAL},
+      order_state = #{orderState,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      customer_id = #{customerId,jdbcType=VARCHAR},
+      brand_id = #{brandId,jdbcType=VARCHAR},
+      shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},
+      activity_id = #{activityId,jdbcType=VARCHAR},
+      svip_id = #{svipId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

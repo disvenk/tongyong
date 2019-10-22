@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.service.appraise.mapper.AppraiseNewMapper" >
+    <resultMap id="BaseResultMap" type="com.resto.api.appraise.entity.AppraiseNew" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+        <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="all_grade" property="allGrade" jdbcType="DECIMAL" />
+        <result column="red_money" property="redMoney" jdbcType="DECIMAL" />
+        <result column="level" property="level" jdbcType="INTEGER"/>
+        <result column="feedback" property="feedback" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <resultMap id="AppraiseCustomer" type="com.resto.api.appraise.dto.NewAppraiseCustomerDto" >
+        <id column="appraise_id" property="appraiseId" jdbcType="BIGINT" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="level" property="level" jdbcType="INTEGER" />
+        <result column="feedback" property="feedback" jdbcType="VARCHAR" />
+        <result column="all_grade" property="allGrade" jdbcType="DECIMAL" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="head_photo" property="headPhoto" jdbcType="VARCHAR" />
+        <result column="nickname" property="nickName" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <collection property="appraiseGrades" javaType="java.util.List" ofType="com.resto.api.appraise.entity.AppraiseGrade">
+            <result column="grade_appraise_id" property="appraiseId" jdbcType="BIGINT" />
+            <result column="type" property="type" jdbcType="INTEGER" />
+            <result column="grade" property="grade" jdbcType="DECIMAL" />
+        </collection>
+        <collection property="appraiseSteps" javaType="java.util.List" ofType="com.resto.api.appraise.entity.AppraiseStep">
+            <result column="step_appraise_id" property="appraiseId" jdbcType="BIGINT" />
+            <result column="article_id" property="articleId" jdbcType="VARCHAR" />
+            <result column="state" property="state" jdbcType="INTEGER" />
+        </collection>
+    </resultMap>
+
+    <select id="ListAppraiseCustomer" resultMap="AppraiseCustomer">
+      SELECT
+	    n.id appraise_id,
+        n.content,
+        n.level,
+        n.all_grade,
+        n.feedback,
+        DATE_FORMAT(n.create_time,'%Y-%m-%d %H:%i') create_time,
+        c.head_photo,
+        c.nickname,
+        g.appraise_id grade_appraise_id,
+        g.type,
+        g.grade,
+        s.appraise_id step_appraise_id,
+        s.article_id,
+        s.state
+      FROM
+        (
+            SELECT
+                *
+            FROM
+                tb_appraise_new
+            WHERE shop_detail_id = #{shopId}
+                 <if test="level==1">
+                    AND level=100
+                 </if>
+                 <if test="level==2">
+                    AND level=80
+                 </if>
+                 <if test="level==3">
+                    AND level&lt;80
+                 </if>
+            ORDER BY create_time DESC
+            <if test="currentPage!=null and showCount!=null">
+                LIMIT #{currentPage},#{showCount}
+            </if>
+        ) n
+        LEFT JOIN tb_customer c ON n.customer_id = c.id
+        LEFT JOIN tb_appraise_grade g ON g.appraise_id = n.id
+        LEFT JOIN tb_appraise_step s ON s.appraise_id = n.id
+        LEFT JOIN tb_article a on s.article_id=a.id
+        ORDER BY
+	    n.create_time DESC
+  </select>
+
+  <select id="ListAppraiseCustomerId" resultMap="AppraiseCustomer">
+        SELECT
+        n.id appraise_id,
+        n.content,
+        n.level,
+        n.all_grade,
+        n.feedback,
+        DATE_FORMAT(n.create_time,'%Y-%m-%d') create_time,
+        c.head_photo,
+        c.nickname,
+        g.appraise_id grade_appraise_id,
+        g.type,
+        g.grade,
+        s.appraise_id step_appraise_id,
+        s.article_id,
+        s.state
+        FROM
+        (
+            SELECT
+              *
+            FROM
+              tb_appraise_new
+            WHERE customer_id=#{customerId} AND shop_detail_id = #{shopId}
+            ORDER BY create_time DESC
+            <if test="currentPage!=null and showCount!=null">
+                LIMIT #{currentPage},#{showCount}
+            </if>
+        ) n
+        LEFT JOIN tb_customer c ON n.customer_id = c.id
+        LEFT JOIN tb_appraise_grade g ON g.appraise_id = n.id
+        LEFT JOIN tb_appraise_step s ON s.appraise_id = n.id
+        LEFT JOIN tb_article a on s.article_id=a.id
+        ORDER BY
+        n.create_time DESC
+   </select>
+
+    <select id="selectByAppraiseId" resultMap="AppraiseCustomer">
+        SELECT
+        n.id appraise_id,
+        n.content,
+        n.level,
+        n.all_grade,
+        n.feedback,
+        DATE_FORMAT(n.create_time,'%Y-%m-%d') create_time,
+        c.head_photo,
+        c.nickname,
+        g.appraise_id grade_appraise_id,
+        g.type,
+        g.grade,
+        s.appraise_id step_appraise_id,
+        s.article_id,
+        s.state
+        FROM
+        tb_appraise_new n
+        LEFT JOIN tb_customer c ON n.customer_id = c.id
+        LEFT JOIN tb_appraise_grade g ON g.appraise_id = n.id
+        LEFT JOIN tb_appraise_step s ON s.appraise_id = n.id
+        LEFT JOIN tb_article a on s.article_id=a.id
+        WHERE n.id=#{appraiseId}
+        ORDER BY
+        n.create_time DESC
+    </select>
+
+  <select id="selectByOrderIdCustomerId" resultType="com.resto.api.appraise.entity.AppraiseNew">
+      select * from tb_appraise_new where order_id = #{orderId} and customer_id = #{customerId} limit 1
+  </select>
+
+  <select id="selectByCustomerCount" resultType="java.lang.Integer">
+    select count(*) from tb_appraise_new where customer_id = #{customerId}
+  </select>
+
+  <select id="appraiseCount" resultType="java.util.HashMap">
+      select count(*)  AS COUNT,AVG(LEVEL) AS AVG_SCORE  from tb_appraise_new where shop_detail_id = #{currentShopId}
+  </select>
+
+  <select id="appraiseMonthCount" resultType="java.util.HashMap">
+        SELECT COUNT(1) AS COUNT,AVG(LEVEL) AVG_SCORE,
+        CASE WHEN DAY(create_time) BETWEEN 1 AND 10 THEN DATE_FORMAT(create_time,'%Y.%m.01~10')
+        WHEN DAY(create_time) BETWEEN 11 AND 20 THEN DATE_FORMAT(create_time,'%Y.%m.11~20')
+        ELSE CONCAT(DATE_FORMAT(create_time,'%Y.%m.21~'),DAY(LAST_DAY(create_time)))
+        END AS YEARMONTH FROM tb_appraise_new
+        where shop_detail_id=#{currentShopId}
+        GROUP BY YEARMONTH
+        ORDER BY CREATE_TIME DESC
+        LIMIT 0,10
+  </select>
+
+  <select id="selectByTimeAndShopId" resultType="com.resto.api.appraise.entity.AppraiseNew">
+    SELECT
+    a.*,
+    c.nickname,
+    c.head_photo,
+    c.sex
+    FROM
+    tb_appraise_new a
+    LEFT JOIN tb_customer c
+    on a.customer_id = c.id
+    WHERE
+    a.shop_detail_id =#{shopId} AND
+    a.create_time BETWEEN  #{beginDate} AND #{endDate}
+  </select>
+</mapper>

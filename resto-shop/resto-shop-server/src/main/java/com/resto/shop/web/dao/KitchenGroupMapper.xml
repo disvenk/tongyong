@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.KitchenGroupMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.KitchenGroup">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    <result column="sort" property="sort" jdbcType="INTEGER"/>
+    <result column="status" property="status" jdbcType="INTEGER"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, name, shop_detail_id, brand_id, create_time,remark,sort,status</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">select 
+    <include refid="Base_Column_List"/> from tb_kitchen_group where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">delete from tb_kitchen_group where id = #{id,jdbcType=INTEGER}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.KitchenGroup">insert into tb_kitchen_group (id, name, shop_detail_id, brand_id, create_time,remark,sort,status) values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{shopDetailId,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR},#{sort,jdbcType=INTEGER},#{status,jdbcType=INTEGER})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.KitchenGroup"  useGeneratedKeys="true" keyProperty="id">insert into tb_kitchen_group
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="name != null">name,</if>  
+      <if test="shopDetailId != null">shop_detail_id,</if>  
+      <if test="brandId != null">brand_id,</if>  
+      <if test="createTime != null">create_time,</if> 
+      <if test="remark != null">remark,</if>
+      <if test="sort != null">sort,</if>
+      <if test="status != null">status,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=INTEGER},</if>  
+      <if test="name != null">#{name,jdbcType=VARCHAR},</if>  
+      <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if>  
+      <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+      <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>
+      <if test="sort != null">#{sort,jdbcType=INTEGER},</if>
+      <if test="status != null">#{status,jdbcType=INTEGER},</if>
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.KitchenGroup">update tb_kitchen_group 
+    <set> 
+      <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>  
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if>  
+      <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+      <if test="remark != null">remark = #{remark,jdbcType=VARCHAR},</if>
+      <if test="sort != null">sort = #{sort,jdbcType=INTEGER},</if>
+      <if test="status != null">status = #{status,jdbcType=INTEGER},</if>
+    </set> where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.KitchenGroup">update tb_kitchen_group set name = #{name,jdbcType=VARCHAR}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR}, brand_id = #{brandId,jdbcType=VARCHAR}, create_time = #{createTime,jdbcType=TIMESTAMP},remark = #{remark,jdbcType=VARCHAR},sort = #{sort,jdbcType=INTEGER},status = #{status,jdbcType=INTEGER} where id = #{id,jdbcType=INTEGER}</update>
+  <select id="selectList" resultType="KitchenGroup">select * from tb_kitchen_group</select>
+  <select id="selectByShopDetailId" resultType="KitchenGroup">
+    SELECT * FROM tb_kitchen_group WHERE shop_detail_id = #{shopDetailId,jdbcType=VARCHAR} ORDER BY sort asc
+  </select>
+  <select id="selectByShopDetailIdByStatus" resultType="KitchenGroup">
+    SELECT * FROM tb_kitchen_group WHERE shop_detail_id = #{shopDetailId,jdbcType=VARCHAR} AND status=0;
+  </select>
+</mapper>

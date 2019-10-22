@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.AddressInfoMapper">
+
+	<select id="selectByBrandId" resultType="AddressInfo">
+		SELECT * from
+		address_info where brand_id = #{brandId} and state=1
+	</select>
+
+	<insert id="insertSelective" parameterType="AddressInfo">
+		insert into address_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="brandId != null">brand_id,</if>
+			<if test="name != null">name,</if>
+			<if test="phone != null">phone,</if>
+			<if test="address != null">address,</if>
+			<if test="state != null">state,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id,jdbcType=VARCHAR},</if>
+			<if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>
+			<if test="name != null">#{name,jdbcType=VARCHAR},</if>
+			<if test="phone != null">#{phone,jdbcType=VARCHAR},</if>
+			<if test="address != null">#{address,jdbcType=VARCHAR},</if>
+			<if test="state != null">#{state},</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="AddressInfo">
+		update address_info
+		<set>
+			<if test="brandId !=null">brand_id=#{brandId},</if>
+			<if test="name !=null">name=#{name},</if>
+			<if test="phone !=null">phone=#{phone},</if>
+			<if test="address !=null">address=#{address},</if>
+			<if test="state !=null">state=#{state},</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<update id="deleteByPrimaryKey" parameterType="java.lang.String">
+		update address_info set
+		state=0 where id= #{id,jdbcType=VARCHAR}
+	</update>
+
+
+</mapper>

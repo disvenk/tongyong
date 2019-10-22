@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.MdMaterialConsumeOptDao">
+
+    <resultMap id="mdMaterialConsumeOptResult" type="com.resto.shop.web.model.MdMaterialConsumeOpt">
+        <result column="id" property="id"/>
+        <result column="start_order_time" property="startOrderTime"/>
+        <result column="start_opt_time" property="startOptTime"/>
+        <result column="end_opt_time" property="endOptTime"/>
+        <result column="end_order_time" property="endOrderTime"/>
+        <result column="opt_type" property="optType"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="note" property="note"/>
+    </resultMap>
+
+    <sql id="mdMaterialConsumeOpt_columns">
+        id,
+        start_order_time,
+        start_opt_time,
+        end_opt_time,
+        end_order_time,
+        opt_type,
+        shop_id,
+        note
+    </sql>
+
+    <sql id="mdMaterialConsumeOpt_sqlForInsert">
+        start_order_time,
+        start_opt_time,
+        end_opt_time,
+        end_order_time,
+        opt_type,
+        shop_id,
+        note
+    </sql>
+
+    <sql id="mdMaterialConsumeOpt_columnsForInsert">
+        #{startOrderTime},
+        #{startOptTime},
+        #{endOptTime},
+        #{endOrderTime},
+        #{optType},
+        #{shopId},
+        #{note}
+    </sql>
+
+    <sql id="mdMaterialConsumeOpt_setterForUpdate">
+        <set>
+            gmt_modified = now(),
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="startOrderTime != null">
+                start_order_time = #{startOrderTime},
+            </if>
+            <if test="startOptTime != null">
+                start_opt_time = #{startOptTime},
+            </if>
+            <if test="endOptTime != null">
+                end_opt_time = #{endOptTime},
+            </if>
+            <if test="endOrderTime != null">
+                end_order_time = #{endOrderTime},
+            </if>
+            <if test="optType != null">
+                opt_type = #{optType},
+            </if>
+            <if test="shopId != null">
+                shop_id = #{shopId},
+            </if>
+            <if test="note != null">
+                note = #{note},
+            </if>
+        </set>
+    </sql>
+
+    <sql id="mdMaterialConsumeOpt_selector">
+        select
+        <include refid="mdMaterialConsumeOpt_columns"/>
+        from md_material_consume_opt
+    </sql>
+
+    <sql id="mdMaterialConsumeOpt_query_segment">
+        <trim prefix="WHERE" prefixOverrides="AND|OR">
+            <if test="data.id != null">
+                AND id = #{data.id}
+            </if>
+            <if test="data.startOrderTime != null">
+                AND start_order_time = #{data.startOrderTime}
+            </if>
+            <if test="data.startOptTime != null">
+                AND start_opt_time = #{data.startOptTime}
+            </if>
+            <if test="data.endOptTime != null">
+                AND end_opt_time = #{data.endOptTime}
+            </if>
+            <if test="data.endOrderTime != null">
+                AND end_order_time = #{data.endOrderTime}
+            </if>
+            <if test="data.optType != null">
+                AND opt_type = #{data.optType}
+            </if>
+            <if test="data.shopId != null">
+                AND shop_id = #{data.shopId}
+            </if>
+            <if test="data.note != null">
+                AND note = #{data.note}
+            </if>
+            <if test="ins != null and ins != ''">
+                AND
+                <foreach collection="ins" item="item" open="(" separator="and" close=")">
+                    ${item.column} in
+                    <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                        ${item}
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="notIns != null and notIns != ''">
+                AND
+                <foreach collection="notIns" item="item" open="(" separator="and" close=")">
+                    ${item.column} not in
+                    <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                        ${item}
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="equals != null and equals != ''">
+                AND
+                <foreach collection="equals" item="item" open="(" separator="and" close=")">
+                    ${item.column} = ${item.value}
+                </foreach>
+            </if>
+            <if test="notEquals != null and notEquals != ''">
+                AND
+                <foreach collection="notEquals" item="item" open="(" separator="and" close=")">
+                    ${item.column} != ${item.value}
+                </foreach>
+            </if>
+            <if test="lts != null and lts != ''">
+                AND
+                <foreach collection="lts" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ < ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="gts != null and gts != ''">
+                AND
+                <foreach collection="gts" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ > ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="likes != null and likes != ''">
+                AND
+                <foreach collection="likes" item="item" open="(" separator="and" close=")">
+                    ${item.column} like concat('%', ${item.value}, '%')
+                </foreach>
+            </if>
+            <if test="ltes != null and ltes != ''">
+                AND
+                <foreach collection="ltes" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ <= ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="gtes != null and gtes != ''">
+                AND
+                <foreach collection="gtes" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ >= ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="ranges != null and ranges != ''">
+                AND
+                <foreach collection="ranges" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ >= ]]> #{item.from} and ${item.column} <![CDATA[ < ]]> #{item.to}
+                </foreach>
+            </if>
+            AND is_delete = 0
+        </trim>
+    </sql>
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.MdMaterialConsumeOpt">
+        insert into md_material_consume_opt
+        (
+        <include refid="mdMaterialConsumeOpt_sqlForInsert"/>
+        ,is_delete
+        )
+        values
+        (
+        <include refid="mdMaterialConsumeOpt_columnsForInsert"/>
+        ,0
+        )
+    </insert>
+
+    <update id="update" parameterType="com.resto.shop.web.model.MdMaterialConsumeOpt">
+        update md_material_consume_opt
+        <include refid="mdMaterialConsumeOpt_setterForUpdate" />
+        where id = #{id}
+        and is_delete = 0
+    </update>
+
+
+    <update id="updateByQuery" parameterType="com.resto.shop.web.model.MdMaterialConsumeOpt">
+        update md_material_consume_opt
+        <set>
+            gmt_modified = now(),
+            <if test="update.id != null">
+                id = #{update.id},
+            </if>
+            <if test="update.startOrderTime != null">
+                start_order_time = #{update.startOrderTime},
+            </if>
+            <if test="update.startOptTime != null">
+                start_opt_time = #{update.startOptTime},
+            </if>
+            <if test="update.endOptTime != null">
+                end_opt_time = #{update.endOptTime},
+            </if>
+            <if test="update.endOrderTime != null">
+                end_order_time = #{update.endOrderTime},
+            </if>
+            <if test="update.optType != null">
+                opt_type = #{update.optType},
+            </if>
+            <if test="update.shopId != null">
+                shop_id = #{update.shopId},
+            </if>
+            <if test="update.note != null">
+                note = #{update.note},
+            </if>
+        </set>
+        <include refid="mdMaterialConsumeOpt_query_segment"/>
+    </update>
+
+
+    <insert id="insertOrUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.MdMaterialConsumeOpt">
+        insert into md_material_consume_opt
+        (
+        <include refid="mdMaterialConsumeOpt_sqlForInsert"/>
+        ,is_delete
+        )
+        values
+        (
+        <include refid="mdMaterialConsumeOpt_columnsForInsert"/>
+        ,0
+        )
+        on duplicate key update
+        gmt_modified = now()
+        <if test="id != null">
+            ,id = #{id}
+        </if>
+        <if test="startOrderTime != null">
+            ,start_order_time = #{startOrderTime}
+        </if>
+        <if test="startOptTime != null">
+            ,start_opt_time = #{startOptTime}
+        </if>
+        <if test="endOptTime != null">
+            ,end_opt_time = #{endOptTime}
+        </if>
+        <if test="endOrderTime != null">
+            ,end_order_time = #{endOrderTime}
+        </if>
+        <if test="optType != null">
+            ,opt_type = #{optType}
+        </if>
+        <if test="shopId != null">
+            ,shop_id = #{shopId}
+        </if>
+        <if test="note != null">
+            ,note = #{note}
+        </if>
+    </insert>
+
+    <!-- Delete -->
+    <update id="delete">
+        update md_material_consume_opt
+        set is_delete = 1, gmt_modified = now()
+        <include refid="mdMaterialConsumeOpt_query_segment"/>
+    </update>
+    <update id="deleteById">
+        update md_material_consume_opt
+        set is_delete = 1, gmt_modified = now()
+        where id = #{id}
+    </update>
+
+
+    <delete id="deletePhysicalById">
+        delete from md_material_consume_opt
+        where id = #{id}
+    </delete>
+
+
+
+
+    <!-- query class -->
+    <sql id="mdMaterialConsumeOpt_groupBy">
+        <if test="groupBys != null and groupBys != ''">
+            group by
+            <foreach collection="groupBys" item="item" open="" separator="," close="">
+                ${item}
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="mdMaterialConsumeOpt_orderby">
+        <if test="orderBys != null and orderBys != ''">
+            order by
+            <foreach collection="orderBys" item="item" open="" separator="," close="">
+                ${item.column} ${item.direction}
+            </foreach>
+        </if>
+    </sql>
+
+
+    <select id="query" resultMap="mdMaterialConsumeOptResult" parameterType="com.resto.shop.web.model.MdMaterialConsumeOpt">
+        <include refid="mdMaterialConsumeOpt_selector"/>
+        <include refid="mdMaterialConsumeOpt_query_segment"/>
+        <include refid="mdMaterialConsumeOpt_groupBy"/>
+        <include refid="mdMaterialConsumeOpt_orderby"/>
+    </select>
+
+    <select id="query4Page" resultMap="mdMaterialConsumeOptResult" parameterType="com.resto.shop.web.model.MdMaterialConsumeOpt">
+        <include refid="mdMaterialConsumeOpt_selector"/>
+        <include refid="mdMaterialConsumeOpt_query_segment"/>
+        <include refid="mdMaterialConsumeOpt_groupBy"/>
+        <include refid="mdMaterialConsumeOpt_orderby"/>
+        limit ${startRowForMysql}, ${pageSize}
+    </select>
+
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM md_material_consume_opt
+        <include refid="mdMaterialConsumeOpt_query_segment"/>
+    </select>
+
+    <select id="getById" resultMap="mdMaterialConsumeOptResult">
+        <include refid="mdMaterialConsumeOpt_selector"/>
+        where id = #{id}
+        and is_delete = 0
+    </select>
+
+    <select id="getByIdForUpdate" resultMap="mdMaterialConsumeOptResult">
+        <include refid="mdMaterialConsumeOpt_selector"/>
+        where id = #{id}
+        and is_delete = 0
+        for update
+    </select>
+
+
+    <select id="queryJoin4Page" resultType="com.resto.shop.web.model.MdMaterialConsumeOpt">
+        SELECT * FROM md_material_consume_opt WHERE shop_detail_id = #{shopId}
+    </select>
+
+
+
+
+    <select id="findMdMaterialConsumeLimitOne" resultType="com.resto.shop.web.model.MdMaterialConsumeOpt">
+        SELECT
+        mc.id,
+        mc.opt_type as 'optType',
+        mc.shop_id as 'shopId',
+        mc.start_order_time as 'startOrderTime',
+        mc.end_order_time as 'endOrderTime',
+        mc.start_opt_time as 'startOptTime',
+        mc.end_opt_time  as 'endOptTime'
+        FROM md_material_consume_opt mc
+        where mc.shop_id= #{shopId}
+        ORDER BY mc.end_order_time DESC LIMIT 1
+    </select>
+
+</mapper>

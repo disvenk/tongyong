@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.service.brand.mapper.ContractTicketMapper">
+  <resultMap id="BaseResultMap" type="com.resto.service.brand.entity.ContractTicket">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="contract_id" property="contractId"/>
+    <result column="type" property="type" jdbcType="TINYINT"/>
+    <result column="header" property="header" jdbcType="VARCHAR"/>
+    <result column="content" property="content" jdbcType="VARCHAR"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="push_time" property="pushTime" jdbcType="TIMESTAMP"/>
+    <result column="ticket_status" property="ticketStatus" jdbcType="TINYINT"/>
+    <result column="money" property="money" jdbcType="DECIMAL"/>
+    <result column="proposer" property="proposer" jdbcType="VARCHAR"/>
+    <result column="taxpayer_code" property="taxpayerCode" jdbcType="VARCHAR"/>
+    <result column="registered_address" property="registeredAddress" jdbcType="VARCHAR"/>
+    <result column="registered_phone" property="registeredPhone" jdbcType="VARCHAR"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="phone" property="phone" jdbcType="VARCHAR"/>
+    <result column="address" property="address" jdbcType="VARCHAR"/>
+    <result column="expersage" property="expersage" jdbcType="VARCHAR"/>
+    <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    <result column="status" property="status" jdbcType="TINYINT"/>
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR"/>
+    <result column="bank_account" property="bankAccount" jdbcType="VARCHAR"/>
+
+    <association property="contract" javaType="com.resto.service.brand.entity.Contract">
+      <id column="contract_id" property="id" />
+      <result column="brand_name" property="brandName" />
+      <result column="constract_num" property="constractNum" />
+      <result column="b_company_name" property="bCompanyName" />
+    </association>
+
+  </resultMap>
+  <sql id="Base_Column_List">id, contract_id, type, header, content, create_time, push_time, ticket_status, money, proposer, taxpayer_code, registered_address, registered_phone, name, phone, address, expersage, remark, status, bank_name, bank_account</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from tb_contract_ticket where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from tb_contract_ticket where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.service.brand.entity.ContractTicket">insert into tb_contract_ticket (id, contract_id, type, header, content, create_time, push_time, ticket_status, money, proposer, taxpayer_code, registered_address, registered_phone, name, phone, address, expersage, remark, status, bank_name, bank_account ) values (#{id,jdbcType=BIGINT}, #{contractId,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{header,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{pushTime,jdbcType=TIMESTAMP}, #{ticketStatus,jdbcType=TINYINT}, #{money,jdbcType=DECIMAL}, #{proposer,jdbcType=VARCHAR}, #{taxpayerCode,jdbcType=VARCHAR}, #{registeredAddress,jdbcType=VARCHAR}, #{registeredPhone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{expersage,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{bankName,jdbcType=VARCHAR}, #{bankAccount,jdbcType=VARCHAR} )</insert>
+  <insert id="insertSelective" parameterType="com.resto.service.brand.entity.ContractTicket">insert into tb_contract_ticket
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="contractId != null">contract_id,</if>  
+      <if test="type != null">type,</if>  
+      <if test="header != null">header,</if>  
+      <if test="content != null">content,</if>  
+      <if test="createTime != null">create_time,</if>  
+      <if test="pushTime != null">push_time,</if>  
+      <if test="ticketStatus != null">ticket_status,</if>  
+      <if test="money != null">money,</if>  
+      <if test="proposer != null">proposer,</if>  
+      <if test="taxpayerCode != null">taxpayer_code,</if>  
+      <if test="registeredAddress != null">registered_address,</if>  
+      <if test="registeredPhone != null">registered_phone,</if>  
+      <if test="name != null">name,</if>  
+      <if test="phone != null">phone,</if>  
+      <if test="address != null">address,</if>  
+      <if test="expersage != null">expersage,</if>  
+      <if test="remark != null">remark,</if>  
+      <if test="status != null">status,</if>  
+      <if test="bankName != null">bank_name,</if>  
+      <if test="bankAccount != null">bank_account,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="contractId != null">#{contractId,jdbcType=VARCHAR},</if>  
+      <if test="type != null">#{type,jdbcType=TINYINT},</if>  
+      <if test="header != null">#{header,jdbcType=VARCHAR},</if>  
+      <if test="content != null">#{content,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="pushTime != null">#{pushTime,jdbcType=TIMESTAMP},</if>  
+      <if test="ticketStatus != null">#{ticketStatus,jdbcType=TINYINT},</if>  
+      <if test="money != null">#{money,jdbcType=DECIMAL},</if>  
+      <if test="proposer != null">#{proposer,jdbcType=VARCHAR},</if>  
+      <if test="taxpayerCode != null">#{taxpayerCode,jdbcType=VARCHAR},</if>  
+      <if test="registeredAddress != null">#{registeredAddress,jdbcType=VARCHAR},</if>  
+      <if test="registeredPhone != null">#{registeredPhone,jdbcType=VARCHAR},</if>  
+      <if test="name != null">#{name,jdbcType=VARCHAR},</if>  
+      <if test="phone != null">#{phone,jdbcType=VARCHAR},</if>  
+      <if test="address != null">#{address,jdbcType=VARCHAR},</if>  
+      <if test="expersage != null">#{expersage,jdbcType=VARCHAR},</if>  
+      <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>  
+      <if test="status != null">#{status,jdbcType=TINYINT},</if>  
+      <if test="bankName != null">#{bankName,jdbcType=VARCHAR},</if>  
+      <if test="bankAccount != null">#{bankAccount,jdbcType=VARCHAR},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.service.brand.entity.ContractTicket">update tb_contract_ticket
+    <set> 
+      <if test="contractId != null">contract_id = #{contractId},</if>
+      <if test="type != null">type = #{type,jdbcType=TINYINT},</if>  
+      <if test="header != null">header = #{header,jdbcType=VARCHAR},</if>  
+      <if test="content != null">content = #{content,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="pushTime != null">push_time = #{pushTime,jdbcType=TIMESTAMP},</if>  
+      <if test="ticketStatus != null">ticket_status = #{ticketStatus,jdbcType=TINYINT},</if>  
+      <if test="money != null">money = #{money,jdbcType=DECIMAL},</if>  
+      <if test="proposer != null">proposer = #{proposer,jdbcType=VARCHAR},</if>  
+      <if test="taxpayerCode != null">taxpayer_code = #{taxpayerCode,jdbcType=VARCHAR},</if>  
+      <if test="registeredAddress != null">registered_address = #{registeredAddress,jdbcType=VARCHAR},</if>  
+      <if test="registeredPhone != null">registered_phone = #{registeredPhone,jdbcType=VARCHAR},</if>  
+      <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>  
+      <if test="phone != null">phone = #{phone,jdbcType=VARCHAR},</if>  
+      <if test="address != null">address = #{address,jdbcType=VARCHAR},</if>  
+      <if test="expersage != null">expersage = #{expersage,jdbcType=VARCHAR},</if>  
+      <if test="remark != null">remark = #{remark,jdbcType=VARCHAR},</if>  
+      <if test="status != null">status = #{status,jdbcType=TINYINT},</if>  
+      <if test="bankName != null">bank_name = #{bankName,jdbcType=VARCHAR},</if>  
+      <if test="bankAccount != null">bank_account = #{bankAccount,jdbcType=VARCHAR},</if> 
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.service.brand.entity.ContractTicket">update tb_contract_ticket set contract_id = #{contractId,jdbcType=VARCHAR}, type = #{type,jdbcType=TINYINT}, header = #{header,jdbcType=VARCHAR}, content = #{content,jdbcType=VARCHAR}, create_time = #{createTime,jdbcType=TIMESTAMP}, push_time = #{pushTime,jdbcType=TIMESTAMP}, ticket_status = #{ticketStatus,jdbcType=TINYINT}, money = #{money,jdbcType=DECIMAL}, proposer = #{proposer,jdbcType=VARCHAR}, taxpayer_code = #{taxpayerCode,jdbcType=VARCHAR}, registered_address = #{registeredAddress,jdbcType=VARCHAR}, registered_phone = #{registeredPhone,jdbcType=VARCHAR}, name = #{name,jdbcType=VARCHAR}, phone = #{phone,jdbcType=VARCHAR}, address = #{address,jdbcType=VARCHAR}, expersage = #{expersage,jdbcType=VARCHAR}, remark = #{remark,jdbcType=VARCHAR}, status = #{status,jdbcType=TINYINT}, bank_name = #{bankName,jdbcType=VARCHAR}, bank_account = #{bankAccount,jdbcType=VARCHAR} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultMap="BaseResultMap">
+    select t.*,c.brand_name,c.constract_num,c.b_company_name from tb_contract_ticket t INNER JOIN  contract c on t.contract_id = c.id
+  </select>
+</mapper>

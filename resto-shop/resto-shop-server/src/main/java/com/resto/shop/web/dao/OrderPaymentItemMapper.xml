@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.OrderPaymentItemMapper">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.OrderPaymentItem">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="pay_time" property="payTime" jdbcType="TIMESTAMP"/>
+        <result column="pay_value" property="payValue" jdbcType="DECIMAL"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="payment_mode_id" property="paymentModeId" jdbcType="INTEGER"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+        <result column="is_use_bonus" property="isUseBonus"/>
+        <result column="to_pay_id" property="toPayId"/>
+        <result column="coupon_article_id" property="couponArticleId"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.resto.shop.web.model.OrderPaymentItem" extends="BaseResultMap">
+        <result column="result_data" property="resultData" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+      id, pay_time, pay_value, remark, payment_mode_id, order_id, is_use_bonus, to_pay_id, refund_source_id
+    </sql>
+    <sql id="Blob_Column_List">result_data</sql>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">select
+        <include refid="Base_Column_List"/> ,
+        <include refid="Blob_Column_List"/>
+        from tb_order_payment_item where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey"
+            parameterType="java.lang.String">delete from tb_order_payment_item where id = #{id,jdbcType=VARCHAR}</delete>
+    <insert id="insert"
+            parameterType="com.resto.shop.web.model.OrderPaymentItem">insert into tb_order_payment_item (id, pay_time, pay_value, remark, payment_mode_id, order_id, result_data) values (#{id,jdbcType=VARCHAR}, #{payTime,jdbcType=TIMESTAMP}, #{payValue,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{paymentModeId}, #{orderId,jdbcType=VARCHAR}, #{resultData,jdbcType=LONGVARCHAR})</insert>
+    <insert id="insertSelective" parameterType="com.resto.shop.web.model.OrderPaymentItem">
+        insert into tb_order_payment_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            pay_time,
+            <if test="payValue != null">pay_value,</if>
+            <if test="remark != null">remark,</if>
+            <if test="paymentModeId != null">payment_mode_id,</if>
+            <if test="orderId != null">order_id,</if>
+            <if test="resultData != null">result_data,</if>
+            <if test="isUseBonus != null">is_use_bonus,</if>
+            <if test="toPayId != null">to_pay_id,</if>
+            <if test="couponArticleId != null">coupon_article_id,</if>
+            <if test="refundSourceId != null">refund_source_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+            now(),
+            <if test="payValue != null">#{payValue,jdbcType=DECIMAL},</if>
+            <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>
+            <if test="paymentModeId != null">#{paymentModeId},</if>
+            <if test="orderId != null">#{orderId,jdbcType=VARCHAR},</if>
+            <if test="resultData != null">#{resultData,jdbcType=LONGVARCHAR},</if>
+            <if test="isUseBonus != null">#{isUseBonus},</if>
+            <if test="toPayId != null">#{toPayId},</if>
+            <if test="couponArticleId != null">#{couponArticleId},</if>
+            <if test="refundSourceId != null">#{refundSourceId},</if>
+        </trim>
+    </insert>
+
+
+    <insert id="insertItems">
+        <foreach collection="list" item="item" separator=";">
+        insert into tb_order_payment_item
+            <!-- 循环集合确认列 -->
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="item.id != null">id,</if>
+                pay_time,
+                <if test="item.payValue != null">pay_value,</if>
+                <if test="item.remark != null">remark,</if>
+                <if test="item.paymentModeId != null">payment_mode_id,</if>
+                <if test="item.orderId != null">order_id,</if>
+                <if test="item.resultData != null">result_data,</if>
+                <if test="item.isUseBonus != null">is_use_bonus,</if>
+                <if test="item.toPayId != null">to_pay_id,</if>
+                <if test="item.couponArticleId != null">coupon_article_id,</if>
+                <if test="item.refundSourceId != null">refund_source_id,</if>
+            </trim>
+
+            <!-- 循环集合确认数值 -->
+            <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+                <if test="item.id != null">#{item.id,jdbcType=VARCHAR},</if>
+                now(),
+                <if test="item.payValue != null">#{item.payValue,jdbcType=DECIMAL},</if>
+                <if test="item.remark != null">#{item.remark,jdbcType=VARCHAR},</if>
+                <if test="item.paymentModeId != null">#{item.paymentModeId},</if>
+                <if test="item.orderId != null">#{item.orderId,jdbcType=VARCHAR},</if>
+                <if test="item.resultData != null">#{item.resultData,jdbcType=LONGVARCHAR},</if>
+                <if test="item.isUseBonus != null">#{item.isUseBonus},</if>
+                <if test="item.toPayId != null">#{item.toPayId},</if>
+                <if test="item.couponArticleId != null">#{item.couponArticleId},</if>
+                <if test="item.refundSourceId != null">#{item.refundSourceId},</if>
+            </trim>
+            ON DUPLICATE KEY UPDATE
+            <trim  suffix="" suffixOverrides=",">
+                <if test="item.payValue != null">
+                    pay_value = #{item.payValue,jdbcType=DECIMAL},
+                </if>
+                <if test="item.remark != null">
+                    remark = #{item.remark,jdbcType=VARCHAR},
+                </if>
+                <if test="item.paymentModeId != null">
+                    payment_mode_id = #{item.paymentModeId},
+                </if>
+                <if test="item.orderId != null">
+                    order_id = #{item.orderId,jdbcType=VARCHAR},
+                </if>
+                <if test="item.resultData != null">
+                    result_data = #{item.resultData,jdbcType=LONGVARCHAR},
+                </if>
+                <if test="item.isUseBonus != null">
+                    is_use_bonus = #{item.isUseBonus},
+                </if>
+                <if test="item.toPayId != null">
+                    to_pay_id = #{item.toPayId},
+                </if>
+                <if test="item.couponArticleId != null">
+                    coupon_article_id = #{item.couponArticleId},
+                </if>
+            </trim>
+        </foreach>
+    </insert>
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.OrderPaymentItem">update
+        tb_order_payment_item
+        <set>
+            <if test="payTime != null">pay_time = #{payTime,jdbcType=TIMESTAMP},</if>
+            <if test="payValue != null">pay_value = #{payValue,jdbcType=DECIMAL},</if>
+            <if test="remark != null">remark = #{remark,jdbcType=VARCHAR},</if>
+            <if test="paymentModeId != null">payment_mode_id = #{paymentModeId},</if>
+            <if test="orderId != null">order_id = #{orderId,jdbcType=VARCHAR},</if>
+            <if test="resultData != null">result_data = #{resultData,jdbcType=LONGVARCHAR},</if>
+            <if test="isUseBonus != null">is_use_bonus = #{isUseBonus},</if>
+            <if test="toPayId != null">to_pay_id = #{toPayId},</if>
+            <if test="couponArticleId != null">coupon_article_id = #{couponArticleId},</if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs"
+            parameterType="com.resto.shop.web.model.OrderPaymentItem">update tb_order_payment_item set pay_time = #{payTime,jdbcType=TIMESTAMP}, pay_value = #{payValue,jdbcType=DECIMAL}, remark = #{remark,jdbcType=VARCHAR}, payment_mode_id = #{paymentModeId}, order_id = #{orderId,jdbcType=VARCHAR}, result_data = #{resultData,jdbcType=LONGVARCHAR} where id = #{id,jdbcType=VARCHAR}</update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.resto.shop.web.model.OrderPaymentItem">update tb_order_payment_item set pay_time = #{payTime,jdbcType=TIMESTAMP}, pay_value = #{payValue,jdbcType=DECIMAL}, remark = #{remark,jdbcType=VARCHAR}, payment_mode_id = #{paymentModeId}, order_id = #{orderId,jdbcType=VARCHAR} where id = #{id,jdbcType=VARCHAR}</update>
+    <select id="selectList" resultType="OrderPaymentItem">select * from tb_order_payment_item</select>
+    <select id="selectByOrderId" resultType="OrderPaymentItem">
+        select * from tb_order_payment_item where order_id=#{orderId}
+    </select>
+
+
+    <select id="selectByOrderIdList" resultType="OrderPaymentItem">
+        select * from tb_order_payment_item where order_id=#{orderId} and payment_mode_id in (1,2,3,4,5,6,7,8,9)
+    </select>
+
+    <select id="selectpaymentByPaymentMode" resultType="OrderPaymentItem">
+        SELECT SUM(pay_value) payValue, payment_mode_id  FROM tb_order_payment_item
+        WHERE order_id IN (
+        SELECT id FROM tb_order o WHERE o.production_status in (2,3,4) AND o.shop_detail_id = #{shopId}
+        AND <![CDATA[ o.create_time>#{beginDate} AND o.create_time<#{endDate}]]>
+        )
+        GROUP BY payment_mode_id
+    </select>
+
+    <!-- 根据时间查询 订单充值记录，用于报表统计时使用 -->
+    <select id="selectChargeOrderByDate" resultType="OrderPaymentItem">
+        SELECT SUM(charge_money) payValue from tb_charge_order where order_state = 1 and shop_detail_id = #{shopId} and
+        <![CDATA[ create_time >= #{beginDate} AND create_time < #{endDate}
+        ]]>
+    </select>
+
+    <select id="selectIncomeList" resultType="com.resto.brand.web.dto.IncomeReportDto">
+        <![CDATA[
+
+		SELECT ap.shop_detail_id,ap.brand_id,ap.payment_mode_id paymentModeId,SUM(ap.pay_value)payValue FROM
+		(SELECT
+			o.shop_detail_id, o.brand_id,oi.payment_mode_id ,oi.pay_value,oi.pay_time
+		FROM
+			tb_order o
+		 INNER JOIN  tb_order_payment_item oi ON oi.order_id = o.id
+		WHERE
+			o.brand_id = #{brandId} and
+			oi.pay_time>#{begin} and
+			oi.pay_time <#{end} and
+			o.production_status in (2,3,4)
+			 ORDER BY o.shop_detail_id , oi.payment_mode_id
+		) as ap
+		WHERE ap.payment_mode_id IS NOT NULL
+		GROUP BY ap.shop_detail_id,ap.payment_mode_id
+        ]]>
+
+    </select>
+
+
+    <select id="selectIncomeListByShopId" resultType="com.resto.brand.web.dto.IncomeReportDto">
+        SELECT ap.shop_detail_id,ap.brand_id,ap.payment_mode_id paymentModeId,SUM(ap.pay_value)payValue FROM
+        (SELECT
+        o.shop_detail_id, o.brand_id,oi.payment_mode_id ,oi.pay_value,oi.pay_time
+        FROM
+        tb_order o
+        LEFT JOIN  tb_order_payment_item oi ON oi.order_id = o.id
+        WHERE
+        o.shop_detail_id = #{shopId} and
+        <![CDATA[
+            oi.pay_time>#{begin} and
+            oi.pay_time <#{end} and
+            o.production_status in (2,3,4)
+        ]]>
+        ORDER BY oi.payment_mode_id
+        ) as ap
+        WHERE ap.payment_mode_id IS NOT NULL
+        GROUP BY ap.payment_mode_id
+    </select>
+
+    <select id="selectListByResultData" resultType="OrderPaymentItem">
+        SELECT id,order_id from tb_order_payment_item WHERE
+        <![CDATA[
+            pay_time>#{beginDate} and
+            pay_time <#{endDate} and
+           result_data = '{}'
+
+        ]]>
+
+    </select>
+
+
+    <select id="selectListByResultDataByNoFile" resultType="OrderPaymentItem">
+        SELECT id,order_id from tb_order_payment_item WHERE
+        <![CDATA[
+            pay_time>#{beginDate} and
+            pay_time <#{endDate} and
+           result_data like'%No such file or directory%'
+
+        ]]>
+
+    </select>
+
+    <select id="sumOrderMoneyByOrderId" resultType="bigdecimal">
+        SELECT SUM(pay_value) FROM tb_order_payment_item WHERE order_id=#{orderId} and payment_mode_id IN (1,5,6,10,12,16,17)
+    </select>
+
+    <select id="selectRefund" resultType="com.resto.shop.web.model.OrderPaymentItem">
+        select * from tb_order_payment_item where pay_time >= #{beginTime}
+        AND  #{endTime} >=pay_time
+        AND order_id = #{orderId} and payment_mode_id in (11,19)
+    </select>
+
+    <select id="selectOrderMoneyByBrandIdGroupByOrderId" resultType="Order">
+        SELECT id,sum(pay_value)as order_money from tb_order_payment_item
+        WHERE
+        <![CDATA[
+            pay_time>#{beginDate} and
+            pay_time <#{endDate}
+        ]]>
+        GROUP BY order_id
+    </select>
+
+    <!-- 品牌收入报表 2016-10-29 -->
+    <select id="selectShopIncomeList" parameterType="java.util.Map" resultType="java.util.Map">
+        select
+        td.shop_detail_id shopDetailId,
+        IFNULL(SUM(td.original_amount),0) originalAmount,
+        IFNULL(SUM(td.order_money),0) orderMoney
+        <foreach collection="payModeList" item="payMode">
+            ,IFNULL((select
+            <if test="payMode.payMode == 11">
+                ABS(SUM(pay_value))
+            </if>
+            <if test="payMode.payMode != 11">
+                SUM(pay_value)
+            </if>
+            from tb_order tr inner join tb_order_payment_item top
+            on tr.id = top.order_id where tr.shop_detail_id = td.shop_detail_id and top.payment_mode_id =
+            ${payMode.payMode}
+            and tr.order_state in (2,10,11,12)
+            and IF(tr.is_pos_pay = 1,tr.is_pos_pay = 1,tr.production_status in (2,3,4))
+            and top.pay_time &gt;= CONCAT(#{beginDate},' 00:00:00')
+            and top.pay_time &lt;= CONCAT(#{endDate},' 23:59:59')),0) ${payMode.payName}
+        </foreach>
+        from tb_order td
+        where IF(td.production_status = 6, td.production_status = 6, td.order_state in (2,10,11,12)
+        and IF(td.is_pos_pay = 1,td.is_pos_pay = 1,td.production_status in (2,3,4)))
+        and td.create_time &gt;= CONCAT(#{beginDate},' 00:00:00')
+        and td.create_time &lt;= CONCAT(#{endDate},' 23:59:59')
+        GROUP BY td.shop_detail_id
+    </select>
+
+
+    <!--(pos端) 店铺收入报表 2016-10-29 -->
+    <select id="selectShopIncomeListByShopId" resultType="OrderPaymentItem">
+        SELECT
+        o.shop_detail_id,
+        sum(oi. pay_value)pay_value,
+        oi.payment_mode_id
+        FROM
+        tb_order_payment_item oi
+        INNER JOIN tb_order o ON o.id = oi.order_id
+        WHERE
+        o.order_state IN (10, 11, 2, 12)
+        AND IF(o.is_pos_pay = 1,o.is_pos_pay = 1,o.production_status in (2,3,4))
+        AND
+        <![CDATA[ o.create_time >= #{beginDate} and o.create_time <= #{endDate}]]>
+        AND o.shop_detail_id =  #{shopId}
+        GROUP BY
+        oi.payment_mode_id
+    </select>
+
+
+    <select id="selectByOrderIdAndResultData" resultType="OrderPaymentItem">
+        SELECT id,order_id from tb_order_payment_item WHERE
+        order_id = #{orderId} AND
+        result_data = '{}'
+    </select>
+
+    <select id="selectOrderPayMentItem" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select ABS(SUM(pay_value)) pay_value, payment_mode_id
+        from tb_order_payment_item
+        where payment_mode_id in (8,11) and pay_time between #{beginDate} and date_add(#{endDate},interval 1 day)
+        group by payment_mode_id
+    </select>
+
+    <select id="selectPaymentCountByOrderId" parameterType="java.lang.String"
+            resultType="com.resto.shop.web.model.OrderPaymentItem">
+        select payment_mode_id paymentModeId, SUM(pay_value) payValue from tb_order_payment_item where order_id = #{orderId}
+        and payment_mode_id not in (13,14,15,20,21)
+        group by payment_mode_id
+    </select>
+
+    <select id="selectPayMentSumByrefundOrder" resultType="com.resto.shop.web.model.OrderPaymentItem">
+        select payment_mode_id paymentModeId, SUM(pay_value) payValue
+        from tb_order_payment_item
+        where order_id = #{orderId}
+        and payment_mode_id = 11
+    </select>
+
+    <select id="selectByShanhuiPayOrder" resultType="com.resto.shop.web.model.OrderPaymentItem">
+        select * from tb_order_payment_item
+        where order_id = #{orderId}
+        and payment_mode_id = 16
+    </select>
+
+    <update id="updateByShanhuiPayOrder">
+        update tb_order_payment_item set result_data = #{param} where order_id = #{orderId} and payment_mode_id = 16
+    </update>
+
+
+    <insert id="insertByBeforePay" parameterType="com.resto.shop.web.model.OrderPaymentItem" useGeneratedKeys="true"
+            keyProperty="id">insert into tb_order_payment_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            pay_time
+            <if test="payValue != null">pay_value,</if>
+            <if test="remark != null">remark,</if>
+            <if test="paymentModeId != null">payment_mode_id,</if>
+            <if test="orderId != null">order_id,</if>
+            <if test="resultData != null">result_data,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+            now(),
+            <if test="payValue != null">#{payValue,jdbcType=DECIMAL},</if>
+            <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>
+            <if test="paymentModeId != null">#{paymentModeId},</if>
+            <if test="orderId != null">#{orderId,jdbcType=VARCHAR},</if>
+            <if test="resultData != null">#{resultData,jdbcType=LONGVARCHAR},</if>
+        </trim>
+    </insert>
+
+    <select id="selectWeChatPayResultData" parameterType="java.lang.String" resultType="com.resto.shop.web.model.OrderPaymentItem">
+        select top.* from tb_order_payment_item top
+        inner join tb_order td
+        on top.order_id = td.id
+        where top.payment_mode_id = 1 and top.is_use_bonus = 0
+        and top.result_data is not null and top.pay_value > 0
+        and td.shop_detail_id = #{shopId} LIMIT 1
+    </select>
+
+    <select id="selectRefundPayMent" resultType="com.resto.shop.web.model.OrderPaymentItem">
+        select * from tb_order_payment_item where order_id = #{orderId} and pay_value &lt; 0
+    </select>
+
+    <delete id="deleteByOrderId" parameterType="java.lang.String">
+      delete from tb_order_payment_item where order_id = #{orderId} and payment_mode_id != 3
+    </delete>
+
+    <delete id="posSyncDeleteByOrderId" parameterType="java.lang.String">
+      delete from tb_order_payment_item where order_id = #{orderId}
+    </delete>
+
+    <select id="posSyncListByOrderId" parameterType="java.lang.String" resultMap="BaseResultMap">
+      SELECT * from tb_order_payment_item where order_id = #{orderId}
+    </select>
+
+    <select id="selectPayMentByPayMode" resultType="com.resto.shop.web.model.OrderPaymentItem">
+        SELECT
+            top.*
+        FROM
+            tb_order td
+        INNER JOIN tb_order_payment_item top ON td.id = top.order_id
+        WHERE
+        (td.id = #{orderId}
+        OR td.parent_order_id = #{orderId})
+        AND top.payment_mode_id = ${payMode}
+        <if test="type == 1">
+          AND top.pay_value > 0
+        </if>
+        <if test="type == 0">
+            AND top.pay_value &lt; 0
+        </if>
+        AND top.result_data IS NOT NULL
+        AND top.result_data != ''
+    </select>
+
+    <select id="selectEnableTicketMoney" resultType="java.math.BigDecimal">
+        SELECT SUM(pay_value) as 'receiptMoney' FROM tb_order_payment_item  WHERE order_id = #{orderId} AND payment_mode_id IN (1, 5, 6, 10, 12, 16)
+    </select>
+
+
+    <insert id="insertList" parameterType="list" >
+    INSERT into tb_order_payment_item (id, result_data,pay_time, pay_value, remark, payment_mode_id, order_id, is_use_bonus, to_pay_id) values
+    <foreach collection="list" item="it" separator=",">
+        (#{it.id},#{it.resultData},#{it.payTime},#{it.payValue},#{it.remark},#{it.paymentModeId},#{it.orderId},#{it.isUseBonus},#{it.toPayId})
+    </foreach>
+    </insert>
+    
+    <update id="updatePayMentByCode">
+        UPDATE tb_order_payment_item set order_id=#{orderId} where order_id=#{code}
+    </update>
+
+    <select id="selectDiscountList" resultMap="BaseResultMap">
+        SELECT
+        id,
+        pay_value,
+        payment_mode_id
+        FROM
+        tb_order_payment_item
+        WHERE
+        order_id = #{orderId}
+        AND payment_mode_id NOT IN (1,5,10,18,19,25)
+    </select>
+
+    <delete id="deletePaymentByToPayId" parameterType="java.lang.String">
+        delete from tb_order_payment_item where to_pay_id = #{toPayId}
+    </delete>
+
+    <select id="selectUseProductCoupons" parameterType="java.lang.String" resultType="com.resto.shop.web.model.OrderPaymentItem">
+        select * from tb_order_payment_item where order_id = #{orderId} and coupon_article_id = #{articleId}
+    </select>
+
+    <select id="selectByToPayIdpaymentModeId" resultType="com.resto.shop.web.model.OrderPaymentItem">
+        select * from tb_order_payment_item where payment_mode_id = #{paymentModeId} and to_pay_id = #{toPayId} order by pay_time desc limit 1
+    </select>
+
+    <select id="selectParentPaymentByOrderId" parameterType="java.lang.String" resultType="com.resto.shop.web.model.OrderPaymentItem">
+        SELECT
+            top.*
+        FROM
+            tb_order td
+        INNER JOIN tb_order_payment_item top ON td.id = top.order_id
+        WHERE
+            parent_order_id = #{orderId}
+        AND order_state != 9
+        AND order_state != 1
+    </select>
+</mapper>

@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.DocStkInPlanHeaderDao">
+
+    <resultMap id="docStkInPlanHeaderResult" type="com.resto.shop.web.model.DocStkInPlanHeader">
+        <result column="id" property="id"/>
+        <result column="sup_price_head_id" property="supPriceHeadId"/>
+        <result column="supplier_id" property="supplierId"/>
+        <result column="order_code" property="orderCode"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="creater_name" property="createrName"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+        <result column="published_time" property="publishedTime"/>
+        <result column="published_name" property="publishedName"/>
+        <result column="audit_time" property="auditTime"/>
+        <result column="audit_name" property="auditName"/>
+        <result column="confirm_time" property="confirmTime"/>
+        <result column="confirm_name" property="confirmName"/>
+        <result column="updater_name" property="updaterName"/>
+        <result column="note" property="note"/>
+        <result column="creater_id" property="createrId"/>
+        <result column="updater_id" property="updaterId"/>
+        <result column="shop_detail_id" property="shopDetailId"/>
+        <result column="order_name" property="orderName"/>
+        <result column="pms_header_id" property="pmsHeaderId"/>
+    </resultMap>
+
+    <sql id="docStkInPlanHeader_columns">
+        id,
+        sup_price_head_id,
+        supplier_id,
+        order_code,
+        order_status,
+        creater_name,
+        gmt_create,
+        gmt_modified,
+        published_time,
+        published_name,
+        audit_time,
+        audit_name,
+        confirm_time,
+        confirm_name,
+        updater_name,
+        note,
+        creater_id,
+        updater_id,
+        shop_detail_id,
+        order_name,
+        pms_header_id
+    </sql>
+
+    <sql id="docStkInPlanHeader_sqlForInsert">
+        sup_price_head_id,
+        supplier_id,
+        order_code,
+        order_status,
+        creater_name,
+        gmt_create,
+        gmt_modified,
+        published_time,
+        published_name,
+        audit_time,
+        audit_name,
+        confirm_time,
+        confirm_name,
+        updater_name,
+        note,
+        creater_id,
+        updater_id,
+        shop_detail_id,
+        order_name,
+        pms_header_id
+    </sql>
+
+    <sql id="docStkInPlanHeader_columnsForInsert">
+        #{supPriceHeadId},
+        #{supplierId},
+        #{orderCode},
+        #{orderStatus},
+        #{createrName},
+        now(),
+        now(),
+        #{publishedTime},
+        #{publishedName},
+        #{auditTime},
+        #{auditName},
+        #{confirmTime},
+        #{confirmName},
+        #{updaterName},
+        #{note},
+        #{createrId},
+        #{updaterId},
+        #{shopDetailId},
+        #{orderName},
+        #{pmsHeaderId}
+    </sql>
+
+    <sql id="docStkInPlanHeader_setterForUpdate">
+        <set>
+            gmt_modified = now(),
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="supPriceHeadId != null">
+                sup_price_head_id = #{supPriceHeadId},
+            </if>
+            <if test="supplierId != null">
+                supplier_id = #{supplierId},
+            </if>
+            <if test="orderCode != null">
+                order_code = #{orderCode},
+            </if>
+            <if test="orderStatus != null">
+                order_status = #{orderStatus},
+            </if>
+            <if test="createrName != null">
+                creater_name = #{createrName},
+            </if>
+            <if test="publishedTime != null">
+                published_time = #{publishedTime},
+            </if>
+            <if test="publishedName != null">
+                published_name = #{publishedName},
+            </if>
+            <if test="auditTime != null">
+                audit_time = #{auditTime},
+            </if>
+            <if test="auditName != null">
+                audit_name = #{auditName},
+            </if>
+            <if test="confirmTime != null">
+                confirm_time = #{confirmTime},
+            </if>
+            <if test="confirmName != null">
+                confirm_name = #{confirmName},
+            </if>
+            <if test="updaterName != null">
+                updater_name = #{updaterName},
+            </if>
+            <if test="note != null">
+                note = #{note},
+            </if>
+            <if test="createrId != null">
+                creater_id = #{createrId},
+            </if>
+            <if test="updaterId != null">
+                updater_id = #{updaterId},
+            </if>
+            <if test="shopDetailId != null">
+                shop_detail_id = #{shopDetailId},
+            </if>
+            <if test="orderName != null">
+                order_name = #{orderName},
+            </if>
+            <if test="pmsHeaderId != null">
+                pms_header_id = #{pmsHeaderId},
+            </if>
+        </set>
+    </sql>
+
+    <sql id="docStkInPlanHeader_selector">
+        select
+        <include refid="docStkInPlanHeader_columns"/>
+        from doc_stk_in_plan_header
+    </sql>
+
+    <sql id="docStkInPlanHeader_query_segment">
+        <trim prefix="WHERE" prefixOverrides="AND|OR">
+            <if test="data.id != null">
+                AND id = #{data.id}
+            </if>
+            <if test="data.supPriceHeadId != null">
+                AND sup_price_head_id = #{data.supPriceHeadId}
+            </if>
+            <if test="data.supplierId != null">
+                AND supplier_id = #{data.supplierId}
+            </if>
+            <if test="data.orderCode != null">
+                AND order_code = #{data.orderCode}
+            </if>
+            <if test="data.orderStatus != null">
+                AND order_status = #{data.orderStatus}
+            </if>
+            <if test="data.createrName != null">
+                AND creater_name = #{data.createrName}
+            </if>
+            <if test="data.gmtCreate != null">
+                AND gmt_create = #{data.gmtCreate}
+            </if>
+            <if test="data.gmtModified != null">
+                AND gmt_modified = #{data.gmtModified}
+            </if>
+            <if test="data.publishedTime != null">
+                AND published_time = #{data.publishedTime}
+            </if>
+            <if test="data.publishedName != null">
+                AND published_name = #{data.publishedName}
+            </if>
+            <if test="data.auditTime != null">
+                AND audit_time = #{data.auditTime}
+            </if>
+            <if test="data.auditName != null">
+                AND audit_name = #{data.auditName}
+            </if>
+            <if test="data.confirmTime != null">
+                AND confirm_time = #{data.confirmTime}
+            </if>
+            <if test="data.confirmName != null">
+                AND confirm_name = #{data.confirmName}
+            </if>
+            <if test="data.updaterName != null">
+                AND updater_name = #{data.updaterName}
+            </if>
+            <if test="data.note != null">
+                AND note = #{data.note}
+            </if>
+            <if test="data.createrId != null">
+                AND creater_id = #{data.createrId}
+            </if>
+            <if test="data.updaterId != null">
+                AND updater_id = #{data.updaterId}
+            </if>
+            <if test="data.shopDetailId != null">
+                AND shop_detail_id = #{data.shopDetailId}
+            </if>
+            <if test="data.orderName != null">
+                AND order_name = #{data.orderName}
+            </if>
+            <if test="data.pmsHeaderId != null">
+                AND pms_header_id = #{data.pmsHeaderId}
+            </if>
+            <if test="ins != null and ins != ''">
+                AND
+                <foreach collection="ins" item="item" open="(" separator="and" close=")">
+                    ${item.column} in
+                    <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                        ${item}
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="notIns != null and notIns != ''">
+                AND
+                <foreach collection="notIns" item="item" open="(" separator="and" close=")">
+                    ${item.column} not in
+                    <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                        ${item}
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="equals != null and equals != ''">
+                AND
+                <foreach collection="equals" item="item" open="(" separator="and" close=")">
+                    ${item.column} = ${item.value}
+                </foreach>
+            </if>
+            <if test="notEquals != null and notEquals != ''">
+                AND
+                <foreach collection="notEquals" item="item" open="(" separator="and" close=")">
+                    ${item.column} != ${item.value}
+                </foreach>
+            </if>
+            <if test="lts != null and lts != ''">
+                AND
+                <foreach collection="lts" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ < ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="gts != null and gts != ''">
+                AND
+                <foreach collection="gts" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ > ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="likes != null and likes != ''">
+                AND
+                <foreach collection="likes" item="item" open="(" separator="and" close=")">
+                    ${item.column} like concat('%', ${item.value}, '%')
+                </foreach>
+            </if>
+            <if test="ltes != null and ltes != ''">
+                AND
+                <foreach collection="ltes" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ <= ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="gtes != null and gtes != ''">
+                AND
+                <foreach collection="gtes" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ >= ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="ranges != null and ranges != ''">
+                AND
+                <foreach collection="ranges" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ >= ]]> #{item.from} and ${item.column} <![CDATA[ < ]]> #{item.to}
+                </foreach>
+            </if>
+            AND is_delete = 0
+        </trim>
+    </sql>
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.DocStkInPlanHeader">
+        insert into doc_stk_in_plan_header
+        (
+        <include refid="docStkInPlanHeader_sqlForInsert"/>
+        ,is_delete
+        )
+        values
+        (
+        <include refid="docStkInPlanHeader_columnsForInsert"/>
+        ,0
+        )
+    </insert>
+
+    <update id="update" parameterType="com.resto.shop.web.model.DocStkInPlanHeader">
+        update doc_stk_in_plan_header
+        <include refid="docStkInPlanHeader_setterForUpdate" />
+        where id = #{id}
+        and is_delete = 0
+    </update>
+
+
+    <update id="updateByQuery" parameterType="com.resto.shop.web.model.DocStkInPlanHeader">
+        update doc_stk_in_plan_header
+        <set>
+            gmt_modified = now(),
+            <if test="update.id != null">
+                id = #{update.id},
+            </if>
+            <if test="update.supPriceHeadId != null">
+                sup_price_head_id = #{update.supPriceHeadId},
+            </if>
+            <if test="update.supplierId != null">
+                supplier_id = #{update.supplierId},
+            </if>
+            <if test="update.orderCode != null">
+                order_code = #{update.orderCode},
+            </if>
+            <if test="update.orderStatus != null">
+                order_status = #{update.orderStatus},
+            </if>
+            <if test="update.createrName != null">
+                creater_name = #{update.createrName},
+            </if>
+            <if test="update.publishedTime != null">
+                published_time = #{update.publishedTime},
+            </if>
+            <if test="update.publishedName != null">
+                published_name = #{update.publishedName},
+            </if>
+            <if test="update.auditTime != null">
+                audit_time = #{update.auditTime},
+            </if>
+            <if test="update.auditName != null">
+                audit_name = #{update.auditName},
+            </if>
+            <if test="update.confirmTime != null">
+                confirm_time = #{update.confirmTime},
+            </if>
+            <if test="update.confirmName != null">
+                confirm_name = #{update.confirmName},
+            </if>
+            <if test="update.updaterName != null">
+                updater_name = #{update.updaterName},
+            </if>
+            <if test="update.note != null">
+                note = #{update.note},
+            </if>
+            <if test="update.createrId != null">
+                creater_id = #{update.createrId},
+            </if>
+            <if test="update.updaterId != null">
+                updater_id = #{update.updaterId},
+            </if>
+            <if test="update.shopDetailId != null">
+                shop_detail_id = #{update.shopDetailId},
+            </if>
+            <if test="update.orderName != null">
+                order_name = #{update.orderName},
+            </if>
+            <if test="update.pmsHeaderId != null">
+                pms_header_id = #{update.pmsHeaderId},
+            </if>
+        </set>
+        <include refid="docStkInPlanHeader_query_segment"/>
+    </update>
+
+
+    <insert id="insertOrUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.DocStkInPlanHeader">
+        insert into doc_stk_in_plan_header
+        (
+        <include refid="docStkInPlanHeader_sqlForInsert"/>
+        ,is_delete
+        )
+        values
+        (
+        <include refid="docStkInPlanHeader_columnsForInsert"/>
+        ,0
+        )
+        on duplicate key update
+        gmt_modified = now()
+        <if test="id != null">
+            ,id = #{id}
+        </if>
+        <if test="supPriceHeadId != null">
+            ,sup_price_head_id = #{supPriceHeadId}
+        </if>
+        <if test="supplierId != null">
+            ,supplier_id = #{supplierId}
+        </if>
+        <if test="orderCode != null">
+            ,order_code = #{orderCode}
+        </if>
+        <if test="orderStatus != null">
+            ,order_status = #{orderStatus}
+        </if>
+        <if test="createrName != null">
+            ,creater_name = #{createrName}
+        </if>
+        <if test="publishedTime != null">
+            ,published_time = #{publishedTime}
+        </if>
+        <if test="publishedName != null">
+            ,published_name = #{publishedName}
+        </if>
+        <if test="auditTime != null">
+            ,audit_time = #{auditTime}
+        </if>
+        <if test="auditName != null">
+            ,audit_name = #{auditName}
+        </if>
+        <if test="confirmTime != null">
+            ,confirm_time = #{confirmTime}
+        </if>
+        <if test="confirmName != null">
+            ,confirm_name = #{confirmName}
+        </if>
+        <if test="updaterName != null">
+            ,updater_name = #{updaterName}
+        </if>
+        <if test="note != null">
+            ,note = #{note}
+        </if>
+        <if test="createrId != null">
+            ,creater_id = #{createrId}
+        </if>
+        <if test="updaterId != null">
+            ,updater_id = #{updaterId}
+        </if>
+        <if test="shopDetailId != null">
+            ,shop_detail_id = #{shopDetailId}
+        </if>
+        <if test="orderName != null">
+            ,order_name = #{orderName}
+        </if>
+        <if test="pmsHeaderId != null">
+            ,pms_header_id = #{pmsHeaderId}
+        </if>
+    </insert>
+
+    <!-- Delete -->
+    <update id="delete">
+        update doc_stk_in_plan_header
+        set is_delete = 1, gmt_modified = now()
+        <include refid="docStkInPlanHeader_query_segment"/>
+    </update>
+    <update id="deleteById">
+        update doc_stk_in_plan_header
+        set is_delete = 1, gmt_modified = now()
+        where id = #{id}
+    </update>
+
+
+    <delete id="deletePhysicalById">
+        delete from doc_stk_in_plan_header
+        where id = #{id}
+    </delete>
+
+
+
+
+    <!-- query class -->
+    <sql id="docStkInPlanHeader_groupBy">
+        <if test="groupBys != null and groupBys != ''">
+            group by
+            <foreach collection="groupBys" item="item" open="" separator="," close="">
+                ${item}
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="docStkInPlanHeader_orderby">
+        <if test="orderBys != null and orderBys != ''">
+            order by
+            <foreach collection="orderBys" item="item" open="" separator="," close="">
+                ${item.column} ${item.direction}
+            </foreach>
+        </if>
+    </sql>
+
+
+    <select id="query" resultMap="docStkInPlanHeaderResult" parameterType="com.resto.shop.web.model.DocStkInPlanHeader">
+        <include refid="docStkInPlanHeader_selector"/>
+        <include refid="docStkInPlanHeader_query_segment"/>
+        <include refid="docStkInPlanHeader_groupBy"/>
+        <include refid="docStkInPlanHeader_orderby"/>
+    </select>
+
+    <select id="query4Page" resultMap="docStkInPlanHeaderResult" parameterType="com.resto.shop.web.model.DocStkInPlanHeader">
+        <include refid="docStkInPlanHeader_selector"/>
+        <include refid="docStkInPlanHeader_query_segment"/>
+        <include refid="docStkInPlanHeader_groupBy"/>
+        <include refid="docStkInPlanHeader_orderby"/>
+        limit ${startRowForMysql}, ${pageSize}
+    </select>
+
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM doc_stk_in_plan_header
+        <include refid="docStkInPlanHeader_query_segment"/>
+    </select>
+
+    <select id="getById" resultMap="docStkInPlanHeaderResult">
+        <include refid="docStkInPlanHeader_selector"/>
+        where id = #{id}
+        and is_delete = 0
+    </select>
+
+    <select id="getByIdForUpdate" resultMap="docStkInPlanHeaderResult">
+        <include refid="docStkInPlanHeader_selector"/>
+        where id = #{id}
+        and is_delete = 0
+        for update
+    </select>
+
+
+    <select id="queryJoin4Page"  parameterType="java.lang.String"  resultType="com.resto.shop.web.dto.DocStkInPlanHeaderDetailDo">
+      SELECT
+                dh.creater_name as 'createrName',
+                dh.gmt_create as 'gmtCreate',
+                dh.order_code as 'orderCode',
+                dh.supplier_id as 'supplierId',
+                dh.id,
+                dh.note,
+                dh.audit_name as 'auditName',
+                dh.order_status as 'orderStatus',
+                dh.order_name  as 'orderName',
+                dh.published_name as 'publishedName',
+                dh.audit_name as 'auditName',
+                ms.top_email as 'topEmail',
+                ms.top_contact as 'topContact',
+                ms.top_mobile as 'topMobile',
+                ms.sup_name as 'supName',
+                ms.tax_number as 'taxNumber',
+                stk.act_qty AS 'actQty',
+                stk.plan_qty AS 'planQty',
+                stk.order_detail_status AS 'orderDetailStatus',
+                stk.stk_in_header_id AS 'stkInHeaderId',
+                stk.purchase_money as 'purchaseMoney',
+                mm.categoryOneName,
+                mm.categoryThirdName,
+                mm.categoryTwoName,
+                mm.cityName,
+                mm.materialName,
+                mm.districtName,
+                mm.materialCode,
+                mm.provinceName,
+                mm.materialType,
+                mm.specName,
+                mm.measureUnit,
+                mm.unitName,
+                mm.minMeasureUnit,
+                mm.minUnitName
+                FROM
+                doc_stk_in_plan_header dh
+                INNER JOIN md_supplier ms on dh.supplier_id =ms.id
+                INNER JOIN doc_stk_in_plan_detail stk ON dh.id = stk.stk_in_header_id
+                INNER JOIN md_material_view mm ON stk.material_id = mm.id
+
+                where
+                dh.is_delete='0'
+                AND ms.is_delete='0'
+                and stk.is_delete='0'
+                and dh.shop_detail_id=#{shopId}
+                and ms.shop_detail_id=#{shopId}
+        </select>
+
+
+
+    <select id="queryJoinSupplier"    resultType="com.resto.shop.web.model.DocStkInPlanHeader">
+        SELECT
+        dh.creater_name as 'createrName',
+        dh.gmt_create as 'gmtCreate',
+        dh.order_code as 'orderCode',
+        dh.supplier_id as 'supplierId',
+        dh.id,
+        dh.note,
+        dh.audit_name as 'auditName',
+        dh.order_status as 'orderStatus',
+        dh.order_name  as 'orderName',
+        dh.published_name as 'publishedName',
+        dh.audit_name as 'auditName',
+        ms.top_email as 'topEmail',
+        dh.shop_detail_id as 'shopDetailId',
+        ms.top_contact as 'topContact',
+        ms.top_mobile as 'topMobile',
+        ms.sup_name as 'supName',
+        ms.tax_number as 'taxNumber'
+
+        FROM
+        doc_stk_in_plan_header dh
+        INNER JOIN md_supplier ms on dh.supplier_id =ms.id
+        where
+        dh.is_delete='0'
+        AND ms.is_delete='0'
+        AND  dh.id=#{id}
+
+    </select>
+
+
+    <select id="findMinBeginTime"  parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT
+        DATE_FORMAT(
+        MIN(gmt_create),
+        '%Y-%m-%d %H:%i:%s'
+        )
+        FROM
+        `doc_stk_in_plan_header`
+        WHERE
+        shop_detail_id = #{shopId};
+    </select>
+
+
+</mapper>

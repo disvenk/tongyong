@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.service.brand.mapper.WetherMapper">
+  <resultMap id="BaseResultMap" type="com.resto.service.brand.entity.Wether">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="area_id" property="areaId" jdbcType="BIGINT"/>
+    <result column="day_weather" property="dayWeather" jdbcType="VARCHAR"/>
+    <result column="night_weather" property="nightWeather" jdbcType="VARCHAR"/>
+    <result column="date_time" property="dateTime" jdbcType="DATE"/>
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR"/>
+    <result column="weekady" property="weekady" jdbcType="INTEGER"/>
+    <result column="day_temperature" property="dayTemperature" jdbcType="INTEGER"/>
+    <result column="night_temperature" property="nightTemperature" jdbcType="INTEGER"/>
+    <result column="city_name" property="cityName" jdbcType="VARCHAR"/>
+    <result column="province_name" property="provinceName" jdbcType="VARCHAR"/>
+    <result column="code" property="code" jdbcType="VARCHAR"/>
+    <result column="longitude" property="longitude" jdbcType="VARCHAR"/>
+    <result column="latitude" property="latitude" jdbcType="VARCHAR"/>
+    <result column="day_weather_pic" property="dayWeatherPic" jdbcType="VARCHAR"/>
+    <result column="night_weather_pic" property="nightWeatherPic" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, area_id, day_weather, night_weather, date_time, shop_id, weekady, day_temperature, night_temperature, city_name, province_name, code, longitude, latitude, day_weather_pic, night_weather_pic</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from wether where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from wether where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.service.brand.entity.Wether">insert into wether (id, area_id, day_weather, night_weather, date_time, shop_id, weekady, day_temperature, night_temperature, city_name, province_name, code, longitude, latitude, day_weather_pic, night_weather_pic) values (#{id,jdbcType=BIGINT}, #{areaId,jdbcType=BIGINT}, #{dayWeather,jdbcType=VARCHAR}, #{nightWeather,jdbcType=VARCHAR}, #{dateTime,jdbcType=DATE}, #{shopId,jdbcType=VARCHAR}, #{weekady,jdbcType=INTEGER}, #{dayTemperature,jdbcType=INTEGER}, #{nightTemperature,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, #{provinceName,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, #{dayWeatherPic,jdbcType=VARCHAR}, #{nightWeatherPic,jdbcType=VARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.service.brand.entity.Wether">insert into wether
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="areaId != null">area_id,</if>  
+      <if test="dayWeather != null">day_weather,</if>  
+      <if test="nightWeather != null">night_weather,</if>  
+      <if test="dateTime != null">date_time,</if>  
+      <if test="shopId != null">shop_id,</if>  
+      <if test="weekady != null">weekady,</if>  
+      <if test="dayTemperature != null">day_temperature,</if>  
+      <if test="nightTemperature != null">night_temperature,</if>  
+      <if test="cityName != null">city_name,</if>  
+      <if test="provinceName != null">province_name,</if>  
+      <if test="code != null">code,</if>  
+      <if test="longitude != null">longitude,</if>  
+      <if test="latitude != null">latitude,</if>  
+      <if test="dayWeatherPic != null">day_weather_pic,</if>  
+      <if test="nightWeatherPic != null">night_weather_pic,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="areaId != null">#{areaId,jdbcType=BIGINT},</if>  
+      <if test="dayWeather != null">#{dayWeather,jdbcType=VARCHAR},</if>  
+      <if test="nightWeather != null">#{nightWeather,jdbcType=VARCHAR},</if>  
+      <if test="dateTime != null">#{dateTime,jdbcType=DATE},</if>  
+      <if test="shopId != null">#{shopId,jdbcType=VARCHAR},</if>  
+      <if test="weekady != null">#{weekady,jdbcType=INTEGER},</if>  
+      <if test="dayTemperature != null">#{dayTemperature,jdbcType=INTEGER},</if>  
+      <if test="nightTemperature != null">#{nightTemperature,jdbcType=INTEGER},</if>  
+      <if test="cityName != null">#{cityName,jdbcType=VARCHAR},</if>  
+      <if test="provinceName != null">#{provinceName,jdbcType=VARCHAR},</if>  
+      <if test="code != null">#{code,jdbcType=VARCHAR},</if>  
+      <if test="longitude != null">#{longitude,jdbcType=VARCHAR},</if>  
+      <if test="latitude != null">#{latitude,jdbcType=VARCHAR},</if>  
+      <if test="dayWeatherPic != null">#{dayWeatherPic,jdbcType=VARCHAR},</if>  
+      <if test="nightWeatherPic != null">#{nightWeatherPic,jdbcType=VARCHAR},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.service.brand.entity.Wether">update wether
+    <set> 
+      <if test="areaId != null">area_id = #{areaId,jdbcType=BIGINT},</if>  
+      <if test="dayWeather != null">day_weather = #{dayWeather,jdbcType=VARCHAR},</if>  
+      <if test="nightWeather != null">night_weather = #{nightWeather,jdbcType=VARCHAR},</if>  
+      <if test="dateTime != null">date_time = #{dateTime,jdbcType=DATE},</if>  
+      <if test="shopId != null">shop_id = #{shopId,jdbcType=VARCHAR},</if>  
+      <if test="weekady != null">weekady = #{weekady,jdbcType=INTEGER},</if>  
+      <if test="dayTemperature != null">day_temperature = #{dayTemperature,jdbcType=INTEGER},</if>  
+      <if test="nightTemperature != null">night_temperature = #{nightTemperature,jdbcType=INTEGER},</if>  
+      <if test="cityName != null">city_name = #{cityName,jdbcType=VARCHAR},</if>  
+      <if test="provinceName != null">province_name = #{provinceName,jdbcType=VARCHAR},</if>  
+      <if test="code != null">code = #{code,jdbcType=VARCHAR},</if>  
+      <if test="longitude != null">longitude = #{longitude,jdbcType=VARCHAR},</if>  
+      <if test="latitude != null">latitude = #{latitude,jdbcType=VARCHAR},</if>  
+      <if test="dayWeatherPic != null">day_weather_pic = #{dayWeatherPic,jdbcType=VARCHAR},</if>  
+      <if test="nightWeatherPic != null">night_weather_pic = #{nightWeatherPic,jdbcType=VARCHAR},</if> 
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.service.brand.entity.Wether">update wether set area_id = #{areaId,jdbcType=BIGINT}, day_weather = #{dayWeather,jdbcType=VARCHAR}, night_weather = #{nightWeather,jdbcType=VARCHAR}, date_time = #{dateTime,jdbcType=DATE}, shop_id = #{shopId,jdbcType=VARCHAR}, weekady = #{weekady,jdbcType=INTEGER}, day_temperature = #{dayTemperature,jdbcType=INTEGER}, night_temperature = #{nightTemperature,jdbcType=INTEGER}, city_name = #{cityName,jdbcType=VARCHAR}, province_name = #{provinceName,jdbcType=VARCHAR}, code = #{code,jdbcType=VARCHAR}, longitude = #{longitude,jdbcType=VARCHAR}, latitude = #{latitude,jdbcType=VARCHAR}, day_weather_pic = #{dayWeatherPic,jdbcType=VARCHAR}, night_weather_pic = #{nightWeatherPic,jdbcType=VARCHAR} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="Wether">select * from wether</select>
+
+    <select id="selectDateAndShopId" resultType="Wether">
+        SELECT
+	*
+FROM
+	wether
+WHERE
+	shop_id = #{shopId}
+AND date_time = #{dateTime}
+    </select>
+
+</mapper>

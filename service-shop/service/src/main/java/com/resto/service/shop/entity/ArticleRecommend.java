@@ -1,0 +1,35 @@
+package com.resto.service.shop.entity;
+
+import lombok.Data;
+
+import java.io.Serializable;
+import java.util.List;
+
+@Data
+public class ArticleRecommend implements Serializable {
+
+    private static final long serialVersionUID = 4943586234344327066L;
+
+    private String id;
+
+    private String name;
+
+    private int count;
+
+    private int isUsed;
+
+    private int sort;
+
+    private String shopId;
+
+    private Integer printType;
+
+    private String kitchenId;
+
+    private String imageUrl;
+
+    private Integer choiceType;
+
+    private List<ArticleRecommendPrice> articles;
+
+}

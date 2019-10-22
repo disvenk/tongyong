@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.DistributionTimeMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.DistributionTime">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="begin_time" property="beginTime" jdbcType="TIME"/>
+    <result column="stop_order_time" property="stopOrderTime" jdbcType="TIME"/>
+    <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, begin_time, stop_order_time, remark, shop_detail_id</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">select 
+    <include refid="Base_Column_List"/> from tb_distribution_time where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">delete from tb_distribution_time where id = #{id,jdbcType=INTEGER}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.DistributionTime">insert into tb_distribution_time (id, begin_time, stop_order_time, remark, shop_detail_id) values (#{id,jdbcType=INTEGER}, #{beginTime,jdbcType=TIME}, #{stopOrderTime,jdbcType=TIME}, #{remark,jdbcType=VARCHAR}, #{shopDetailId,jdbcType=VARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.DistributionTime">insert into tb_distribution_time 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="beginTime != null">begin_time,</if>  
+      <if test="stopOrderTime != null">stop_order_time,</if>  
+      <if test="remark != null">remark,</if>  
+      <if test="shopDetailId != null">shop_detail_id,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=INTEGER},</if>  
+      <if test="beginTime != null">#{beginTime,jdbcType=TIME},</if>  
+      <if test="stopOrderTime != null">#{stopOrderTime,jdbcType=TIME},</if>  
+      <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>  
+      <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.DistributionTime">update tb_distribution_time 
+    <set> 
+      <if test="beginTime != null">begin_time = #{beginTime,jdbcType=TIME},</if>  
+      <if test="stopOrderTime != null">stop_order_time = #{stopOrderTime,jdbcType=TIME},</if>  
+      <if test="remark != null">remark = #{remark,jdbcType=VARCHAR},</if>  
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if> 
+    </set> where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.DistributionTime">update tb_distribution_time set begin_time = #{beginTime,jdbcType=TIME}, stop_order_time = #{stopOrderTime,jdbcType=TIME}, remark = #{remark,jdbcType=VARCHAR}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR} where id = #{id,jdbcType=INTEGER}</update>
+  <select id="selectList" resultType="DistributionTime">select * from tb_distribution_time</select>
+  <select id="selectListByShopId" resultType="DistributionTime">
+  select id,begin_time,stop_order_time,remark,shop_detail_id from tb_distribution_time where shop_detail_id=#{shopDetailId}
+  </select>
+</mapper>

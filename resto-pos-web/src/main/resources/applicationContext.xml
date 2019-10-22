@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	   xsi:schemaLocation="http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<import resource="dubbo-config.xml" />
+	<!-- 自动扫描resto包 ,将带有注解的类 纳入spring容器管理 -->
+	<context:component-scan base-package="com.resto"/>
+	<!-- 对JDBC配置进行解密  -->
+	<bean id="placeholderConfigurer" class="com.resto.brand.core.util.DecryptPropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>file:${resources.config.path}/*.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 引入配置文件 -->
+	<bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations">
+			<list>
+
+				<value>classpath:config.properties</value>
+
+			</list>
+		</property>
+	</bean>
+
+	<!-- 配置使Spring采用CGLIB代理 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<task:annotation-driven/>
+	<context:annotation-config/>
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+	<context:component-scan base-package="com.resto.pos.web.task"/>
+
+</beans>

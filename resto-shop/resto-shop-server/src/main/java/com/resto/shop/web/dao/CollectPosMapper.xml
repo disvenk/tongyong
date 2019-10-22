@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.shop.web.dao.CollectPosMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.CollectPos" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="new_order_id" property="newOrderId" jdbcType="VARCHAR" />
+    <result column="new_shop_id" property="newShopId" jdbcType="VARCHAR" />
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="creat_time" property="creatTime" jdbcType="TIMESTAMP" />
+    <result column="text" property="text" jdbcType="VARCHAR" />
+    <result column="text1" property="text1" jdbcType="VARCHAR" />
+    <result column="third_party_type" property="thirdPartyType" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, order_id, new_order_id, new_shop_id, shop_id, type, creat_time, text, text1,
+    third_party_type
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.resto.shop.web.model.CollectPosExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_collect_pos
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_collect_pos
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_collect_pos
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.resto.shop.web.model.CollectPosExample" >
+    delete from tb_collect_pos
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.CollectPos" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_collect_pos (id, order_id, new_order_id,
+    new_shop_id, shop_id, type,
+    creat_time, text, text1,
+    third_party_type)
+    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{newOrderId,jdbcType=VARCHAR},
+    #{newShopId,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER},
+    #{creatTime,jdbcType=TIMESTAMP}, #{text,jdbcType=VARCHAR}, #{text1,jdbcType=VARCHAR},
+    #{thirdPartyType,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.CollectPos" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_collect_pos
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="newOrderId != null" >
+        new_order_id,
+      </if>
+      <if test="newShopId != null" >
+        new_shop_id,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="creatTime != null" >
+        creat_time,
+      </if>
+      <if test="text != null" >
+        text,
+      </if>
+      <if test="text1 != null" >
+        text1,
+      </if>
+      <if test="thirdPartyType != null" >
+        third_party_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="newOrderId != null" >
+        #{newOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="newShopId != null" >
+        #{newShopId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="creatTime != null" >
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="text != null" >
+        #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="text1 != null" >
+        #{text1,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdPartyType != null" >
+        #{thirdPartyType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.resto.shop.web.model.CollectPosExample" resultType="java.lang.Integer" >
+    select count(*) from tb_collect_pos
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_collect_pos
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newOrderId != null" >
+        new_order_id = #{record.newOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newShopId != null" >
+        new_shop_id = #{record.newShopId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopId != null" >
+        shop_id = #{record.shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.creatTime != null" >
+        creat_time = #{record.creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.text != null" >
+        text = #{record.text,jdbcType=VARCHAR},
+      </if>
+      <if test="record.text1 != null" >
+        text1 = #{record.text1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.thirdPartyType != null" >
+        third_party_type = #{record.thirdPartyType,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_collect_pos
+    set id = #{record.id,jdbcType=INTEGER},
+    order_id = #{record.orderId,jdbcType=VARCHAR},
+    new_order_id = #{record.newOrderId,jdbcType=VARCHAR},
+    new_shop_id = #{record.newShopId,jdbcType=VARCHAR},
+    shop_id = #{record.shopId,jdbcType=VARCHAR},
+    type = #{record.type,jdbcType=INTEGER},
+    creat_time = #{record.creatTime,jdbcType=TIMESTAMP},
+    text = #{record.text,jdbcType=VARCHAR},
+    text1 = #{record.text1,jdbcType=VARCHAR},
+    third_party_type = #{record.thirdPartyType,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.CollectPos" >
+    update tb_collect_pos
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="newOrderId != null" >
+        new_order_id = #{newOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="newShopId != null" >
+        new_shop_id = #{newShopId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="creatTime != null" >
+        creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="text != null" >
+        text = #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="text1 != null" >
+        text1 = #{text1,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdPartyType != null" >
+        third_party_type = #{thirdPartyType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.CollectPos" >
+    update tb_collect_pos
+    set order_id = #{orderId,jdbcType=VARCHAR},
+    new_order_id = #{newOrderId,jdbcType=VARCHAR},
+    new_shop_id = #{newShopId,jdbcType=VARCHAR},
+    shop_id = #{shopId,jdbcType=VARCHAR},
+    type = #{type,jdbcType=INTEGER},
+    creat_time = #{creatTime,jdbcType=TIMESTAMP},
+    text = #{text,jdbcType=VARCHAR},
+    text1 = #{text1,jdbcType=VARCHAR},
+    third_party_type = #{thirdPartyType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="selectFailureOrders" resultMap="BaseResultMap">
+    SELECT * FROM tb_collect_pos WHERE text1!='0' AND creat_time >=#{staDate} AND #{endDate}>=creat_time AND shop_id=#{shopId};
+  </select>
+
+</mapper>

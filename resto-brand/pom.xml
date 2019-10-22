@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<url>http://106.14.44.167:8081/nexus/content/repositories/releases/</url>
+		</repository>
+	</distributionManagement>
+
+	<parent>
+		<groupId>cn.restoplus</groupId>
+		<artifactId>resto</artifactId>
+		<version>1.0.1</version>
+	</parent>
+	<artifactId>resto-brand</artifactId>
+	<packaging>pom</packaging>
+	<modules>
+ 		<module>resto-brand-web</module>
+		<module>resto-brand-server</module>
+		<module>resto-brand-api</module>
+		<module>resto-brand-core</module>
+	</modules>
+</project>

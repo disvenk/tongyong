@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.KitchenPrinterDtoMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.dto.kitchenPrinterDto" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="kitchen_id" property="kitchenId" jdbcType="INTEGER" />
+    <result column="printer_id" property="printerId" jdbcType="INTEGER" />
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR" />
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, kitchen_id, printer_id, shop_id, brand_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_kitchen_printer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_kitchen_printer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.dto.kitchenPrinterDto" >
+    insert into tb_kitchen_printer (id, kitchen_id, printer_id, 
+      shop_id, brand_id)
+    values (#{id,jdbcType=INTEGER}, #{kitchenId,jdbcType=INTEGER}, #{printerId,jdbcType=INTEGER}, 
+      #{shopId,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.dto.kitchenPrinterDto" >
+    insert into tb_kitchen_printer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="kitchenId != null" >
+        kitchen_id,
+      </if>
+      <if test="printerId != null" >
+        printer_id,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="kitchenId != null" >
+        #{kitchenId,jdbcType=INTEGER},
+      </if>
+      <if test="printerId != null" >
+        #{printerId,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.dto.kitchenPrinterDto" >
+    update tb_kitchen_printer
+    <set >
+      <if test="kitchenId != null" >
+        kitchen_id = #{kitchenId,jdbcType=INTEGER},
+      </if>
+      <if test="printerId != null" >
+        printer_id = #{printerId,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.dto.kitchenPrinterDto" >
+    update tb_kitchen_printer
+    set kitchen_id = #{kitchenId,jdbcType=INTEGER},
+      printer_id = #{printerId,jdbcType=INTEGER},
+      shop_id = #{shopId,jdbcType=VARCHAR},
+      brand_id = #{brandId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByKitchenAndShopId" resultType="com.resto.shop.web.dto.kitchenPrinterDto">
+    SELECT kp.*,p.`name` as printerName
+    FROM tb_kitchen_printer kp
+    INNER JOIN tb_printer p
+    INNER JOIN tb_kitchen k
+    where kp.printer_id=p.id
+      AND k.id=kp.kitchen_id
+      AND kp.kitchen_id=#{kitchenId}
+      AND kp.shop_id=#{shopId}
+  </select>
+
+  <select id="selectByKitchenAndShopIdAndStatus" resultType="com.resto.shop.web.dto.kitchenPrinterDto">
+    SELECT kp.*,p.`name` as printerName
+    FROM tb_kitchen_printer kp
+    INNER JOIN tb_printer p
+    INNER JOIN tb_kitchen k
+    where kp.printer_id=p.id
+      AND k.id=kp.kitchen_id
+      AND kp.kitchen_id=#{kitchenId}
+      AND kp.shop_id=#{shopId}
+      AND k.status=0
+  </select>
+  <select id="selectByKitchenAndShopIdAndArticleId" resultType="com.resto.shop.web.dto.kitchenPrinterDto">
+    SELECT kp.*,p.`name` as printerName
+    FROM tb_article_kitchen_printer kp
+    INNER JOIN tb_printer p
+    INNER JOIN tb_kitchen k
+    where kp.printer_id=p.id
+      AND k.id=kp.kitchen_id
+      AND kp.kitchen_id=#{kitchenId}
+      AND kp.shop_id=#{shopId}
+      AND k.`status`=0
+      AND kp.article_id=#{articleId}
+  </select>
+  <delete id="deleteByShopIdAndKitchenId">
+    DELETE FROM tb_kitchen_printer WHERE kitchen_id=#{kitchenId} AND shop_id=#{shopId}
+  </delete>
+  <delete id="deleteByShopIdAndPrinterId">
+     DELETE FROM tb_kitchen_printer WHERE printer_id=#{printerId} AND shop_id=#{shopId}
+  </delete>
+  <select id="selectByShopId" resultType="com.resto.shop.web.dto.kitchenPrinterDto">
+    SELECT * FROM tb_kitchen_printer WHERE shop_id=#{shopId}
+  </select>
+</mapper>

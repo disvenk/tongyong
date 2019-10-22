@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.service.brand.mapper.PosLoginMapper">
+    
+    <select id="getConfigByIp" resultType="PosLoginConfig">
+        select * from pos_login_config where ip = #{ip}
+    </select>
+
+    <insert id="insertSelective">
+        insert into pos_login_config
+        (ip,user_name,pass_word,auto_login,save_pwd)
+        values
+        (#{ip} , #{userName},#{passWord},#{autoLogin},#{savePwd})
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="PosLoginConfig">
+        update pos_login_config
+        set user_name = #{userName},
+        pass_word = #{passWord},
+        save_pwd = #{savePwd},
+        auto_login = #{autoLogin}
+        where id = #{id}
+    </update>
+
+</mapper>

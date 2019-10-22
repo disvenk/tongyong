@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.BrandAccountStreamMapper">
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.BrandAccountStream">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="account_id" property="accountId" jdbcType="BIGINT"/>
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    <result column="total_account" property="totalAccount" jdbcType="DECIMAL"/>
+    <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+    <result column="add_account" property="addAccount" jdbcType="DECIMAL"/>
+    <result column="remain_account" property="remainAccount" jdbcType="DECIMAL"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, account_id, brand_id, create_time, remark, total_account, user_name, add_account, remain_account</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from tb_brand_account_stream where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from tb_brand_account_stream where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.brand.web.model.BrandAccountStream">insert into tb_brand_account_stream (id, account_id, brand_id, create_time, remark, total_account, user_name, add_account, remain_account ) values (#{id,jdbcType=BIGINT}, #{accountId,jdbcType=BIGINT}, #{brandId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{totalAccount,jdbcType=DECIMAL}, #{userName,jdbcType=VARCHAR}, #{addAccount,jdbcType=DECIMAL}, #{remainAccount,jdbcType=DECIMAL} )</insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.BrandAccountStream">insert into tb_brand_account_stream 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="accountId != null">account_id,</if>  
+      <if test="brandId != null">brand_id,</if>  
+      <if test="createTime != null">create_time,</if>  
+      <if test="remark != null">remark,</if>  
+      <if test="totalAccount != null">total_account,</if>  
+      <if test="userName != null">user_name,</if>  
+      <if test="addAccount != null">add_account,</if>  
+      <if test="remainAccount != null">remain_account,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="accountId != null">#{accountId,jdbcType=BIGINT},</if>  
+      <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>  
+      <if test="totalAccount != null">#{totalAccount,jdbcType=DECIMAL},</if>  
+      <if test="userName != null">#{userName,jdbcType=VARCHAR},</if>  
+      <if test="addAccount != null">#{addAccount,jdbcType=DECIMAL},</if>  
+      <if test="remainAccount != null">#{remainAccount,jdbcType=DECIMAL},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.BrandAccountStream">update tb_brand_account_stream 
+    <set> 
+      <if test="accountId != null">account_id = #{accountId,jdbcType=BIGINT},</if>  
+      <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="remark != null">remark = #{remark,jdbcType=VARCHAR},</if>  
+      <if test="totalAccount != null">total_account = #{totalAccount,jdbcType=DECIMAL},</if>  
+      <if test="userName != null">user_name = #{userName,jdbcType=VARCHAR},</if>  
+      <if test="addAccount != null">add_account = #{addAccount,jdbcType=DECIMAL},</if>  
+      <if test="remainAccount != null">remain_account = #{remainAccount,jdbcType=DECIMAL},</if> 
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.BrandAccountStream">update tb_brand_account_stream set account_id = #{accountId,jdbcType=BIGINT}, brand_id = #{brandId,jdbcType=VARCHAR}, create_time = #{createTime,jdbcType=TIMESTAMP}, remark = #{remark,jdbcType=VARCHAR}, total_account = #{totalAccount,jdbcType=DECIMAL}, user_name = #{userName,jdbcType=VARCHAR}, add_account = #{addAccount,jdbcType=DECIMAL}, remain_account = #{remainAccount,jdbcType=DECIMAL} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="BrandAccountStream">select * from tb_brand_account_stream</select>
+</mapper>

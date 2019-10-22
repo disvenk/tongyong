@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.BonusSettingMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.BonusSetting">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="charge_setting_id" property="chargeSettingId" jdbcType="VARCHAR"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+    <result column="charge_bonus_ratio" property="chargeBonusRatio" jdbcType="INTEGER"/>
+    <result column="shopowner_bonus_ratio" property="shopownerBonusRatio" jdbcType="INTEGER"/>
+    <result column="employee_bonus_ratio" property="employeeBonusRatio" jdbcType="INTEGER"/>
+    <result column="state" property="state" jdbcType="BIT"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    <result column="wishing" property="wishing"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, charge_setting_id, shop_detail_id, brand_id, charge_bonus_ratio, shopowner_bonus_ratio, employee_bonus_ratio, state, create_time, update_time, wishing</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select 
+    <include refid="Base_Column_List"/> from tb_bonus_setting where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from tb_bonus_setting where id = #{id,jdbcType=VARCHAR}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.BonusSetting">insert into tb_bonus_setting (id, charge_setting_id, shop_detail_id, brand_id, charge_bonus_ratio, shopowner_bonus_ratio, employee_bonus_ratio, state, create_time, update_time, wishing ) values (#{id,jdbcType=VARCHAR}, #{chargeSettingId,jdbcType=VARCHAR}, #{shopDetailId,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR}, #{chargeBonusRatio,jdbcType=INTEGER}, #{shopownerBonusRatio,jdbcType=INTEGER}, #{employeeBonusRatio,jdbcType=INTEGER}, #{state,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{wishing} )</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.BonusSetting">insert into tb_bonus_setting 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="chargeSettingId != null">charge_setting_id,</if>  
+      <if test="shopDetailId != null">shop_detail_id,</if>  
+      <if test="brandId != null">brand_id,</if>  
+      <if test="chargeBonusRatio != null">charge_bonus_ratio,</if>  
+      <if test="shopownerBonusRatio != null">shopowner_bonus_ratio,</if>  
+      <if test="employeeBonusRatio != null">employee_bonus_ratio,</if>  
+      <if test="state != null">state,</if>  
+      <if test="createTime != null">create_time,</if>
+      <if test="updateTime != null">update_time,</if>
+      <if test="wishing != null">wishing,</if>
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>  
+      <if test="chargeSettingId != null">#{chargeSettingId,jdbcType=VARCHAR},</if>  
+      <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if>  
+      <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>  
+      <if test="chargeBonusRatio != null">#{chargeBonusRatio,jdbcType=INTEGER},</if>  
+      <if test="shopownerBonusRatio != null">#{shopownerBonusRatio,jdbcType=INTEGER},</if>  
+      <if test="employeeBonusRatio != null">#{employeeBonusRatio,jdbcType=INTEGER},</if>  
+      <if test="state != null">#{state,jdbcType=BIT},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+      <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
+      <if test="wishing != null">#{wishing},</if>
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.BonusSetting">update tb_bonus_setting 
+    <set> 
+      <if test="chargeSettingId != null">charge_setting_id = #{chargeSettingId,jdbcType=VARCHAR},</if>  
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if>  
+      <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>  
+      <if test="chargeBonusRatio != null">charge_bonus_ratio = #{chargeBonusRatio,jdbcType=INTEGER},</if>  
+      <if test="shopownerBonusRatio != null">shopowner_bonus_ratio = #{shopownerBonusRatio,jdbcType=INTEGER},</if>  
+      <if test="employeeBonusRatio != null">employee_bonus_ratio = #{employeeBonusRatio,jdbcType=INTEGER},</if>  
+      <if test="state != null">state = #{state,jdbcType=BIT},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+      <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+      <if test="wishing != null">wishing = #{wishing},</if>
+    </set> where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.BonusSetting">update tb_bonus_setting set charge_setting_id = #{chargeSettingId,jdbcType=VARCHAR}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR}, brand_id = #{brandId,jdbcType=VARCHAR}, charge_bonus_ratio = #{chargeBonusRatio,jdbcType=INTEGER}, shopowner_bonus_ratio = #{shopownerBonusRatio,jdbcType=INTEGER}, employee_bonus_ratio = #{employeeBonusRatio,jdbcType=INTEGER}, state = #{state,jdbcType=BIT}, create_time = #{createTime,jdbcType=TIMESTAMP}, update_time = #{updateTime,jdbcType=TIMESTAMP}, wishing = #{wishing} where id = #{id,jdbcType=VARCHAR}</update>
+  <select id="selectList" resultType="BonusSetting">select * from tb_bonus_setting ORDER BY create_time DESC</select>
+
+    <select id="selectByChargeSettingId" parameterType="java.lang.String" resultType="com.resto.shop.web.model.BonusSetting">
+        select * from tb_bonus_setting where charge_setting_id = #{chargeSettingId} and state = 1
+    </select>
+</mapper>

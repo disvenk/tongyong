@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.shop.web.report.CustomerMapperReport">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.Customer">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="wechat_id" property="wechatId" jdbcType="VARCHAR"/>
+        <result column="nickname" property="nickname" jdbcType="VARCHAR"/>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+        <result column="head_photo" property="headPhoto" jdbcType="VARCHAR"/>
+        <result column="birthday" property="birthday"/>
+        <result column="default_delivery_point" property="defaultDeliveryPoint" jdbcType="INTEGER"/>
+        <result column="is_bind_phone" property="isBindPhone" jdbcType="BIT"/>
+        <result column="regiest_time" property="regiestTime" jdbcType="TIMESTAMP"/>
+        <result column="first_order_time" property="firstOrderTime" jdbcType="TIMESTAMP"/>
+        <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP"/>
+        <result column="account_id" property="accountId" jdbcType="VARCHAR"/>
+        <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="INTEGER"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="country" property="country" jdbcType="VARCHAR"/>
+        <result column="last_order_shop" property="lastOrderShop" jdbcType="VARCHAR"/>
+        <result column="new_notice_time" property="newNoticeTime" jdbcType="TIMESTAMP"/>
+        <result column="share_customer" property="shareCustomer" jdbcType="VARCHAR"/>
+        <result column="register_shop_id" property="registerShopId" jdbcType="VARCHAR"/>
+        <result column="is_now_register" property="isNowRegister"/>
+        <result column="customer_detail_id" property="customerDetailId"/>
+        <result column="bind_phone_time" property="bindPhoneTime"/>
+        <result column="bind_phone_shop" property="bindPhoneShop"/>
+        <result column="real_time_coupon_ids" property="realTimeCouponIds"/>
+        <result column="subscribe" property="subscribe"/>
+        <result column="last_table_number" property="lastTableNumber"/>
+        <result column="birthday_coupon_ids" property="birthdayCouponIds"/>
+        <result column="share_coupon_ids" property="shareCouponIds"/>
+        <result column="serial_number" property="serialNumber"/>
+        <result column="share_link" property="shareLink"/>
+        <result column="useOrder" property="useOrder"/>
+        <result column="chargeOrder" property="chargeOrder"/>
+        <result column="card_id" property="cardId" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <association property="customerDetail" javaType="com.resto.shop.web.model.CustomerDetail">
+            <id column="id" property="id"/>
+            <result column="birth_date" property="birthDate"/>
+            <result column="age" property="age"/>
+            <result column="constellation" property="constellation"/>
+            <result column="vocation" property="vocation"/>
+            <result column="company" property="company"/>
+            <result column="school" property="school"/>
+            <result column="personal_note" property="personalNote"/>
+            <result column="shop_detail_id" property="shopDetailId"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="selectCustomerPage" type="com.resto.shop.web.model.Customer" extends="BaseResultMap">
+        <!-- 获取用户账户余额 -->
+        <association property="accountInfo" column="account_id" javaType="com.resto.shop.web.model.Account"
+                     select="selectAccountInfo"/>
+        <!-- 获取用户充值信息 -->
+        <collection property="chargeOrderList" column="id" javaType="java.util.List" ofType="com.resto.shop.web.model.ChargeOrder"
+                    select="selectChargeOrderByCustomerId"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, wechat_id, nickname, telephone, head_photo, birthday, default_delivery_point, is_bind_phone,
+    regiest_time, first_order_time, last_login_time, account_id, brand_id, sex, province,
+    city, country, last_order_shop, new_notice_time, share_customer, is_now_register, customer_detail_id,
+    bind_phone_time, bind_phone_shop, real_time_coupon_ids, subscribe, last_table_number, birthday_coupon_ids,
+    share_coupon_ids,serial_number,share_link,card_id,code
+  </sql>
+
+
+    <select id="selectBrandUser" resultType="java.lang.String">
+        select CONCAT_WS(',',(select count(1) from tb_customer),(select IFNULL(count(1),0) from tb_customer where is_bind_phone=1)
+        ,(select IFNULL(count(1),0) from tb_customer where is_bind_phone=0),(select IFNULL(count(1),0) from tb_customer where sex=1)
+        ,(select IFNULL(count(1),0) from tb_customer where sex=2),(select IFNULL(count(1),0) from tb_customer where sex=0)) count
+    </select>
+
+    <!-- 得到品牌下的所有用户信息，得到用户已消费的订单 -->
+    <select id="selectListMemberUser" resultType="com.resto.brand.web.dto.MemberUserDto">
+        select
+        c.id customerId,
+        a.id accountId,
+        c.nickname,
+        IFNULL(c.telephone,'--') telephone,
+        c.head_photo photo,
+        (if(ISNULL(tcd.birth_date),'--',DATE_FORMAT(tcd.birth_date,'%Y-%m-%d'))) birthday,
+        if(c.is_bind_phone=1,'注册','未注册') isBindPhone,
+        if((select count(1) from tb_charge_order tco where tco.customer_id = c.id) > 0,'是','否') isCharge,
+        IF((c.province is null or c.province = ''),'--',c.province) province,
+        IF((c.city is null or c.city = ''),'--',c.city) city,
+        case
+        when c.sex = 1 then '男'
+        when c.sex = 2 then '女'
+        else '未知'
+        end sex,
+        a.remain,
+        IFNULL((select SUM(charge_balance) from tb_charge_order where order_state = 1 and customer_id = c.id),'0.00') chargeRemain,
+        IFNULL((select SUM(reward_balance) from tb_charge_order where order_state = 1 and customer_id = c.id),'0.00') presentRemain,
+        IFNULL((a.remain - (select SUM(charge_balance) from tb_charge_order where order_state = 1 and customer_id = c.id)
+        -(select SUM(reward_balance) from tb_charge_order where order_state = 1 and customer_id = c.id)),'0.00') redRemain,
+        IFNULL((select SUM(order_money) from tb_order where customer_id = c.id  and order_state in (2,10,11,12) and production_status in (2,3,4)),'0.00') sumMoney,
+        IFNULL((select count(1) from tb_order where customer_id = c.id and order_state in (2,10,11,12) and production_status in (2,3,4) and (parent_order_id is null or parent_order_id = '')),'0') amount,
+        IFNULL(ROUND(((select SUM(order_money) from tb_order where customer_id = c.id  and order_state in (2,10,11,12) and production_status in (2,3,4))/
+        (select count(1) from tb_order where customer_id = c.id and order_state in (2,10,11,12) and production_status in (2,3,4) and (parent_order_id is null or parent_order_id = ''))
+        ),2),'0.00') money
+        from
+        tb_customer c
+        left join tb_customer_detail tcd on c.customer_detail_id = tcd.id
+        left join tb_account a on c.account_id = a.id
+        where
+        create_time >= #{beginDate} and  #{endDate} >= create_time
+        group by c.id;
+    </select>
+
+    <select id="selectBySelectMap" parameterType="java.util.Map" resultMap="selectCustomerPage">
+        select *
+        <if test="customerIds == null and queryPage == null">
+            ,IF((select COUNT(1) from tb_order where customer_id = tc.id and order_state IN (2, 10, 11, 12) and production_status in (2,3,4)) > 0, TRUE, FALSE) useOrder
+            ,IF((select COUNT(1) from tb_charge_order where customer_id = tc.id and order_state = 1) > 0, TRUE, FALSE) chargeOrder
+        </if>
+        from tb_customer tc
+        <if test="customerIds == null and queryPage == null">
+            left join tb_customer_detail tcd
+            on tc.customer_detail_id = tcd.id
+        </if>
+        <where>
+            <if test="register != null and register != '2' and register != 2">
+                and tc.is_bind_phone = #{register}
+            </if>
+            <if test="sex != null and sex != '3' and sex != 3">
+                and tc.sex = #{sex}
+            </if>
+            <if test="registerBeginDate != null">
+                and tc.bind_phone_time &gt;= CONCAT(#{registerBeginDate},' 00:00:00')
+            </if>
+            <if test="registerEndDate != null">
+                and tc.bind_phone_time &lt;= CONCAT(#{registerEndDate},' 23:59:59')
+            </if>
+            <if test="customerIds != null and customerIds.length >= 0">
+                and id in
+                <foreach collection="customerIds" item="customerId" open="(" separator="," close=")">
+                    #{customerId}
+                </foreach>
+            </if>
+            <if test="text != null">
+                and tc.nickname like CONCAT('%',#{text},'%') or tc.telephone like CONCAT('%',#{text},'%')
+            </if>
+        </where>
+        <if test="pageNo != null and pageSize != null">
+          LIMIT ${pageNo}, ${pageSize}
+        </if>
+    </select>
+
+    <select id="selectCountBySelectMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select
+          COUNT(1)
+        from
+          tb_customer tc
+        where tc.nickname like CONCAT('%',#{text},'%') or tc.telephone like CONCAT('%',#{text},'%')
+    </select>
+
+    <select id="selectAccountInfo" parameterType="java.lang.String" resultType="com.resto.shop.web.model.Account">
+        select * from tb_account where id = #{account_id}
+    </select>
+
+    <select id="selectChargeOrderByCustomerId" parameterType="java.lang.String" resultType="com.resto.shop.web.model.ChargeOrder">
+        select * from tb_charge_order where order_state = 1 and customer_id = #{id}
+    </select>
+</mapper>

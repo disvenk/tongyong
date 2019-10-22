@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.report.CouponMapperReport">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.Coupon">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="value" property="value" jdbcType="DECIMAL"/>
+        <result column="min_amount" property="minAmount" jdbcType="DECIMAL"/>
+        <result column="begin_date" property="beginDate" jdbcType="DATE"/>
+        <result column="end_date" property="endDate" jdbcType="DATE"/>
+        <result column="begin_time" property="beginTime" jdbcType="TIME"/>
+        <result column="end_time" property="endTime" jdbcType="TIME"/>
+        <result column="is_used" property="isUsed" jdbcType="BIT"/>
+        <result column="using_time" property="usingTime" jdbcType="TIMESTAMP"/>
+        <result column="add_time" property="addTime" jdbcType="TIMESTAMP"/>
+        <result column="coupon_source" property="couponSource" jdbcType="VARCHAR"/>
+        <result column="use_with_account" property="useWithAccount" jdbcType="BIT"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="distribution_mode_id" property="distributionModeId" jdbcType="INTEGER"/>
+        <result column="customer_id" property="customerId" jdbcType="VARCHAR"/>
+        <result column="shop_det" property="customerId" jdbcType="VARCHAR"/>
+        <result column="coupon_type" property="couponType"/>
+        <result column="new_custom_coupon_id" property="newCustomCouponId"/>
+    </resultMap>
+    <sql id="Base_Column_List">id, name, value, min_amount, begin_date, end_date, begin_time, end_time, is_used, using_time, coupon_source, use_with_account, remark, distribution_mode_id, customer_id, new_custom_coupon_id</sql>
+
+    <select id="selectCouponDto" resultType="com.resto.brand.web.dto.CouponDto" parameterType="java.util.Map">
+        select
+            tc.new_custom_coupon_id newCustomCouponId,
+            IF(tc.coupon_type = 7, '产品券', '现金券') couponClassification,
+            CASE tc.coupon_type
+            WHEN -1 THEN '通用优惠券'
+            WHEN 0 THEN '注册优惠券'
+            WHEN 1 THEN '邀请优惠券'
+            WHEN 2 THEN '生日优惠券'
+            WHEN 3 THEN '分享优惠券'
+            WHEN 4 THEN '实时优惠券'
+            WHEN 5 THEN '流失唤醒优惠券'
+            WHEN 6 THEN '消费返利优惠券'
+            WHEN 7 THEN '产品券'
+            END couponType,
+            tc.deduction_type deductionType,
+            tc.coupon_type couponType1,
+            IF(tc.brand_id is not null,'品牌','店铺') couponSoure,
+            tc.`name` couponName,
+            COUNT(1) couponCount,
+            SUM(tc.`value`) couponMoney,
+            CASE tc.coupon_type
+            WHEN 0 THEN COUNT(DISTINCT tc.customer_id)
+            WHEN 1 THEN COUNT(DISTINCT tc.customer_id)
+            ELSE 0
+            END customerCount,
+            tc.shop_detail_id shopDetailId,
+            tc.coupon_type couponTypeInt,
+            SUM(IF(tc.is_used = 1 and using_time &gt;= CONCAT(#{useBeginDate},' 00:00:00') and using_time &lt;= CONCAT(#{useEndDate},' 23:59:59'),1,0)) useCouponCount
+        from tb_coupon tc
+        where tc.add_time &gt;= CONCAT(#{grantBeginDate},' 00:00:00')
+        and tc.add_time &lt;= CONCAT(#{grantEndDate},' 23:59:59')
+        GROUP BY tc.new_custom_coupon_id, tc.`name`
+    </select>
+
+    <select id="selectCouponInfoList" resultType="com.resto.brand.web.dto.CouponInfoDto" parameterType="java.lang.String">
+        SELECT
+            tcu.id couponId,
+            tcu.is_used,
+            tcu.use_shop_id,
+            tcu.name couponName,
+            IF(tcu.is_used = 1,'已使用','未使用') couponState,
+            IFNULL(tc.telephone,'--') telephone,
+            DATE_FORMAT(tcu.add_time,'%Y-%m-%d %H:%i:%s') addTime,
+            IF((tcu.using_time is not null and tcu.using_time != ''),DATE_FORMAT(tcu.using_time,'%Y-%m-%d %H:%i:%s'),'--') useTime,
+            IFNULL(ta.name, '--') articleName,
+            top.order_id,
+            tcu.coupon_source,
+            tcu.value couponValue
+        FROM
+            tb_coupon tcu
+        INNER JOIN tb_customer tc ON tcu.customer_id = tc.id
+        LEFT JOIN tb_order_payment_item top ON top.to_pay_id = tcu.id
+        LEFT JOIN tb_article ta ON ta.id = top.coupon_article_id
+        WHERE
+            tcu.new_custom_coupon_id = #{newCustomCouponId}
+        AND UNIX_TIMESTAMP(tcu.add_time) BETWEEN UNIX_TIMESTAMP(#{beginDate})
+        AND UNIX_TIMESTAMP(DATE_ADD(#{endDate},INTERVAL 1 DAY))
+    </select>
+
+    <select id="selectUseCouponOrders" resultType="com.resto.brand.web.dto.UseCouponOrderDto">
+        SELECT
+               tc.id couponId,
+               COUNT(1) useCount,
+               SUM(top.pay_value) payValue,
+               tc.new_custom_coupon_id newCustomCuponId,
+               top.order_id,
+               td.order_money
+        FROM
+             tb_coupon tc
+             INNER JOIN tb_order_payment_item top ON tc.id = top.to_pay_id
+             INNER JOIN tb_order td ON top.order_id = td.id
+        WHERE
+            <if test="isNewCustomId == 1">
+                tc.new_custom_coupon_id
+            </if>
+            <if test="isNewCustomId == 0">
+                tc.id
+            </if> IN
+            <foreach collection="couponIds" item="couponId" open="(" separator="," close=")">
+                #{couponId}
+            </foreach>
+            <if test="useBeginDate != null and useEndDate != null">
+                AND UNIX_TIMESTAMP(top.pay_time) BETWEEN UNIX_TIMESTAMP(#{useBeginDate})
+                AND UNIX_TIMESTAMP(DATE_ADD(#{useEndDate},INTERVAL 1 DAY))
+            </if>
+        GROUP BY tc.id, td.id
+    </select>
+</mapper>

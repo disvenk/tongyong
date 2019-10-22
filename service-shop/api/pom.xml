@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>${groupId.resto.api}</groupId>
+    <artifactId>api-shop</artifactId>
+    <packaging>jar</packaging>
+    <version>${version.resto}</version>
+
+    <parent>
+        <groupId>com.resto</groupId>
+        <artifactId>parent-shop</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>${groupId.resto.config}</groupId>
+            <artifactId>api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${groupId.resto.api}</groupId>
+            <artifactId>api-brand</artifactId>
+            <version>${version.resto}</version>
+        </dependency>
+    </dependencies>
+
+
+</project>

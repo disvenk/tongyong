@@ -1,0 +1,703 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.WeOrderDetailMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.WeOrderDetail">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR"/>
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR"/>
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
+    <result column="create_time" property="createTime" jdbcType="DATE"/>
+    <result column="resto_total" property="restoTotal" jdbcType="DECIMAL"/>
+    <result column="resto_count" property="restoCount" jdbcType="INTEGER"/>
+    <result column="enter_total" property="enterTotal" jdbcType="DECIMAL"/>
+    <result column="enter_count" property="enterCount" jdbcType="INTEGER"/>
+    <result column="customer_count" property="customerCount" jdbcType="INTEGER"/>
+    <result column="avg_customer_total" property="avgCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="wechat_count" property="wechatCount" jdbcType="INTEGER"/>
+    <result column="wechat_total" property="wechatTotal" jdbcType="DECIMAL"/>
+    <result column="alipay_count" property="alipayCount" jdbcType="INTEGER"/>
+    <result column="alipay_total" property="alipayTotal" jdbcType="DECIMAL"/>
+    <result column="cash_count" property="cashCount" jdbcType="INTEGER"/>
+    <result column="cash_total" property="cashTotal" jdbcType="DECIMAL"/>
+    <result column="bank_count" property="bankCount" jdbcType="INTEGER"/>
+    <result column="bank_total" property="bankTotal" jdbcType="DECIMAL"/>
+    <result column="charge_count" property="chargeCount" jdbcType="INTEGER"/>
+    <result column="charge_total" property="chargeTotal" jdbcType="DECIMAL"/>
+    <result column="red_count" property="redCount" jdbcType="INTEGER"/>
+    <result column="red_total" property="redTotal" jdbcType="DECIMAL"/>
+    <result column="coupon_count" property="couponCount" jdbcType="INTEGER"/>
+    <result column="coupon_total" property="couponTotal" jdbcType="DECIMAL"/>
+    <result column="wait_count" property="waitCount" jdbcType="INTEGER"/>
+    <result column="wait_total" property="waitTotal" jdbcType="DECIMAL"/>
+    <result column="charge_return_count" property="chargeReturnCount" jdbcType="INTEGER"/>
+    <result column="charge_return_total" property="chargeReturnTotal" jdbcType="DECIMAL"/>
+    <result column="return_count" property="returnCount" jdbcType="INTEGER"/>
+    <result column="return_total" property="returnTotal" jdbcType="DECIMAL"/>
+    <result column="order_item_count" property="orderItemCount" jdbcType="INTEGER"/>
+    <result column="order_item_total" property="orderItemTotal" jdbcType="DECIMAL"/>
+    <result column="return_item_total" property="returnItemTotal" jdbcType="DECIMAL"/>
+    <result column="return_item_count" property="returnItemCount" jdbcType="INTEGER"/>
+    <result column="return_customer_total" property="returnCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="return_customer_count" property="returnCustomerCount" jdbcType="INTEGER"/>
+    <result column="new_normal_customer_total" property="newNormalCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="new_normal_customer_count" property="newNormalCustomerCount" jdbcType="INTEGER"/>
+    <result column="new_customer_total" property="newCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="new_customer_count" property="newCustomerCount" jdbcType="INTEGER"/>
+    <result column="new_share_customer_count" property="newShareCustomerCount" jdbcType="INTEGER"/>
+    <result column="new_share_customer_total" property="newShareCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="back_customer_count" property="backCustomerCount" jdbcType="INTEGER"/>
+    <result column="back_customer_toatal" property="backCustomerToatal" jdbcType="DECIMAL"/>
+    <result column="back_two_customer_count" property="backTwoCustomerCount" jdbcType="INTEGER"/>
+    <result column="back_two_customer_total" property="backTwoCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="back_two_more_customer_count" property="backTwoMoreCustomerCount" jdbcType="INTEGER"/>
+    <result column="back_two_more_customer_total" property="backTwoMoreCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="s_avg_score" property="sAvgScore" jdbcType="VARCHAR"/>
+    <result column="s_resto_total" property="sRestoTotal" jdbcType="DECIMAL"/>
+    <result column="s_enter_total" property="sEnterTotal" jdbcType="DECIMAL"/>
+    <result column="s_all_total" property="sAllTotal" jdbcType="DECIMAL"/>
+    <result column="s_total_income" property="sTotalIncome" jdbcType="DECIMAL"/>
+    <result column="s_pay_total" property="sPayTotal" jdbcType="DECIMAL"/>
+    <result column="s_new_customr" property="sNewCustomr" jdbcType="INTEGER"/>
+    <result column="s_new_customer_total" property="sNewCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="s_new_normal_customer" property="sNewNormalCustomer" jdbcType="INTEGER"/>
+    <result column="s_new_normal_customer_total" property="sNewNormalCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="s_new_share_customer" property="sNewShareCustomer" jdbcType="INTEGER"/>
+    <result column="s_new_share_customer_total" property="sNewShareCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="s_back_customer" property="sBackCustomer" jdbcType="INTEGER"/>
+    <result column="s_back_customer_total" property="sBackCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="s_back_two_customer" property="sBackTwoCustomer" jdbcType="INTEGER"/>
+    <result column="s_back_two_customer_total" property="sBackTwoCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="s_back_two_more_customer" property="sBackTwoMoreCustomer" jdbcType="INTEGER"/>
+    <result column="s_back_two_more_customer_total" property="sBackTwoMoreCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="z_avg_score" property="zAvgScore" jdbcType="VARCHAR"/>
+    <result column="z_resto_total" property="zRestoTotal" jdbcType="DECIMAL"/>
+    <result column="z_enter_total" property="zEnterTotal" jdbcType="DECIMAL"/>
+    <result column="z_total_income" property="zTotalIncome" jdbcType="DECIMAL"/>
+    <result column="z_all_total" property="zAllTotal" jdbcType="DECIMAL"/>
+    <result column="z_pay_total" property="zPayTotal" jdbcType="DECIMAL"/>
+    <result column="z_new_customer_total" property="zNewCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="z_new_customer_count" property="zNewCustomerCount" jdbcType="INTEGER"/>
+    <result column="z_new_normal_customer" property="zNewNormalCustomer" jdbcType="INTEGER"/>
+    <result column="z_new_normal_customer_total" property="zNewNormalCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="z_new_share_customer" property="zNewShareCustomer" jdbcType="INTEGER"/>
+    <result column="z_new_share_customer_total" property="zNewShareCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="z_back_customer" property="zBackCustomer" jdbcType="INTEGER"/>
+    <result column="z_back_customer_total" property="zBackCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="z_back_two_customer" property="zBackTwoCustomer" jdbcType="INTEGER"/>
+    <result column="z_back_two_customer_total" property="zBackTwoCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="z_back_two_more_customer" property="zBackTwoMoreCustomer" jdbcType="INTEGER"/>
+    <result column="z_back_two_more_customer_total" property="zBackTwoMoreCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="x_avg_score" property="xAvgScore" jdbcType="VARCHAR"/>
+    <result column="x_resto_total" property="xRestoTotal" jdbcType="DECIMAL"/>
+    <result column="x_enter_total" property="xEnterTotal" jdbcType="DECIMAL"/>
+    <result column="x_all_total" property="xAllTotal" jdbcType="DECIMAL"/>
+    <result column="x_total_income" property="xTotalIncome" jdbcType="DECIMAL"/>
+    <result column="x_pay_total" property="xPayTotal" jdbcType="DECIMAL"/>
+    <result column="x_new_customer_total" property="xNewCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="x_new_normal_customer" property="xNewNormalCustomer" jdbcType="INTEGER"/>
+    <result column="x_new_customer" property="xNewCustomer" jdbcType="INTEGER"/>
+    <result column="x_new_normal_customer_total" property="xNewNormalCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="x_new_share_customer" property="xNewShareCustomer" jdbcType="INTEGER"/>
+    <result column="x_new_share_customer_total" property="xNewShareCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="x_back_customer" property="xBackCustomer" jdbcType="INTEGER"/>
+    <result column="x_back_customer_total" property="xBackCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="x_back_two_customer" property="xBackTwoCustomer" jdbcType="INTEGER"/>
+    <result column="x_back_two_customer_total" property="xBackTwoCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="x_back_two_more_customer" property="xBackTwoMoreCustomer" jdbcType="INTEGER"/>
+    <result column="x_back_two_more_customer_total" property="xBackTwoMoreCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="m_avg_score" property="mAvgScore" jdbcType="VARCHAR"/>
+    <result column="m_resto_total" property="mRestoTotal" jdbcType="DECIMAL"/>
+    <result column="m_enter_total" property="mEnterTotal" jdbcType="DECIMAL"/>
+    <result column="m_all_total" property="mAllTotal" jdbcType="DECIMAL"/>
+    <result column="m_total_income" property="mTotalIncome" jdbcType="DECIMAL"/>
+    <result column="m_pay_total" property="mPayTotal" jdbcType="DECIMAL"/>
+    <result column="m_new_customr" property="mNewCustomr" jdbcType="INTEGER"/>
+    <result column="m_new_customer_total" property="mNewCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="m_new_normal_customer" property="mNewNormalCustomer" jdbcType="INTEGER"/>
+    <result column="m_new_normal_customer_total" property="mNewNormalCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="m_new_share_customer" property="mNewShareCustomer" jdbcType="INTEGER"/>
+    <result column="m_new_share_customer_total" property="mNewShareCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="m_back_customer" property="mBackCustomer" jdbcType="INTEGER"/>
+    <result column="m_back_customer_total" property="mBackCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="m_back_two_customer" property="mBackTwoCustomer" jdbcType="INTEGER"/>
+    <result column="m_back_two_customer_total" property="mBackTwoCustomerTotal" jdbcType="DECIMAL"/>
+    <result column="m_back_two_more_customer" property="mBackTwoMoreCustomer" jdbcType="INTEGER"/>
+    <result column="m_back_two_more_customer_total" property="mBackTwoMoreCustomerTotal" jdbcType="DECIMAL"/>
+  </resultMap>
+
+
+    <resultMap id="selectWeOrderByShopIdAndTimeMap" type="com.resto.shop.web.model.WeOrderDetail">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="shop_id" property="shopId" jdbcType="VARCHAR"/>
+        <result column="shop_name" property="shopName" jdbcType="VARCHAR"/>
+        <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="resto_total" property="restoTotal" jdbcType="DECIMAL"/>
+        <result column="resto_count" property="restoCount" jdbcType="INTEGER"/>
+        <result column="enter_total" property="enterTotal" jdbcType="DECIMAL"/>
+        <result column="enter_count" property="enterCount" jdbcType="INTEGER"/>
+        <result column="customer_count" property="customerCount" jdbcType="INTEGER"/>
+        <result column="avg_customer_total" property="avgCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="wechat_count" property="wechatCount" jdbcType="INTEGER"/>
+        <result column="wechat_total" property="wechatTotal" jdbcType="DECIMAL"/>
+        <result column="alipay_count" property="alipayCount" jdbcType="INTEGER"/>
+        <result column="alipay_total" property="alipayTotal" jdbcType="DECIMAL"/>
+        <result column="cash_count" property="cashCount" jdbcType="INTEGER"/>
+        <result column="cash_total" property="cashTotal" jdbcType="DECIMAL"/>
+        <result column="bank_count" property="bankCount" jdbcType="INTEGER"/>
+        <result column="bank_total" property="bankTotal" jdbcType="DECIMAL"/>
+        <result column="charge_count" property="chargeCount" jdbcType="INTEGER"/>
+        <result column="charge_total" property="chargeTotal" jdbcType="DECIMAL"/>
+        <result column="red_count" property="redCount" jdbcType="INTEGER"/>
+        <result column="red_total" property="redTotal" jdbcType="DECIMAL"/>
+        <result column="coupon_count" property="couponCount" jdbcType="INTEGER"/>
+        <result column="coupon_total" property="couponTotal" jdbcType="DECIMAL"/>
+        <result column="wait_count" property="waitCount" jdbcType="INTEGER"/>
+        <result column="wait_total" property="waitTotal" jdbcType="DECIMAL"/>
+        <result column="charge_return_count" property="chargeReturnCount" jdbcType="INTEGER"/>
+        <result column="charge_return_total" property="chargeReturnTotal" jdbcType="DECIMAL"/>
+        <result column="return_count" property="returnCount" jdbcType="INTEGER"/>
+        <result column="return_total" property="returnTotal" jdbcType="DECIMAL"/>
+        <result column="order_item_count" property="orderItemCount" jdbcType="INTEGER"/>
+        <result column="order_item_total" property="orderItemTotal" jdbcType="DECIMAL"/>
+        <result column="return_item_total" property="returnItemTotal" jdbcType="DECIMAL"/>
+        <result column="return_item_count" property="returnItemCount" jdbcType="INTEGER"/>
+        <result column="return_customer_total" property="returnCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="return_customer_count" property="returnCustomerCount" jdbcType="INTEGER"/>
+        <result column="new_normal_customer_total" property="newNormalCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="new_normal_customer_count" property="newNormalCustomerCount" jdbcType="INTEGER"/>
+        <result column="new_customer_total" property="newCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="new_customer_count" property="newCustomerCount" jdbcType="INTEGER"/>
+        <result column="new_share_customer_count" property="newShareCustomerCount" jdbcType="INTEGER"/>
+        <result column="new_share_customer_total" property="newShareCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="back_customer_count" property="backCustomerCount" jdbcType="INTEGER"/>
+        <result column="back_customer_toatal" property="backCustomerToatal" jdbcType="DECIMAL"/>
+        <result column="back_two_customer_count" property="backTwoCustomerCount" jdbcType="INTEGER"/>
+        <result column="back_two_customer_total" property="backTwoCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="back_two_more_customer_count" property="backTwoMoreCustomerCount" jdbcType="INTEGER"/>
+        <result column="back_two_more_customer_total" property="backTwoMoreCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="s_avg_score" property="sAvgScore" jdbcType="VARCHAR"/>
+        <result column="s_resto_total" property="sRestoTotal" jdbcType="DECIMAL"/>
+        <result column="s_enter_total" property="sEnterTotal" jdbcType="DECIMAL"/>
+        <result column="s_all_total" property="sAllTotal" jdbcType="DECIMAL"/>
+        <result column="s_total_income" property="sTotalIncome" jdbcType="DECIMAL"/>
+        <result column="s_pay_total" property="sPayTotal" jdbcType="DECIMAL"/>
+        <result column="s_new_customr" property="sNewCustomr" jdbcType="INTEGER"/>
+        <result column="s_new_customer_total" property="sNewCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="s_new_normal_customer" property="sNewNormalCustomer" jdbcType="INTEGER"/>
+        <result column="s_new_normal_customer_total" property="sNewNormalCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="s_new_share_customer" property="sNewShareCustomer" jdbcType="INTEGER"/>
+        <result column="s_new_share_customer_total" property="sNewShareCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="s_back_customer" property="sBackCustomer" jdbcType="INTEGER"/>
+        <result column="s_back_customer_total" property="sBackCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="s_back_two_customer" property="sBackTwoCustomer" jdbcType="INTEGER"/>
+        <result column="s_back_two_customer_total" property="sBackTwoCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="s_back_two_more_customer" property="sBackTwoMoreCustomer" jdbcType="INTEGER"/>
+        <result column="s_back_two_more_customer_total" property="sBackTwoMoreCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="z_avg_score" property="zAvgScore" jdbcType="VARCHAR"/>
+        <result column="z_resto_total" property="zRestoTotal" jdbcType="DECIMAL"/>
+        <result column="z_enter_total" property="zEnterTotal" jdbcType="DECIMAL"/>
+        <result column="z_total_income" property="zTotalIncome" jdbcType="DECIMAL"/>
+        <result column="z_all_total" property="zAllTotal" jdbcType="DECIMAL"/>
+        <result column="z_pay_total" property="zPayTotal" jdbcType="DECIMAL"/>
+        <result column="z_new_customer_total" property="zNewCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="z_new_customer_count" property="zNewCustomerCount" jdbcType="INTEGER"/>
+        <result column="z_new_normal_customer" property="zNewNormalCustomer" jdbcType="INTEGER"/>
+        <result column="z_new_normal_customer_total" property="zNewNormalCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="z_new_share_customer" property="zNewShareCustomer" jdbcType="INTEGER"/>
+        <result column="z_new_share_customer_total" property="zNewShareCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="z_back_customer" property="zBackCustomer" jdbcType="INTEGER"/>
+        <result column="z_back_customer_total" property="zBackCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="z_back_two_customer" property="zBackTwoCustomer" jdbcType="INTEGER"/>
+        <result column="z_back_two_customer_total" property="zBackTwoCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="z_back_two_more_customer" property="zBackTwoMoreCustomer" jdbcType="INTEGER"/>
+        <result column="z_back_two_more_customer_total" property="zBackTwoMoreCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="x_avg_score" property="xAvgScore" jdbcType="VARCHAR"/>
+        <result column="x_resto_total" property="xRestoTotal" jdbcType="DECIMAL"/>
+        <result column="x_enter_total" property="xEnterTotal" jdbcType="DECIMAL"/>
+        <result column="x_all_total" property="xAllTotal" jdbcType="DECIMAL"/>
+        <result column="x_total_income" property="xTotalIncome" jdbcType="DECIMAL"/>
+        <result column="x_pay_total" property="xPayTotal" jdbcType="DECIMAL"/>
+        <result column="x_new_customer_total" property="xNewCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="x_new_normal_customer" property="xNewNormalCustomer" jdbcType="INTEGER"/>
+        <result column="x_new_customer" property="xNewCustomer" jdbcType="INTEGER"/>
+        <result column="x_new_normal_customer_total" property="xNewNormalCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="x_new_share_customer" property="xNewShareCustomer" jdbcType="INTEGER"/>
+        <result column="x_new_share_customer_total" property="xNewShareCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="x_back_customer" property="xBackCustomer" jdbcType="INTEGER"/>
+        <result column="x_back_customer_total" property="xBackCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="x_back_two_customer" property="xBackTwoCustomer" jdbcType="INTEGER"/>
+        <result column="x_back_two_customer_total" property="xBackTwoCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="x_back_two_more_customer" property="xBackTwoMoreCustomer" jdbcType="INTEGER"/>
+        <result column="x_back_two_more_customer_total" property="xBackTwoMoreCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="m_avg_score" property="mAvgScore" jdbcType="VARCHAR"/>
+        <result column="m_resto_total" property="mRestoTotal" jdbcType="DECIMAL"/>
+        <result column="m_enter_total" property="mEnterTotal" jdbcType="DECIMAL"/>
+        <result column="m_all_total" property="mAllTotal" jdbcType="DECIMAL"/>
+        <result column="m_total_income" property="mTotalIncome" jdbcType="DECIMAL"/>
+        <result column="m_pay_total" property="mPayTotal" jdbcType="DECIMAL"/>
+        <result column="m_new_customr" property="mNewCustomr" jdbcType="INTEGER"/>
+        <result column="m_new_customer_total" property="mNewCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="m_new_normal_customer" property="mNewNormalCustomer" jdbcType="INTEGER"/>
+        <result column="m_new_normal_customer_total" property="mNewNormalCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="m_new_share_customer" property="mNewShareCustomer" jdbcType="INTEGER"/>
+        <result column="m_new_share_customer_total" property="mNewShareCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="m_back_customer" property="mBackCustomer" jdbcType="INTEGER"/>
+        <result column="m_back_customer_total" property="mBackCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="m_back_two_customer" property="mBackTwoCustomer" jdbcType="INTEGER"/>
+        <result column="m_back_two_customer_total" property="mBackTwoCustomerTotal" jdbcType="DECIMAL"/>
+        <result column="m_back_two_more_customer" property="mBackTwoMoreCustomer" jdbcType="INTEGER"/>
+        <result column="m_back_two_more_customer_total" property="mBackTwoMoreCustomerTotal" jdbcType="DECIMAL"/>
+
+        <!--充值详情-->
+        <collection property="weChargeLogList" javaType="List" ofType="com.resto.shop.web.model.WeChargeLog">
+            <id column="we_charge_log_id" property="id"   />
+            <result column="charge_money" property="chargeMoney"/>
+            <result column="charge_telephone" property="chargeTelephone"  />
+            <result column="charge_type" property="chargeType"  />
+        </collection>
+
+        <!--退菜详情 -->
+        <collection property="weReturnItemList" javaType="List" ofType="com.resto.shop.web.model.WeReturnItem">
+            <id column="we_return_item_id" property="id" />
+            <result column="return_item_count" property="returnItemCount" />
+            <result column="return_item_name" property="returnItemName" />
+            <result column="return_item_total" property="returnItemTotal"/>
+        </collection>
+
+        <!--菜品详情 -->
+        <collection property="weItemList" javaType="List" ofType="com.resto.shop.web.model.WeItem">
+            <id column="we_item_id" property="id"   />
+            <result column="item_count" property="itemCount" />
+            <result column="item_name" property="itemName" />
+            <result column="item_total" property="itemTotal"  />
+        </collection>
+
+        <!--退菜用户 -->
+        <collection property="weReturnCustomerList" javaType="List" ofType="com.resto.shop.web.model.WeReturnCustomer">
+            <id column="we_return_customer_id" property="id"   />
+            <result column="article_name" property="articleName"  />
+            <result column="money" property="money"  />
+            <result column="telephone" property="telephone" />
+        </collection>
+
+    </resultMap>
+    
+    
+  <sql id="Base_Column_List">id, shop_id, shop_name, brand_name, create_time, resto_total, resto_count, enter_total, enter_count, customer_count, avg_customer_total, wechat_count, wechat_total, alipay_count, alipay_total, cash_count, cash_total, bank_count, bank_total, charge_count, charge_total, red_count, red_total, coupon_count, coupon_total, wait_count, wait_total, charge_return_count, charge_return_total, return_count, return_total, order_item_count, order_item_total, return_item_total, return_item_count, return_customer_total, return_customer_count, new_normal_customer_total, new_normal_customer_count, new_customer_total, new_customer_count, new_share_customer_count, new_share_customer_total, back_customer_count, back_customer_toatal, back_two_customer_count, back_two_customer_total, back_two_more_customer_count, back_two_more_customer_total, s_avg_score, s_resto_total, s_enter_total, s_all_total, s_total_income, s_pay_total, s_new_customr, s_new_customer_total, s_new_normal_customer, s_new_normal_customer_total, s_new_share_customer, s_new_share_customer_total, s_back_customer, s_back_customer_total, s_back_two_customer, s_back_two_customer_total, s_back_two_more_customer, s_back_two_more_customer_total, z_avg_score, z_resto_total, z_enter_total, z_total_income, z_all_total, z_pay_total, z_new_customer_total, z_new_customer_count, z_new_normal_customer, z_new_normal_customer_total, z_new_share_customer, z_new_share_customer_total, z_back_customer, z_back_customer_total, z_back_two_customer, z_back_two_customer_total, z_back_two_more_customer, z_back_two_more_customer_total, x_avg_score, x_resto_total, x_enter_total, x_all_total, x_total_income, x_pay_total, x_new_customer_total, x_new_normal_customer, x_new_customer, x_new_normal_customer_total, x_new_share_customer, x_new_share_customer_total, x_back_customer, x_back_customer_total, x_back_two_customer, x_back_two_customer_total, x_back_two_more_customer, x_back_two_more_customer_total, m_avg_score, m_resto_total, m_enter_total, m_all_total, m_total_income, m_pay_total, m_new_customr, m_new_customer_total, m_new_normal_customer, m_new_normal_customer_total, m_new_share_customer, m_new_share_customer_total, m_back_customer, m_back_customer_total, m_back_two_customer, m_back_two_customer_total, m_back_two_more_customer, m_back_two_more_customer_total</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from we_order_detail where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from we_order_detail where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.WeOrderDetail">insert into we_order_detail (id, shop_id, shop_name, brand_name, create_time, resto_total, resto_count, enter_total, enter_count, customer_count, avg_customer_total, wechat_count, wechat_total, alipay_count, alipay_total, cash_count, cash_total, bank_count, bank_total, charge_count, charge_total, red_count, red_total, coupon_count, coupon_total, wait_count, wait_total, charge_return_count, charge_return_total, return_count, return_total, order_item_count, order_item_total, return_item_total, return_item_count, return_customer_total, return_customer_count, new_normal_customer_total, new_normal_customer_count, new_customer_total, new_customer_count, new_share_customer_count, new_share_customer_total, back_customer_count, back_customer_toatal, back_two_customer_count, back_two_customer_total, back_two_more_customer_count, back_two_more_customer_total, s_avg_score, s_resto_total, s_enter_total, s_all_total, s_total_income, s_pay_total, s_new_customr, s_new_customer_total, s_new_normal_customer, s_new_normal_customer_total, s_new_share_customer, s_new_share_customer_total, s_back_customer, s_back_customer_total, s_back_two_customer, s_back_two_customer_total, s_back_two_more_customer, s_back_two_more_customer_total, z_avg_score, z_resto_total, z_enter_total, z_total_income, z_all_total, z_pay_total, z_new_customer_total, z_new_customer_count, z_new_normal_customer, z_new_normal_customer_total, z_new_share_customer, z_new_share_customer_total, z_back_customer, z_back_customer_total, z_back_two_customer, z_back_two_customer_total, z_back_two_more_customer, z_back_two_more_customer_total, x_avg_score, x_resto_total, x_enter_total, x_all_total, x_total_income, x_pay_total, x_new_customer_total, x_new_normal_customer, x_new_customer, x_new_normal_customer_total, x_new_share_customer, x_new_share_customer_total, x_back_customer, x_back_customer_total, x_back_two_customer, x_back_two_customer_total, x_back_two_more_customer, x_back_two_more_customer_total, m_avg_score, m_resto_total, m_enter_total, m_all_total, m_total_income, m_pay_total, m_new_customr, m_new_customer_total, m_new_normal_customer, m_new_normal_customer_total, m_new_share_customer, m_new_share_customer_total, m_back_customer, m_back_customer_total, m_back_two_customer, m_back_two_customer_total, m_back_two_more_customer, m_back_two_more_customer_total) values (#{id,jdbcType=BIGINT}, #{shopId,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR}, #{brandName,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, #{restoTotal,jdbcType=DECIMAL}, #{restoCount,jdbcType=INTEGER}, #{enterTotal,jdbcType=DECIMAL}, #{enterCount,jdbcType=INTEGER}, #{customerCount,jdbcType=INTEGER}, #{avgCustomerTotal,jdbcType=DECIMAL}, #{wechatCount,jdbcType=INTEGER}, #{wechatTotal,jdbcType=DECIMAL}, #{alipayCount,jdbcType=INTEGER}, #{alipayTotal,jdbcType=DECIMAL}, #{cashCount,jdbcType=INTEGER}, #{cashTotal,jdbcType=DECIMAL}, #{bankCount,jdbcType=INTEGER}, #{bankTotal,jdbcType=DECIMAL}, #{chargeCount,jdbcType=INTEGER}, #{chargeTotal,jdbcType=DECIMAL}, #{redCount,jdbcType=INTEGER}, #{redTotal,jdbcType=DECIMAL}, #{couponCount,jdbcType=INTEGER}, #{couponTotal,jdbcType=DECIMAL}, #{waitCount,jdbcType=INTEGER}, #{waitTotal,jdbcType=DECIMAL}, #{chargeReturnCount,jdbcType=INTEGER}, #{chargeReturnTotal,jdbcType=DECIMAL}, #{returnCount,jdbcType=INTEGER}, #{returnTotal,jdbcType=DECIMAL}, #{orderItemCount,jdbcType=INTEGER}, #{orderItemTotal,jdbcType=DECIMAL}, #{returnItemTotal,jdbcType=DECIMAL}, #{returnItemCount,jdbcType=INTEGER}, #{returnCustomerTotal,jdbcType=DECIMAL}, #{returnCustomerCount,jdbcType=INTEGER}, #{newNormalCustomerTotal,jdbcType=DECIMAL}, #{newNormalCustomerCount,jdbcType=INTEGER}, #{newCustomerTotal,jdbcType=DECIMAL}, #{newCustomerCount,jdbcType=INTEGER}, #{newShareCustomerCount,jdbcType=INTEGER}, #{newShareCustomerTotal,jdbcType=DECIMAL}, #{backCustomerCount,jdbcType=INTEGER}, #{backCustomerToatal,jdbcType=DECIMAL}, #{backTwoCustomerCount,jdbcType=INTEGER}, #{backTwoCustomerTotal,jdbcType=DECIMAL}, #{backTwoMoreCustomerCount,jdbcType=INTEGER}, #{backTwoMoreCustomerTotal,jdbcType=DECIMAL}, #{sAvgScore,jdbcType=VARCHAR}, #{sRestoTotal,jdbcType=DECIMAL}, #{sEnterTotal,jdbcType=DECIMAL}, #{sAllTotal,jdbcType=DECIMAL}, #{sTotalIncome,jdbcType=DECIMAL}, #{sPayTotal,jdbcType=DECIMAL}, #{sNewCustomr,jdbcType=INTEGER}, #{sNewCustomerTotal,jdbcType=DECIMAL}, #{sNewNormalCustomer,jdbcType=INTEGER}, #{sNewNormalCustomerTotal,jdbcType=DECIMAL}, #{sNewShareCustomer,jdbcType=INTEGER}, #{sNewShareCustomerTotal,jdbcType=DECIMAL}, #{sBackCustomer,jdbcType=INTEGER}, #{sBackCustomerTotal,jdbcType=DECIMAL}, #{sBackTwoCustomer,jdbcType=INTEGER}, #{sBackTwoCustomerTotal,jdbcType=DECIMAL}, #{sBackTwoMoreCustomer,jdbcType=INTEGER}, #{sBackTwoMoreCustomerTotal,jdbcType=DECIMAL}, #{zAvgScore,jdbcType=VARCHAR}, #{zRestoTotal,jdbcType=DECIMAL}, #{zEnterTotal,jdbcType=DECIMAL}, #{zTotalIncome,jdbcType=DECIMAL}, #{zAllTotal,jdbcType=DECIMAL}, #{zPayTotal,jdbcType=DECIMAL}, #{zNewCustomerTotal,jdbcType=DECIMAL}, #{zNewCustomerCount,jdbcType=INTEGER}, #{zNewNormalCustomer,jdbcType=INTEGER}, #{zNewNormalCustomerTotal,jdbcType=DECIMAL}, #{zNewShareCustomer,jdbcType=INTEGER}, #{zNewShareCustomerTotal,jdbcType=DECIMAL}, #{zBackCustomer,jdbcType=INTEGER}, #{zBackCustomerTotal,jdbcType=DECIMAL}, #{zBackTwoCustomer,jdbcType=INTEGER}, #{zBackTwoCustomerTotal,jdbcType=DECIMAL}, #{zBackTwoMoreCustomer,jdbcType=INTEGER}, #{zBackTwoMoreCustomerTotal,jdbcType=DECIMAL}, #{xAvgScore,jdbcType=VARCHAR}, #{xRestoTotal,jdbcType=DECIMAL}, #{xEnterTotal,jdbcType=DECIMAL}, #{xAllTotal,jdbcType=DECIMAL}, #{xTotalIncome,jdbcType=DECIMAL}, #{xPayTotal,jdbcType=DECIMAL}, #{xNewCustomerTotal,jdbcType=DECIMAL}, #{xNewNormalCustomer,jdbcType=INTEGER}, #{xNewCustomer,jdbcType=INTEGER}, #{xNewNormalCustomerTotal,jdbcType=DECIMAL}, #{xNewShareCustomer,jdbcType=INTEGER}, #{xNewShareCustomerTotal,jdbcType=DECIMAL}, #{xBackCustomer,jdbcType=INTEGER}, #{xBackCustomerTotal,jdbcType=DECIMAL}, #{xBackTwoCustomer,jdbcType=INTEGER}, #{xBackTwoCustomerTotal,jdbcType=DECIMAL}, #{xBackTwoMoreCustomer,jdbcType=INTEGER}, #{xBackTwoMoreCustomerTotal,jdbcType=DECIMAL}, #{mAvgScore,jdbcType=VARCHAR}, #{mRestoTotal,jdbcType=DECIMAL}, #{mEnterTotal,jdbcType=DECIMAL}, #{mAllTotal,jdbcType=DECIMAL}, #{mTotalIncome,jdbcType=DECIMAL}, #{mPayTotal,jdbcType=DECIMAL}, #{mNewCustomr,jdbcType=INTEGER}, #{mNewCustomerTotal,jdbcType=DECIMAL}, #{mNewNormalCustomer,jdbcType=INTEGER}, #{mNewNormalCustomerTotal,jdbcType=DECIMAL}, #{mNewShareCustomer,jdbcType=INTEGER}, #{mNewShareCustomerTotal,jdbcType=DECIMAL}, #{mBackCustomer,jdbcType=INTEGER}, #{mBackCustomerTotal,jdbcType=DECIMAL}, #{mBackTwoCustomer,jdbcType=INTEGER}, #{mBackTwoCustomerTotal,jdbcType=DECIMAL}, #{mBackTwoMoreCustomer,jdbcType=INTEGER}, #{mBackTwoMoreCustomerTotal,jdbcType=DECIMAL})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.WeOrderDetail">insert into we_order_detail 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="shopId != null">shop_id,</if>  
+      <if test="shopName != null">shop_name,</if>  
+      <if test="brandName != null">brand_name,</if>  
+      <if test="createTime != null">create_time,</if>  
+      <if test="restoTotal != null">resto_total,</if>  
+      <if test="restoCount != null">resto_count,</if>  
+      <if test="enterTotal != null">enter_total,</if>  
+      <if test="enterCount != null">enter_count,</if>  
+      <if test="customerCount != null">customer_count,</if>  
+      <if test="avgCustomerTotal != null">avg_customer_total,</if>  
+      <if test="wechatCount != null">wechat_count,</if>  
+      <if test="wechatTotal != null">wechat_total,</if>  
+      <if test="alipayCount != null">alipay_count,</if>  
+      <if test="alipayTotal != null">alipay_total,</if>  
+      <if test="cashCount != null">cash_count,</if>  
+      <if test="cashTotal != null">cash_total,</if>  
+      <if test="bankCount != null">bank_count,</if>  
+      <if test="bankTotal != null">bank_total,</if>  
+      <if test="chargeCount != null">charge_count,</if>  
+      <if test="chargeTotal != null">charge_total,</if>  
+      <if test="redCount != null">red_count,</if>  
+      <if test="redTotal != null">red_total,</if>  
+      <if test="couponCount != null">coupon_count,</if>  
+      <if test="couponTotal != null">coupon_total,</if>  
+      <if test="waitCount != null">wait_count,</if>  
+      <if test="waitTotal != null">wait_total,</if>  
+      <if test="chargeReturnCount != null">charge_return_count,</if>  
+      <if test="chargeReturnTotal != null">charge_return_total,</if>  
+      <if test="returnCount != null">return_count,</if>  
+      <if test="returnTotal != null">return_total,</if>  
+      <if test="orderItemCount != null">order_item_count,</if>  
+      <if test="orderItemTotal != null">order_item_total,</if>  
+      <if test="returnItemTotal != null">return_item_total,</if>  
+      <if test="returnItemCount != null">return_item_count,</if>  
+      <if test="returnCustomerTotal != null">return_customer_total,</if>  
+      <if test="returnCustomerCount != null">return_customer_count,</if>  
+      <if test="newNormalCustomerTotal != null">new_normal_customer_total,</if>  
+      <if test="newNormalCustomerCount != null">new_normal_customer_count,</if>  
+      <if test="newCustomerTotal != null">new_customer_total,</if>  
+      <if test="newCustomerCount != null">new_customer_count,</if>  
+      <if test="newShareCustomerCount != null">new_share_customer_count,</if>  
+      <if test="newShareCustomerTotal != null">new_share_customer_total,</if>  
+      <if test="backCustomerCount != null">back_customer_count,</if>  
+      <if test="backCustomerToatal != null">back_customer_toatal,</if>  
+      <if test="backTwoCustomerCount != null">back_two_customer_count,</if>  
+      <if test="backTwoCustomerTotal != null">back_two_customer_total,</if>  
+      <if test="backTwoMoreCustomerCount != null">back_two_more_customer_count,</if>  
+      <if test="backTwoMoreCustomerTotal != null">back_two_more_customer_total,</if>  
+      <if test="sAvgScore != null">s_avg_score,</if>  
+      <if test="sRestoTotal != null">s_resto_total,</if>  
+      <if test="sEnterTotal != null">s_enter_total,</if>  
+      <if test="sAllTotal != null">s_all_total,</if>  
+      <if test="sTotalIncome != null">s_total_income,</if>  
+      <if test="sPayTotal != null">s_pay_total,</if>  
+      <if test="sNewCustomr != null">s_new_customr,</if>  
+      <if test="sNewCustomerTotal != null">s_new_customer_total,</if>  
+      <if test="sNewNormalCustomer != null">s_new_normal_customer,</if>  
+      <if test="sNewNormalCustomerTotal != null">s_new_normal_customer_total,</if>  
+      <if test="sNewShareCustomer != null">s_new_share_customer,</if>  
+      <if test="sNewShareCustomerTotal != null">s_new_share_customer_total,</if>  
+      <if test="sBackCustomer != null">s_back_customer,</if>  
+      <if test="sBackCustomerTotal != null">s_back_customer_total,</if>  
+      <if test="sBackTwoCustomer != null">s_back_two_customer,</if>  
+      <if test="sBackTwoCustomerTotal != null">s_back_two_customer_total,</if>  
+      <if test="sBackTwoMoreCustomer != null">s_back_two_more_customer,</if>  
+      <if test="sBackTwoMoreCustomerTotal != null">s_back_two_more_customer_total,</if>  
+      <if test="zAvgScore != null">z_avg_score,</if>  
+      <if test="zRestoTotal != null">z_resto_total,</if>  
+      <if test="zEnterTotal != null">z_enter_total,</if>  
+      <if test="zTotalIncome != null">z_total_income,</if>  
+      <if test="zAllTotal != null">z_all_total,</if>  
+      <if test="zPayTotal != null">z_pay_total,</if>  
+      <if test="zNewCustomerTotal != null">z_new_customer_total,</if>  
+      <if test="zNewCustomerCount != null">z_new_customer_count,</if>  
+      <if test="zNewNormalCustomer != null">z_new_normal_customer,</if>  
+      <if test="zNewNormalCustomerTotal != null">z_new_normal_customer_total,</if>  
+      <if test="zNewShareCustomer != null">z_new_share_customer,</if>  
+      <if test="zNewShareCustomerTotal != null">z_new_share_customer_total,</if>  
+      <if test="zBackCustomer != null">z_back_customer,</if>  
+      <if test="zBackCustomerTotal != null">z_back_customer_total,</if>  
+      <if test="zBackTwoCustomer != null">z_back_two_customer,</if>  
+      <if test="zBackTwoCustomerTotal != null">z_back_two_customer_total,</if>  
+      <if test="zBackTwoMoreCustomer != null">z_back_two_more_customer,</if>  
+      <if test="zBackTwoMoreCustomerTotal != null">z_back_two_more_customer_total,</if>  
+      <if test="xAvgScore != null">x_avg_score,</if>  
+      <if test="xRestoTotal != null">x_resto_total,</if>  
+      <if test="xEnterTotal != null">x_enter_total,</if>  
+      <if test="xAllTotal != null">x_all_total,</if>  
+      <if test="xTotalIncome != null">x_total_income,</if>  
+      <if test="xPayTotal != null">x_pay_total,</if>  
+      <if test="xNewCustomerTotal != null">x_new_customer_total,</if>  
+      <if test="xNewNormalCustomer != null">x_new_normal_customer,</if>  
+      <if test="xNewCustomer != null">x_new_customer,</if>  
+      <if test="xNewNormalCustomerTotal != null">x_new_normal_customer_total,</if>  
+      <if test="xNewShareCustomer != null">x_new_share_customer,</if>  
+      <if test="xNewShareCustomerTotal != null">x_new_share_customer_total,</if>  
+      <if test="xBackCustomer != null">x_back_customer,</if>  
+      <if test="xBackCustomerTotal != null">x_back_customer_total,</if>  
+      <if test="xBackTwoCustomer != null">x_back_two_customer,</if>  
+      <if test="xBackTwoCustomerTotal != null">x_back_two_customer_total,</if>  
+      <if test="xBackTwoMoreCustomer != null">x_back_two_more_customer,</if>  
+      <if test="xBackTwoMoreCustomerTotal != null">x_back_two_more_customer_total,</if>  
+      <if test="mAvgScore != null">m_avg_score,</if>  
+      <if test="mRestoTotal != null">m_resto_total,</if>  
+      <if test="mEnterTotal != null">m_enter_total,</if>  
+      <if test="mAllTotal != null">m_all_total,</if>  
+      <if test="mTotalIncome != null">m_total_income,</if>  
+      <if test="mPayTotal != null">m_pay_total,</if>  
+      <if test="mNewCustomr != null">m_new_customr,</if>  
+      <if test="mNewCustomerTotal != null">m_new_customer_total,</if>  
+      <if test="mNewNormalCustomer != null">m_new_normal_customer,</if>  
+      <if test="mNewNormalCustomerTotal != null">m_new_normal_customer_total,</if>  
+      <if test="mNewShareCustomer != null">m_new_share_customer,</if>  
+      <if test="mNewShareCustomerTotal != null">m_new_share_customer_total,</if>  
+      <if test="mBackCustomer != null">m_back_customer,</if>  
+      <if test="mBackCustomerTotal != null">m_back_customer_total,</if>  
+      <if test="mBackTwoCustomer != null">m_back_two_customer,</if>  
+      <if test="mBackTwoCustomerTotal != null">m_back_two_customer_total,</if>  
+      <if test="mBackTwoMoreCustomer != null">m_back_two_more_customer,</if>  
+      <if test="mBackTwoMoreCustomerTotal != null">m_back_two_more_customer_total,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="shopId != null">#{shopId,jdbcType=VARCHAR},</if>  
+      <if test="shopName != null">#{shopName,jdbcType=VARCHAR},</if>  
+      <if test="brandName != null">#{brandName,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=DATE},</if>  
+      <if test="restoTotal != null">#{restoTotal,jdbcType=DECIMAL},</if>  
+      <if test="restoCount != null">#{restoCount,jdbcType=INTEGER},</if>  
+      <if test="enterTotal != null">#{enterTotal,jdbcType=DECIMAL},</if>  
+      <if test="enterCount != null">#{enterCount,jdbcType=INTEGER},</if>  
+      <if test="customerCount != null">#{customerCount,jdbcType=INTEGER},</if>  
+      <if test="avgCustomerTotal != null">#{avgCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="wechatCount != null">#{wechatCount,jdbcType=INTEGER},</if>  
+      <if test="wechatTotal != null">#{wechatTotal,jdbcType=DECIMAL},</if>  
+      <if test="alipayCount != null">#{alipayCount,jdbcType=INTEGER},</if>  
+      <if test="alipayTotal != null">#{alipayTotal,jdbcType=DECIMAL},</if>  
+      <if test="cashCount != null">#{cashCount,jdbcType=INTEGER},</if>  
+      <if test="cashTotal != null">#{cashTotal,jdbcType=DECIMAL},</if>  
+      <if test="bankCount != null">#{bankCount,jdbcType=INTEGER},</if>  
+      <if test="bankTotal != null">#{bankTotal,jdbcType=DECIMAL},</if>  
+      <if test="chargeCount != null">#{chargeCount,jdbcType=INTEGER},</if>  
+      <if test="chargeTotal != null">#{chargeTotal,jdbcType=DECIMAL},</if>  
+      <if test="redCount != null">#{redCount,jdbcType=INTEGER},</if>  
+      <if test="redTotal != null">#{redTotal,jdbcType=DECIMAL},</if>  
+      <if test="couponCount != null">#{couponCount,jdbcType=INTEGER},</if>  
+      <if test="couponTotal != null">#{couponTotal,jdbcType=DECIMAL},</if>  
+      <if test="waitCount != null">#{waitCount,jdbcType=INTEGER},</if>  
+      <if test="waitTotal != null">#{waitTotal,jdbcType=DECIMAL},</if>  
+      <if test="chargeReturnCount != null">#{chargeReturnCount,jdbcType=INTEGER},</if>  
+      <if test="chargeReturnTotal != null">#{chargeReturnTotal,jdbcType=DECIMAL},</if>  
+      <if test="returnCount != null">#{returnCount,jdbcType=INTEGER},</if>  
+      <if test="returnTotal != null">#{returnTotal,jdbcType=DECIMAL},</if>  
+      <if test="orderItemCount != null">#{orderItemCount,jdbcType=INTEGER},</if>  
+      <if test="orderItemTotal != null">#{orderItemTotal,jdbcType=DECIMAL},</if>  
+      <if test="returnItemTotal != null">#{returnItemTotal,jdbcType=DECIMAL},</if>  
+      <if test="returnItemCount != null">#{returnItemCount,jdbcType=INTEGER},</if>  
+      <if test="returnCustomerTotal != null">#{returnCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="returnCustomerCount != null">#{returnCustomerCount,jdbcType=INTEGER},</if>  
+      <if test="newNormalCustomerTotal != null">#{newNormalCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="newNormalCustomerCount != null">#{newNormalCustomerCount,jdbcType=INTEGER},</if>  
+      <if test="newCustomerTotal != null">#{newCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="newCustomerCount != null">#{newCustomerCount,jdbcType=INTEGER},</if>  
+      <if test="newShareCustomerCount != null">#{newShareCustomerCount,jdbcType=INTEGER},</if>  
+      <if test="newShareCustomerTotal != null">#{newShareCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="backCustomerCount != null">#{backCustomerCount,jdbcType=INTEGER},</if>  
+      <if test="backCustomerToatal != null">#{backCustomerToatal,jdbcType=DECIMAL},</if>  
+      <if test="backTwoCustomerCount != null">#{backTwoCustomerCount,jdbcType=INTEGER},</if>  
+      <if test="backTwoCustomerTotal != null">#{backTwoCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="backTwoMoreCustomerCount != null">#{backTwoMoreCustomerCount,jdbcType=INTEGER},</if>  
+      <if test="backTwoMoreCustomerTotal != null">#{backTwoMoreCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="sAvgScore != null">#{sAvgScore,jdbcType=VARCHAR},</if>  
+      <if test="sRestoTotal != null">#{sRestoTotal,jdbcType=DECIMAL},</if>  
+      <if test="sEnterTotal != null">#{sEnterTotal,jdbcType=DECIMAL},</if>  
+      <if test="sAllTotal != null">#{sAllTotal,jdbcType=DECIMAL},</if>  
+      <if test="sTotalIncome != null">#{sTotalIncome,jdbcType=DECIMAL},</if>  
+      <if test="sPayTotal != null">#{sPayTotal,jdbcType=DECIMAL},</if>  
+      <if test="sNewCustomr != null">#{sNewCustomr,jdbcType=INTEGER},</if>  
+      <if test="sNewCustomerTotal != null">#{sNewCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="sNewNormalCustomer != null">#{sNewNormalCustomer,jdbcType=INTEGER},</if>  
+      <if test="sNewNormalCustomerTotal != null">#{sNewNormalCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="sNewShareCustomer != null">#{sNewShareCustomer,jdbcType=INTEGER},</if>  
+      <if test="sNewShareCustomerTotal != null">#{sNewShareCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="sBackCustomer != null">#{sBackCustomer,jdbcType=INTEGER},</if>  
+      <if test="sBackCustomerTotal != null">#{sBackCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="sBackTwoCustomer != null">#{sBackTwoCustomer,jdbcType=INTEGER},</if>  
+      <if test="sBackTwoCustomerTotal != null">#{sBackTwoCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="sBackTwoMoreCustomer != null">#{sBackTwoMoreCustomer,jdbcType=INTEGER},</if>  
+      <if test="sBackTwoMoreCustomerTotal != null">#{sBackTwoMoreCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="zAvgScore != null">#{zAvgScore,jdbcType=VARCHAR},</if>  
+      <if test="zRestoTotal != null">#{zRestoTotal,jdbcType=DECIMAL},</if>  
+      <if test="zEnterTotal != null">#{zEnterTotal,jdbcType=DECIMAL},</if>  
+      <if test="zTotalIncome != null">#{zTotalIncome,jdbcType=DECIMAL},</if>  
+      <if test="zAllTotal != null">#{zAllTotal,jdbcType=DECIMAL},</if>  
+      <if test="zPayTotal != null">#{zPayTotal,jdbcType=DECIMAL},</if>  
+      <if test="zNewCustomerTotal != null">#{zNewCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="zNewCustomerCount != null">#{zNewCustomerCount,jdbcType=INTEGER},</if>  
+      <if test="zNewNormalCustomer != null">#{zNewNormalCustomer,jdbcType=INTEGER},</if>  
+      <if test="zNewNormalCustomerTotal != null">#{zNewNormalCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="zNewShareCustomer != null">#{zNewShareCustomer,jdbcType=INTEGER},</if>  
+      <if test="zNewShareCustomerTotal != null">#{zNewShareCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="zBackCustomer != null">#{zBackCustomer,jdbcType=INTEGER},</if>  
+      <if test="zBackCustomerTotal != null">#{zBackCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="zBackTwoCustomer != null">#{zBackTwoCustomer,jdbcType=INTEGER},</if>  
+      <if test="zBackTwoCustomerTotal != null">#{zBackTwoCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="zBackTwoMoreCustomer != null">#{zBackTwoMoreCustomer,jdbcType=INTEGER},</if>  
+      <if test="zBackTwoMoreCustomerTotal != null">#{zBackTwoMoreCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="xAvgScore != null">#{xAvgScore,jdbcType=VARCHAR},</if>  
+      <if test="xRestoTotal != null">#{xRestoTotal,jdbcType=DECIMAL},</if>  
+      <if test="xEnterTotal != null">#{xEnterTotal,jdbcType=DECIMAL},</if>  
+      <if test="xAllTotal != null">#{xAllTotal,jdbcType=DECIMAL},</if>  
+      <if test="xTotalIncome != null">#{xTotalIncome,jdbcType=DECIMAL},</if>  
+      <if test="xPayTotal != null">#{xPayTotal,jdbcType=DECIMAL},</if>  
+      <if test="xNewCustomerTotal != null">#{xNewCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="xNewNormalCustomer != null">#{xNewNormalCustomer,jdbcType=INTEGER},</if>  
+      <if test="xNewCustomer != null">#{xNewCustomer,jdbcType=INTEGER},</if>  
+      <if test="xNewNormalCustomerTotal != null">#{xNewNormalCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="xNewShareCustomer != null">#{xNewShareCustomer,jdbcType=INTEGER},</if>  
+      <if test="xNewShareCustomerTotal != null">#{xNewShareCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="xBackCustomer != null">#{xBackCustomer,jdbcType=INTEGER},</if>  
+      <if test="xBackCustomerTotal != null">#{xBackCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="xBackTwoCustomer != null">#{xBackTwoCustomer,jdbcType=INTEGER},</if>  
+      <if test="xBackTwoCustomerTotal != null">#{xBackTwoCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="xBackTwoMoreCustomer != null">#{xBackTwoMoreCustomer,jdbcType=INTEGER},</if>  
+      <if test="xBackTwoMoreCustomerTotal != null">#{xBackTwoMoreCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="mAvgScore != null">#{mAvgScore,jdbcType=VARCHAR},</if>  
+      <if test="mRestoTotal != null">#{mRestoTotal,jdbcType=DECIMAL},</if>  
+      <if test="mEnterTotal != null">#{mEnterTotal,jdbcType=DECIMAL},</if>  
+      <if test="mAllTotal != null">#{mAllTotal,jdbcType=DECIMAL},</if>  
+      <if test="mTotalIncome != null">#{mTotalIncome,jdbcType=DECIMAL},</if>  
+      <if test="mPayTotal != null">#{mPayTotal,jdbcType=DECIMAL},</if>  
+      <if test="mNewCustomr != null">#{mNewCustomr,jdbcType=INTEGER},</if>  
+      <if test="mNewCustomerTotal != null">#{mNewCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="mNewNormalCustomer != null">#{mNewNormalCustomer,jdbcType=INTEGER},</if>  
+      <if test="mNewNormalCustomerTotal != null">#{mNewNormalCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="mNewShareCustomer != null">#{mNewShareCustomer,jdbcType=INTEGER},</if>  
+      <if test="mNewShareCustomerTotal != null">#{mNewShareCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="mBackCustomer != null">#{mBackCustomer,jdbcType=INTEGER},</if>  
+      <if test="mBackCustomerTotal != null">#{mBackCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="mBackTwoCustomer != null">#{mBackTwoCustomer,jdbcType=INTEGER},</if>  
+      <if test="mBackTwoCustomerTotal != null">#{mBackTwoCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="mBackTwoMoreCustomer != null">#{mBackTwoMoreCustomer,jdbcType=INTEGER},</if>  
+      <if test="mBackTwoMoreCustomerTotal != null">#{mBackTwoMoreCustomerTotal,jdbcType=DECIMAL},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.WeOrderDetail">update we_order_detail 
+    <set> 
+      <if test="shopId != null">shop_id = #{shopId,jdbcType=VARCHAR},</if>  
+      <if test="shopName != null">shop_name = #{shopName,jdbcType=VARCHAR},</if>  
+      <if test="brandName != null">brand_name = #{brandName,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=DATE},</if>  
+      <if test="restoTotal != null">resto_total = #{restoTotal,jdbcType=DECIMAL},</if>  
+      <if test="restoCount != null">resto_count = #{restoCount,jdbcType=INTEGER},</if>  
+      <if test="enterTotal != null">enter_total = #{enterTotal,jdbcType=DECIMAL},</if>  
+      <if test="enterCount != null">enter_count = #{enterCount,jdbcType=INTEGER},</if>  
+      <if test="customerCount != null">customer_count = #{customerCount,jdbcType=INTEGER},</if>  
+      <if test="avgCustomerTotal != null">avg_customer_total = #{avgCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="wechatCount != null">wechat_count = #{wechatCount,jdbcType=INTEGER},</if>  
+      <if test="wechatTotal != null">wechat_total = #{wechatTotal,jdbcType=DECIMAL},</if>  
+      <if test="alipayCount != null">alipay_count = #{alipayCount,jdbcType=INTEGER},</if>  
+      <if test="alipayTotal != null">alipay_total = #{alipayTotal,jdbcType=DECIMAL},</if>  
+      <if test="cashCount != null">cash_count = #{cashCount,jdbcType=INTEGER},</if>  
+      <if test="cashTotal != null">cash_total = #{cashTotal,jdbcType=DECIMAL},</if>  
+      <if test="bankCount != null">bank_count = #{bankCount,jdbcType=INTEGER},</if>  
+      <if test="bankTotal != null">bank_total = #{bankTotal,jdbcType=DECIMAL},</if>  
+      <if test="chargeCount != null">charge_count = #{chargeCount,jdbcType=INTEGER},</if>  
+      <if test="chargeTotal != null">charge_total = #{chargeTotal,jdbcType=DECIMAL},</if>  
+      <if test="redCount != null">red_count = #{redCount,jdbcType=INTEGER},</if>  
+      <if test="redTotal != null">red_total = #{redTotal,jdbcType=DECIMAL},</if>  
+      <if test="couponCount != null">coupon_count = #{couponCount,jdbcType=INTEGER},</if>  
+      <if test="couponTotal != null">coupon_total = #{couponTotal,jdbcType=DECIMAL},</if>  
+      <if test="waitCount != null">wait_count = #{waitCount,jdbcType=INTEGER},</if>  
+      <if test="waitTotal != null">wait_total = #{waitTotal,jdbcType=DECIMAL},</if>  
+      <if test="chargeReturnCount != null">charge_return_count = #{chargeReturnCount,jdbcType=INTEGER},</if>  
+      <if test="chargeReturnTotal != null">charge_return_total = #{chargeReturnTotal,jdbcType=DECIMAL},</if>  
+      <if test="returnCount != null">return_count = #{returnCount,jdbcType=INTEGER},</if>  
+      <if test="returnTotal != null">return_total = #{returnTotal,jdbcType=DECIMAL},</if>  
+      <if test="orderItemCount != null">order_item_count = #{orderItemCount,jdbcType=INTEGER},</if>  
+      <if test="orderItemTotal != null">order_item_total = #{orderItemTotal,jdbcType=DECIMAL},</if>  
+      <if test="returnItemTotal != null">return_item_total = #{returnItemTotal,jdbcType=DECIMAL},</if>  
+      <if test="returnItemCount != null">return_item_count = #{returnItemCount,jdbcType=INTEGER},</if>  
+      <if test="returnCustomerTotal != null">return_customer_total = #{returnCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="returnCustomerCount != null">return_customer_count = #{returnCustomerCount,jdbcType=INTEGER},</if>  
+      <if test="newNormalCustomerTotal != null">new_normal_customer_total = #{newNormalCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="newNormalCustomerCount != null">new_normal_customer_count = #{newNormalCustomerCount,jdbcType=INTEGER},</if>  
+      <if test="newCustomerTotal != null">new_customer_total = #{newCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="newCustomerCount != null">new_customer_count = #{newCustomerCount,jdbcType=INTEGER},</if>  
+      <if test="newShareCustomerCount != null">new_share_customer_count = #{newShareCustomerCount,jdbcType=INTEGER},</if>  
+      <if test="newShareCustomerTotal != null">new_share_customer_total = #{newShareCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="backCustomerCount != null">back_customer_count = #{backCustomerCount,jdbcType=INTEGER},</if>  
+      <if test="backCustomerToatal != null">back_customer_toatal = #{backCustomerToatal,jdbcType=DECIMAL},</if>  
+      <if test="backTwoCustomerCount != null">back_two_customer_count = #{backTwoCustomerCount,jdbcType=INTEGER},</if>  
+      <if test="backTwoCustomerTotal != null">back_two_customer_total = #{backTwoCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="backTwoMoreCustomerCount != null">back_two_more_customer_count = #{backTwoMoreCustomerCount,jdbcType=INTEGER},</if>  
+      <if test="backTwoMoreCustomerTotal != null">back_two_more_customer_total = #{backTwoMoreCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="sAvgScore != null">s_avg_score = #{sAvgScore,jdbcType=VARCHAR},</if>  
+      <if test="sRestoTotal != null">s_resto_total = #{sRestoTotal,jdbcType=DECIMAL},</if>  
+      <if test="sEnterTotal != null">s_enter_total = #{sEnterTotal,jdbcType=DECIMAL},</if>  
+      <if test="sAllTotal != null">s_all_total = #{sAllTotal,jdbcType=DECIMAL},</if>  
+      <if test="sTotalIncome != null">s_total_income = #{sTotalIncome,jdbcType=DECIMAL},</if>  
+      <if test="sPayTotal != null">s_pay_total = #{sPayTotal,jdbcType=DECIMAL},</if>  
+      <if test="sNewCustomr != null">s_new_customr = #{sNewCustomr,jdbcType=INTEGER},</if>  
+      <if test="sNewCustomerTotal != null">s_new_customer_total = #{sNewCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="sNewNormalCustomer != null">s_new_normal_customer = #{sNewNormalCustomer,jdbcType=INTEGER},</if>  
+      <if test="sNewNormalCustomerTotal != null">s_new_normal_customer_total = #{sNewNormalCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="sNewShareCustomer != null">s_new_share_customer = #{sNewShareCustomer,jdbcType=INTEGER},</if>  
+      <if test="sNewShareCustomerTotal != null">s_new_share_customer_total = #{sNewShareCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="sBackCustomer != null">s_back_customer = #{sBackCustomer,jdbcType=INTEGER},</if>  
+      <if test="sBackCustomerTotal != null">s_back_customer_total = #{sBackCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="sBackTwoCustomer != null">s_back_two_customer = #{sBackTwoCustomer,jdbcType=INTEGER},</if>  
+      <if test="sBackTwoCustomerTotal != null">s_back_two_customer_total = #{sBackTwoCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="sBackTwoMoreCustomer != null">s_back_two_more_customer = #{sBackTwoMoreCustomer,jdbcType=INTEGER},</if>  
+      <if test="sBackTwoMoreCustomerTotal != null">s_back_two_more_customer_total = #{sBackTwoMoreCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="zAvgScore != null">z_avg_score = #{zAvgScore,jdbcType=VARCHAR},</if>  
+      <if test="zRestoTotal != null">z_resto_total = #{zRestoTotal,jdbcType=DECIMAL},</if>  
+      <if test="zEnterTotal != null">z_enter_total = #{zEnterTotal,jdbcType=DECIMAL},</if>  
+      <if test="zTotalIncome != null">z_total_income = #{zTotalIncome,jdbcType=DECIMAL},</if>  
+      <if test="zAllTotal != null">z_all_total = #{zAllTotal,jdbcType=DECIMAL},</if>  
+      <if test="zPayTotal != null">z_pay_total = #{zPayTotal,jdbcType=DECIMAL},</if>  
+      <if test="zNewCustomerTotal != null">z_new_customer_total = #{zNewCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="zNewCustomerCount != null">z_new_customer_count = #{zNewCustomerCount,jdbcType=INTEGER},</if>  
+      <if test="zNewNormalCustomer != null">z_new_normal_customer = #{zNewNormalCustomer,jdbcType=INTEGER},</if>  
+      <if test="zNewNormalCustomerTotal != null">z_new_normal_customer_total = #{zNewNormalCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="zNewShareCustomer != null">z_new_share_customer = #{zNewShareCustomer,jdbcType=INTEGER},</if>  
+      <if test="zNewShareCustomerTotal != null">z_new_share_customer_total = #{zNewShareCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="zBackCustomer != null">z_back_customer = #{zBackCustomer,jdbcType=INTEGER},</if>  
+      <if test="zBackCustomerTotal != null">z_back_customer_total = #{zBackCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="zBackTwoCustomer != null">z_back_two_customer = #{zBackTwoCustomer,jdbcType=INTEGER},</if>  
+      <if test="zBackTwoCustomerTotal != null">z_back_two_customer_total = #{zBackTwoCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="zBackTwoMoreCustomer != null">z_back_two_more_customer = #{zBackTwoMoreCustomer,jdbcType=INTEGER},</if>  
+      <if test="zBackTwoMoreCustomerTotal != null">z_back_two_more_customer_total = #{zBackTwoMoreCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="xAvgScore != null">x_avg_score = #{xAvgScore,jdbcType=VARCHAR},</if>  
+      <if test="xRestoTotal != null">x_resto_total = #{xRestoTotal,jdbcType=DECIMAL},</if>  
+      <if test="xEnterTotal != null">x_enter_total = #{xEnterTotal,jdbcType=DECIMAL},</if>  
+      <if test="xAllTotal != null">x_all_total = #{xAllTotal,jdbcType=DECIMAL},</if>  
+      <if test="xTotalIncome != null">x_total_income = #{xTotalIncome,jdbcType=DECIMAL},</if>  
+      <if test="xPayTotal != null">x_pay_total = #{xPayTotal,jdbcType=DECIMAL},</if>  
+      <if test="xNewCustomerTotal != null">x_new_customer_total = #{xNewCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="xNewNormalCustomer != null">x_new_normal_customer = #{xNewNormalCustomer,jdbcType=INTEGER},</if>  
+      <if test="xNewCustomer != null">x_new_customer = #{xNewCustomer,jdbcType=INTEGER},</if>  
+      <if test="xNewNormalCustomerTotal != null">x_new_normal_customer_total = #{xNewNormalCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="xNewShareCustomer != null">x_new_share_customer = #{xNewShareCustomer,jdbcType=INTEGER},</if>  
+      <if test="xNewShareCustomerTotal != null">x_new_share_customer_total = #{xNewShareCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="xBackCustomer != null">x_back_customer = #{xBackCustomer,jdbcType=INTEGER},</if>  
+      <if test="xBackCustomerTotal != null">x_back_customer_total = #{xBackCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="xBackTwoCustomer != null">x_back_two_customer = #{xBackTwoCustomer,jdbcType=INTEGER},</if>  
+      <if test="xBackTwoCustomerTotal != null">x_back_two_customer_total = #{xBackTwoCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="xBackTwoMoreCustomer != null">x_back_two_more_customer = #{xBackTwoMoreCustomer,jdbcType=INTEGER},</if>  
+      <if test="xBackTwoMoreCustomerTotal != null">x_back_two_more_customer_total = #{xBackTwoMoreCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="mAvgScore != null">m_avg_score = #{mAvgScore,jdbcType=VARCHAR},</if>  
+      <if test="mRestoTotal != null">m_resto_total = #{mRestoTotal,jdbcType=DECIMAL},</if>  
+      <if test="mEnterTotal != null">m_enter_total = #{mEnterTotal,jdbcType=DECIMAL},</if>  
+      <if test="mAllTotal != null">m_all_total = #{mAllTotal,jdbcType=DECIMAL},</if>  
+      <if test="mTotalIncome != null">m_total_income = #{mTotalIncome,jdbcType=DECIMAL},</if>  
+      <if test="mPayTotal != null">m_pay_total = #{mPayTotal,jdbcType=DECIMAL},</if>  
+      <if test="mNewCustomr != null">m_new_customr = #{mNewCustomr,jdbcType=INTEGER},</if>  
+      <if test="mNewCustomerTotal != null">m_new_customer_total = #{mNewCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="mNewNormalCustomer != null">m_new_normal_customer = #{mNewNormalCustomer,jdbcType=INTEGER},</if>  
+      <if test="mNewNormalCustomerTotal != null">m_new_normal_customer_total = #{mNewNormalCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="mNewShareCustomer != null">m_new_share_customer = #{mNewShareCustomer,jdbcType=INTEGER},</if>  
+      <if test="mNewShareCustomerTotal != null">m_new_share_customer_total = #{mNewShareCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="mBackCustomer != null">m_back_customer = #{mBackCustomer,jdbcType=INTEGER},</if>  
+      <if test="mBackCustomerTotal != null">m_back_customer_total = #{mBackCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="mBackTwoCustomer != null">m_back_two_customer = #{mBackTwoCustomer,jdbcType=INTEGER},</if>  
+      <if test="mBackTwoCustomerTotal != null">m_back_two_customer_total = #{mBackTwoCustomerTotal,jdbcType=DECIMAL},</if>  
+      <if test="mBackTwoMoreCustomer != null">m_back_two_more_customer = #{mBackTwoMoreCustomer,jdbcType=INTEGER},</if>  
+      <if test="mBackTwoMoreCustomerTotal != null">m_back_two_more_customer_total = #{mBackTwoMoreCustomerTotal,jdbcType=DECIMAL},</if> 
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.WeOrderDetail">update we_order_detail set shop_id = #{shopId,jdbcType=VARCHAR}, shop_name = #{shopName,jdbcType=VARCHAR}, brand_name = #{brandName,jdbcType=VARCHAR}, create_time = #{createTime,jdbcType=DATE}, resto_total = #{restoTotal,jdbcType=DECIMAL}, resto_count = #{restoCount,jdbcType=INTEGER}, enter_total = #{enterTotal,jdbcType=DECIMAL}, enter_count = #{enterCount,jdbcType=INTEGER}, customer_count = #{customerCount,jdbcType=INTEGER}, avg_customer_total = #{avgCustomerTotal,jdbcType=DECIMAL}, wechat_count = #{wechatCount,jdbcType=INTEGER}, wechat_total = #{wechatTotal,jdbcType=DECIMAL}, alipay_count = #{alipayCount,jdbcType=INTEGER}, alipay_total = #{alipayTotal,jdbcType=DECIMAL}, cash_count = #{cashCount,jdbcType=INTEGER}, cash_total = #{cashTotal,jdbcType=DECIMAL}, bank_count = #{bankCount,jdbcType=INTEGER}, bank_total = #{bankTotal,jdbcType=DECIMAL}, charge_count = #{chargeCount,jdbcType=INTEGER}, charge_total = #{chargeTotal,jdbcType=DECIMAL}, red_count = #{redCount,jdbcType=INTEGER}, red_total = #{redTotal,jdbcType=DECIMAL}, coupon_count = #{couponCount,jdbcType=INTEGER}, coupon_total = #{couponTotal,jdbcType=DECIMAL}, wait_count = #{waitCount,jdbcType=INTEGER}, wait_total = #{waitTotal,jdbcType=DECIMAL}, charge_return_count = #{chargeReturnCount,jdbcType=INTEGER}, charge_return_total = #{chargeReturnTotal,jdbcType=DECIMAL}, return_count = #{returnCount,jdbcType=INTEGER}, return_total = #{returnTotal,jdbcType=DECIMAL}, order_item_count = #{orderItemCount,jdbcType=INTEGER}, order_item_total = #{orderItemTotal,jdbcType=DECIMAL}, return_item_total = #{returnItemTotal,jdbcType=DECIMAL}, return_item_count = #{returnItemCount,jdbcType=INTEGER}, return_customer_total = #{returnCustomerTotal,jdbcType=DECIMAL}, return_customer_count = #{returnCustomerCount,jdbcType=INTEGER}, new_normal_customer_total = #{newNormalCustomerTotal,jdbcType=DECIMAL}, new_normal_customer_count = #{newNormalCustomerCount,jdbcType=INTEGER}, new_customer_total = #{newCustomerTotal,jdbcType=DECIMAL}, new_customer_count = #{newCustomerCount,jdbcType=INTEGER}, new_share_customer_count = #{newShareCustomerCount,jdbcType=INTEGER}, new_share_customer_total = #{newShareCustomerTotal,jdbcType=DECIMAL}, back_customer_count = #{backCustomerCount,jdbcType=INTEGER}, back_customer_toatal = #{backCustomerToatal,jdbcType=DECIMAL}, back_two_customer_count = #{backTwoCustomerCount,jdbcType=INTEGER}, back_two_customer_total = #{backTwoCustomerTotal,jdbcType=DECIMAL}, back_two_more_customer_count = #{backTwoMoreCustomerCount,jdbcType=INTEGER}, back_two_more_customer_total = #{backTwoMoreCustomerTotal,jdbcType=DECIMAL}, s_avg_score = #{sAvgScore,jdbcType=VARCHAR}, s_resto_total = #{sRestoTotal,jdbcType=DECIMAL}, s_enter_total = #{sEnterTotal,jdbcType=DECIMAL}, s_all_total = #{sAllTotal,jdbcType=DECIMAL}, s_total_income = #{sTotalIncome,jdbcType=DECIMAL}, s_pay_total = #{sPayTotal,jdbcType=DECIMAL}, s_new_customr = #{sNewCustomr,jdbcType=INTEGER}, s_new_customer_total = #{sNewCustomerTotal,jdbcType=DECIMAL}, s_new_normal_customer = #{sNewNormalCustomer,jdbcType=INTEGER}, s_new_normal_customer_total = #{sNewNormalCustomerTotal,jdbcType=DECIMAL}, s_new_share_customer = #{sNewShareCustomer,jdbcType=INTEGER}, s_new_share_customer_total = #{sNewShareCustomerTotal,jdbcType=DECIMAL}, s_back_customer = #{sBackCustomer,jdbcType=INTEGER}, s_back_customer_total = #{sBackCustomerTotal,jdbcType=DECIMAL}, s_back_two_customer = #{sBackTwoCustomer,jdbcType=INTEGER}, s_back_two_customer_total = #{sBackTwoCustomerTotal,jdbcType=DECIMAL}, s_back_two_more_customer = #{sBackTwoMoreCustomer,jdbcType=INTEGER}, s_back_two_more_customer_total = #{sBackTwoMoreCustomerTotal,jdbcType=DECIMAL}, z_avg_score = #{zAvgScore,jdbcType=VARCHAR}, z_resto_total = #{zRestoTotal,jdbcType=DECIMAL}, z_enter_total = #{zEnterTotal,jdbcType=DECIMAL}, z_total_income = #{zTotalIncome,jdbcType=DECIMAL}, z_all_total = #{zAllTotal,jdbcType=DECIMAL}, z_pay_total = #{zPayTotal,jdbcType=DECIMAL}, z_new_customer_total = #{zNewCustomerTotal,jdbcType=DECIMAL}, z_new_customer_count = #{zNewCustomerCount,jdbcType=INTEGER}, z_new_normal_customer = #{zNewNormalCustomer,jdbcType=INTEGER}, z_new_normal_customer_total = #{zNewNormalCustomerTotal,jdbcType=DECIMAL}, z_new_share_customer = #{zNewShareCustomer,jdbcType=INTEGER}, z_new_share_customer_total = #{zNewShareCustomerTotal,jdbcType=DECIMAL}, z_back_customer = #{zBackCustomer,jdbcType=INTEGER}, z_back_customer_total = #{zBackCustomerTotal,jdbcType=DECIMAL}, z_back_two_customer = #{zBackTwoCustomer,jdbcType=INTEGER}, z_back_two_customer_total = #{zBackTwoCustomerTotal,jdbcType=DECIMAL}, z_back_two_more_customer = #{zBackTwoMoreCustomer,jdbcType=INTEGER}, z_back_two_more_customer_total = #{zBackTwoMoreCustomerTotal,jdbcType=DECIMAL}, x_avg_score = #{xAvgScore,jdbcType=VARCHAR}, x_resto_total = #{xRestoTotal,jdbcType=DECIMAL}, x_enter_total = #{xEnterTotal,jdbcType=DECIMAL}, x_all_total = #{xAllTotal,jdbcType=DECIMAL}, x_total_income = #{xTotalIncome,jdbcType=DECIMAL}, x_pay_total = #{xPayTotal,jdbcType=DECIMAL}, x_new_customer_total = #{xNewCustomerTotal,jdbcType=DECIMAL}, x_new_normal_customer = #{xNewNormalCustomer,jdbcType=INTEGER}, x_new_customer = #{xNewCustomer,jdbcType=INTEGER}, x_new_normal_customer_total = #{xNewNormalCustomerTotal,jdbcType=DECIMAL}, x_new_share_customer = #{xNewShareCustomer,jdbcType=INTEGER}, x_new_share_customer_total = #{xNewShareCustomerTotal,jdbcType=DECIMAL}, x_back_customer = #{xBackCustomer,jdbcType=INTEGER}, x_back_customer_total = #{xBackCustomerTotal,jdbcType=DECIMAL}, x_back_two_customer = #{xBackTwoCustomer,jdbcType=INTEGER}, x_back_two_customer_total = #{xBackTwoCustomerTotal,jdbcType=DECIMAL}, x_back_two_more_customer = #{xBackTwoMoreCustomer,jdbcType=INTEGER}, x_back_two_more_customer_total = #{xBackTwoMoreCustomerTotal,jdbcType=DECIMAL}, m_avg_score = #{mAvgScore,jdbcType=VARCHAR}, m_resto_total = #{mRestoTotal,jdbcType=DECIMAL}, m_enter_total = #{mEnterTotal,jdbcType=DECIMAL}, m_all_total = #{mAllTotal,jdbcType=DECIMAL}, m_total_income = #{mTotalIncome,jdbcType=DECIMAL}, m_pay_total = #{mPayTotal,jdbcType=DECIMAL}, m_new_customr = #{mNewCustomr,jdbcType=INTEGER}, m_new_customer_total = #{mNewCustomerTotal,jdbcType=DECIMAL}, m_new_normal_customer = #{mNewNormalCustomer,jdbcType=INTEGER}, m_new_normal_customer_total = #{mNewNormalCustomerTotal,jdbcType=DECIMAL}, m_new_share_customer = #{mNewShareCustomer,jdbcType=INTEGER}, m_new_share_customer_total = #{mNewShareCustomerTotal,jdbcType=DECIMAL}, m_back_customer = #{mBackCustomer,jdbcType=INTEGER}, m_back_customer_total = #{mBackCustomerTotal,jdbcType=DECIMAL}, m_back_two_customer = #{mBackTwoCustomer,jdbcType=INTEGER}, m_back_two_customer_total = #{mBackTwoCustomerTotal,jdbcType=DECIMAL}, m_back_two_more_customer = #{mBackTwoMoreCustomer,jdbcType=INTEGER}, m_back_two_more_customer_total = #{mBackTwoMoreCustomerTotal,jdbcType=DECIMAL} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectWeOrderByShopIdAndTime" resultMap="selectWeOrderByShopIdAndTimeMap">
+   SELECT wo.*, 
+   cl.id we_charge_log_id,
+  cl.charge_money, 
+  cl.charge_telephone,
+   cl.charge_type, 
+   wi.id we_item_id, 
+   wi.item_count,
+   wi.item_name, 
+   wi.item_total, 
+   wm.id we_return_item_id, 
+   wm.return_item_count, 
+   wm.return_item_name, 
+   wm.return_item_total, 
+   wc.id we_return_customer_id, 
+   wc.money, wc.telephone FROM we_order_detail wo 
+   LEFT JOIN we_charge_log cl ON wo.shop_id = cl.shop_id
+    LEFT JOIN we_item wi ON wo.shop_id = wi.shop_id
+     LEFT JOIN we_return_customer wc ON wc.shop_id =wo.shop_id
+      LEFT JOIN we_return_item wm on wo.shop_id = wm.shop_id 
+      WHERE wo.shop_id=#{shopId} 
+      AND
+       <![CDATA[
+                wo.create_time=#{createTime}
+        AND cl.create_time=#{createTime}
+        AND wi.create_time=#{createTime}
+       AND wm.create_time=#{createTime}
+       AND wc.create_time=#{createTime}
+      ]]>
+      <!--
+
+
+      -->
+
+</select>
+  <select id="selectList" resultType="WeOrderDetail">select * from we_order_detail</select>
+</mapper>

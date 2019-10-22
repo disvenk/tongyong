@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+		<title>等位红包</title>
+		<link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
+		<link href="//cdn.bootcss.com/weui/1.0.2/style/weui.min.css" rel="stylesheet">
+		<style>
+			*{ padding:0px; margin:0px;}
+			body {
+				background:#FFF;
+				font-size:14px;
+			}
+			#caseBlanche {
+			    height: 150px;
+			    width: 150px;
+			    margin: auto;
+			    position: relative;
+			}
+			#caseBlanche #load {
+			    color: #fff;
+			    font-family: calibri;
+			    text-align: center;
+			    position: relative;
+			    bottom: 150px;
+			}
+			#test {
+			    height: 10px;
+			    width: 10px;
+			    position: relative;
+			    background-color: black;
+			    border-radius: 50%;
+			    top: -5px;
+			    left: 65px;
+			    margin: 5px;
+			}
+			#rond {
+			  	height: 150px;
+			    width: 150px;
+			    border: 2px solid #666;
+			    border-radius: 50%;
+			    position: relative;
+			    margin: auto;
+			    animation: rond 60s linear infinite;
+			    -webkit-animation: rond 60s linear infinite;
+			    -moz-animation: rond 60s linear infinite;
+			    -ms-animation: rond 60s linear infinite;
+			    -o-animation: rond 60s linear infinite;
+			    animation-play-state : paused;
+			    -webkit-animation-play-state : paused;
+			    -moz-animation-play-state : paused;
+			    -ms-animation-play-state: paused;
+			    -o-animation-play-state: paused;
+			}
+			@keyframes rond {
+			  0% {transform : rotate(0deg);}
+			  100% {transform : rotate(360deg);}
+			}
+			@-webkit-keyframes rond {
+			    0%{-webkit-transform : rotate(0deg);}
+			  100%{-webkit-transform : rotate(360deg);}
+			}
+			@-moz-keyframes rond {
+			    0%{-moz-transform : rotate(0deg);}
+			  100%{-moz-transform : rotate(360deg);}
+			}
+			@-ms-keyframes rond {
+			    0%{-ms-transform : rotate(0deg);}
+			  100%{-ms-transform : rotate(360deg);}
+			}
+			@-o-keyframes rond {
+			    0%{-o-transform : rotate(0deg);}
+			  100%{-o-transform : rotate(360deg);}
+			}
+			.money{
+				margin-top: 25%;
+				padding: 0px;
+				font-size: 30px;
+				color: black;
+				font-weight: bold;
+			}
+			.timer{
+				margin-top: 10px;
+				font-size: 18px;
+				color: black;
+			}
+			.qrcode{
+				 width:150px;
+				 height:150px;
+				 margin-bottom: 15px;
+			}
+			.div_bottom{
+				position:fixed;
+				bottom:0; 
+				left:0; 
+				width:100%;
+				font-weight: bold;
+			}
+			.div_bottom a{
+				color: #000000;
+			}
+
+		</style>
+	</head>
+
+	<body style="text-align: center;overflow:auto; padding-bottom: 60px;">
+		<div id="loading">
+			<h1 style='margin-top:45%'>正在加载</h1>
+		</div>
+		<div id="queueInfo" style="display: none;">
+			<h2 id="shopName"></h2>
+			<h1 style="color: red;" id="tableNum"></h1>
+			<h3 id="waitNumber"></h3>
+			<br />
+			<div id="caseBlanche"> 
+				<div id="rond">
+					<div id="test"></div>
+				</div>
+				<div id="load">
+					<p class="money">¥ <span id="money">0.01</span></p>
+					<p class="timer" id="timer">00:00:00</p>
+				</div>
+			</div><br />
+			<h3 id="msg">亲，前面还有<font color="red"> 0 </font>桌吃货正在等待哦！</h3><br />
+			<a href="" id="btn_dianCan" class="weui-btn weui-btn_plain-primary" style="width: 60%;background-color: #000000;border: 1px solid #000000;color: #FFFFFF;">点   餐</a>
+			<br />
+		</div>
+		<div class="div_bottom">
+			<p>Resto+提供技术支持</p>
+			<a href="tel:4008051711">Tel：<span style="text-decoration:underline">4008051711</span></a>
+			<p>© 2016－2018 restoplus.cn </p>
+		</div>
+	</body>
+	<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+	<script>
+		var baseUrl = getParam("baseUrl")+"/geekqueuing/waitModel/";
+		console.log(baseUrl);
+		var parameData = {
+			"brandId" : getParam("brandId"),
+			"id" : getParam("id"),
+		};//基础参数
+		
+		var queueState = {0:"等位中",1:"就餐",2:"过号",3:"已消费"};
+		
+		var beginDate = new Date().getTime();
+		var hm = 0 ;//毫秒
+		var addMoney = 0.01;//一次增加的 金额
+		var maxMoney = 50;//等位红包最高金额
+		var interval = 1000 ;// 间隔多久增加一次 金额（毫秒）  1s = 1000 hm
+		var queueMoeny = 0;// 等位红包
+
+		if(getParam("usded") == "1" || getParam("usded") == 1){//判断当前红包是否已被使用
+			$("#queueInfo").html("<h1 style='margin-top:45%'>该红包已被他人领取<br/>谢谢您的关注！</h1>");
+			showInfo();
+		}else{
+			//初始化 等待金额
+			initConfig(true);
+		}
+
+		
+		
+		var setTimeoutObj = null;
+		function settime() {
+			hm = parseInt(hm);
+			hm = ++hm>=100?0:hm;//复位
+			currentDate = new Date().getTime();
+			var timer = currentDate - beginDate;
+			if(timer%interval <= 10){//一秒增加一次 
+				//var money = parseFloat($("#money").html());
+				
+				if(queueMoeny<maxMoney){
+					queueMoeny += parseFloat(addMoney);
+					//money = realMoney;
+				}
+				$("#money").html(queueMoeny.toFixed(2)<=maxMoney?queueMoeny.toFixed(2):maxMoney);
+				//$("#money").html(queueMoeny);
+			}
+			setTimeoutObj = setTimeout(function() {
+				$("#timer").html(diffTime(timer,false)+":"+(hm>=10?hm:"0"+hm));
+				settime()
+			}, 10)
+		}
+		
+		var refreshObj = null;
+		function refresh(){
+			refreshObj = setTimeout(function() {
+				initConfig(false);
+				refresh();
+			}, 1000)
+		}
+	
+		
+		function initConfig(isInit){
+			sendPost("getWaitState",function(result){
+				var data = result.data;
+				console.log("------------");
+				console.log(result,data);
+				//state 等位状态（0：等位中 1：就餐 2： 过号3： 已消费）
+				console.log("当前状态："+data.state+"---"+queueState[data.state])
+				$("#tableNum").html(data.tableType+data.countByTableTpye);//桌号
+				$("#waitNumber").html(data.personNumber+"人就餐");//桌号
+				$("#shopName").html(data.shopName);
+//				$("#btn_dianCan").attr("href",data.imgUrl);
+				$("#btn_dianCan").attr("href",getParam("baseUrl")+"/wechat/index?shopId="+data.shopDetailId);
+				console.log("----  "+data.flowMoney);
+				addMoney = parseFloat(data.flowMoney);
+				maxMoney = parseFloat(data.highMoney);
+				if(data.state == 0){//等位
+					if(data.callNumber > 0){//判断是否已被叫号
+						$("#msg").html("一共获得<font color='red'>"+data.finalMoney+"</font>元等位红包<br/>在本次消费中将直接使用！");
+						var timer = data.callNumberTime.time - data.createTime.time;
+						$("#timer").html(diffTime(timer,true));
+						$("#money").html(data.finalMoney);
+						stopRun();
+					}else{//正在等位
+						$("#msg").html("亲，前面还有<font color='red'> "+result.waitNumber+" </font>桌吃货正在等待哦！");
+						$("#rond").css('animation-play-state', "running");
+						$("#rond").css('-webkit-animation-play-state', "running");
+						$("#rond").css('-moz-animation-play-state', "running");
+						$("#rond").css('-ms-animation-play-state', "running");
+						$("#rond").css('-o-animation-play-state', "running");
+						beginDate = data.createTime.time;
+						if(isInit){//判断是否是第一次执行。如果是则开始计算金额
+							initMoney(beginDate);
+							settime();
+							refresh();
+						}
+					}
+				}else if(data.state == 1){//就餐
+					$("#msg").html("一共获得<font color='red'>"+data.finalMoney+"</font>元等位红包<br/>在本次消费中将直接使用！");
+					var timer = (data.callNumberTime?data.callNumberTime.time:data.eatTime.time) - data.createTime.time;
+					$("#timer").html(diffTime(timer,true));
+					$("#money").html(data.finalMoney);
+					stopRun();
+				}else if(data.state == 2){//过号
+					$("#msg").html("当前号码已过号，谢谢您的支持与谅解!");
+					var timer = (data.callNumberTime?data.callNumberTime.time:data.passNumberTime.time) - data.createTime.time;
+					$("#timer").html(diffTime(timer,true));
+					$("#money").html(data.finalMoney);
+					stopRun();
+				}else if(data.state == 3){//已消费
+					$("#msg").html("您已经使用了此次<font color='red'>"+data.finalMoney+"</font>元等位红包<br/>欢迎再次光临！");
+					var timer = (data.callNumberTime?data.callNumberTime.time:data.eatTime.time) - data.createTime.time;
+					$("#timer").html(diffTime(timer,true));
+					$("#money").html(data.finalMoney);
+					$("#btn_dianCan").remove();
+					stopRun();
+				}
+			});
+		}
+		
+		function initMoney(beginDate){
+			console.log("---初始化等待金额");
+			var currentDate = new Date().getTime();
+			var timer = currentDate - beginDate;
+			var seconds = getSeconds(timer)
+			var minutes = getMinutes(timer)
+			var hours = getHours(timer)
+			if(minutes>0){
+				seconds = seconds + minutes * 60;
+			}
+			if(hours>0){
+				seconds = seconds + hours * 60 * 60;
+			}
+			queueMoeny = (seconds/interval)*1000*addMoney;
+			
+			console.log("-----");
+			console.log("seconds："+seconds);
+			console.log("interval："+interval);
+			console.log("addMoney："+addMoney);
+			console.log("queueMoeny："+queueMoeny);
+			console.log("-----");
+
+			$("#money").html(queueMoeny.toFixed(2)<=maxMoney?queueMoeny.toFixed(2):maxMoney);
+			//$("#money").html(queueMoeny);
+		}
+		
+		
+		//显示信息
+		function showInfo(){
+			$("#loading").hide();
+			$("#queueInfo").show();
+		}
+
+
+		function stopRun(){
+			$("#rond").css('animation-play-state', "paused");
+			$("#rond").css('-webkit-animation-play-state', "paused");
+			$("#rond").css('-moz-animation-play-state', "paused");
+			$("#rond").css('-ms-animation-play-state', "paused");
+			$("#rond").css('-o-animation-play-state', "paused");
+			clearTimeout(setTimeoutObj);
+			clearTimeout(refreshObj);
+		}
+		
+		function sendPost(url,callback){
+	  		console.log("url："+baseUrl+url,"请求参数",parameData);
+	  		
+	  		$.ajax({
+				url : baseUrl + url,
+				type: "POST",
+				dataType: 'JSON',
+				data: parameData,
+				timeout : 30000, //超时时间：30秒
+				success : function(result) {
+					showInfo();
+					if(result.code == 200){
+						callback && callback(result);
+					}else{
+						$("#queueInfo").html("<h1 style='margin-top:45%'>该店铺尚未开启等位红包<br/>谢谢您的关注！</h1>");
+					}
+				},
+				error : function(result){
+					showInfo();
+					console.log("-----baocuole");
+					$("#queueInfo").html("<h1 style='margin-top:45%'>该店铺尚未开启等位红包<br/>谢谢您的关注！</h1>");
+				}
+			});
+	  };
+		
+		function diffTime(diff,format) {  
+		    //var diff=endDate.getTime() - startDate.getTime();//时间差的毫秒数  
+		  	//var diff=endDate - startDate;//时间差的毫秒数
+		    //计算出相差天数  
+		    var days=Math.floor(diff/(24*3600*1000));  
+		       
+//		    //计算出小时数  
+//		    var leave1=diff%(24*3600*1000);    //计算天数后剩余的毫秒数  
+//		    var hours=Math.floor(leave1/(3600*1000));  
+//		    //计算相差分钟数  
+//		    var leave2=leave1%(3600*1000);        //计算小时数后剩余的毫秒数  
+//		    var minutes=Math.floor(leave2/(60*1000));  
+//		       
+//		    //计算相差秒数  
+//		    var leave3=leave2%(60*1000);      //计算分钟数后剩余的毫秒数  
+//		    var seconds=Math.round(leave3/1000);  
+
+			var hours = getHours(diff);
+			var minutes = getMinutes(diff);
+			var seconds = getSeconds(diff);
+			
+			//var returnStr = formatTime(seconds);  
+			
+		    //if(minutes>0) {  
+		    //    returnStr = formatTime(minutes) + ":" + formatTime(returnStr); 
+		    //}  
+		    //if(hours>0) {  
+		    //    returnStr = hours + ":" + returnStr;  
+		    //}  
+
+		    minutes = hours<=0 ? minutes : minutes + 60*hours ;
+		    var returnStr = formatTime(minutes) + ":" + formatTime(seconds); 
+
+		    
+
+
+//		    if(days>0) {  
+//		        returnStr = days + "天" + returnStr;  
+//		    }
+		    return format?returnStr+":"+getMilliSecond(diff):returnStr;  
+		} 
+		
+		//计算出小时数  		diff:时间差的毫秒数 
+		function getHours(diff){
+		    var leave1=diff%(24*3600*1000);		//计算天数后剩余的毫秒数  
+		    var hours=Math.floor(leave1/(3600*1000)); 
+		    return parseInt(hours);
+		}
+		
+		//计算相差分钟数 		diff:时间差的毫秒数
+		function getMinutes(diff){
+		    var leave1=diff%(24*3600*1000);		//计算天数后剩余的毫秒数  
+		    var leave2=leave1%(3600*1000);		//计算小时数后剩余的毫秒数  
+		    var minutes=Math.floor(leave2/(60*1000));
+		    return parseInt(minutes);
+		}
+		
+		//计算相差秒数 		diff:时间差的毫秒数
+		function getSeconds(diff){
+		    var leave1=diff%(24*3600*1000);		//计算天数后剩余的毫秒数  
+		    var leave2=leave1%(3600*1000);		//计算小时数后剩余的毫秒数  
+		    var leave3=leave2%(60*1000);		//计算分钟数后剩余的毫秒数  
+		    var seconds=Math.round(leave3/1000);  
+		    return parseInt(seconds)
+		}
+		
+		//计算相差毫秒数 		diff:时间差的毫秒数
+		function getMilliSecond(diff){
+			//diff = diff.toString();
+			//if(diff.length<3){
+			//	diff = "000"+diff;
+			//}
+			//console.log("diff：",diff);
+		    //var hm =  diff.substring(diff.length - 3);
+		    
+		    //计算的是假数据
+		    diff = diff.toString().substring(0, 2);
+		    diff = parseInt(diff) * parseInt(diff);
+		    return diff.toString().substring(0, 2);
+		}
+			
+		function formatTime(time){
+			return (time>=10?time:"0"+parseInt(time));
+		}
+		
+		function getParam(name)
+		{
+		     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+		     var r = window.location.search.substr(1).match(reg);
+		     if(r!=null)return  unescape(r[2]); return null;
+		}
+	</script>
+</html>

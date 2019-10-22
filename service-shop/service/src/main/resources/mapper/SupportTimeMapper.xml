@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.service.shop.mapper.SupportTimeMapper">
+  <resultMap id="BaseResultMap" type="com.resto.service.shop.entity.SupportTime">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="begin_time" property="beginTime" jdbcType="VARCHAR"/>
+    <result column="end_time" property="endTime" jdbcType="VARCHAR"/>
+    <result column="support_week_bin" property="supportWeekBin" jdbcType="INTEGER"/>
+    <result column="discount" property="discount" jdbcType="INTEGER"/>
+    <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, name, begin_time, end_time, support_week_bin, discount,remark, shop_detail_id</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">select 
+    <include refid="Base_Column_List"/> from tb_support_time where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">delete from tb_support_time where id = #{id,jdbcType=INTEGER}</delete>
+  <insert id="insert" parameterType="com.resto.service.shop.entity.SupportTime">insert into tb_support_time (id, name, begin_time, end_time, support_week_bin, remark, shop_detail_id) values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{beginTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{supportWeekBin,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{shopDetailId,jdbcType=VARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.service.shop.entity.SupportTime">insert into tb_support_time 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="name != null">name,</if>  
+      <if test="beginTime != null">begin_time,</if>  
+      <if test="endTime != null">end_time,</if>
+      <if test="supportWeekBin != null">support_week_bin,</if>
+      <if test="discount != null">discount,</if>
+      <if test="remark != null">remark,</if>
+      <if test="shopDetailId != null">shop_detail_id,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=INTEGER},</if>  
+      <if test="name != null">#{name,jdbcType=VARCHAR},</if>  
+      <if test="beginTime != null">#{beginTime,jdbcType=VARCHAR},</if>  
+      <if test="endTime != null">#{endTime,jdbcType=VARCHAR},</if>
+      <if test="supportWeekBin != null">#{supportWeekBin,jdbcType=INTEGER},</if>
+      <if test="discount != null">#{discount,jdbcType=INTEGER},</if>
+      <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>
+      <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.service.shop.entity.SupportTime">update tb_support_time 
+    <set>
+      <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>  
+      <if test="beginTime != null">begin_time = #{beginTime,jdbcType=VARCHAR},</if>  
+      <if test="endTime != null">end_time = #{endTime,jdbcType=VARCHAR},</if>
+      <if test="supportWeekBin != null">support_week_bin = #{supportWeekBin,jdbcType=INTEGER},</if>
+      <if test="discount != null">discount = #{discount,jdbcType=INTEGER},</if>
+      <if test="remark != null">remark = #{remark,jdbcType=VARCHAR},</if>  
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if> 
+    </set> where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.service.shop.entity.SupportTime">update tb_support_time set name = #{name,jdbcType=VARCHAR}, begin_time = #{beginTime,jdbcType=VARCHAR}, end_time = #{endTime,jdbcType=VARCHAR}, support_week_bin = #{supportWeekBin,jdbcType=INTEGER}, remark = #{remark,jdbcType=VARCHAR}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR} where id = #{id,jdbcType=INTEGER}</update>
+  
+  <select id="selectList" resultType="SupportTime">
+		 SELECT	* FROM	tb_support_time 	WHERE shop_detail_id=#{shopDetailId}
+  </select>
+  
+  <insert id="insertArticleSupportTime">
+  		insert into tb_article_support_time (article_id,support_time_id)values
+  			<foreach collection="supportTimes" separator="," item="timeid">
+	  			(#{articleId},#{timeid})
+  			</foreach>
+  </insert>
+  <delete id="deleteArticleSupportTime">
+  	delete from tb_article_support_time where article_id=#{0}
+  </delete>
+  
+  <select id="selectByArticleId" resultType="Integer">
+  	select  support_time_id from tb_article_support_time where article_id=#{0}
+  </select>
+</mapper>

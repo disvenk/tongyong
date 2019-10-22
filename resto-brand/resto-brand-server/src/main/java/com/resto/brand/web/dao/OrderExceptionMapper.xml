@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.OrderExceptionMapper">
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.OrderException">
+      <id column="id" property="id"/>
+    <id column="orderId" property="orderId" jdbcType="VARCHAR"/>
+    <result column="orderMoney" property="orderMoney" jdbcType="DECIMAL"/>
+    <result column="why" property="why" jdbcType="VARCHAR"/>
+    <result column="brandName" property="brandName" jdbcType="VARCHAR"/>
+    <result column="shopName" property="shopName" jdbcType="VARCHAR"/>
+      <result column="createTime" property="createTime"/>
+
+  </resultMap>
+  <sql id="Base_Column_List">id,orderId, orderMoney, why, brandName, shopName, createTime</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select 
+    <include refid="Base_Column_List"/> from tb_order_exception where orderId = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from tb_order_exception where id = #{id}</delete>
+  <insert id="insert" parameterType="com.resto.brand.web.model.OrderException">insert into tb_order_exception (orderId, orderMoney, why, brandName, shopName,createTime) values (#{id},#{orderId,jdbcType=VARCHAR}, #{orderMoney,jdbcType=DECIMAL}, #{why,jdbcType=VARCHAR}, #{brandName,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR},#{createTime})</insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.OrderException">insert into tb_order_exception 
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="orderId != null">orderId,</if>
+      <if test="orderMoney != null">orderMoney,</if>
+      <if test="why != null">why,</if>  
+      <if test="brandName != null">brandName,</if>
+      <if test="shopName != null">shopName,</if>
+       <if test="createTime != null">createTime,</if>
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">#{orderId,jdbcType=VARCHAR},</if>
+      <if test="orderMoney != null">#{orderMoney,jdbcType=DECIMAL},</if>  
+      <if test="why != null">#{why,jdbcType=VARCHAR},</if>  
+      <if test="brandName != null">#{brandName,jdbcType=VARCHAR},</if>  
+      <if test="shopName != null">#{shopName,jdbcType=VARCHAR},</if>
+        <if test="createTime != null">#{createTime},</if>
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.OrderException">update tb_order_exception 
+    <set> 
+      <if test="orderMoney != null">orderMoney = #{orderMoney,jdbcType=DECIMAL},</if>
+      <if test="why != null">why = #{why,jdbcType=VARCHAR},</if>  
+      <if test="brandName != null">brandName = #{brandName,jdbcType=VARCHAR},</if>
+      <if test="shopName != null">shopName = #{shopName,jdbcType=VARCHAR},</if>
+    </set> where orderId = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.OrderException">update tb_order_exception set orderMoney = #{orderMoney,jdbcType=DECIMAL}, why = #{why,jdbcType=VARCHAR}, brandName = #{brandName,jdbcType=VARCHAR}, shopName = #{shopName,jdbcType=VARCHAR} where orderId = #{orderId,jdbcType=VARCHAR}</update>
+  <select id="selectList" resultType="OrderException">select id,orderId, orderMoney, why, brandName, shopName, createTime from tb_order_exception
+    ORDER  BY brandName
+</select>
+</mapper>

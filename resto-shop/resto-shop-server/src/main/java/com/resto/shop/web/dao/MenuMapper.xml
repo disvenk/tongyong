@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.Menu">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="menu_type" property="menuType" jdbcType="TINYINT"/>
+    <result column="menu_version" property="menuVersion" jdbcType="VARCHAR"/>
+    <result column="menu_name" property="menuName" jdbcType="VARCHAR"/>
+    <result column="menu_state" property="menuState" jdbcType="BIT"/>
+    <result column="create_time" property="createTime"/>
+    <result column="update_time" property="updateTime"/>
+    <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+    <result column="menu_cycle" property="menuCycle" jdbcType="TINYINT"/>
+    <result column="start_time" property="startTime"/>
+    <result column="end_time" property="endTime"/>
+    <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    <result column="parent_id" property="parentId"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, menu_type, menu_version, menu_name, menu_state, create_time, update_time, create_user, update_user, menu_cycle, start_time, end_time,remark,parent_id</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from tb_menu where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from tb_menu where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.Menu">insert into tb_menu (id, menu_type, menu_version, menu_name, menu_state, create_time, update_time, create_user, update_user, menu_cycle, start_time, end_time ) values (#{id,jdbcType=BIGINT}, #{menuType,jdbcType=TINYINT}, #{menuVersion,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, #{menuState,jdbcType=BIT}, #{createTime}, #{updateTime}, #{createUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{menuCycle,jdbcType=TINYINT}, #{startTime}, #{endTime} )</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.Menu" useGeneratedKeys="true" keyProperty="id" keyColumn="id">insert into tb_menu
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="menuType != null">menu_type,</if>  
+      <if test="menuVersion != null">menu_version,</if>  
+      <if test="menuName != null">menu_name,</if>  
+      <if test="menuState != null">menu_state,</if>
+      <if test="createTime != null">create_time,</if>  
+      <if test="updateTime != null">update_time,</if>  
+      <if test="createUser != null">create_user,</if>  
+      <if test="updateUser != null">update_user,</if>  
+      <if test="menuCycle != null">menu_cycle,</if>  
+      <if test="startTime != null">start_time,</if>  
+      <if test="endTime != null">end_time,</if>
+      <if test="remark != null">remark,</if>
+      <if test="parentId != null">parent_id</if>
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="menuType != null">#{menuType,jdbcType=TINYINT},</if>  
+      <if test="menuVersion != null">#{menuVersion,jdbcType=VARCHAR},</if>  
+      <if test="menuName != null">#{menuName,jdbcType=VARCHAR},</if>  
+      <if test="menuState != null">#{menuState,jdbcType=BIT},</if>  
+      <if test="createTime != null">#{createTime},</if>  
+      <if test="updateTime != null">#{updateTime},</if>  
+      <if test="createUser != null">#{createUser,jdbcType=VARCHAR},</if>  
+      <if test="updateUser != null">#{updateUser,jdbcType=VARCHAR},</if>  
+      <if test="menuCycle != null">#{menuCycle,jdbcType=TINYINT},</if>  
+      <if test="startTime != null">#{startTime},</if>  
+      <if test="endTime != null">#{endTime},</if>
+      <if test="remark != null">#{remark},</if>
+      <if test="parentId != null">#{parentId}</if>
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.Menu">update tb_menu 
+    <set> 
+      <if test="menuType != null">menu_type = #{menuType,jdbcType=TINYINT},</if>  
+      <if test="menuVersion != null">menu_version = #{menuVersion,jdbcType=VARCHAR},</if>  
+      <if test="menuName != null">menu_name = #{menuName,jdbcType=VARCHAR},</if>  
+      <if test="menuState != null">menu_state = #{menuState,jdbcType=BIT},</if>
+      <if test="createTime != null">create_time = #{createTime},</if>  
+      <if test="updateTime != null">update_time = #{updateTime},</if>  
+      <if test="createUser != null">create_user = #{createUser,jdbcType=VARCHAR},</if>  
+      <if test="updateUser != null">update_user = #{updateUser,jdbcType=VARCHAR},</if>  
+      <if test="menuCycle != null">menu_cycle = #{menuCycle,jdbcType=TINYINT},</if>  
+      <if test="startTime != null">start_time = #{startTime},</if>  
+      <if test="endTime != null">end_time = #{endTime},</if>
+      <if test="remark != null">remark = #{remark},</if>
+      <if test="parentId != null">parent_id = #{parentId},</if>
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.Menu">update tb_menu set menu_type = #{menuType,jdbcType=TINYINT}, menu_version = #{menuVersion,jdbcType=VARCHAR}, menu_name = #{menuName,jdbcType=VARCHAR}, menu_state = #{menuState,jdbcType=BIT}, create_time = #{createTime}, update_time = #{updateTime}, create_user = #{createUser,jdbcType=VARCHAR}, update_user = #{updateUser,jdbcType=VARCHAR}, menu_cycle = #{menuCycle,jdbcType=TINYINT}, start_time = #{startTime}, end_time = #{endTime} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="Menu">select * from tb_menu</select>
+  <select id="selectMenuTypeList" resultType="Menu">
+    select * from tb_menu where menu_type = #{menuType}
+    <if test="menuState != -1">
+      AND menu_state = #{menuState}
+    </if>
+    ORDER BY menu_version
+  </select>
+  <select id="selectParentIdList" resultType="Menu">select * from tb_menu where parent_id = #{parentId} ORDER BY menu_version DESC</select>
+</mapper>

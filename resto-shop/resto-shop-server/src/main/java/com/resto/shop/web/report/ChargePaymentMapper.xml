@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.report.ChargePaymentMapperReport">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.ChargePayment">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="payment_money" property="paymentMoney" jdbcType="DECIMAL"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="charge_order_id" property="chargeOrderId" jdbcType="VARCHAR"/>
+    <result column="is_use_bonus" property="isUseBonus"/>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.resto.shop.web.model.ChargePayment" extends="BaseResultMap">
+    <result column="pay_data" property="payData" jdbcType="LONGVARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, payment_money, create_time, charge_order_id, is_use_bonus</sql>
+  <sql id="Blob_Column_List">pay_data</sql>
+
+	<!-- 查询微信充值订单记录 -->
+	<select id="selectPayList" resultType="ChargePayment">
+		SELECT
+		cp.create_time,
+		cp.payment_money,
+		co.reward_money,
+		tc.telephone,
+		co.shop_detail_id,
+		co.brand_id
+		FROM
+		tb_charge_payment cp
+		INNER JOIN tb_charge_order co
+		ON cp.charge_order_id = co.id
+		INNER JOIN tb_customer tc
+		ON co.customer_id = tc.id
+		where
+		<![CDATA[ cp.create_time>#{begin} AND cp.create_time<#{end}]]>
+	</select>
+
+	<select id="selectChargeRedPacket" resultType="com.resto.brand.web.dto.RedPacketDto">
+		select
+		tco.shop_detail_id shopDetailId, IFNULL(COUNT(1),0) redCount, IFNULL(SUM(tco.reward_money),0) redMoney,
+		IFNULL((SUM((select COUNT(1) from (
+		select top.result_data from tb_order td
+		inner join tb_order_payment_item top
+		on td.id = top.order_id
+		where td.order_state in (2,10,11,12)
+		and IF(td.is_pos_pay = 1,td.is_pos_pay = 1,td.production_status in (2,3,4))
+		and top.payment_mode_id = 7
+		and top.pay_time &gt;=  CONCAT(#{useBeginDate},' 00:00:00')
+		and top.pay_time &lt;=  CONCAT(#{useEndDate},' 23:59:59')
+		GROUP BY top.result_data
+		) r where r.result_data = tco.id))),0) useRedCount,
+		IFNULL((SUM((select SUM(r.payValue) from (
+		select top.result_data, SUM(top.pay_value) payValue from tb_order td
+		inner join tb_order_payment_item top
+		on td.id = top.order_id
+		where td.order_state in (2,10,11,12)
+		and IF(td.is_pos_pay = 1,td.is_pos_pay = 1,td.production_status in (2,3,4))
+		and top.payment_mode_id = 7
+		and top.pay_time &gt;=  CONCAT(#{useBeginDate},' 00:00:00')
+		and top.pay_time &lt;=  CONCAT(#{useEndDate},' 23:59:59')
+		GROUP BY top.result_data
+		) r where r.result_data = tco.id))),0) useRedMoney
+		from tb_charge_order tco
+		where tco.order_state = 1
+		and tco.reward_money > 0
+		and tco.create_time &gt;= CONCAT(#{grantBeginDate},' 00:00:00')
+		and tco.create_time &lt;= CONCAT(#{grantEndDate},' 23:59:59')
+		GROUP BY tco.shop_detail_id
+	</select>
+
+</mapper>

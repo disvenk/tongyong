@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.shop.web.dao.TableQrcodeMapper">
+
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.TableQrcode">
+        <id column="id" property="id"/>
+        <result column="brand_id" property="brandId"/>
+        <result column="shop_detail_id" property="shopDetailId"/>
+        <result column="table_number" property="tableNumber"/>
+        <result column="state" property="state"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="area_name" property="areaName"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">id, brand_id, shop_detail_id, table_number, state, create_time, update_time</sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select
+        <include refid="Base_Column_List"/> from tb_table_qrcode where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from tb_table_qrcode where id = #{id,jdbcType=VARCHAR}</delete>
+
+    <insert id="insert" parameterType="com.resto.shop.web.model.TableQrcode">
+      insert into tb_table_qrcode
+      (id, brand_id, shop_detail_id, table_number, state, create_time, update_time)
+      values (#{id}, #{brandId}, #{shopDetailId}, #{tableNumber},
+      #{state}, #{createTime},#{updateTime})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.resto.shop.web.model.TableQrcode">insert into tb_table_qrcode
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="brandId != null">brand_id,</if>
+            <if test="shopDetailId != null">shop_detail_id,</if>
+            <if test="tableNumber != null">table_number,</if>
+            <if test="state != null">state,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="brandId != null">#{brandId},</if>
+            <if test="shopDetailId != null">#{shopDetailId},</if>
+            <if test="tableNumber != null">#{tableNumber},</if>
+            <if test="state != null">#{state},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.TableQrcode">update tb_table_qrcode
+        <set>
+            <if test="brandId != null">brand_id = #{brandId},</if>
+            <if test="shopDetailId != null">shop_detail_id = #{shopDetailId},</if>
+            <if test="tableNumber != null">table_number = #{tableNumber},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set> where id = #{id}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.TableQrcode">
+      update tb_table_qrcode set
+      brand_id = #{brandId}, shop_detail_id = #{shopDetailId},
+      table_number = #{tableNumber}, state = #{state},
+      create_time = #{createTime}, update_time = #{updateTime}
+      where id = #{id}
+    </update>
+
+    <select id="selectList" resultType="TableQrcode">select * from tb_table_qrcode </select>
+
+    <select id="selectByShopId" resultType="TableQrcode">
+        select * from tb_table_qrcode where shop_detail_id = #{shopId}
+    </select>
+
+
+
+
+    <select id="selectByTableNumberShopId" resultType="TableQrcode">
+        select * from tb_table_qrcode where shop_detail_id = #{shopId} and table_number = #{tableNumber} limit 1
+    </select>
+</mapper>

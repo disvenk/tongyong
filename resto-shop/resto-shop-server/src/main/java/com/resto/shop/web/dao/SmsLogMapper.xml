@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.SmsLogMapper">
+	<resultMap id="BaseResultMap" type="com.resto.shop.web.model.SmsLog">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="sms_type" property="smsType" jdbcType="INTEGER" />
+		<result column="sms_result" property="smsResult" jdbcType="VARCHAR" />
+		<result column="shop_detail_id" property="shopDetailId"
+			jdbcType="VARCHAR" />
+		<result column="brand_id" property="brandId" jdbcType="VARCHAR" />
+		<result column="is_success" property="isSuccess" jdbcType="BIT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, phone, content, create_time, sms_type, sms_result,
+		shop_detail_id,
+		brand_id,
+		is_success
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from tb_sms_log
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		tb_sms_log
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.resto.shop.web.model.SmsLog">
+		insert into tb_sms_log (id,
+		phone, content,
+		create_time, sms_type, sms_result,
+		shop_detail_id,
+		brand_id, is_success
+		)
+		values (#{id,jdbcType=BIGINT},
+		#{phone,jdbcType=VARCHAR},
+		#{content,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP}, #{smsType,jdbcType=INTEGER},
+		#{smsResult,jdbcType=VARCHAR},
+		#{shopDetailId,jdbcType=VARCHAR},
+		#{brandId,jdbcType=VARCHAR},
+		#{isSuccess,jdbcType=BIT}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.resto.shop.web.model.SmsLog">
+		insert into tb_sms_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="smsType != null">
+				sms_type,
+			</if>
+			<if test="smsResult != null">
+				sms_result,
+			</if>
+			<if test="shopDetailId != null">
+				shop_detail_id,
+			</if>
+			<if test="brandId != null">
+				brand_id,
+			</if>
+			<if test="isSuccess != null">
+				is_success,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="smsType != null">
+				#{smsType,jdbcType=INTEGER},
+			</if>
+			<if test="smsResult != null">
+				#{smsResult,jdbcType=VARCHAR},
+			</if>
+			<if test="shopDetailId != null">
+				#{shopDetailId,jdbcType=VARCHAR},
+			</if>
+			<if test="brandId != null">
+				#{brandId,jdbcType=VARCHAR},
+			</if>
+			<if test="isSuccess != null">
+				#{isSuccess,jdbcType=BIT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.SmsLog">
+		update tb_sms_log
+		<set>
+			<if test="phone != null">
+				phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="smsType != null">
+				sms_type = #{smsType,jdbcType=INTEGER},
+			</if>
+			<if test="smsResult != null">
+				sms_result = #{smsResult,jdbcType=VARCHAR},
+			</if>
+			<if test="shopDetailId != null">
+				shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},
+			</if>
+			<if test="brandId != null">
+				brand_id = #{brandId,jdbcType=VARCHAR},
+			</if>
+			<if test="isSuccess != null">
+				is_success = #{isSuccess,jdbcType=BIT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.SmsLog">
+		update tb_sms_log
+		set phone = #{phone,jdbcType=VARCHAR},
+		content =
+		#{content,jdbcType=VARCHAR},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		sms_type =
+		#{smsType,jdbcType=INTEGER},
+		sms_result =
+		#{smsResult,jdbcType=VARCHAR},
+		shop_detail_id =
+		#{shopDetailId,jdbcType=VARCHAR},
+		brand_id =
+		#{brandId,jdbcType=VARCHAR},
+		is_success = #{isSuccess,jdbcType=BIT}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<select id="selectList" resultType="SmsLog">select * from tb_sms_log
+	</select>
+	<!-- 根据店铺ID查询短信记录 -->
+	<select id="selectListByShopId" resultType="SmsLog">
+		SELECT
+		create_time,phone,content,sms_result from tb_sms_log where
+		shop_detail_id = #{shopId}
+	</select>
+
+	<!-- 根据店铺id查询近两天的的短信记录 -->
+	<select id="selectListByShopIdAndDate" resultType="SmsLog">
+		SELECT create_time,phone,content,sms_result from tb_sms_log where
+		shop_detail_id = #{shopId}
+		AND <![CDATA[ create_time>=#{begin}]]>
+	</select>
+
+	<!-- 根据条件查询短信记录 -->
+
+	<select id="selectListByWhere" resultType="SmsLog">
+		SELECT id,phone,content,create_time,sms_type,
+		sms_result,shop_detail_id,brand_id,is_success
+		FROM tb_sms_log
+		where
+		shop_detail_id IN
+		<if test="ids != null and ids != '' ">
+			<foreach collection="ids" item="id" open="("
+				separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		AND <![CDATA[create_time>#{begin} AND create_time<#{end}]]>
+		ORDER BY create_time
+	</select>
+
+
+	<!-- 根据品牌查询 -->
+	<select id="selectListByBrandId" resultType="SmsLog">
+		SELECT
+		id,phone,content,create_time,sms_type,sms_result,
+		shop_detail_id,brand_id,is_success
+		from tb_sms_log where brand_id =
+		#{brandId}
+	</select>
+	
+    <select id="selectByMap" parameterType="java.util.Map" resultType="com.resto.shop.web.model.SmsLog">
+        select * from tb_sms_log where phone = #{phone} and content = #{content}
+        and sms_type = 1 and brand_id = #{brandId}
+        and shop_detail_id = #{shopId}
+    </select>
+
+</mapper>

@@ -1,0 +1,704 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.report.OrderMapperReport">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.Order">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="table_number" property="tableNumber" jdbcType="VARCHAR"/>
+        <result column="customer_count" property="customerCount" jdbcType="INTEGER"/>
+        <result column="accounting_time" property="accountingTime" jdbcType="DATE"/>
+        <result column="order_state" property="orderState" jdbcType="INTEGER"/>
+        <result column="production_status" property="productionStatus" jdbcType="INTEGER"/>
+        <result column="original_amount" property="originalAmount" jdbcType="DECIMAL"/>
+        <result column="reduction_amount" property="reductionAmount" jdbcType="DECIMAL"/>
+        <result column="payment_amount" property="paymentAmount" jdbcType="DECIMAL"/>
+        <result column="order_money" property="orderMoney" jdbcType="DECIMAL"/>
+        <result column="ali_pay_discount_money" property="aliPayDiscountMoney"/>
+        <result column="article_count" property="articleCount" jdbcType="INTEGER"/>
+        <result column="serial_number" property="serialNumber" jdbcType="VARCHAR"/>
+        <result column="confirm_time" property="confirmTime" jdbcType="TIMESTAMP"/>
+        <result column="print_times" property="printTimes" jdbcType="INTEGER"/>
+        <result column="allow_cancel" property="allowCancel" jdbcType="BIT"/>
+        <result column="allow_appraise" property="allowAppraise" jdbcType="BIT"/>
+        <result column="closed" property="closed" jdbcType="BIT"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="operator_id" property="operatorId" jdbcType="VARCHAR"/>
+        <result column="customer_id" property="customerId" jdbcType="VARCHAR"/>
+        <result column="customer_address_id" property="customerAddressId" jdbcType="VARCHAR"/>
+        <result column="distribution_date" property="distributionDate" jdbcType="DATE"/>
+        <result column="distribution_time_id" property="distributionTimeId" jdbcType="INTEGER"/>
+        <result column="delivery_point_id" property="deliveryPointId" jdbcType="INTEGER"/>
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="distribution_mode_id" property="distributionModeId" jdbcType="INTEGER"/>
+        <result column="ver_code" property="verCode" jdbcType="VARCHAR"/>
+        <result column="push_order_time" property="pushOrderTime" jdbcType="TIMESTAMP"/>
+        <result column="print_order_time" property="printOrderTime" jdbcType="TIMESTAMP"/>
+        <result column="call_number_time" property="callNumberTime" jdbcType="TIMESTAMP"/>
+        <result column="order_mode" property="orderMode" jdbcType="INTEGER"/>
+        <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+        <result column="amount_with_children" property="amountWithChildren" jdbcType="DECIMAL"/>
+        <result column="parent_order_id" property="parentOrderId" jdbcType="VARCHAR"/>
+        <result column="allow_continue_order" property="allowContinueOrder" jdbcType="BIT"/>
+        <result column="count_with_child" property="countWithChild" jdbcType="INTEGER"/>
+        <result column="last_order_time" property="lastOrderTime" jdbcType="TIMESTAMP"/>
+        <result column="orderCount" property="orderCount"/>
+        <result column="orderTotal" property="orderTotal"/>
+        <result column="service_price" property="servicePrice"/>
+        <result column="pay_mode" property="payMode"/>
+        <result column="base_money" property="baseMoney"/>
+        <result column="base_order_money" property="baseOrderMoney"/>
+        <result column="base_customer_count" property="baseCustomerCount"/>
+        <result column="meal_fee_price" property="mealFeePrice"/>
+        <result column="meal_all_number" property="mealAllNumber"/>
+        <result column="is_pay" property="isPay"/>
+        <result column="base_meal_all_count" property="baseMealAllCount"/>
+        <result column="pay_type" property="payType"/>
+        <result column="is_refund_order" property="isRefundOrder"/>
+        <result column="is_get_share_coupon" property="isGetShareCoupon"/>
+        <result column="is_pos_pay" property="isPosPay"/>
+        <result column="print_fail_flag" property="printFailFlag"/>
+        <result column="print_kitchen_flag" property="printKitchenFlag"/>
+        <result column="pos_discount" property="posDiscount"/>
+        <result column="erase_money" property="eraseMoney"/>
+        <result column="no_discount_money" property="noDiscountMoney"/>
+        <result column="is_consumption_rebate" property="isConsumptionRebate"/>
+        <result column="group_id" property="groupId"/>
+        <result column="before_id" property="beforeId"/>
+        <result column="order_before" property="orderBefore"/>
+        <result column="sauce_fee_count" property="sauceFeeCount"/>
+        <result column="sauce_fee_price" property="sauceFeePrice"/>
+        <result column="towel_fee_count" property="towelFeeCount"/>
+        <result column="towel_fee_price" property="towelFeePrice"/>
+        <result column="tableware_fee_count" property="tablewareFeeCount"/>
+        <result column="tableware_fee_price" property="tablewareFeePrice"/>
+        <result column="is_use_new_service" property="isUseNewService"/>
+        <result column="data_origin" property="dataOrigin"/>
+        <result column="order_pos_discount_money" property="orderPosDiscountMoney"/>
+        <result column="member_discount_money" property="memberDiscountMoney"/>
+        <result column="member_discount" property="memberDiscount"/>
+        <result column="need_confirm_order_item" property="needConfirmOrderItem"/>
+        <result column="reduce_money" property="reduceMoney"/>
+        <result column="real_erase_money" property="realEraseMoney"/>
+        <result column="exemption_money" property="exemptionMoney"/>
+        <collection property="orderPaymentItems" ofType="com.resto.shop.web.model.OrderPaymentItem" javaType="List">
+            <id column="order_payment_id" property="id"/>
+            <result column="pay_value" property="payValue"/>
+            <result column="payment_mode_id" property="paymentModeId"/>
+            <result column="result_data" property="resultData"/>
+            <result column="pay_time" property="payTime"/>
+        </collection>
+        <collection property="orderItems" ofType="com.resto.shop.web.model.OrderItem" javaType="List">
+            <id column="order_item_id" property="id"/>
+            <result column="article_name" property="articleName"/>
+            <result column="article_id" property="articleId"/>
+            <result column="count" property="count"/>
+            <result column="original_price" property="originalPrice"/>
+            <result column="unit_price" property="unitPrice"/>
+            <result column="original_count" property="originalCount"/>
+            <result column="refund_count" property="refundCount"/>
+            <result column="type" property="type"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="selectOrdersMap" type="com.resto.shop.web.model.Order">
+        <id property="tag" column="tag"/>
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <id column="serial_number" property="serialNumber" jdbcType="VARCHAR"/>
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+        <result column="order_state" property="orderState" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="ver_code" property="verCode" jdbcType="VARCHAR"/>
+        <result column="order_state" property="orderState" jdbcType="VARCHAR"/>
+        <result column="order_money" property="orderMoney" jdbcType="DECIMAL"/>
+        <result column="production_status" property="productionStatus"/>
+        <result column="parent_order_id" property="parentOrderId"/>
+        <result column="service_price" property="servicePrice"/>
+        <result column="order_mode" property="orderMode"/>
+        <result column="distribution_mode_id" property="distributionModeId"/>
+        <result column="table_number" property="tableNumber"/>
+        <result column="orderPosDiscountMoney" property="orderPosDiscountMoney"/>
+        <result column="member_discount_money" property="memberDiscountMoney"/>
+        <result column="real_erase_money" property="realEraseMoney"/>
+        <result column="exemption_money" property="exemptionMoney"/>
+        <result column="grant_money" property="grantMoney"/>
+        <association property="customer" javaType="com.resto.shop.web.model.Customer">
+            <id column="customer_id" property="id"/>
+            <result column="telephone" property="telephone"/>
+        </association>
+
+        <association property="appraise" javaType="com.resto.api.appraise.entity.Appraise">
+            <id column="appraise_id" property="id"/>
+            <result column="level" property="level"/>
+        </association>
+
+        <collection property="orderPaymentItems" javaType="List" ofType="orderPaymentItem">
+            <id column="orderPaymentItem_id" property="id"/>
+            <result column="pay_value" property="payValue"/>
+            <result column="payment_mode_id" property="paymentModeId"/>
+            <result column="result_data" property="resultData"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="shopMap" type="com.resto.brand.web.dto.ShopOrderReportDto">
+        <result column="orderCount" property="shop_orderCount" jdbcType="INTEGER"/>
+        <result column="wechatOrderCount" property="shop_wechatOrderCount" jdbcType="INTEGER"/>
+        <result column="posOrderCount" property="shop_posOrderCount" jdbcType="INTEGER"/>
+        <result column="orderPrice" property="shop_orderPrice" jdbcType="DECIMAL"/>
+        <result column="peopleCount" property="shop_peopleCount" jdbcType="INTEGER"/>
+        <result column="tangshiCount" property="shop_tangshiCount" jdbcType="INTEGER"/>
+        <result column="tangshiPrice" property="shop_tangshiPrice" jdbcType="DECIMAL"/>
+        <result column="waidaiCount" property="shop_waidaiCount" jdbcType="INTEGER"/>
+        <result column="waidaiPrice" property="shop_waidaiPrice" jdbcType="DECIMAL"/>
+        <result column="waimaiCount" property="shop_waimaiCount" jdbcType="INTEGER"/>
+        <result column="waimaiPrice" property="shop_waimaiPrice" jdbcType="DECIMAL"/>
+        <result column="orderPosDiscountMoney" property="orderPosDiscountMoney" jdbcType="DECIMAL"/>
+        <result column="memberDiscountMoney" property="memberDiscountMoney" jdbcType="DECIMAL"/>
+        <result column="realEraseMoney" property="realEraseMoney" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <resultMap id="brandMap" type="com.resto.brand.web.dto.BrandOrderReportDto">
+        <result column="orderCount" property="orderCount" jdbcType="INTEGER"/>
+        <result column="orderPrice" property="orderPrice" jdbcType="DECIMAL"/>
+        <result column="peopleCount" property="peopleCount" jdbcType="INTEGER"/>
+        <result column="tangshiCount" property="tangshiCount" jdbcType="INTEGER"/>
+        <result column="tangshiPrice" property="tangshiPrice" jdbcType="DECIMAL"/>
+        <result column="waidaiCount" property="waidaiCount" jdbcType="INTEGER"/>
+        <result column="waidaiPrice" property="waidaiPrice" jdbcType="DECIMAL"/>
+        <result column="waimaiCount" property="waimaiCount" jdbcType="INTEGER"/>
+        <result column="waimaiPrice" property="waimaiPrice" jdbcType="DECIMAL"/>
+        <result column="orderPosDiscountMoney" property="orderPosDiscountMoney" jdbcType="DECIMAL"/>
+        <result column="memberDiscountMoney" property="memberDiscountMoney" jdbcType="DECIMAL"/>
+        <result column="realEraseMoney" property="realEraseMoney" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <resultMap id="consumedOrderByshopId" type="com.resto.shop.web.model.Order">
+        <id column="id" property="id"/>
+        <result column="order_money" property="orderMoney"/>
+        <result column="order_mode" property="orderMode"/>
+        <result column="pay_type" property="payType"/>
+        <result column="amount_with_children" property="amountWithChildren"/>
+        <result column="create_time" property="createTime"/>
+        <collection property="orderPaymentItems" javaType="List" ofType="orderPaymentItem">
+            <id column="orderPaymentItemId" property="id"/>
+            <result column="payment_mode_id" property="paymentModeId"/>
+            <result column="pay_value" property="payValue"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="selectListBybrandIdmap" type="com.resto.shop.web.model.Order">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="order_money" property="orderMoney" jdbcType="DECIMAL"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="customer_count" property="customerCount"/>
+        <result column="distribution_mode_id" property="distributionModeId"/>
+        <result column="parent_order_id" property="parentOrderId"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="data_origin" property="dataOrigin"/>
+        <association property="appraise" javaType="com.resto.api.appraise.entity.Appraise">
+            <id column="appraise_id" property="id"/>
+            <result column="level" property="level"/>
+            <result column="red_money" property="redMoney"/>
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, table_number, customer_count, accounting_time,
+        order_state,
+        production_status,
+        original_amount, reduction_amount,
+        payment_amount, order_money, ali_pay_discount_money, article_count,
+        serial_number,
+        confirm_time, print_times, allow_cancel, allow_appraise, closed,
+        remark,
+        create_time,
+        operator_id, customer_id,customer_address_id, distribution_date,
+        distribution_time_id,
+        delivery_point_id,
+        shop_detail_id,
+        distribution_mode_id, ver_code, push_order_time, print_order_time,
+        call_number_time, order_mode, brand_id, amount_with_children,
+        parent_order_id, allow_continue_order,
+        count_with_child,
+        last_order_time,customer_count,service_price,pay_mode,base_money,base_order_money,base_customer_count,meal_fee_price,meal_all_number
+        ,is_pay,need_scan, base_meal_all_count, pay_type,is_confirm, is_refund_order, is_get_share_coupon, give_change, is_pos_pay,
+        print_fail_flag,print_kitchen_flag, pos_discount, erase_money, no_discount_money, is_consumption_rebate, group_id, before_id, order_before
+        ,sauce_fee_count,sauce_fee_price,towel_fee_count,towel_fee_price,tableware_fee_count,tableware_fee_price,is_use_new_service,data_origin,
+        order_pos_discount_money,member_discount_money,member_discount,need_confirm_order_item,reduce_money, real_erase_money, exemption_money
+    </sql>
+
+
+    <select id="selectListByTime" resultMap="selectOrdersMap">
+        SELECT
+        o.id,
+        o.serial_number,
+        o.brand_id,
+        o.parent_order_id,
+        o.shop_detail_id,
+        o.create_time,
+        o.distribution_mode_id,
+        o.ver_code,
+        o.order_money,
+        o.order_state,
+        o.production_status,
+        o.service_price,
+        o.order_mode,
+        o.distribution_mode_id,
+        o.table_number,
+        c.telephone,
+        a.level,
+        oi.pay_value,
+        oi.payment_mode_id,
+        oi.result_data,
+        (o.order_pos_discount_money + o.reduce_money) orderPosDiscountMoney,
+        o.member_discount_money,
+        o.real_erase_money,
+        o.exemption_money,
+        o.grant_money
+        FROM
+        tb_order o
+        LEFT JOIN tb_customer c ON o.customer_id = c.id
+        LEFT JOIN tb_appraise a ON o.id = a.order_id
+        LEFT JOIN tb_order_payment_item oi on o.id = oi.order_id
+        where o.create_time >= #{beginDate} and #{endDate} >= o.create_time
+        <if test="customerId != null and customerId != ''">
+            and o.customer_id = #{customerId}
+        </if>
+        <if test="shopId != null and shopId != ''">
+            and o.shop_detail_id = #{shopId}
+        </if>
+        and o.order_state IN (2, 10, 11, 12)
+        AND o.production_status IN (2, 3, 4)
+    </select>
+
+    <select id="selectOrderNumByTimeAndBrandId" resultType="com.resto.shop.web.dto.OrderNumDto">
+        SELECT
+        COUNT(DISTINCT o.id) num,
+        o.shop_detail_id shopId
+        FROM
+        tb_order o
+        INNER JOIN tb_order_payment_item opi ON o.id = opi.order_id
+        WHERE
+        <![CDATA[ o.create_time >= #{beginDate} and o.create_time <= #{endDate}]]>
+        AND o.order_state IN (2, 10, 11, 12)
+        AND o.production_status in (2,3,4)
+        AND o.brand_id = #{brandId}
+        GROUP BY
+        o.shop_detail_id;
+    </select>
+
+    <select id="procDayAllOrderItemBrand" resultMap="brandMap">
+        select SUM(r.orderCount) orderCount, SUM(r.wechatOrderCount) wechatOrderCount, SUM(r.posOrderCount) posOrderCount,
+			 SUM(r.orderPrice) orderPrice, SUM(r.peopleCount) peopleCount, SUM(r.tangshiCount) tangshiCount,
+			 SUM(r.tangshiPrice) tangshiPrice,SUM(r.waidaiCount) waidaiCount, SUM(r.waidaiPrice) waidaiPrice,
+			 SUM(r.waimaiCount) waimaiCount, SUM(r.waimaiPrice) waimaiPrice, SUM(r.orderPosDiscountMoney) orderPosDiscountMoney
+			 , SUM(r.memberDiscountMoney) memberDiscountMoney, SUM(r.realEraseMoney) realEraseMoney
+		from (
+		SELECT
+			IF(ISNULL(parent_order_id), 1, 0)  orderCount,
+			IF(ISNULL(parent_order_id) AND o.data_origin = 1 AND o.customer_id != '0', 1, 0) wechatOrderCount,
+			IF(ISNULL(parent_order_id) AND (o.data_origin = 0 OR (o.data_origin = 1 and o.customer_id = '0')), 1, 0) posOrderCount,
+			IF(ISNULL(parent_order_id), O.customer_count, 0) peopleCount,
+			IF(o.distribution_mode_id = 1 AND ISNULL(o.parent_order_id), 1, 0) tangshiCount,
+			IF(o.distribution_mode_id = 3 AND ISNULL(o.parent_order_id), 1, 0) waidaiCount,
+			IF(o.distribution_mode_id = 2 AND ISNULL(o.parent_order_id), 1, 0) waimaiCount,
+			o.order_money + IFNULL((o.order_pos_discount_money + o.reduce_money) + o.member_discount_money + o.real_erase_money + o.grant_money, 0) orderPrice,
+			IF(o.distribution_mode_id=1, o.order_money + IFNULL((o.order_pos_discount_money + o.reduce_money) + o.member_discount_money + o.real_erase_money + o.grant_money, 0) , 0) tangshiPrice,
+			IF(o.distribution_mode_id=3, o.order_money + IFNULL((o.order_pos_discount_money + o.reduce_money) + o.member_discount_money + o.real_erase_money, 0) , 0) waidaiPrice,
+			IF(o.distribution_mode_id=2, o.order_money + IFNULL((o.order_pos_discount_money + o.reduce_money) + o.member_discount_money + o.real_erase_money, 0) , 0) waimaiPrice,
+			(o.order_pos_discount_money + o.reduce_money) orderPosDiscountMoney,
+			o.member_discount_money memberDiscountMoney,
+			o.real_erase_money realEraseMoney
+		FROM tb_order o
+		LEFT JOIN tb_order_item toi
+		on o.id = toi.order_id
+		WHERE o.production_status IN (2,3,4)
+		AND	o.order_state IN (2,10,11)
+		AND o.create_time BETWEEN #{beginDate} AND #{endDate}
+		GROUP BY o.id
+        ) r
+    </select>
+
+    <select id="callProcDayAllOrderItem" resultType="com.resto.brand.web.dto.ShopIncomeDto">
+        SELECT
+        td.shop_detail_id shopDetailId,
+        td.parent_order_id parentOrderId,
+        td.create_time createTime,
+        td.original_amount originalAmount,
+        td.order_money totalIncome,
+        (td.order_pos_discount_money + td.reduce_money) orderPosDiscountMoney,
+        td.member_discount_money memberDiscountMoney,
+        td.real_erase_money realEraseMoney,
+        td.exemption_money exemptionMoney,
+        td.grant_money grantArticleMoney
+        FROM
+        tb_order td
+        WHERE
+        td.order_state IN (2, 10, 11, 12)
+        AND td.production_status IN (2, 3, 4)
+        and td.create_time BETWEEN #{beginDate} AND #{endDate}
+        <if test="shopId != null">
+            and td.shop_detail_id = #{shopId}
+        </if>
+        GROUP BY
+        td.id
+        ORDER BY
+        td.create_time ASC
+        LIMIT #{pageNo},1000
+    </select>
+
+
+    <select id="selectWechatMoney" resultType="com.resto.brand.web.dto.ShopIncomeDto">
+        SELECT
+        SUM(p.pay_value) wechatIncome
+        FROM
+        tb_order o
+        LEFT JOIN tb_order_payment_item p ON  p.order_id=o.id
+        WHERE
+        o.shop_detail_id IN
+        <foreach collection="shopIdlist" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND p.payment_mode_id = 1
+        AND p.pay_time >=CONCAT(#{beginDate},' 00:00:00')
+        AND CONCAT(#{endDate},' 23:59:59') >= p.pay_time
+    </select>
+
+
+    <select id="callProcDayAllOrderPayMent" resultType="com.resto.brand.web.dto.ShopIncomeDto">
+        select td.shop_detail_id shopDetailId,td.id orderId, td.create_time createTime,
+        SUM(IF(top.payment_mode_id = 1, top.pay_value, 0)) wechatIncome,
+        SUM(IF(top.payment_mode_id = 2, top.pay_value, 0)) redIncome,
+        SUM(IF(top.payment_mode_id = 3, top.pay_value, 0)) couponIncome,
+        SUM(IF(top.payment_mode_id = 4, top.pay_value, 0)) otherPayment,
+        SUM(IF(top.payment_mode_id = 5, top.pay_value, 0)) backCartPay,
+        SUM(IF(top.payment_mode_id = 6, top.pay_value, 0)) chargeAccountIncome,
+        SUM(IF(top.payment_mode_id = 7, top.pay_value, 0)) chargeGifAccountIncome,
+        SUM(IF(top.payment_mode_id = 8, top.pay_value, 0)) waitNumberIncome,
+        SUM(IF(top.payment_mode_id = 10, top.pay_value, 0)) aliPayment,
+        ABS(SUM(IF(top.payment_mode_id = 11, top.pay_value, 0))) articleBackPay,
+        SUM(IF(top.payment_mode_id = 12, top.pay_value, 0)) + SUM(IF(top.payment_mode_id = 18, top.pay_value, 0))
+        moneyPay,
+        SUM(IF(top.payment_mode_id = 16, top.pay_value, 0)) shanhuiPayment,
+        SUM(IF(top.payment_mode_id = 17, top.pay_value, 0)) integralPayment,
+        ABS(SUM(IF(top.payment_mode_id = 19, top.pay_value, 0))) refundCrashPayment,
+        SUM(IF(top.payment_mode_id = 27, top.pay_value, 0)) groupPurchasePayment,
+        ABS(SUM(IF(top.payment_mode_id = 28, top.pay_value, 0))) cashCouponPayment,
+        SUM(IF(top.payment_mode_id = 22, top.pay_value, 0)) cardDiscountPay,
+        SUM(IF(top.payment_mode_id = 23, top.pay_value, 0)) cardRechargePay,
+        SUM(IF(top.payment_mode_id = 24, top.pay_value, 0)) cardRechargeFreePay,
+        SUM(IF(top.payment_mode_id = 25, top.pay_value, 0)) refundCardPay
+        from tb_order td
+        left join tb_order_payment_item top
+        on td.id = top.order_id
+        where td.order_state in (2,10,11,12)
+        and td.production_status in (2,3,4)
+        and td.create_time BETWEEN #{beginDate} and #{endDate}
+        and top.payment_mode_id not in (13,14,15)
+        <if test="shopId != null">
+            and td.shop_detail_id = #{shopId}
+        </if>
+        GROUP BY td.id
+        ORDER BY td.create_time asc
+        LIMIT #{pageNo},1000;
+    </select>
+
+    <select id="procDayAllOrderItemShop" resultMap="shopMap">
+        select SUM(r.orderCount) orderCount, SUM(r.wechatOrderCount) wechatOrderCount, SUM(r.posOrderCount) posOrderCount,
+			 SUM(r.orderPrice) orderPrice, SUM(r.peopleCount) peopleCount, SUM(r.tangshiCount) tangshiCount,
+			 SUM(r.tangshiPrice) tangshiPrice,SUM(r.waidaiCount) waidaiCount, SUM(r.waidaiPrice) waidaiPrice,
+			 SUM(r.waimaiCount) waimaiCount, SUM(r.waimaiPrice) waimaiPrice, SUM(r.orderPosDiscountMoney) orderPosDiscountMoney
+			 ,SUM(r.memberDiscountMoney) memberDiscountMoney, SUM(r.realEraseMoney) realEraseMoney
+        from (
+		SELECT
+			IF(ISNULL(parent_order_id), 1, 0)  orderCount,
+			IF(ISNULL(parent_order_id) AND o.data_origin = 1 AND o.customer_id != '0', 1, 0) wechatOrderCount,
+			IF(ISNULL(parent_order_id) AND (o.data_origin = 0 OR (o.data_origin = 1 and o.customer_id = '0')), 1, 0) posOrderCount,
+			IF(ISNULL(parent_order_id), O.customer_count, 0) peopleCount,
+			IF(o.distribution_mode_id = 1 AND ISNULL(o.parent_order_id), 1, 0) tangshiCount,
+			IF(o.distribution_mode_id = 3 AND ISNULL(o.parent_order_id), 1, 0) waidaiCount,
+			IF(o.distribution_mode_id = 2 AND ISNULL(o.parent_order_id), 1, 0) waimaiCount,
+			o.order_money + IFNULL((o.order_pos_discount_money + o.reduce_money) + o.member_discount_money + o.real_erase_money + o.grant_money, 0) orderPrice,
+			IF(o.distribution_mode_id=1, o.order_money + IFNULL((o.order_pos_discount_money + o.reduce_money) + o.member_discount_money + o.real_erase_money + o.grant_money, 0) , 0) tangshiPrice,
+			IF(o.distribution_mode_id=3, o.order_money + IFNULL((o.order_pos_discount_money + o.reduce_money) + o.member_discount_money + o.real_erase_money, 0) , 0) waidaiPrice,
+			IF(o.distribution_mode_id=2, o.order_money + IFNULL((o.order_pos_discount_money + o.reduce_money) + o.member_discount_money + o.real_erase_money, 0) , 0) waimaiPrice,
+			(o.order_pos_discount_money + o.reduce_money) orderPosDiscountMoney,
+			o.member_discount_money memberDiscountMoney,
+			o.real_erase_money realEraseMoney
+		FROM tb_order o
+		LEFT JOIN tb_order_item toi
+		on o.id = toi.order_id
+		WHERE o.production_status IN (2,3,4)
+		AND	o.order_state IN (2,10,11)
+		AND o.create_time >= #{0}
+		AND #{1} >= o.create_time
+		AND o.shop_detail_id=#{2}
+		GROUP BY o.id
+        ) r
+    </select>
+
+    <select id="selectListByShopId" resultMap="consumedOrderByshopId">
+        SELECT
+          o.id,o.order_money,oi.payment_mode_id ,oi.pay_value,o.create_time
+        FROM
+        tb_order o
+        INNER JOIN tb_order_payment_item oi ON o.id = oi.order_id
+        WHERE
+        o.order_state IN (2, 10, 11, 12)
+        and o.production_status in (2,3,4) AND
+        <![CDATA[ o.create_time >= #{beginDate} and  o.create_time <= #{endDate}]]> and o.shop_detail_id=#{shopId}
+    </select>
+
+    <select id="selectListBybrandId" resultMap="selectListBybrandIdmap">
+        SELECT
+        o.id , o.order_money ,a.level,o.shop_detail_id,a.red_money,o.customer_count,
+        o.distribution_mode_id,o.parent_order_id,o.customer_id,o.data_origin
+        <if test="type == 1">
+            ,o.create_time
+        </if>
+        <if test="type == 0">
+            ,a.create_time
+        </if>
+        from tb_order o
+        LEFT JOIN tb_order_payment_item oi
+        on o.id = oi.order_id
+        LEFT JOIN tb_appraise a
+        on o.id = a.order_id
+        WHERE o.order_state in (10,11,12,2) and o.production_status in (2,3,4)
+        <if test="type == 0">
+            and <![CDATA[ a.create_time >= #{beginDate} and a.create_time <= #{endDate}]]>
+        </if>
+        <if test="type == 1">
+            and <![CDATA[ o.create_time >= #{beginDate} and o.create_time <= #{endDate}]]>
+        </if>
+        and o.brand_id = #{brandId}
+        GROUP BY o.id
+    </select>
+
+    <select id="addRefundArticleDto" resultType="com.resto.brand.web.dto.RefundArticleOrder">
+        select
+        td.id orderId, td.shop_detail_id shopId, td.table_number, IFNULL(tc.telephone,'--') telephone
+        ,tc.nickname nickName, IFNULL(SUM(toi.refund_count),0) refund_count, IFNULL(SUM(toi.refund_count *
+        toi.unit_price),0) refundMoney
+        ,DATE_FORMAT(td.create_time,'%Y-%m-%d %H:%i:%s') pushOrderTime
+        from tb_order td
+        left join tb_order_item toi
+        on td.id = toi.order_id
+        left join tb_customer tc
+        on td.customer_id = tc.id
+        where td.order_state in (2,10,11,12)
+        and IF(td.production_status = 6, td.production_status = 6, td.production_status in (2,3,4))
+        and td.create_time >= CONCAT(#{beginDate},' 00:00:00')
+        and CONCAT(#{endDate},' 23:59:59') >= td.create_time
+        and toi.refund_count != 0
+        <if test="shopId != null">
+            and td.shop_detail_id = #{shopId}
+        </if>
+        GROUP BY td.id
+    </select>
+
+    <!--查询品牌菜品的总数 -->
+    <select id="selectBrandArticleNum" resultType="java.lang.Integer">
+        SELECT
+            IFNULL(
+            SUM(IF(oi.type != 4, oi.count, 0)) + IFNULL(o.meal_all_number, 0),
+            0
+            ) totalNum
+        FROM
+        tb_order o
+        INNER JOIN tb_order_item oi ON o.id = oi.order_id
+        WHERE
+        o.order_state IN (10, 2, 11, 12)
+        AND
+        IF (
+        o.is_pos_pay = 1,
+        o.is_pos_pay = 1,
+        o.production_status in (2,3,4)
+        )
+        and o.create_time >= CONCAT(#{beginDate},' 00:00:00')
+        and CONCAT(#{endDate},' 23:59:59') >= o.create_time
+    </select>
+
+    <select id="selectConfirmMoney" resultType="com.resto.brand.web.dto.brandArticleReportDto">
+        SELECT
+            IFNULL(sum(oi.final_price) + IFNULL(o.meal_fee_price,0),0.00) sellIncome,
+            IFNULL(SUM(IF(oi.type != 4, oi.refund_count, 0)) + IFNULL(SUM(o.base_customer_count-o.customer_count),0)
+            + IFNULL(SUM(o.base_meal_all_count - o.meal_all_number),0),0)refundCount,
+            IFNULL(SUM(oi.refund_count*oi.unit_price) +
+            IFNULL(IF(SUM(o.service_price) = 0 or SUM(o.customer_count) = 0,0,(SUM(o.service_price)/SUM(o.customer_count)) * SUM(o.base_customer_count-o.customer_count)
+            ),0) + IFNULL(IF(SUM(o.meal_fee_price) = 0 or SUM(o.meal_all_number) = 0,0,(SUM(o.meal_fee_price)/SUM(o.meal_all_number)) * SUM(o.base_meal_all_count-o.meal_all_number)
+            ),0),0.00)refundTotal,
+            IFNULL(SUM((oi.count * oi.original_price) - oi.final_price),0.00) discountTotal,
+            sum(oi.grant_count) grantCount, sum(oi.grant_count * IF(oi.base_unit_price is null,unit_price,base_unit_price)) grantTotal
+        FROM tb_order_item oi
+        INNER JOIN tb_order o on o.id = oi.order_id
+        WHERE
+        o.order_state IN (10, 2, 11, 12)
+        AND IF(o.production_status = 6,o.production_status = 6,o.production_status in (2,3,4))
+        AND o.create_time >= CONCAT(#{beginDate},' 00:00:00') AND CONCAT(#{endDate},' 23:59:59') >= o.create_time
+        GROUP BY o.id
+    </select>
+
+    <!--查询菜品库品牌菜品的总数 -->
+    <select id="selectBrandArticleNumNew" resultType="java.lang.Integer">
+        SELECT
+        IFNULL(
+        SUM(IF(oi.type != 4, oi.count, 0)) + IFNULL(o.meal_all_number, 0),
+        0
+        ) totalNum
+        FROM
+        tb_order o
+        INNER JOIN tb_order_item oi ON o.id = oi.order_id
+        WHERE
+        o.order_state IN (10, 2, 11, 12)
+        AND
+        IF (
+        o.is_pos_pay = 1,
+        o.is_pos_pay = 1,
+        o.production_status in (2,3,4)
+        )
+        and o.open_article_library=1
+        and o.create_time >= CONCAT(#{beginDate},' 00:00:00')
+        and CONCAT(#{endDate},' 23:59:59') >= o.create_time
+    </select>
+
+    <select id="selectConfirmMoneyNew" resultType="com.resto.brand.web.dto.brandArticleReportDto">
+        SELECT
+        IFNULL(sum(oi.final_price) + IFNULL(o.meal_fee_price,0),0.00) sellIncome,
+        IFNULL(SUM(IF(oi.type != 4, oi.refund_count, 0)) + IFNULL(SUM(o.base_customer_count-o.customer_count),0)
+        + IFNULL(SUM(o.base_meal_all_count - o.meal_all_number),0),0)refundCount,
+        IFNULL(SUM(oi.refund_count*oi.unit_price) +
+        IFNULL(IF(SUM(o.service_price) = 0 or SUM(o.customer_count) = 0,0,(SUM(o.service_price)/SUM(o.customer_count)) * SUM(o.base_customer_count-o.customer_count)
+        ),0) + IFNULL(IF(SUM(o.meal_fee_price) = 0 or SUM(o.meal_all_number) = 0,0,(SUM(o.meal_fee_price)/SUM(o.meal_all_number)) * SUM(o.base_meal_all_count-o.meal_all_number)
+        ),0),0.00)refundTotal,
+        IFNULL(SUM((oi.count * oi.original_price) - oi.final_price),0.00) discountTotal
+        FROM tb_order_item oi
+        INNER JOIN tb_order o on o.id = oi.order_id
+        WHERE
+        o.order_state IN (10, 2, 11, 12)
+        AND IF(o.production_status = 6,o.production_status = 6,o.production_status in (2,3,4))
+        AND o.open_article_library=1
+        AND o.create_time >= CONCAT(#{beginDate},' 00:00:00') AND CONCAT(#{endDate},' 23:59:59') >= o.create_time
+        GROUP BY o.id
+    </select>
+
+    <select id="selectMealServiceSales" resultType="java.util.Map">
+        SELECT
+        td.shop_detail_id shopId,
+        IFNULL(SUM(td.meal_all_number),0) mealSellNum,
+        IFNULL(SUM(td.meal_fee_price),0) mealSalles,
+        IFNULL(SUM(td.customer_count),0) serviceSellNum,
+        IFNULL(SUM(td.service_price),0) serviceSalles,
+        IFNULL(SUM(td.base_meal_all_count-td.meal_all_number),0) refundMealNum,
+        IFNULL(SUM(td.base_meal_all_count-td.meal_all_number) * (SUM(td.meal_fee_price)/SUM(td.meal_all_number)),0)
+        refundMealSalles,
+        IFNULL(SUM(td.base_customer_count-td.customer_count),0) refundServiceCount,
+        IFNULL(IF(SUM(td.service_price) = 0 or SUM(td.customer_count) =
+        0,0,SUM(td.base_customer_count-td.customer_count) * (SUM(td.service_price)/SUM(td.customer_count))),0)
+        refundServiceSalles
+        FROM
+        tb_order td
+        WHERE
+        td.order_state IN (2, 10, 11, 12)
+        AND td.production_status in (2,3,4)
+        AND td.create_time &gt;= CONCAT(#{beginDate},' 00:00:00')
+        AND td.create_time &lt;= CONCAT(#{endDate},' 23:59:59')
+        <if test="shopDetailId != null">
+            AND td.shop_detail_id = #{shopDetailId}
+        </if>
+        AND td.parent_order_id is null
+        GROUP BY td.shop_detail_id
+    </select>
+
+    <!--查询品牌下每个店铺所有菜品卖的钱的和-->
+    <select id="selectShopArticleSell" resultType="com.resto.brand.web.dto.ShopArticleReportDto">
+        SELECT
+            IFNULL(SUM(IF(oi.type != 4, oi.count, 0)) + IFNULL(o.meal_all_number,0),0) totalNum,
+            IFNULL(SUM(oi.final_price) + IFNULL(o.meal_fee_price,0),0.00) sellIncome,
+            o.shop_detail_id shop_id,
+            IFNULL(SUM(IF(oi.type != 4, oi.refund_count, 0)) + IFNULL(SUM(o.base_customer_count-o.customer_count),0)
+            + IFNULL(SUM(o.base_meal_all_count - o.meal_all_number),0),0)refundCount,
+            IFNULL(SUM(oi.refund_count*oi.unit_price) +
+            IFNULL(IF(SUM(o.service_price) = 0 or SUM(o.customer_count) = 0,0,(SUM(o.service_price)/SUM(o.customer_count)) * SUM(o.base_customer_count-o.customer_count)
+            ),0) + IFNULL(IF(SUM(o.meal_fee_price) = 0 or SUM(o.meal_all_number) = 0,0,(SUM(o.meal_fee_price)/SUM(o.meal_all_number)) * SUM(o.base_meal_all_count-o.meal_all_number)
+            ),0),0.00)refundTotal,
+            IFNULL(SUM((oi.count * oi.original_price) - oi.final_price),0.00) discountTotal,
+            sum(oi.grant_count) grantCount,
+            sum(oi.grant_count * IF(oi.base_unit_price is null, oi.unit_price, oi.base_unit_price)) grantTotal
+        from tb_article ta
+        LEFT JOIN tb_article_price tap on ta.id = tap.article_id
+        INNER JOIN tb_order_item oi on oi.article_id = ta.id or oi.article_id = tap.id
+        INNER JOIN  tb_order o ON o.id=oi.order_id
+        WHERE
+        o.order_state IN (10,2, 11, 12) AND  IF(o.production_status = 6,o.production_status = 6,o.production_status in (2,3,4))
+        AND
+        o.create_time >= #{beginDate} and  #{endDate} >= o.create_time
+        GROUP BY o.id
+    </select>
+
+    <!--查询品牌菜品库下每个店铺所有菜品卖的钱的和-->
+    <select id="selectShopArticleSellNew" resultType="com.resto.brand.web.dto.ShopArticleReportDto">
+        SELECT
+        IFNULL(SUM(IF(oi.type != 4, oi.count, 0)) + IFNULL(o.meal_all_number,0),0) totalNum,
+        IFNULL(SUM(oi.final_price) + IFNULL(o.meal_fee_price,0),0.00) sellIncome,
+        o.shop_detail_id shop_id,
+        IFNULL(SUM(IF(oi.type != 4, oi.refund_count, 0)) + IFNULL(SUM(o.base_customer_count-o.customer_count),0)
+        + IFNULL(SUM(o.base_meal_all_count - o.meal_all_number),0),0)refundCount,
+        IFNULL(SUM(oi.refund_count*oi.unit_price) +
+        IFNULL(IF(SUM(o.service_price) = 0 or SUM(o.customer_count) = 0,0,(SUM(o.service_price)/SUM(o.customer_count)) * SUM(o.base_customer_count-o.customer_count)
+        ),0) + IFNULL(IF(SUM(o.meal_fee_price) = 0 or SUM(o.meal_all_number) = 0,0,(SUM(o.meal_fee_price)/SUM(o.meal_all_number)) * SUM(o.base_meal_all_count-o.meal_all_number)
+        ),0),0.00)refundTotal,
+        IFNULL(SUM((oi.count * oi.original_price) - oi.final_price),0.00) discountTotal
+        from tb_menu_article ta
+        LEFT JOIN tb_article_price tap on ta.article_id = tap.article_id
+        INNER JOIN tb_order_item oi on oi.article_id = ta.article_id or oi.article_id = tap.id
+        INNER JOIN  tb_order o ON o.id=oi.order_id
+        WHERE
+        o.order_state IN (10,2, 11, 12) AND  IF(o.production_status = 6,o.production_status = 6,o.production_status in (2,3,4))
+        AND
+        o.create_time >= #{beginDate} and  #{endDate} >= o.create_time AND o.open_article_library=1
+        GROUP BY o.id
+    </select>
+
+    <select id="uploadWeChatBill" resultType="com.resto.brand.web.dto.WeChatBill">
+        SELECT
+        top.id weChatPayId,
+        td.id orderId,
+        td.serial_number,
+        top.pay_value,
+        td.create_time,
+        top.pay_time,
+        top.result_data refundInfo,
+        IF(top.result_data is null or top.result_data = '', '线下支付', '线上支付') paymentMethod
+        FROM
+        tb_order td
+        INNER JOIN tb_order_payment_item top ON td.id = top.order_id
+        WHERE
+        td.create_time BETWEEN #{beginDate}
+        AND #{endDate}
+        AND top.payment_mode_id = 1
+        <if test="shopId != null">
+            AND td.shop_detail_id = #{shopId}
+        </if>
+        ORDER BY top.pay_value asc
+    </select>
+
+    <select id="selectBusinessReport" parameterType="java.util.Map" resultType="com.resto.shop.web.model.OrderPaymentItem">
+        SELECT
+            td.shop_detail_id, top.*
+        FROM
+            tb_order td
+            INNER JOIN tb_order_payment_item top ON td.id = top.order_id
+        WHERE
+            td.order_state IN (2, 10, 11, 12)
+        AND td.production_status IN (2, 3, 4)
+        AND td.create_time BETWEEN #{beginDate} and #{endDate}
+        AND top.payment_mode_id NOT IN (13, 14, 15)
+        ORDER BY
+            td.create_time ASC
+        LIMIT #{pageNoTwo},1000
+    </select>
+</mapper>

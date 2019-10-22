@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.OtherConfigMapper">
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.OtherConfig">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="config_sign" property="configSign" jdbcType="VARCHAR"/>
+    <result column="config_name" property="configName" jdbcType="VARCHAR"/>
+    <result column="config_remark" property="configRemark" jdbcType="VARCHAR"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, config_sign, config_name, config_remark, create_time</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from other_config where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  	delete from other_config where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.resto.brand.web.model.OtherConfig">insert into other_config (id, config_sign, config_name, config_remark, create_time) values (#{id,jdbcType=BIGINT}, #{configSign,jdbcType=VARCHAR}, #{configName,jdbcType=VARCHAR}, #{configRemark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})</insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.OtherConfig">insert into other_config 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="configSign != null">config_sign,</if>  
+      <if test="configName != null">config_name,</if>  
+      <if test="configRemark != null">config_remark,</if>  
+      <if test="createTime != null">create_time,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="configSign != null">#{configSign,jdbcType=VARCHAR},</if>  
+      <if test="configName != null">#{configName,jdbcType=VARCHAR},</if>  
+      <if test="configRemark != null">#{configRemark,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.OtherConfig">update other_config 
+    <set> 
+      <if test="configSign != null">config_sign = #{configSign,jdbcType=VARCHAR},</if>  
+      <if test="configName != null">config_name = #{configName,jdbcType=VARCHAR},</if>  
+      <if test="configRemark != null">config_remark = #{configRemark,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if> 
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.OtherConfig">update other_config set config_sign = #{configSign,jdbcType=VARCHAR}, config_name = #{configName,jdbcType=VARCHAR}, config_remark = #{configRemark,jdbcType=VARCHAR}, create_time = #{createTime,jdbcType=TIMESTAMP} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="OtherConfig">select * from other_config</select>
+  <select id="selectOtherConfigName" resultType="OtherConfig" parameterType="String">
+  	SELECT * from other_config where config_name=#{otherConfigName}
+  </select>
+</mapper>

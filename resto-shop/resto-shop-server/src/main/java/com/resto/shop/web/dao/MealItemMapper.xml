@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.MealItemMapper">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.MealItem">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="article_name" property="articleName" jdbcType="VARCHAR"/>
+        <result column="price_dif" property="priceDif" jdbcType="DECIMAL"/>
+        <result column="meal_attr_id" property="mealAttrId" jdbcType="INTEGER"/>
+        <result column="article_id" property="articleId" jdbcType="VARCHAR"/>
+        <result column="is_default" property="isDefault" jdbcType="BIT"/>
+        <result column="kitchen_id" property="kitchenId" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, name, sort, article_name, price_dif, meal_attr_id, article_id, is_default, kitchen_id
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_meal_item
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_meal_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.resto.shop.web.model.MealItem">
+    insert into tb_meal_item (id, name, sort, 
+      article_name, price_dif, meal_attr_id, 
+      article_id, is_default, kitchen_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
+      #{articleName,jdbcType=VARCHAR}, #{priceDif,jdbcType=DECIMAL}, #{mealAttrId,jdbcType=INTEGER}, 
+      #{articleId,jdbcType=VARCHAR}, #{isDefault,jdbcType=BIT}, #{kitchenId,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.resto.shop.web.model.MealItem">
+        insert into tb_meal_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="articleName != null">
+                article_name,
+            </if>
+            <if test="priceDif != null">
+                price_dif,
+            </if>
+            <if test="mealAttrId != null">
+                meal_attr_id,
+            </if>
+            <if test="articleId != null">
+                article_id,
+            </if>
+            <if test="isDefault != null">
+                is_default,
+            </if>
+            <if test="kitchenId != null">
+                kitchen_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="articleName != null">
+                #{articleName,jdbcType=VARCHAR},
+            </if>
+            <if test="priceDif != null">
+                #{priceDif,jdbcType=DECIMAL},
+            </if>
+            <if test="mealAttrId != null">
+                #{mealAttrId,jdbcType=INTEGER},
+            </if>
+            <if test="articleId != null">
+                #{articleId,jdbcType=VARCHAR},
+            </if>
+            <if test="isDefault != null">
+                #{isDefault,jdbcType=BIT},
+            </if>
+            <if test="kitchenId != null">
+                #{kitchenId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.MealItem">
+        update tb_meal_item
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="articleName != null">
+                article_name = #{articleName,jdbcType=VARCHAR},
+            </if>
+            <if test="priceDif != null">
+                price_dif = #{priceDif,jdbcType=DECIMAL},
+            </if>
+            <if test="mealAttrId != null">
+                meal_attr_id = #{mealAttrId,jdbcType=INTEGER},
+            </if>
+            <if test="articleId != null">
+                article_id = #{articleId,jdbcType=VARCHAR},
+            </if>
+            <if test="isDefault != null">
+                is_default = #{isDefault,jdbcType=BIT},
+            </if>
+            <if test="kitchenId != null">
+                kitchen_id = #{kitchenId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.MealItem">
+    update tb_meal_item
+    set name = #{name,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      article_name = #{articleName,jdbcType=VARCHAR},
+      price_dif = #{priceDif,jdbcType=DECIMAL},
+      meal_attr_id = #{mealAttrId,jdbcType=INTEGER},
+      article_id = #{articleId,jdbcType=VARCHAR},
+      is_default = #{isDefault,jdbcType=BIT},
+      kitchen_id = #{kitchenId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+<select id="selectList" resultType="MealItem">select * from tb_meal_item</select>
+    <delete id="deleteByMealAttrIds">
+        delete from tb_meal_item
+        where meal_attr_id in
+        <foreach collection="mealAttrIds" open="(" separator="," close=")" item="attrId">
+            #{attrId}
+        </foreach>
+    </delete>
+    <select id="selectByAttrIds" resultType="MealItem">
+        select it.*,a.photo_small from tb_meal_item it
+        left join tb_article a on it.article_id=a.id
+		where meal_attr_id in
+        <foreach collection="mealAttrIds" open="(" separator="," close=")" item="attrId">
+            #{attrId}
+        </foreach>
+        <if test="show != ''">
+            and a.state = 1 and a.is_empty = 0 order by it.sort
+        </if>
+    </select>
+    <insert id="insertBatch">
+        insert into tb_meal_item
+        (name, sort, article_name, price_dif, meal_attr_id, article_id,is_default,kitchen_id) values
+        <foreach collection="mealItems" separator="," item="item">
+            (#{item.name},#{item.sort},#{item.articleName},#{item.priceDif},#{item.mealAttrId},#{item.articleId},#{item.isDefault},#{item.kitchenId})
+        </foreach>
+    </insert>
+    <select id="selectByIds" resultType="MealItem">
+        select * from tb_meal_item where id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="selectByAttrId" resultType="MealItem">
+        select * from tb_meal_item where meal_attr_id = #{attrId}
+    </select>
+
+    <select id="selectMealItemByShopId" resultType="MealItem">
+        SELECT mi.id,mi.`name`,mi.sort,mi.article_name,mi.price_dif,mi.meal_attr_id,mi.article_id,mi.is_default,mi.kitchen_id
+         from tb_meal_item mi LEFT JOIN tb_article a on mi.article_id = a.id where a.shop_detail_id = #{shopId}
+    </select>
+
+    <update id="updateArticleNameById" parameterType="com.resto.shop.web.model.MealItem">
+        update tb_meal_item
+        set article_name = #{articleName,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectByArticleId" resultType="MealItem">
+        select * from tb_meal_item where article_id = #{articleId}
+    </select>
+</mapper>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        ">
+        
+    <mvc:resources location="/assets/" mapping="/assets/**"/> 
+
+    <!-- 扫描controller（controller层注入） -->
+    <context:component-scan base-package="com.resto.shop.web.controller"/>
+
+    <context:component-scan base-package="com.resto.shop.web.task"/>
+    
+	<!-- 解决ApplicationContext 和WebApplicationContext 不同域的问题 -->
+    <context:component-scan base-package="com.resto.shop.web.aspect"/>
+	<!-- 启用AOP配置 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"> </aop:aspectj-autoproxy>
+	
+    <!-- 会自动注册DefaultAnnotationHandlerMapping与AnnotationMethodHandlerAdapter 两个bean,是spring MVC为@Controllers分发请求所必须的 -->
+    <!-- 指定自己定义的validator -->
+    <!-- 以下 validator ConversionService 在使用 mvc:annotation-driven 会 自动注册 -->
+    <mvc:annotation-driven validator="validator"/>
+
+    <!--<mvc:annotation-driven>-->
+        <!--<mvc:message-converters>-->
+            <!--<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">-->
+                <!--<property name="supportedMediaTypes">-->
+                    <!--<list>-->
+                        <!--<value>text/plain;charset=UTF-8</value>-->
+                        <!--<value>application/json;charset=UTF-8</value>-->
+                        <!--<value>application/x-www-form-urlencoded;charset=UTF-8</value>-->
+                    <!--</list>-->
+                <!--</property>-->
+                <!--<property name="objectMapper">-->
+                    <!--<bean class="com.fasterxml.jackson.databind.ObjectMapper">-->
+                        <!--&lt;!&ndash; 处理responseBody 里面日期类型 &ndash;&gt;-->
+                        <!--<property name="dateFormat">-->
+                            <!--<bean class="java.text.SimpleDateFormat">-->
+                                <!--<constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />-->
+                                <!--&lt;!&ndash;<constructor-arg type="java.lang.String" value="yyyy-MM-dd" />&ndash;&gt;-->
+                            <!--</bean>-->
+                        <!--</property>-->
+
+                        <!--&lt;!&ndash; 为null字段时不显示 &ndash;&gt;-->
+                        <!--&lt;!&ndash;<property name="serializationInclusion">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<value type="com.fasterxml.jackson.annotation.JsonInclude.Include">NON_NULL</value>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</property>&ndash;&gt;-->
+                    <!--</bean>-->
+                <!--</property>-->
+            <!--</bean>-->
+        <!--</mvc:message-converters>-->
+    <!--</mvc:annotation-driven>-->
+
+
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+        <!-- 如果不加默认到 使用classpath下的 ValidationMessages.properties -->
+        <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
+
+
+
+    <!-- 国际化的消息资源文件（本系统中主要用于显示/错误消息定制） -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <!-- 在web环境中一定要定位到classpath 否则默认到当前web应用下找 -->
+                <value>classpath:messages</value>
+                <value>classpath:org/hibernate/validator/ValidationMessages</value>
+            </list>
+        </property>
+        <property name="useCodeAsDefaultMessage" value="false"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="cacheSeconds" value="60"/>
+    </bean>
+
+    <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
+
+		</mvc:interceptor>
+
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.resto.shop.web.interceptor.AccessControlAllowInterceptor"></bean>
+        </mvc:interceptor>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/**/*list"/>
+			<bean class="com.resto.shop.web.BrandAccountInterceptors.OpenBrandAccountInterceptor"></bean>
+		</mvc:interceptor>
+
+		<!--<bean class="com.resto.shop.web.BrandAccountInterceptors.OpenBrandAccountInterceptor"/>-->
+    </mvc:interceptors>
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="defaultLocale" value="zh_CN"/>
+    </bean>
+
+    <!-- 支持返回json(避免IE在ajax请求时，返回json出现下载 ) -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="mappingJacksonHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="mappingJacksonHttpMessageConverter"
+          class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/plain;charset=UTF-8</value>
+                <value>application/json;charset=UTF-8</value>
+                <value>application/x-www-form-urlencoded;charset=UTF-8</value>
+            </list>
+        </property>
+
+        <property name="objectMapper">
+            <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                <!-- 处理responseBody 里面日期类型 -->
+                <property name="dateFormat">
+                    <bean class="java.text.SimpleDateFormat">
+                        <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />
+                        <!--<constructor-arg type="java.lang.String" value="yyyy-MM-dd" />-->
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+
+
+
+    <!-- 支持返回json -->
+
+    <!--默认视图级别设置低点 -->
+    <!-- 对模型视图添加前后缀 -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/views/" p:suffix=".jsp"/>
+
+    <!-- 配置springMVC处理上传文件的信息 -->
+    <!--<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
+        <!--<property name="defaultEncoding" value="utf-8"/>-->
+        <!--<property name="maxUploadSize" value="10485760000"/>-->
+        <!--<property name="maxInMemorySize" value="40960"/>-->
+    <!--</bean>-->
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8" />
+        <!-- 指定所上传文件的总大小不能超过2000KB。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->
+        <property name="maxUploadSize" value="2048000" />
+        <!-- 设置在文件上传时允许写到内存中的最大值，以字节为单位计算，默认是10240 -->
+        <!-- 但是经实验，上传文件大小若小于此参数，则不会生成临时文件，很尴尬，故改为2048 -->
+        <property name="maxInMemorySize" value="2048" />
+
+    </bean>
+
+    <!-- 启用shrio授权注解拦截方式 -->
+    <aop:config proxy-target-class="true"></aop:config>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+</beans>

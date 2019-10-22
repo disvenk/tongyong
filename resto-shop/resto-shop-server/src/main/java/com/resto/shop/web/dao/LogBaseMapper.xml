@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.LogBaseMapper">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.LogBase">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="shop_id" property="shopId" jdbcType="VARCHAR"/>
+        <result column="shop_name" property="shopName" jdbcType="VARCHAR"/>
+        <result column="customer_id" property="customerId" jdbcType="VARCHAR"/>
+        <result column="nickname" property="nickname" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="desc" property="desc" />
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">id, shop_id, shop_name, customer_id, nickname, remark, `desc`, create_time</sql>
+
+    <insert id="insert" parameterType="com.resto.shop.web.model.LogBase">insert into tb_log_base (id, shop_id, shop_name, customer_id, nickname, remark, `desc`, create_time)
+        values (#{id},#{shopId},#{shopName},#{customerId},#{nickname},#{remark},#{desc},#{createTime})
+    </insert>
+    <insert id="insertSelective" parameterType="com.resto.shop.web.model.LogBase">insert into tb_log_base
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="shopId != null">shop_id,</if>
+            <if test="shopName != null">shop_name,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="nickname != null">nickname,</if>
+            <if test="remark != null">remark,</if>
+            <if test="desc != null">`desc`,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="shopId != null">#{shopId},</if>
+            <if test="shopName != null">#{shopName},</if>
+            <if test="customerId != null">#{customerId},</if>
+            <if test="nickname != null">#{nickname},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="desc != null">#{desc},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+</mapper>

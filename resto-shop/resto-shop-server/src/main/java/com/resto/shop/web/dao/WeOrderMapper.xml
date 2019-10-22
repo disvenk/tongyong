@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.WeOrderMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.WeOrder">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="index" property="index" jdbcType="BIGINT"/>
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR"/>
+    <result column="create_time" property="createTime" jdbcType="DATE"/>
+    <result column="data" property="data" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, index, shop_id, create_time, data</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from we_order where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from we_order where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.WeOrder">insert into we_order (id, index, shop_id, create_time, data) values (#{id,jdbcType=BIGINT}, #{index,jdbcType=BIGINT}, #{shopId,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, #{data,jdbcType=VARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.WeOrder">insert into we_order 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="index != null">index,</if>  
+      <if test="shopId != null">shop_id,</if>  
+      <if test="createTime != null">create_time,</if>  
+      <if test="data != null">data,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="index != null">#{index,jdbcType=BIGINT},</if>  
+      <if test="shopId != null">#{shopId,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=DATE},</if>  
+      <if test="data != null">#{data,jdbcType=VARCHAR},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.WeOrder">update we_order 
+    <set> 
+      <if test="index != null">index = #{index,jdbcType=BIGINT},</if>  
+      <if test="shopId != null">shop_id = #{shopId,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=DATE},</if>  
+      <if test="data != null">data = #{data,jdbcType=VARCHAR},</if> 
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.WeOrder">update we_order set index = #{index,jdbcType=BIGINT}, shop_id = #{shopId,jdbcType=VARCHAR}, create_time = #{createTime,jdbcType=DATE}, data = #{data,jdbcType=VARCHAR} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="WeOrder">select * from we_order</select>
+</mapper>

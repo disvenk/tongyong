@@ -1,0 +1,983 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.MdMaterialDao">
+
+<resultMap id="mdMaterialResult" type="com.resto.shop.web.model.MdMaterial">
+    <result column="id" property="id"/>
+    <result column="priority" property="priority"/>
+    <result column="state" property="state"/>
+    <result column="category_third_id" property="categoryThirdId"/>
+    <result column="min_measure_unit" property="minMeasureUnit"/>
+    <result column="convert_unit_name" property="convertUnitName"/>
+    <result column="material_code" property="materialCode"/>
+    <result column="barcode" property="barcode"/>
+    <result column="material_name" property="materialName"/>
+    <result column="category_one_id" property="categoryOneId"/>
+    <result column="category_two_id" property="categoryTwoId"/>
+    <result column="description" property="description"/>
+    <result column="spec_name" property="specName"/>
+    <result column="spec_id" property="specId"/>
+    <result column="unit_id" property="unitId"/>
+    <result column="unit_name" property="unitName"/>
+    <result column="measure_unit" property="measureUnit"/>
+    <result column="min_unit_name" property="minUnitName"/>
+    <result column="min_unit_id" property="minUnitId"/>
+    <result column="convert_unit_id" property="convertUnitId"/>
+    <result column="material_type" property="materialType"/>
+    <result column="print_name" property="printName"/>
+    <result column="creater_name" property="createrName"/>
+    <result column="updater_name" property="updaterName"/>
+    <result column="version" property="version"/>
+    <result column="gmt_create" property="gmtCreate"/>
+    <result column="gmt_modified" property="gmtModified"/>
+    <result column="province_id" property="provinceId"/>
+    <result column="province_name" property="provinceName"/>
+    <result column="city_id" property="cityId"/>
+    <result column="city_name" property="cityName"/>
+    <result column="district_name" property="districtName"/>
+    <result column="district_id" property="districtId"/>
+    <result column="shop_detail_id" property="shopDetailId"/>
+    <result column="creater_id" property="createrId"/>
+    <result column="updater_id" property="updaterId"/>
+    <result column="rate" property="rate"/>
+    <result column="coefficient" property="coefficient"/>
+</resultMap>
+
+<sql id="mdMaterial_columns">
+    id,
+    priority,
+    state,
+    category_third_id,
+    min_measure_unit,
+    convert_unit_name,
+    material_code,
+    barcode,
+    material_name,
+    category_one_id,
+    category_two_id,
+    description,
+    spec_name,
+    spec_id,
+    unit_id,
+    unit_name,
+    measure_unit,
+    min_unit_name,
+    min_unit_id,
+    convert_unit_id,
+    material_type,
+    print_name,
+    creater_name,
+    updater_name,
+    version,
+    gmt_create,
+    gmt_modified,
+    province_id,
+    province_name,
+    city_id,
+    city_name,
+    district_name,
+    district_id,
+    shop_detail_id,
+    creater_id,
+    updater_id,
+    rate,
+    coefficient
+</sql>
+
+<sql id="mdMaterial_sqlForInsert">
+    priority,
+    state,
+    category_third_id,
+    min_measure_unit,
+    convert_unit_name,
+    material_code,
+    barcode,
+    material_name,
+    category_one_id,
+    category_two_id,
+    description,
+    spec_name,
+    spec_id,
+    unit_id,
+    unit_name,
+    measure_unit,
+    min_unit_name,
+    min_unit_id,
+    convert_unit_id,
+    material_type,
+    print_name,
+    creater_name,
+    updater_name,
+    version,
+    gmt_create,
+    gmt_modified,
+    province_id,
+    province_name,
+    city_id,
+    city_name,
+    district_name,
+    district_id,
+    shop_detail_id,
+    creater_id,
+    updater_id,
+    rate,
+    coefficient
+</sql>
+
+<sql id="mdMaterial_columnsForInsert">
+    #{priority},
+    #{state},
+    #{categoryThirdId},
+    #{minMeasureUnit},
+    #{convertUnitName},
+    #{materialCode},
+    #{barcode},
+    #{materialName},
+    #{categoryOneId},
+    #{categoryTwoId},
+    #{description},
+    #{specName},
+    #{specId},
+    #{unitId},
+    #{unitName},
+    #{measureUnit},
+    #{minUnitName},
+    #{minUnitId},
+    #{convertUnitId},
+    #{materialType},
+    #{printName},
+    #{createrName},
+    #{updaterName},
+    #{version},
+    now(),
+    now(),
+    #{provinceId},
+    #{provinceName},
+    #{cityId},
+    #{cityName},
+    #{districtName},
+    #{districtId},
+    #{shopDetailId},
+    #{createrId},
+    #{updaterId},
+    #{rate},
+    #{coefficient}
+</sql>
+
+<sql id="mdMaterial_setterForUpdate">
+    <set>
+        gmt_modified = now(),
+        <if test="id != null">
+            id = #{id},
+        </if>
+        <if test="priority != null">
+            priority = #{priority},
+        </if>
+        <if test="state != null">
+            state = #{state},
+        </if>
+        <if test="categoryThirdId != null">
+            category_third_id = #{categoryThirdId},
+        </if>
+        <if test="minMeasureUnit != null">
+            min_measure_unit = #{minMeasureUnit},
+        </if>
+        <if test="convertUnitName != null">
+            convert_unit_name = #{convertUnitName},
+        </if>
+        <if test="materialCode != null">
+            material_code = #{materialCode},
+        </if>
+        <if test="barcode != null">
+            barcode = #{barcode},
+        </if>
+        <if test="materialName != null">
+            material_name = #{materialName},
+        </if>
+        <if test="categoryOneId != null">
+            category_one_id = #{categoryOneId},
+        </if>
+        <if test="categoryTwoId != null">
+            category_two_id = #{categoryTwoId},
+        </if>
+        <if test="description != null">
+            description = #{description},
+        </if>
+        <if test="specName != null">
+            spec_name = #{specName},
+        </if>
+        <if test="specId != null">
+            spec_id = #{specId},
+        </if>
+        <if test="unitId != null">
+            unit_id = #{unitId},
+        </if>
+        <if test="unitName != null">
+            unit_name = #{unitName},
+        </if>
+        <if test="measureUnit != null">
+            measure_unit = #{measureUnit},
+        </if>
+        <if test="minUnitName != null">
+            min_unit_name = #{minUnitName},
+        </if>
+        <if test="minUnitId != null">
+            min_unit_id = #{minUnitId},
+        </if>
+        <if test="convertUnitId != null">
+            convert_unit_id = #{convertUnitId},
+        </if>
+        <if test="materialType != null">
+            material_type = #{materialType},
+        </if>
+        <if test="printName != null">
+            print_name = #{printName},
+        </if>
+        <if test="createrName != null">
+            creater_name = #{createrName},
+        </if>
+        <if test="updaterName != null">
+            updater_name = #{updaterName},
+        </if>
+        <if test="version != null">
+            version = #{version},
+        </if>
+        <if test="provinceId != null">
+            province_id = #{provinceId},
+        </if>
+        <if test="provinceName != null">
+            province_name = #{provinceName},
+        </if>
+        <if test="cityId != null">
+            city_id = #{cityId},
+        </if>
+        <if test="cityName != null">
+            city_name = #{cityName},
+        </if>
+        <if test="districtName != null">
+            district_name = #{districtName},
+        </if>
+        <if test="districtId != null">
+            district_id = #{districtId},
+        </if>
+        <if test="shopDetailId != null">
+            shop_detail_id = #{shopDetailId},
+        </if>
+        <if test="createrId != null">
+            creater_id = #{createrId},
+        </if>
+        <if test="updaterId != null">
+            updater_id = #{updaterId},
+        </if>
+        <if test="rate != null">
+            rate = #{rate},
+        </if>
+        <if test="coefficient != null">
+            coefficient = #{coefficient},
+        </if>
+    </set>
+</sql>
+
+<sql id="mdMaterial_selector">
+    select
+    <include refid="mdMaterial_columns"/>
+    from md_material
+</sql>
+
+<sql id="mdMaterial_query_segment">
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+        <if test="data.id != null">
+            AND id = #{data.id}
+        </if>
+        <if test="data.priority != null">
+            AND priority = #{data.priority}
+        </if>
+        <if test="data.state != null">
+            AND state = #{data.state}
+        </if>
+        <if test="data.categoryThirdId != null">
+            AND category_third_id = #{data.categoryThirdId}
+        </if>
+        <if test="data.minMeasureUnit != null">
+            AND min_measure_unit = #{data.minMeasureUnit}
+        </if>
+        <if test="data.convertUnitName != null">
+            AND convert_unit_name = #{data.convertUnitName}
+        </if>
+        <if test="data.materialCode != null">
+            AND material_code = #{data.materialCode}
+        </if>
+        <if test="data.barcode != null">
+            AND barcode = #{data.barcode}
+        </if>
+        <if test="data.materialName != null">
+            AND material_name = #{data.materialName}
+        </if>
+        <if test="data.categoryOneId != null">
+            AND category_one_id = #{data.categoryOneId}
+        </if>
+        <if test="data.categoryTwoId != null">
+            AND category_two_id = #{data.categoryTwoId}
+        </if>
+        <if test="data.description != null">
+            AND description = #{data.description}
+        </if>
+        <if test="data.specName != null">
+            AND spec_name = #{data.specName}
+        </if>
+        <if test="data.specId != null">
+            AND spec_id = #{data.specId}
+        </if>
+        <if test="data.unitId != null">
+            AND unit_id = #{data.unitId}
+        </if>
+        <if test="data.unitName != null">
+            AND unit_name = #{data.unitName}
+        </if>
+        <if test="data.measureUnit != null">
+            AND measure_unit = #{data.measureUnit}
+        </if>
+        <if test="data.minUnitName != null">
+            AND min_unit_name = #{data.minUnitName}
+        </if>
+        <if test="data.minUnitId != null">
+            AND min_unit_id = #{data.minUnitId}
+        </if>
+        <if test="data.convertUnitId != null">
+            AND convert_unit_id = #{data.convertUnitId}
+        </if>
+        <if test="data.materialType != null">
+            AND material_type = #{data.materialType}
+        </if>
+        <if test="data.printName != null">
+            AND print_name = #{data.printName}
+        </if>
+        <if test="data.createrName != null">
+            AND creater_name = #{data.createrName}
+        </if>
+        <if test="data.updaterName != null">
+            AND updater_name = #{data.updaterName}
+        </if>
+        <if test="data.version != null">
+            AND version = #{data.version}
+        </if>
+        <if test="data.gmtCreate != null">
+            AND gmt_create = #{data.gmtCreate}
+        </if>
+        <if test="data.gmtModified != null">
+            AND gmt_modified = #{data.gmtModified}
+        </if>
+        <if test="data.provinceId != null">
+            AND province_id = #{data.provinceId}
+        </if>
+        <if test="data.provinceName != null">
+            AND province_name = #{data.provinceName}
+        </if>
+        <if test="data.cityId != null">
+            AND city_id = #{data.cityId}
+        </if>
+        <if test="data.cityName != null">
+            AND city_name = #{data.cityName}
+        </if>
+        <if test="data.districtName != null">
+            AND district_name = #{data.districtName}
+        </if>
+        <if test="data.districtId != null">
+            AND district_id = #{data.districtId}
+        </if>
+        <if test="data.shopDetailId != null">
+            AND shop_detail_id = #{data.shopDetailId}
+        </if>
+        <if test="data.createrId != null">
+            AND creater_id = #{data.createrId}
+        </if>
+        <if test="data.updaterId != null">
+            AND updater_id = #{data.updaterId}
+        </if>
+        <if test="data.rate != null">
+            AND rate = #{data.rate}
+        </if>
+        <if test="data.coefficient != null">
+            AND coefficient = #{data.coefficient}
+        </if>
+        <if test="ins != null and ins != ''">
+            AND
+            <foreach collection="ins" item="item" open="(" separator="and" close=")">
+                ${item.column} in
+                <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                    ${item}
+                </foreach>
+            </foreach>
+        </if>
+        <if test="notIns != null and notIns != ''">
+            AND
+            <foreach collection="notIns" item="item" open="(" separator="and" close=")">
+                ${item.column} not in
+                <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                    ${item}
+                </foreach>
+            </foreach>
+        </if>
+        <if test="equals != null and equals != ''">
+            AND
+            <foreach collection="equals" item="item" open="(" separator="and" close=")">
+                ${item.column} = ${item.value}
+            </foreach>
+        </if>
+        <if test="notEquals != null and notEquals != ''">
+            AND
+            <foreach collection="notEquals" item="item" open="(" separator="and" close=")">
+                ${item.column} != ${item.value}
+            </foreach>
+        </if>
+        <if test="lts != null and lts != ''">
+            AND
+            <foreach collection="lts" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ < ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="gts != null and gts != ''">
+            AND
+            <foreach collection="gts" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ > ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="likes != null and likes != ''">
+            AND
+            <foreach collection="likes" item="item" open="(" separator="and" close=")">
+                ${item.column} like concat('%', ${item.value}, '%')
+            </foreach>
+        </if>
+        <if test="ltes != null and ltes != ''">
+            AND
+            <foreach collection="ltes" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ <= ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="gtes != null and gtes != ''">
+            AND
+            <foreach collection="gtes" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ >= ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="ranges != null and ranges != ''">
+            AND
+            <foreach collection="ranges" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ >= ]]> #{item.from} and ${item.column} <![CDATA[ < ]]> #{item.to}
+            </foreach>
+        </if>
+        AND is_delete = 0
+    </trim>
+</sql>
+
+
+<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.MdMaterial">
+    insert into md_material
+    (
+        <include refid="mdMaterial_sqlForInsert"/>
+        ,is_delete
+    )
+    values
+    (
+        <include refid="mdMaterial_columnsForInsert"/>
+        ,0
+    )
+</insert>
+
+<update id="update" parameterType="com.resto.shop.web.model.MdMaterial">
+    update md_material
+    <include refid="mdMaterial_setterForUpdate" />
+    where id = #{id}
+    and is_delete = 0
+</update>
+
+
+<update id="updateByQuery" parameterType="com.resto.shop.web.model.MdMaterial">
+    update md_material
+    <set>
+        gmt_modified = now(),
+        <if test="update.id != null">
+            id = #{update.id},
+        </if>
+        <if test="update.priority != null">
+            priority = #{update.priority},
+        </if>
+        <if test="update.state != null">
+            state = #{update.state},
+        </if>
+        <if test="update.categoryThirdId != null">
+            category_third_id = #{update.categoryThirdId},
+        </if>
+        <if test="update.minMeasureUnit != null">
+            min_measure_unit = #{update.minMeasureUnit},
+        </if>
+        <if test="update.convertUnitName != null">
+            convert_unit_name = #{update.convertUnitName},
+        </if>
+        <if test="update.materialCode != null">
+            material_code = #{update.materialCode},
+        </if>
+        <if test="update.barcode != null">
+            barcode = #{update.barcode},
+        </if>
+        <if test="update.materialName != null">
+            material_name = #{update.materialName},
+        </if>
+        <if test="update.categoryOneId != null">
+            category_one_id = #{update.categoryOneId},
+        </if>
+        <if test="update.categoryTwoId != null">
+            category_two_id = #{update.categoryTwoId},
+        </if>
+        <if test="update.description != null">
+            description = #{update.description},
+        </if>
+        <if test="update.specName != null">
+            spec_name = #{update.specName},
+        </if>
+        <if test="update.specId != null">
+            spec_id = #{update.specId},
+        </if>
+        <if test="update.unitId != null">
+            unit_id = #{update.unitId},
+        </if>
+        <if test="update.unitName != null">
+            unit_name = #{update.unitName},
+        </if>
+        <if test="update.measureUnit != null">
+            measure_unit = #{update.measureUnit},
+        </if>
+        <if test="update.minUnitName != null">
+            min_unit_name = #{update.minUnitName},
+        </if>
+        <if test="update.minUnitId != null">
+            min_unit_id = #{update.minUnitId},
+        </if>
+        <if test="update.convertUnitId != null">
+            convert_unit_id = #{update.convertUnitId},
+        </if>
+        <if test="update.materialType != null">
+            material_type = #{update.materialType},
+        </if>
+        <if test="update.printName != null">
+            print_name = #{update.printName},
+        </if>
+        <if test="update.createrName != null">
+            creater_name = #{update.createrName},
+        </if>
+        <if test="update.updaterName != null">
+            updater_name = #{update.updaterName},
+        </if>
+        <if test="update.version != null">
+            version = #{update.version},
+        </if>
+        <if test="update.provinceId != null">
+            province_id = #{update.provinceId},
+        </if>
+        <if test="update.provinceName != null">
+            province_name = #{update.provinceName},
+        </if>
+        <if test="update.cityId != null">
+            city_id = #{update.cityId},
+        </if>
+        <if test="update.cityName != null">
+            city_name = #{update.cityName},
+        </if>
+        <if test="update.districtName != null">
+            district_name = #{update.districtName},
+        </if>
+        <if test="update.districtId != null">
+            district_id = #{update.districtId},
+        </if>
+        <if test="update.shopDetailId != null">
+            shop_detail_id = #{update.shopDetailId},
+        </if>
+        <if test="update.createrId != null">
+            creater_id = #{update.createrId},
+        </if>
+        <if test="update.updaterId != null">
+            updater_id = #{update.updaterId},
+        </if>
+        <if test="update.rate != null">
+            rate = #{update.rate},
+        </if>
+        <if test="update.coefficient != null">
+            coefficient = #{update.coefficient},
+        </if>
+    </set>
+    <include refid="mdMaterial_query_segment"/>
+</update>
+
+
+<insert id="insertOrUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.MdMaterial">
+    insert into md_material
+    (
+        <include refid="mdMaterial_sqlForInsert"/>
+        ,is_delete
+    )
+    values
+    (
+        <include refid="mdMaterial_columnsForInsert"/>
+        ,0
+    )
+    on duplicate key update
+    gmt_modified = now()
+    <if test="id != null">
+        ,id = #{id}
+    </if>
+    <if test="priority != null">
+        ,priority = #{priority}
+    </if>
+    <if test="state != null">
+        ,state = #{state}
+    </if>
+    <if test="categoryThirdId != null">
+        ,category_third_id = #{categoryThirdId}
+    </if>
+    <if test="minMeasureUnit != null">
+        ,min_measure_unit = #{minMeasureUnit}
+    </if>
+    <if test="convertUnitName != null">
+        ,convert_unit_name = #{convertUnitName}
+    </if>
+    <if test="materialCode != null">
+        ,material_code = #{materialCode}
+    </if>
+    <if test="barcode != null">
+        ,barcode = #{barcode}
+    </if>
+    <if test="materialName != null">
+        ,material_name = #{materialName}
+    </if>
+    <if test="categoryOneId != null">
+        ,category_one_id = #{categoryOneId}
+    </if>
+    <if test="categoryTwoId != null">
+        ,category_two_id = #{categoryTwoId}
+    </if>
+    <if test="description != null">
+        ,description = #{description}
+    </if>
+    <if test="specName != null">
+        ,spec_name = #{specName}
+    </if>
+    <if test="specId != null">
+        ,spec_id = #{specId}
+    </if>
+    <if test="unitId != null">
+        ,unit_id = #{unitId}
+    </if>
+    <if test="unitName != null">
+        ,unit_name = #{unitName}
+    </if>
+    <if test="measureUnit != null">
+        ,measure_unit = #{measureUnit}
+    </if>
+    <if test="minUnitName != null">
+        ,min_unit_name = #{minUnitName}
+    </if>
+    <if test="minUnitId != null">
+        ,min_unit_id = #{minUnitId}
+    </if>
+    <if test="convertUnitId != null">
+        ,convert_unit_id = #{convertUnitId}
+    </if>
+    <if test="materialType != null">
+        ,material_type = #{materialType}
+    </if>
+    <if test="printName != null">
+        ,print_name = #{printName}
+    </if>
+    <if test="createrName != null">
+        ,creater_name = #{createrName}
+    </if>
+    <if test="updaterName != null">
+        ,updater_name = #{updaterName}
+    </if>
+    <if test="version != null">
+        ,version = #{version}
+    </if>
+    <if test="provinceId != null">
+        ,province_id = #{provinceId}
+    </if>
+    <if test="provinceName != null">
+        ,province_name = #{provinceName}
+    </if>
+    <if test="cityId != null">
+        ,city_id = #{cityId}
+    </if>
+    <if test="cityName != null">
+        ,city_name = #{cityName}
+    </if>
+    <if test="districtName != null">
+        ,district_name = #{districtName}
+    </if>
+    <if test="districtId != null">
+        ,district_id = #{districtId}
+    </if>
+    <if test="shopDetailId != null">
+        ,shop_detail_id = #{shopDetailId}
+    </if>
+    <if test="createrId != null">
+        ,creater_id = #{createrId}
+    </if>
+    <if test="updaterId != null">
+        ,updater_id = #{updaterId}
+    </if>
+    <if test="rate != null">
+        ,rate = #{rate}
+    </if>
+    <if test="coefficient != null">
+        ,coefficient = #{coefficient}
+    </if>
+</insert>
+
+<!-- Delete -->
+<update id="delete">
+    update md_material
+    set is_delete = 1, gmt_modified = now()
+    <include refid="mdMaterial_query_segment"/>
+</update>
+<update id="deleteById">
+    update md_material
+    set is_delete = 1, gmt_modified = now()
+    where id = #{id}
+</update>
+
+
+
+
+
+<!-- query class -->
+<sql id="mdMaterial_groupBy">
+    <if test="groupBys != null and groupBys != ''">
+        group by
+        <foreach collection="groupBys" item="item" open="" separator="," close="">
+            ${item}
+        </foreach>
+    </if>
+</sql>
+
+<sql id="mdMaterial_orderby">
+    <if test="orderBys != null and orderBys != ''">
+        order by
+        <foreach collection="orderBys" item="item" open="" separator="," close="">
+            ${item.column} ${item.direction}
+        </foreach>
+    </if>
+</sql>
+
+
+<select id="query" resultMap="mdMaterialResult" parameterType="com.resto.shop.web.model.MdMaterial">
+    <include refid="mdMaterial_selector"/>
+    <include refid="mdMaterial_query_segment"/>
+    <include refid="mdMaterial_groupBy"/>
+    <include refid="mdMaterial_orderby"/>
+</select>
+
+<select id="query4Page" resultMap="mdMaterialResult" parameterType="com.resto.shop.web.model.MdMaterial">
+    <include refid="mdMaterial_selector"/>
+    <include refid="mdMaterial_query_segment"/>
+    <include refid="mdMaterial_groupBy"/>
+    <include refid="mdMaterial_orderby"/>
+    limit ${startRowForMysql}, ${pageSize}
+</select>
+
+
+<select id="count" resultType="java.lang.Long">
+    SELECT COUNT(1) FROM md_material
+    <include refid="mdMaterial_query_segment"/>
+</select>
+
+<select id="getById" resultMap="mdMaterialResult">
+    <include refid="mdMaterial_selector"/>
+    where id = #{id}
+    and is_delete = 0
+</select>
+
+<select id="getByIdForUpdate" resultMap="mdMaterialResult">
+    <include refid="mdMaterial_selector"/>
+    where id = #{id}
+    and is_delete = 0
+    for update
+</select>
+
+
+
+
+    <select id="findMaterialByThirdId" resultType="com.resto.shop.web.dto.MaterialDo">
+     SELECT
+        vi.id,
+        vi.materialCode,
+        vi.barcode,
+        vi.materialName,
+        vi.specName,
+        vi.minMeasureUnit,
+        vi.specId,
+        vi.unitId,
+        vi.unitName,
+        vi.measureUnit,
+        vi.minUnitName,
+        vi.minUnitId,
+        vi.materialType,
+        vi.provinceName,
+        vi.cityName,
+        vi.districtName,
+        vi.categoryOneName,
+        vi.categoryTwoName,
+        vi.categoryThirdName,
+        vi.rate,
+        vi.coefficient,
+        vi.state,
+        vi.printName
+    FROM
+       md_material_view vi
+    WHERE
+      vi.categoryThirdId = #{thirdId}
+    and
+      vi.shopDetailId= #{shopId}
+</select>
+
+<!-- 关联供应商报价单表-->
+
+<select id="findCategoryThreeListWithSupPriceId" resultType="com.resto.shop.web.dto.MaterialDo">
+        SELECT
+            vi.id,
+            vi.materialCode,
+            vi.barcode,
+            vi.materialName,
+            vi.specName,
+            vi.minMeasureUnit,
+            vi.specId,
+            vi.unitId,
+            vi.unitName,
+            vi.measureUnit,
+            vi.minUnitName,
+            vi.minUnitId,
+            vi.materialType,
+            vi.provinceName,
+            vi.cityName,
+            vi.districtName,
+            vi.categoryOneName,
+            vi.categoryTwoName,
+            vi.categoryThirdName,
+            vi.rate,
+            vi.coefficient,
+            vi.state,
+            vi.printName,
+            md.sup_price_id as 'supPriceId',
+            md.purchase_price as 'purchasePrice'
+        FROM
+        md_supplier_price_detail md
+        LEFT JOIN  md_material_view vi
+        ON md.material_id = vi.id
+
+
+        WHERE
+        vi.categoryThirdId = #{thirdId}
+        and
+        vi.shopDetailId= #{shopId}
+
+    </select>
+
+    <!-- 关联供采购单表-->
+    <select id="findCategoryThreeListWithPmsHeadId" resultType="com.resto.shop.web.dto.MaterialDo">
+        SELECT
+        vi.id,
+        vi.materialCode,
+        vi.barcode,
+        vi.materialName,
+        vi.specName,
+        vi.minMeasureUnit,
+        vi.specId,
+        vi.unitId,
+        vi.unitName,
+        vi.measureUnit,
+        vi.minUnitName,
+        vi.minUnitId,
+        vi.materialType,
+        vi.provinceName,
+        vi.cityName,
+        vi.districtName,
+        vi.categoryOneName,
+        vi.categoryTwoName,
+        vi.categoryThirdName,
+        vi.rate,
+        vi.coefficient,
+        vi.state,
+        vi.printName,
+        dp.plan_qty as 'planQty',
+        dp.pms_header_id as 'pmsHeaderId',
+        dp.sup_price_detail_id as 'supPriceDetailId',
+        dp.purchase_money as 'purchaseMoney'
+
+        FROM
+        doc_pms_po_detail dp
+        LEFT JOIN  md_material_view vi
+        ON dp.material_id = vi.id
+        WHERE
+        vi.categoryThirdId = #{thirdId}
+        and
+        vi.shopDetailId= #{shopId}
+
+    </select>
+
+
+
+
+
+    <select id="queryJoin4Page"  resultType="com.resto.shop.web.dto.MaterialDo">
+        SELECT
+        ma.id,
+        ma.barcode as 'barcode',
+        ma.material_code as 'materialCode',
+        ma.convert_unit_name as 'convertUnitName',
+        ma.convert_unit_id as 'convertUnitId',
+        ma.measure_unit as 'measureUnit',
+        ma.unit_name as 'unitName',
+        ma.unit_id as 'unitId',
+        ma.min_unit_name as 'minUnitName',
+        ma.min_measure_unit as 'minMeasureUnit',
+        ma.min_unit_id as 'minUnitId',
+        ma.material_type as 'materialType',
+        ma.description as 'description',
+        ma.material_name as 'materialName',
+        ma.province_id as 'provinceId',
+        ma.province_name as 'provinceName',
+        ma.spec_name as 'specName',
+        ma.spec_id as 'specId',
+        ma.city_id as 'cityId',
+        ma.city_name as 'cityName',
+        ma.district_name as 'districtName',
+        ma.district_id as 'districtId',
+        ma.priority as 'priority',
+        ma.state,
+        ma.print_name as 'printName',
+        ma.rate,
+        ma.coefficient,
+        c1.id as 'categoryOneId',
+        c1.category_name as 'categoryOneName',
+        c1.category_code as 'categoryOneCode',
+        c2.id as 'categoryTwoId',
+        c2.category_name as 'categoryTwoName',
+        c3.category_code as 'categoryTwoCode',
+        c3.id as 'categoryThirdId',
+        c3.category_name as 'categoryThirdName',
+        c3.category_code as 'categoryThirdCode'
+        FROM
+        md_material ma
+         JOIN md_category c1 ON ma.category_one_id = c1.id
+         JOIN md_category c2 ON ma.category_two_id = c2.id
+         JOIN md_category c3 ON ma.category_third_id = c3.id
+        AND c3.shop_detail_id = ma.shop_detail_id
+        where ma.is_delete='0'
+        and c1.is_delete='0'
+        and c2.is_delete='0'
+         and c3.is_delete='0'
+         and  ma.shop_detail_id= #{shopId}
+         ORDER by ma.gmt_create desc
+
+    </select>
+
+
+</mapper>

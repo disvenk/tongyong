@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.report.OffLineOrderMapperReport">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.OffLineOrder">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+        <result column="resource" property="resource" jdbcType="INTEGER"/>
+        <result column="enter_total" property="enterTotal" jdbcType="DECIMAL"/>
+        <result column="enter_count" property="enterCount" jdbcType="INTEGER"/>
+        <result column="num_guest" property="numGuest" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="delivery_orders" property="deliveryOrders" jdbcType="INTEGER"/>
+        <result column="order_books" property="orderBooks" jdbcType="DECIMAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">id, shop_detail_id, brand_id, resource, enter_total, enter_count, num_guest, create_time</sql>
+
+
+    <select id="selectOrderNumByTimeAndBrandId" resultType="com.resto.shop.web.dto.OrderNumDto">
+        select shop_detail_id shopId, sum(enter_count)num  from tb_off_line_order
+        WHERE  <![CDATA[
+           create_time >= #{beginDate} AND create_time <= #{endDate}
+         ]]> and state = 1
+        GROUP BY shop_detail_id
+
+    </select>
+
+
+    <select id="selectlistByTimeSourceAndShopId" resultType="com.resto.shop.web.model.OffLineOrder">
+        SELECT
+        id,
+        shop_detail_id,
+        brand_id,
+        resource,
+        enter_total,
+        enter_count,
+        IFNULL(delivery_orders,0)delivery_orders,
+        IFNULL(order_books,0)order_books,
+        IFNULL(num_guest,0)num_guest,
+        create_time,
+        state FROM tb_off_line_order
+        WHERE  shop_detail_id =#{shopId} AND  resource=1 AND  state =1 AND
+        <![CDATA[
+     create_time >= #{beginDate} AND create_time <= #{endDate}
+      ]]>
+        ORDER  BY create_time DESC
+    </select>
+
+</mapper>

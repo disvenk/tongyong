@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.service.appraise.mapper.AppraiseFileMapper">
+    <resultMap id="BaseResultMap" type="com.resto.api.appraise.entity.AppraiseFile">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="appraise_id" property="appraiseId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="file_url" property="fileUrl" jdbcType="VARCHAR"/>
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="photo_square" property="photoSquare" />
+        <result column="file_name" property="fileName" />
+        <result column="state" property="state" />
+    </resultMap>
+
+    <select id="appraiseFileList" resultType="com.resto.api.appraise.entity.AppraiseFile">
+        select * from tb_appraise_file where appraise_id = #{appraiseId}  order by sort
+    </select>
+</mapper>

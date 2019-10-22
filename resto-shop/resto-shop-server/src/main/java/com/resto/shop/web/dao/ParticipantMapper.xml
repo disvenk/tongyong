@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.ParticipantMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.Participant">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="group_id" property="groupId" jdbcType="VARCHAR"/>
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR"/>
+    <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+    <result column="is_pay" property="isPay"/>
+    <result column="appraise" property="appraise"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, group_id, customer_id, order_id, shop_detail_id, brand_id, is_pay, appraise</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from tb_participant where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from tb_participant where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.Participant">
+      insert into tb_participant (id, group_id, customer_id, order_id, shop_detail_id, brand_id, is_pay, appraise) values
+      (#{id,jdbcType=BIGINT}, #{groupId,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{shopDetailId,jdbcType=VARCHAR},
+      #{brandId,jdbcType=VARCHAR}, #{isPay}, #{appraise})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.Participant">insert into tb_participant
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="groupId != null">group_id,</if>
+      <if test="customerId != null">customer_id,</if>
+      <if test="orderId != null">order_id,</if>
+      <if test="shopDetailId != null">shop_detail_id,</if>
+      <if test="brandId != null">brand_id,</if>
+      <if test="isPay != null">is_pay,</if>
+      <if test="appraise != null">appraise,</if>
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="groupId != null">#{groupId,jdbcType=VARCHAR},</if>
+      <if test="customerId != null">#{customerId,jdbcType=VARCHAR},</if>
+      <if test="orderId != null">#{orderId,jdbcType=VARCHAR},</if>
+      <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if>
+      <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>
+      <if test="isPay != null">#{isPay},</if>
+      <if test="appraise != null">#{appraise},</if>
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.Participant">update tb_participant
+    <set> 
+      <if test="groupId != null">group_id = #{groupId,jdbcType=VARCHAR},</if>
+      <if test="customerId != null">customer_id = #{customerId,jdbcType=VARCHAR},</if>
+      <if test="orderId != null">order_id = #{orderId,jdbcType=VARCHAR},</if>
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if>
+      <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>
+      <if test="isPay != null">is_pay = #{isPay},</if>
+      <if test="appraise != null">appraise = #{appraise},</if>
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.Participant">
+      update tb_participant set group_id = #{groupId,jdbcType=VARCHAR}, customer_id = #{customerId,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR}, brand_id = #{brandId,jdbcType=VARCHAR},
+      is_pay = #{isPay}, appraise = #{appraise} where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectList" resultType="Participant">select * from tb_participant</select>
+
+  <select id="selectCustomerListByGroupIdOrderId" resultType="Participant">
+      select * from tb_participant where group_id = #{groupId} and order_id = #{orderId}
+  </select>
+
+  <select id="selectByOrderIdCustomerId" resultType="Participant">
+      select * from tb_participant where order_id = #{orderId} and customer_id = #{customerId}
+  </select>
+
+  <update id="updateAppraiseByOrderIdCustomerId">
+      update tb_participant set appraise = 1 where order_id = #{orderId} and customer_id = #{customerId}
+  </update>
+
+  <select id="selectNotAppraiseByGroupId" resultType="Participant">
+      select * from tb_participant where group_id = #{groupId} and order_id = #{orderId} and appraise = 0
+  </select>
+
+  <update id="updateIsPayByOrderIdCustomerId">
+      update tb_participant set is_pay = 2 where group_id = #{groupId} and order_id = #{orderId} and customer_id = #{customerId}
+  </update>
+
+  <select id="selectCustomerIdByGroupId" resultType="java.lang.String">
+      select DISTINCT customer_id from tb_participant where group_id = #{groupId}
+  </select>
+</mapper>

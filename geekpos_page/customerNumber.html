@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>取号</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui">
+	    <meta name="format-detection" content="telephone=no"/>
+	    <meta name="x5-orientation"content="portrait">
+	    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+	    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    	<META HTTP-EQUIV="expires" CONTENT="0">
+    	<link href="//cdn.bootcss.com/weui/1.1.1/style/weui.css" rel="stylesheet">
+    	<link rel="stylesheet" type="text/css" href="css/weui-searchbar.css"/>
+    	<link href="//cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet">
+    	<link rel="stylesheet" type="text/css" href="css/wait-table.css"/> 
+	</head>
+	<body id="app">
+		<!--loading-->
+		<div class="weui_loading_alert" v-if="waitLoading">
+		    <div class="weui_mask" style="background-color: #fff;"></div>
+		    <div class="weui_toast_wait">
+				<img src="images/loading.gif" />
+				<div style="text-align: center;color: #bababa;font-size: 14px;">正在加载中...</div>
+		    </div>
+		</div>
+		
+		<div v-if="openWaitRed" style="position: relative;height: 100%;">
+			<div class="number_header">
+				<div class="weui-shopList">
+					<img class="shopList-photo" :src="shop.photo"/>
+					<p class="weui-shopListIntro">
+						<span class="shopList-name">{{shop.name}}</span>
+						<span class="shopList-explain">
+							<button class="weui-btn weui-btn_mini" style="line-height: 2;">正在排队</button>
+							<!--<span>正在排队</span>-->
+							<!--<span style="float: right;">
+								<i style="font-weight: bold;font-size: 18px;">{{tableDetail.totalWaitCount}}</i>桌
+							</span>-->
+						</span>
+						<!--<span class="shopList-address" style="left: 10px;"><img src="images/map.png"/>{{shop.city}}</span>-->
+						<!--<span class="shopList-distance">2.1km</span>-->
+					</p>
+				</div>
+			</div>
+	
+			<div class="tableContent">
+				<div>
+					<div class="weui-cell" style="padding: 8px 0px;color: #999;">
+						<div class="weui_flex_item">
+							<span class="headerText">桌位类型</span>
+						</div>
+						<div class="weui_flex_item">
+							<span class="headerText">人数</span>
+						</div>
+						<div class="weui_flex_item" style="border-right: initial;">
+							<span class="headerText">等待桌位</span>
+						</div>
+					</div>
+	
+					<div class="weui_flex_table" v-for="table in tableDetail.tableList">
+						<span>{{table.name}}</span>
+						<span>{{table.minNumber}}~{{table.maxNumber}}人</span>
+						<span><i class="account">{{table.waitNumber}}</i>桌</span>
+					</div>
+				</div>
+			</div>
+						
+			<!--广告轮播图-->
+			<div class="swiper-container banner">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" v-for="p in pictureList">
+                        <img :src="p.pictureUrl" />
+                    </div>                   
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+			
+			<div class="number_btn">
+				<div class="middle">
+					<button type="button" class="weui-btn" id="getNumber" @click="takeNumber">立即取号</button>
+				</div>							
+			</div>			
+		</div>
+		<!--暂无取号-->
+		<div v-if="!openWaitRed" style="position: relative;text-align: center;top: 35%;">
+			<img class="noTableImg" src="images/noTable.png"/>
+			<p style="color: #bebebe;font-size: 1.2rem;">暂未开启等位活动~</p>
+		</div>
+				
+		<number-keyboard :show.sync="keyboard.show" :maxCount="keyboard.maxcount"></number-keyboard>	<!--键盘弹窗-->
+		
+		<script src="//cdn.bootcss.com/vue/1.0.25/vue.min.js"></script>
+		<script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+		<script src="//cdn.bootcss.com/Swiper/3.4.2/js/swiper.min.js"></script>
+		<script src="//cdn.bootcss.com/iScroll/5.2.0/iscroll.min.js"></script>
+		<script src="js/base.js?v=2333"></script>
+		<script src="js/components.js?v=2333"></script>
+		<script src="js/common.js?v=2333"></script>
+		<script type="text/javascript">
+			baseUrl = baseUrl + "/geekqueuing";
+			document.addEventListener('touchmove', function (e) {
+				e.preventDefault();
+			}, false);
+			
+			//键盘组件			
+			Vue.component("number-keyboard", {
+			    props: ['show','maxcount'],
+			    template: '<div class="weui_loading_toast" v-if="show">' +
+			    '<div class="weui_mask_transparent"></div>' +
+				    '<div class="weui_toast msg-dialog">' +		
+						'<div class="full-height">'+
+						'<div class="form-group">'+
+	                        '<p><span>请选择就餐人数</span></p>'+
+	                    '</div>'+                 
+	                    '<div class="keyContent" v-if="!moreNumber">'+
+	                    	'<div class="keys">'+
+								'<span v-for="number in 11" :class="{active:number == customerCount - 1}" @click="getCustomerCount(number)">'+
+									'<i class="middle">{{number + 1}}</i>'+
+								'</span>'+
+								'<span @click="moreCount"><i class="middle">更多</i></span>'+								
+							'</div>'+						
+	                    '</div>'+ 
+	                    '<div class="weui-cell" v-if="moreNumber" style="margin:15px;background:#f9f9f9;">'+
+			                '<div class="weui-cell__bd">'+
+			                    '<input class="weui-input" id="customerCount" type="tel" placeholder="请输入人数" v-model="customerCount">'+
+			                '</div>'+
+			            '</div>'+
+	                    '<div class="boardBtn">'+
+	                    	'<button type="button" class="btn canel" @click="close">取消</button>'+
+	                    	'<button type="button" class="btn confirm" @click="confirmTable" :class="{active:customerCount}">确定</button>'+
+	                    '</div>'+
+	                    '<weui-dialog :show.sync="wMessage.show" :msg="wMessage.message" :type="wMessage.type"></weui-dialog>'+
+					'</div>'+				
+				    '</div>' +
+			    '</div>',
+			    data: function () {
+		            return {
+		            	customerCount:null,
+		            	moreNumber:false,
+		            	wMessage: {show: 0, message: "",type:null},
+						flag:true,
+	            	}
+	            },
+				created:function(){
+					this.customerCount = null;
+				},
+			    methods: {
+			    	showAlter: function (msg ,type, time) {
+			            this.wMessage.show = 1;
+			            this.wMessage.type = type;
+			            this.wMessage.message = msg;
+			            var that = this;
+			            setTimeout(function () {
+			                that.wMessage.show = 0;
+			            }, time || 1000);
+			        },
+			        close: function () {
+			            this.show = false;
+			            this.customerCount = null;
+			            this.moreNumber = false;
+			        },
+			        getCustomerCount:function(number){
+			        	this.customerCount = number + 1;
+			        },
+			        moreCount:function(){
+			        	this.moreNumber = true;
+			        },
+			        confirmTable:function(){
+						var that = this;
+						if(!that.flag){
+							return;
+						}
+						that.flag = false;
+						setTimeout(function(){//一秒后才能再次点击
+							that.flag = true;
+						},5000);
+						if(that.customerCount == "" || that.customerCount == null){
+							that.showAlter("请输入就餐人数",2, 2000);
+							return;
+						}
+						else if(that.customerCount > this.maxcount){
+							that.showAlter("超过最大人数",2, 2000);
+							return;
+						}
+						else{
+							that.moreNumber = false;
+							that.show = false;
+							window.location.href = baseUrl+"/waitModel/addGetNumber?shopDetailId="+getParam("shopId")+"&personNumber="+that.customerCount+"&phone=&customerId="+getParam("customerId");
+						}
+			        }		        
+			    },
+			    ready: function () {
+			        this.$watch("moreNumber", function () {
+			            if (this.moreNumber) {
+			            	if (/Android/i.test(navigator.userAgent) || /iPhone|iPad|iPod|Macintosh/i.test(navigator.userAgent)) {
+			                    $("#customerCount").focus();
+			                }
+			            }
+			        });
+			    }
+			});
+			
+			var vm = new Vue({
+		        el: "#app",
+		        data: function () {
+		            return {
+		            	keyboard:{show:false,maxcount:null},
+		            	customerCount:null,
+						shop:{},
+						tableDetail: {
+							totalWaitCount: 0,
+							tableList: []
+						},
+						tableCount:null,
+						maxCount:null,
+						openWaitRed:false,
+						pictureList:[],
+						waitLoading:true
+		            }
+		        },
+		        created:function(){
+					var that = this;
+
+					getShopInformation(getParam("brandId"), getParam("shopId"), function (res) {
+						that.shop = res.data;
+						if(that.shop.posWaitredEnvelope == 1){
+							that.openWaitRed = true;							
+						}else if(that.shop.posWaitredEnvelope == 0){
+							that.openWaitRed = false;
+						}
+					});
+					getPictureList(getParam("shopId"), function (res) {						
+						that.pictureList = res;
+						
+					});
+						getTableInfo(getParam("brandId"), getParam("shopId"), function(result) {
+							if(result.code == "200") { //请求成功
+								that.tableDetail.tableList = [];
+								that.tableDetail.totalWaitCount = result.data.totalWaitCount;
+								that.tableCount = result.data.tableList[0].maxNumber;
+								for(var i = 0; i < result.data.tableList.length; i++) {
+									var tableInfo = result.data.tableList[i];								
+									that.tableDetail.tableList.push(tableInfo);
+								}
+								that.waitLoading = false;						
+							} else {
+								that.waitLoading = false;
+							}
+						})				
+		        },
+		        methods:{		        	
+		        	takeNumber: function () {
+		        		var that = this;
+			            that.keyboard.show = true;
+			            for(var i = 0; i < that.tableDetail.tableList.length; i++) {							
+							if (that.tableDetail.tableList[i].maxNumber > that.tableCount) { 
+								that.maxCount = that.tableDetail.tableList[i].maxNumber; 
+							}							
+						}
+			            that.keyboard.maxcount = that.maxCount;
+			        }
+		        },
+		        ready:function(){
+					var that = this;
+					setTimeout(function(){
+						Vue.nextTick(function () {
+							new Swiper('.swiper-container', {
+								pagination : '.swiper-pagination',
+								direction : 'horizontal',
+								autoplay : 3000,
+								loop : true
+							});
+						})
+					},1000);					
+				}
+		    })	
+		</script>
+	</body>
+</html>

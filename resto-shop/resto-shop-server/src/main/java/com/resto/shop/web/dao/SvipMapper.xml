@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.shop.web.dao.SvipMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.Svip">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="charge_money" jdbcType="DECIMAL" property="chargeMoney" />
+    <result column="be_svip_time" jdbcType="TIMESTAMP" property="beSvipTime" />
+    <result column="svip_expire" jdbcType="INTEGER" property="svipExpire" />
+    <result column="begin_date_time" jdbcType="TIMESTAMP" property="beginDateTime" />
+    <result column="end_date_time" jdbcType="TIMESTAMP" property="endDateTime" />
+    <result column="activity_id" jdbcType="VARCHAR" property="activityId" />
+    <result column="customer_id" jdbcType="VARCHAR" property="customerId" />
+    <result column="svip_expire_type" property="svipExpireType" />
+    <result column="shop_detail_id" property="shopDetailId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, charge_money, be_svip_time, svip_expire, begin_date_time, end_date_time, activity_id, 
+    customer_id,svip_expire_type,shop_detail_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_svip
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_svip
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.Svip">
+    insert into tb_svip (id, charge_money, be_svip_time, 
+      svip_expire, begin_date_time, end_date_time, 
+      activity_id, customer_id,svip_expire_type,shop_detail_id)
+    values (#{id,jdbcType=VARCHAR}, #{chargeMoney,jdbcType=DECIMAL}, #{beSvipTime,jdbcType=TIMESTAMP}, 
+      #{svipExpire,jdbcType=INTEGER}, #{beginDateTime,jdbcType=TIMESTAMP}, #{endDateTime,jdbcType=TIMESTAMP}, 
+      #{activityId,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR},#{svipExpireType},#{shopDetailId})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.Svip">
+    insert into tb_svip
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="chargeMoney != null">
+        charge_money,
+      </if>
+      <if test="beSvipTime != null">
+        be_svip_time,
+      </if>
+      <if test="svipExpire != null">
+        svip_expire,
+      </if>
+      <if test="beginDateTime != null">
+        begin_date_time,
+      </if>
+      <if test="endDateTime != null">
+        end_date_time,
+      </if>
+      <if test="activityId != null">
+        activity_id,
+      </if>
+      <if test="customerId != null">
+        customer_id,
+      </if>
+        <if test="svipExpireType != null">
+            svip_expire_type,
+        </if>
+      <if test="shopDetailId != null">
+        shop_detail_id
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeMoney != null">
+        #{chargeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="beSvipTime != null">
+        #{beSvipTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="svipExpire != null">
+        #{svipExpire,jdbcType=INTEGER},
+      </if>
+      <if test="beginDateTime != null">
+        #{beginDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDateTime != null">
+        #{endDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activityId != null">
+        #{activityId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+        <if test="svipExpireType != null">
+            #{svipExpireType},
+        </if>
+      <if test="shopDetailId != null">
+        #{shopDetailId}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.Svip">
+    update tb_svip
+    <set>
+      <if test="chargeMoney != null">
+        charge_money = #{chargeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="beSvipTime != null">
+        be_svip_time = #{beSvipTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="svipExpire != null">
+        svip_expire = #{svipExpire,jdbcType=INTEGER},
+      </if>
+      <if test="beginDateTime != null">
+        begin_date_time = #{beginDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDateTime != null">
+        end_date_time = #{endDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activityId != null">
+        activity_id = #{activityId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null">
+        customer_id = #{customerId,jdbcType=VARCHAR},
+    </if>
+    <if test="svipExpireType != null">
+        svip_expire_type = #{svipExpireType},
+    </if>
+    <if test="shopDetailId != null">
+      shop_detail_id = #{shopDetailId}
+    </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.Svip">
+    update tb_svip
+    set charge_money = #{chargeMoney,jdbcType=DECIMAL},
+      be_svip_time = #{beSvipTime,jdbcType=TIMESTAMP},
+      svip_expire = #{svipExpire,jdbcType=INTEGER},
+      begin_date_time = #{beginDateTime,jdbcType=TIMESTAMP},
+      end_date_time = #{endDateTime,jdbcType=TIMESTAMP},
+      activity_id = #{activityId,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=VARCHAR},
+      svip_expire_type = #{svipExpireType},
+      shop_detail_id = #{shopDetailId}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getAtcReport" resultType="com.resto.shop.web.dto.SvipActivityDto">
+    select tsa.id id,count(1) num, tsa.activity_name activity_name,sum(IFNULL(ts.charge_money,0)) money
+    from tb_svip_activity tsa LEFT JOIN tb_svip ts on tsa.id=ts.activity_id
+     where ts.be_svip_time BETWEEN #{beginDate} and #{endDate}
+     GROUP BY tsa.id
+  </select>
+
+    <!--<select id="selectListByActId" resultType="com.resto.shop.web.dto.SvipActReportDto">-->
+        <!--select ts.shop_detail_id shop_detail_id,tc.nickname,tc.telephone tel,ts.charge_money money,ts.be_svip_time dataTime-->
+        <!--from tb_svip ts RIGHT JOIN tb_customer tc on ts.customer_id=tc.id-->
+        <!--where activity_id=#{id}-->
+        <!--and ts.be_svip_time BETWEEN #{beginDate} and #{endDate}-->
+    <!--</select>-->
+
+  <select id="selectListByActId" resultType="com.resto.shop.web.dto.SvipActReportDto">
+   select tsco.shop_detail_id shop_detail_id,tc.nickname,tc.telephone tel,tsco.charge_money money,tsco.finish_time dataTime
+        from tb_svip_charge_order tsco RIGHT JOIN tb_customer tc on tsco.customer_id=tc.id
+        where tsco.activity_id=#{id}
+        and tsco.finish_time BETWEEN #{beginDate} and #{endDate}
+  </select>
+
+    <select id="isSvip" resultType="java.lang.Long">
+        select count(1) from tb_svip where customer_id=#{customerId} and (end_date_time>NOW() or svip_expire_type=1)
+    </select>
+</mapper>

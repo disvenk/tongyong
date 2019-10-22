@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.WeightPackageMapper">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.WeightPackage">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="shop_id" property="shopId" jdbcType="VARCHAR"/>
+        <result column="open_article_library" property="openArticleLibrary" jdbcType="BIT"/>
+        <collection property="details" javaType="List" ofType="com.resto.shop.web.model.WeightPackageDetail">
+            <id column="detail_id" property="id"/>
+            <result column="detail_name" property="name"/>
+            <result column="detail_sort" property="sort"/>
+            <result column="detail_used" property="isUsed"/>
+            <result column="detail_price" property="price"/>
+            <result column="detail_weight" property="weight"/>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">id, name, create_time, shop_id</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select
+        <include refid="Base_Column_List"/> from tb_weight_package where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from tb_weight_package where id = #{id,jdbcType=BIGINT}</delete>
+    <insert id="insert" parameterType="com.resto.shop.web.model.WeightPackage">insert into tb_weight_package (id, name, create_time, shop_id) values (#{id,jdbcType=BIGINT}, #{name}, #{createTime,jdbcType=DATE}, #{shopId})</insert>
+    <insert id="insertSelective" parameterType="com.resto.shop.web.model.WeightPackage">insert into tb_weight_package
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="shopId != null">shop_id,</if>
+            <if test="openArticleLibrary != null">open_article_library,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=BIGINT},</if>
+            <if test="name != null">#{name},</if>
+            <if test="createTime != null">#{createTime,jdbcType=DATE},</if>
+            <if test="shopId != null">#{shopId},</if>
+            <if test="openArticleLibrary != null">#{openArticleLibrary},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.WeightPackage">update tb_weight_package
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=DATE},</if>
+            <if test="shopId != null">shop_id = #{shopId},</if>
+            <if test="openArticleLibrary != null">open_article_library = #{openArticleLibrary}</if>
+        </set> where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.WeightPackage">update tb_weight_package set iname = #{name}, create_time = #{createTime,jdbcType=DATE}, shop_id = #{shopId} where id = #{id,jdbcType=BIGINT}</update>
+    <select id="selectList" resultType="WeightPackage">select * from tb_weight_package</select>
+
+    <select id="getAllWeightPackages" resultMap="BaseResultMap">
+        select t.id ,t.name,t2.id as detail_id,t2.name as detail_name,t2.sort as detail_sort,
+        t2.weight as detail_weight
+        from tb_weight_package t
+        left join tb_weight_package_detail t2 on t2.weight_package_id = t.id
+        where t.shop_id = #{shopId}
+    </select>
+
+    <select id="getAllBrandWeightPackages" resultMap="BaseResultMap">
+        select t.id ,t.name,t.open_article_library,t2.id as detail_id,t2.name as detail_name,t2.sort as detail_sort,
+        t2.weight as detail_weight
+        from tb_weight_package t
+        left join tb_weight_package_detail t2 on t2.weight_package_id = t.id
+        where t.shop_id = #{shopId} AND t.open_article_library=1
+    </select>
+
+    <select id="getWeightPackage" resultMap="BaseResultMap">
+        select t.id ,t.name,t2.id as detail_id,t2.name as detail_name,t2.sort as detail_sort,
+        t2.weight as detail_weight
+        from tb_weight_package t
+        left join tb_weight_package_detail t2 on t2.weight_package_id = t.id
+        where t.shop_id =-1 and open_article_library=1
+    </select>
+
+    <select id="selectByDateShopId" resultType="WeightPackage">
+        select * from tb_weight_package where name = #{name} and shop_id = #{shopId}
+    </select>
+
+    <select id="getWeightPackageById" resultMap="BaseResultMap">
+        select t.id ,t.name,t.open_article_library,t2.id as detail_id,t2.name as detail_name,t2.sort as detail_sort,
+        t2.weight as detail_weight
+        from tb_weight_package t
+        left join tb_weight_package_detail t2 on t2.weight_package_id = t.id
+        where t.id = #{id} order by t2.sort
+    </select>
+
+    <select id="selectWeightPackageByShopId" resultType="WeightPackage">
+      select * from tb_weight_package  where shop_id = #{shopId}
+    </select>
+</mapper>

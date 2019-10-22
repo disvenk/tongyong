@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.WeReturnItemMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.WeReturnItem">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="return_item_name" property="returnItemName" jdbcType="VARCHAR"/>
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR"/>
+    <result column="return_item_count" property="returnItemCount" jdbcType="INTEGER"/>
+    <result column="return_item_total" property="returnItemTotal" jdbcType="DECIMAL"/>
+    <result column="create_time" property="createTime" jdbcType="DATE"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, return_item_name, shop_id, return_item_count, return_item_total, create_time</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from we_return_item where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from we_return_item where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.WeReturnItem">insert into we_return_item (id, return_item_name, shop_id, return_item_count, return_item_total, create_time ) values (#{id,jdbcType=BIGINT}, #{returnItemName,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR}, #{returnItemCount,jdbcType=INTEGER}, #{returnItemTotal,jdbcType=DECIMAL}, #{createTime,jdbcType=DATE} )</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.WeReturnItem">insert into we_return_item 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="returnItemName != null">return_item_name,</if>  
+      <if test="shopId != null">shop_id,</if>  
+      <if test="returnItemCount != null">return_item_count,</if>  
+      <if test="returnItemTotal != null">return_item_total,</if>  
+      <if test="createTime != null">create_time,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="returnItemName != null">#{returnItemName,jdbcType=VARCHAR},</if>  
+      <if test="shopId != null">#{shopId,jdbcType=VARCHAR},</if>  
+      <if test="returnItemCount != null">#{returnItemCount,jdbcType=INTEGER},</if>  
+      <if test="returnItemTotal != null">#{returnItemTotal,jdbcType=DECIMAL},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=DATE},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.WeReturnItem">update we_return_item 
+    <set> 
+      <if test="returnItemName != null">return_item_name = #{returnItemName,jdbcType=VARCHAR},</if>  
+      <if test="shopId != null">shop_id = #{shopId,jdbcType=VARCHAR},</if>  
+      <if test="returnItemCount != null">return_item_count = #{returnItemCount,jdbcType=INTEGER},</if>  
+      <if test="returnItemTotal != null">return_item_total = #{returnItemTotal,jdbcType=DECIMAL},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=DATE},</if> 
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.WeReturnItem">update we_return_item set return_item_name = #{returnItemName,jdbcType=VARCHAR}, shop_id = #{shopId,jdbcType=VARCHAR}, return_item_count = #{returnItemCount,jdbcType=INTEGER}, return_item_total = #{returnItemTotal,jdbcType=DECIMAL}, create_time = #{createTime,jdbcType=DATE} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="WeReturnItem">select * from we_return_item</select>
+
+    <select id="selectByShopIdAndTime" resultType="WeReturnItem">
+        SELECT * FROM  we_return_item WHERE
+      <![CDATA[
+     create_time>#{beginDate} and create_time<#{endDate}
+ ]]>  AND shop_id =#{shopId}
+    </select>
+
+    <delete id="deleteByIds" parameterType="java.util.List">
+        DELETE FROM we_return_item WHERE id IN
+        <foreach collection="ids" index="index" item="item"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+
+</mapper>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.RecommendCategoryArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.RecommendCategoryArticle" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="article_name" property="articleName" jdbcType="VARCHAR" />
+    <result column="recommend_sort" property="recommendSort" jdbcType="INTEGER" />
+    <result column="recommend_category_id" property="recommendCategoryId" jdbcType="VARCHAR" />
+    <result column="article_id" property="articleId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, article_name, recommend_sort, recommend_category_id, article_id, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_recommend_category_article
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByArticleId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_recommend_category_article
+    where article_id = #{articleId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectList" resultType="RedConfig">
+    select
+    <include refid="Base_Column_List" />
+    from tb_recommend_category_article
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_recommend_category_article
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteRecommendCategoryId" parameterType="java.lang.String" >
+    delete from tb_recommend_category_article
+    where recommend_category_id = #{recommendCategoryId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.RecommendCategoryArticle" >
+    insert into tb_recommend_category_article (id, article_name, recommend_sort,
+      "recommend_category _id", "article _id", create_time, 
+      update_time)
+    values (#{id,jdbcType=VARCHAR}, #{articleName,jdbcType=VARCHAR}, #{recommendSort,jdbcType=INTEGER},
+      #{recommendCategoryId,jdbcType=VARCHAR}, #{articleId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.RecommendCategoryArticle" >
+    insert into tb_recommend_category_article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="articleName != null" >
+        article_name,
+      </if>
+      <if test="recommendSort != null" >
+        recommend_sort,
+      </if>
+      <if test="recommendCategoryId != null" >
+        recommend_category_id,
+      </if>
+      <if test="articleId != null" >
+        article_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="articleName != null" >
+        #{articleName,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendSort != null" >
+        #{recommendSort,jdbcType=INTEGER},
+      </if>
+      <if test="recommendCategoryId != null" >
+        #{recommendCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="articleId != null" >
+        #{articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.RecommendCategoryArticle" >
+    update tb_recommend_category_article
+    <set >
+      <if test="articleName != null" >
+        article_name = #{articleName,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendSort != null" >
+        recommend_sort = #{recommendSort,jdbcType=INTEGER},
+      </if>
+      <if test="recommendCategoryId != null" >
+        "recommend_category _id" = #{recommendCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="articleId != null" >
+        "article _id" = #{articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.RecommendCategoryArticle" >
+    update tb_recommend_category_article
+    set article_name = #{articleName,jdbcType=VARCHAR},
+      recommend_sort = #{recommendSort,jdbcType=INTEGER},
+      "recommend_category _id" = #{recommendCategoryId,jdbcType=VARCHAR},
+      "article _id" = #{articleId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <delete id="deleteAll">
+        delete from tb_recommend_category_article
+    </delete>
+</mapper>

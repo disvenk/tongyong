@@ -1,0 +1,61 @@
+ package com.resto.shop.web.controller.business;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import javax.validation.Valid;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.resto.shop.web.controller.GenericController;
+import com.resto.brand.core.entity.Result;
+import com.resto.shop.web.model.{{modelName}};
+import com.resto.shop.web.service.{{modelName}}Service;
+
+@Controller
+@RequestMapping("{{modelNameLower}}")
+public class {{modelName}}Controller extends GenericController{
+
+	@Autowired
+	{{modelName}}Service {{modelNameLower}}Service;
+	
+	@RequestMapping("/list")
+    public void list(){
+    }
+
+	@RequestMapping("/list_all")
+	@ResponseBody
+	public List<{{modelName}}> listData(){
+		return {{modelNameLower}}Service.selectList();
+	}
+	
+	@RequestMapping("list_one")
+	@ResponseBody
+	public Result list_one({{primaryKey}} id){
+		{{modelName}} {{modelNameLower}} = {{modelNameLower}}Service.selectById(id);
+		return getSuccessResult({{modelNameLower}});
+	}
+	
+	@RequestMapping("create")
+	@ResponseBody
+	public Result create(@Valid {{modelName}} {{modelNameLower}}){
+		{{modelNameLower}}Service.insert({{modelNameLower}});
+		return Result.getSuccess();
+	}
+	
+	@RequestMapping("modify")
+	@ResponseBody
+	public Result modify(@Valid {{modelName}} {{modelNameLower}}){
+		{{modelNameLower}}Service.update({{modelNameLower}});
+		return Result.getSuccess();
+	}
+	
+	@RequestMapping("delete")
+	@ResponseBody
+	public Result delete({{primaryKey}} id){
+		{{modelNameLower}}Service.delete(id);
+		return Result.getSuccess();
+	}
+}

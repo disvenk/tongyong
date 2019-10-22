@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.WeShopInfoMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.WeShopInfo">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="title" property="title" jdbcType="VARCHAR"/>
+    <result column="detail_title" property="detailTitle" jdbcType="VARCHAR"/>
+    <result column="flag" property="flag" jdbcType="VARCHAR"/>
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR"/>
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+    <result column="index" property="index" jdbcType="BIGINT"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, title, detail_title, flag, shop_id, brand_id, index</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from we_shop_info where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from we_shop_info where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.WeShopInfo">insert into we_shop_info (id, title, detail_title, flag, shop_id, brand_id, index) values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{detailTitle,jdbcType=VARCHAR}, #{flag,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR}, #{index,jdbcType=BIGINT})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.WeShopInfo">insert into we_shop_info 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="title != null">title,</if>  
+      <if test="detailTitle != null">detail_title,</if>  
+      <if test="flag != null">flag,</if>  
+      <if test="shopId != null">shop_id,</if>  
+      <if test="brandId != null">brand_id,</if>  
+      <if test="index != null">index,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="title != null">#{title,jdbcType=VARCHAR},</if>  
+      <if test="detailTitle != null">#{detailTitle,jdbcType=VARCHAR},</if>  
+      <if test="flag != null">#{flag,jdbcType=VARCHAR},</if>  
+      <if test="shopId != null">#{shopId,jdbcType=VARCHAR},</if>  
+      <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>  
+      <if test="index != null">#{index,jdbcType=BIGINT},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.WeShopInfo">update we_shop_info 
+    <set> 
+      <if test="title != null">title = #{title,jdbcType=VARCHAR},</if>  
+      <if test="detailTitle != null">detail_title = #{detailTitle,jdbcType=VARCHAR},</if>  
+      <if test="flag != null">flag = #{flag,jdbcType=VARCHAR},</if>  
+      <if test="shopId != null">shop_id = #{shopId,jdbcType=VARCHAR},</if>  
+      <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>  
+      <if test="index != null">index = #{index,jdbcType=BIGINT},</if> 
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.WeShopInfo">update we_shop_info set title = #{title,jdbcType=VARCHAR}, detail_title = #{detailTitle,jdbcType=VARCHAR}, flag = #{flag,jdbcType=VARCHAR}, shop_id = #{shopId,jdbcType=VARCHAR}, brand_id = #{brandId,jdbcType=VARCHAR}, index = #{index,jdbcType=BIGINT} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="WeShopInfo">select * from we_shop_info</select>
+</mapper>

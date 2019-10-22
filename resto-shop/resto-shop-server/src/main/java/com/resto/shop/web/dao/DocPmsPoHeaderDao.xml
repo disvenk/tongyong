@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.DocPmsPoHeaderDao">
+
+<resultMap id="docPmsPoHeaderResult" type="com.resto.shop.web.model.DocPmsPoHeader">
+    <result column="id" property="id"/>
+    <result column="supplier_id" property="supplierId"/>
+    <result column="shop_detail_id" property="shopDetailId"/>
+    <result column="shop_name" property="shopName"/>
+    <result column="order_name" property="orderName"/>
+    <result column="order_code" property="orderCode"/>
+    <result column="order_status" property="orderStatus"/>
+    <result column="creater_id" property="createrId"/>
+    <result column="creater_name" property="createrName"/>
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+    <result column="gmt_modified" property="gmtModified"/>
+    <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP"/>
+    <result column="audit_name" property="auditName"/>
+    <result column="updater_id" property="updaterId"/>
+    <result column="updater_name" property="updaterName"/>
+    <result column="note" property="note"/>
+    <result column="tax" property="tax"/>
+    <result column="total_amount" property="totalAmount"/>
+    <result column="expect_time" property="expectTime" jdbcType="TIMESTAMP"/>
+    <result column="pay_status" property="payStatus"/>
+    <result column="sup_price_head_id" property="supPriceHeadId"/>
+</resultMap>
+
+<sql id="docPmsPoHeader_columns">
+    id,
+    supplier_id,
+    shop_detail_id,
+    shop_name,
+    order_name,
+    order_code,
+    order_status,
+    creater_id,
+    creater_name,
+    gmt_create,
+    gmt_modified,
+    audit_time,
+    audit_name,
+    updater_id,
+    updater_name,
+    note,
+    tax,
+    total_amount,
+    expect_time,
+    pay_status,
+    sup_price_head_id
+</sql>
+
+<sql id="docPmsPoHeader_sqlForInsert">
+    supplier_id,
+    shop_detail_id,
+    shop_name,
+    order_name,
+    order_code,
+    order_status,
+    creater_id,
+    creater_name,
+    gmt_create,
+    gmt_modified,
+    audit_time,
+    audit_name,
+    updater_id,
+    updater_name,
+    note,
+    tax,
+    total_amount,
+    expect_time,
+    pay_status,
+    sup_price_head_id
+</sql>
+
+<sql id="docPmsPoHeader_columnsForInsert">
+    #{supplierId},
+    #{shopDetailId},
+    #{shopName},
+    #{orderName},
+    #{orderCode},
+    #{orderStatus},
+    #{createrId},
+    #{createrName},
+    now(),
+    now(),
+    #{auditTime},
+    #{auditName},
+    #{updaterId},
+    #{updaterName},
+    #{note},
+    #{tax},
+    #{totalAmount},
+    #{expectTime},
+    #{payStatus},
+    #{supPriceHeadId}
+</sql>
+
+<sql id="docPmsPoHeader_setterForUpdate">
+    <set>
+        gmt_modified = now(),
+        <if test="id != null">
+            id = #{id},
+        </if>
+        <if test="supplierId != null">
+            supplier_id = #{supplierId},
+        </if>
+        <if test="shopDetailId != null">
+            shop_detail_id = #{shopDetailId},
+        </if>
+        <if test="shopName != null">
+            shop_name = #{shopName},
+        </if>
+        <if test="orderName != null">
+            order_name = #{orderName},
+        </if>
+        <if test="orderCode != null">
+            order_code = #{orderCode},
+        </if>
+        <if test="orderStatus != null">
+            order_status = #{orderStatus},
+        </if>
+        <if test="createrId != null">
+            creater_id = #{createrId},
+        </if>
+        <if test="createrName != null">
+            creater_name = #{createrName},
+        </if>
+        <if test="auditTime != null">
+            audit_time = #{auditTime},
+        </if>
+        <if test="auditName != null">
+            audit_name = #{auditName},
+        </if>
+        <if test="updaterId != null">
+            updater_id = #{updaterId},
+        </if>
+        <if test="updaterName != null">
+            updater_name = #{updaterName},
+        </if>
+        <if test="note != null">
+            note = #{note},
+        </if>
+        <if test="tax != null">
+            tax = #{tax},
+        </if>
+        <if test="totalAmount != null">
+            total_amount = #{totalAmount},
+        </if>
+        <if test="expectTime != null">
+            expect_time = #{expectTime},
+        </if>
+        <if test="payStatus != null">
+            pay_status = #{payStatus},
+        </if>
+        <if test="supPriceHeadId != null">
+            sup_price_head_id = #{supPriceHeadId},
+        </if>
+    </set>
+</sql>
+
+<sql id="docPmsPoHeader_selector">
+    select
+    <include refid="docPmsPoHeader_columns"/>
+    from doc_pms_po_header
+</sql>
+
+<sql id="docPmsPoHeader_query_segment">
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+        <if test="data.id != null">
+            AND id = #{data.id}
+        </if>
+        <if test="data.supplierId != null">
+            AND supplier_id = #{data.supplierId}
+        </if>
+        <if test="data.shopDetailId != null">
+            AND shop_detail_id = #{data.shopDetailId}
+        </if>
+        <if test="data.shopName != null">
+            AND shop_name = #{data.shopName}
+        </if>
+        <if test="data.orderName != null">
+            AND order_name = #{data.orderName}
+        </if>
+        <if test="data.orderCode != null">
+            AND order_code = #{data.orderCode}
+        </if>
+        <if test="data.orderStatus != null">
+            AND order_status = #{data.orderStatus}
+        </if>
+        <if test="data.createrId != null">
+            AND creater_id = #{data.createrId}
+        </if>
+        <if test="data.createrName != null">
+            AND creater_name = #{data.createrName}
+        </if>
+        <if test="data.gmtCreate != null">
+            AND gmt_create = #{data.gmtCreate}
+        </if>
+        <if test="data.gmtModified != null">
+            AND gmt_modified = #{data.gmtModified}
+        </if>
+        <if test="data.auditTime != null">
+            AND audit_time = #{data.auditTime}
+        </if>
+        <if test="data.auditName != null">
+            AND audit_name = #{data.auditName}
+        </if>
+        <if test="data.updaterId != null">
+            AND updater_id = #{data.updaterId}
+        </if>
+        <if test="data.updaterName != null">
+            AND updater_name = #{data.updaterName}
+        </if>
+        <if test="data.note != null">
+            AND note = #{data.note}
+        </if>
+        <if test="data.tax != null">
+            AND tax = #{data.tax}
+        </if>
+        <if test="data.totalAmount != null">
+            AND total_amount = #{data.totalAmount}
+        </if>
+        <if test="data.expectTime != null">
+            AND expect_time = #{data.expectTime}
+        </if>
+        <if test="data.payStatus != null">
+            AND pay_status = #{data.payStatus}
+        </if>
+        <if test="data.supPriceHeadId != null">
+            AND sup_price_head_id = #{data.supPriceHeadId}
+        </if>
+        <if test="ins != null and ins != ''">
+            AND
+            <foreach collection="ins" item="item" open="(" separator="and" close=")">
+                ${item.column} in
+                <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                    ${item}
+                </foreach>
+            </foreach>
+        </if>
+        <if test="notIns != null and notIns != ''">
+            AND
+            <foreach collection="notIns" item="item" open="(" separator="and" close=")">
+                ${item.column} not in
+                <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                    ${item}
+                </foreach>
+            </foreach>
+        </if>
+        <if test="equals != null and equals != ''">
+            AND
+            <foreach collection="equals" item="item" open="(" separator="and" close=")">
+                ${item.column} = ${item.value}
+            </foreach>
+        </if>
+        <if test="notEquals != null and notEquals != ''">
+            AND
+            <foreach collection="notEquals" item="item" open="(" separator="and" close=")">
+                ${item.column} != ${item.value}
+            </foreach>
+        </if>
+        <if test="lts != null and lts != ''">
+            AND
+            <foreach collection="lts" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ < ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="gts != null and gts != ''">
+            AND
+            <foreach collection="gts" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ > ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="likes != null and likes != ''">
+            AND
+            <foreach collection="likes" item="item" open="(" separator="and" close=")">
+                ${item.column} like concat('%', ${item.value}, '%')
+            </foreach>
+        </if>
+        <if test="ltes != null and ltes != ''">
+            AND
+            <foreach collection="ltes" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ <= ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="gtes != null and gtes != ''">
+            AND
+            <foreach collection="gtes" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ >= ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="ranges != null and ranges != ''">
+            AND
+            <foreach collection="ranges" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ >= ]]> #{item.from} and ${item.column} <![CDATA[ < ]]> #{item.to}
+            </foreach>
+        </if>
+        AND is_delete = 0
+    </trim>
+</sql>
+
+
+<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.DocPmsPoHeader">
+    insert into doc_pms_po_header
+    (
+        <include refid="docPmsPoHeader_sqlForInsert"/>
+        ,is_delete
+    )
+    values
+    (
+        <include refid="docPmsPoHeader_columnsForInsert"/>
+        ,0
+    )
+</insert>
+
+<update id="update" parameterType="com.resto.shop.web.model.DocPmsPoHeader">
+    update doc_pms_po_header
+    <include refid="docPmsPoHeader_setterForUpdate" />
+    where id = #{id}
+    and is_delete = 0
+</update>
+
+
+<update id="updateByQuery" parameterType="com.resto.shop.web.model.DocPmsPoHeader">
+    update doc_pms_po_header
+    <set>
+        gmt_modified = now(),
+        <if test="update.id != null">
+            id = #{update.id},
+        </if>
+        <if test="update.supplierId != null">
+            supplier_id = #{update.supplierId},
+        </if>
+        <if test="update.shopDetailId != null">
+            shop_detail_id = #{update.shopDetailId},
+        </if>
+        <if test="update.shopName != null">
+            shop_name = #{update.shopName},
+        </if>
+        <if test="update.orderName != null">
+            order_name = #{update.orderName},
+        </if>
+        <if test="update.orderCode != null">
+            order_code = #{update.orderCode},
+        </if>
+        <if test="update.orderStatus != null">
+            order_status = #{update.orderStatus},
+        </if>
+        <if test="update.createrId != null">
+            creater_id = #{update.createrId},
+        </if>
+        <if test="update.createrName != null">
+            creater_name = #{update.createrName},
+        </if>
+        <if test="update.auditTime != null">
+            audit_time = #{update.auditTime},
+        </if>
+        <if test="update.auditName != null">
+            audit_name = #{update.auditName},
+        </if>
+        <if test="update.updaterId != null">
+            updater_id = #{update.updaterId},
+        </if>
+        <if test="update.updaterName != null">
+            updater_name = #{update.updaterName},
+        </if>
+        <if test="update.note != null">
+            note = #{update.note},
+        </if>
+        <if test="update.tax != null">
+            tax = #{update.tax},
+        </if>
+        <if test="update.totalAmount != null">
+            total_amount = #{update.totalAmount},
+        </if>
+        <if test="update.expectTime != null">
+            expect_time = #{update.expectTime},
+        </if>
+        <if test="update.payStatus != null">
+            pay_status = #{update.payStatus},
+        </if>
+        <if test="update.supPriceHeadId != null">
+            sup_price_head_id = #{update.supPriceHeadId},
+        </if>
+    </set>
+    <include refid="docPmsPoHeader_query_segment"/>
+</update>
+
+
+<insert id="insertOrUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.DocPmsPoHeader">
+    insert into doc_pms_po_header
+    (
+        <include refid="docPmsPoHeader_sqlForInsert"/>
+        ,is_delete
+    )
+    values
+    (
+        <include refid="docPmsPoHeader_columnsForInsert"/>
+        ,0
+    )
+    on duplicate key update
+    gmt_modified = now()
+    <if test="id != null">
+        ,id = #{id}
+    </if>
+    <if test="supplierId != null">
+        ,supplier_id = #{supplierId}
+    </if>
+    <if test="shopDetailId != null">
+        ,shop_detail_id = #{shopDetailId}
+    </if>
+    <if test="shopName != null">
+        ,shop_name = #{shopName}
+    </if>
+    <if test="orderName != null">
+        ,order_name = #{orderName}
+    </if>
+    <if test="orderCode != null">
+        ,order_code = #{orderCode}
+    </if>
+    <if test="orderStatus != null">
+        ,order_status = #{orderStatus}
+    </if>
+    <if test="createrId != null">
+        ,creater_id = #{createrId}
+    </if>
+    <if test="createrName != null">
+        ,creater_name = #{createrName}
+    </if>
+    <if test="auditTime != null">
+        ,audit_time = #{auditTime}
+    </if>
+    <if test="auditName != null">
+        ,audit_name = #{auditName}
+    </if>
+    <if test="updaterId != null">
+        ,updater_id = #{updaterId}
+    </if>
+    <if test="updaterName != null">
+        ,updater_name = #{updaterName}
+    </if>
+    <if test="note != null">
+        ,note = #{note}
+    </if>
+    <if test="tax != null">
+        ,tax = #{tax}
+    </if>
+    <if test="totalAmount != null">
+        ,total_amount = #{totalAmount}
+    </if>
+    <if test="expectTime != null">
+        ,expect_time = #{expectTime}
+    </if>
+    <if test="payStatus != null">
+        ,pay_status = #{payStatus}
+    </if>
+    <if test="supPriceHeadId != null">
+        ,sup_price_head_id = #{supPriceHeadId}
+    </if>
+</insert>
+
+<!-- Delete -->
+<update id="delete">
+    update doc_pms_po_header
+    set is_delete = 1, gmt_modified = now()
+    <include refid="docPmsPoHeader_query_segment"/>
+</update>
+<update id="deleteById">
+    update doc_pms_po_header
+    set is_delete = 1, gmt_modified = now()
+    where id = #{id}
+</update>
+
+
+<delete id="deletePhysicalById">
+        delete from doc_pms_po_header
+        where id = #{id}
+</delete>
+
+
+
+
+<!-- query class -->
+<sql id="docPmsPoHeader_groupBy">
+    <if test="groupBys != null and groupBys != ''">
+        group by
+        <foreach collection="groupBys" item="item" open="" separator="," close="">
+            ${item}
+        </foreach>
+    </if>
+</sql>
+
+<sql id="docPmsPoHeader_orderby">
+    <if test="orderBys != null and orderBys != ''">
+        order by
+        <foreach collection="orderBys" item="item" open="" separator="," close="">
+            ${item.column} ${item.direction}
+        </foreach>
+    </if>
+</sql>
+
+
+<select id="query" resultMap="docPmsPoHeaderResult" parameterType="com.resto.shop.web.model.DocPmsPoHeader">
+    <include refid="docPmsPoHeader_selector"/>
+    <include refid="docPmsPoHeader_query_segment"/>
+    <include refid="docPmsPoHeader_groupBy"/>
+    <include refid="docPmsPoHeader_orderby"/>
+</select>
+
+<select id="query4Page" resultMap="docPmsPoHeaderResult" parameterType="com.resto.shop.web.model.DocPmsPoHeader">
+    <include refid="docPmsPoHeader_selector"/>
+    <include refid="docPmsPoHeader_query_segment"/>
+    <include refid="docPmsPoHeader_groupBy"/>
+    <include refid="docPmsPoHeader_orderby"/>
+    limit ${startRowForMysql}, ${pageSize}
+</select>
+
+
+<select id="count" resultType="java.lang.Long">
+    SELECT COUNT(1) FROM doc_pms_po_header
+    <include refid="docPmsPoHeader_query_segment"/>
+</select>
+
+<select id="getById" resultMap="docPmsPoHeaderResult">
+    <include refid="docPmsPoHeader_selector"/>
+    where id = #{id}
+    and is_delete = 0
+</select>
+
+<select id="getByIdForUpdate" resultMap="docPmsPoHeaderResult">
+    <include refid="docPmsPoHeader_selector"/>
+    where id = #{id}
+    and is_delete = 0
+    for update
+</select>
+
+<select id="queryJoin4Page"  parameterType="java.lang.String"  resultType="com.resto.shop.web.dto.DocPmsPoHeaderDetailDo">
+    SELECT
+        dp.id,
+        dp.order_code,
+        dp.order_name,
+        dp.gmt_create,
+        dp.supplier_id,
+        dp.creater_name,
+        dp.audit_name,
+        dp.order_status,
+        dp.expect_time,
+        dp.total_amount,
+        ms.top_email,
+        ms.top_contact,
+        ms.top_mobile,
+        ms.sup_name
+    FROM doc_pms_po_header dp
+    INNER JOIN md_supplier ms ON dp.supplier_id =ms.id
+    WHERE dp.is_delete='0'
+    AND ms.is_delete='0'
+    AND dp.shop_detail_id=#{shopId}
+</select>
+
+<select id="queryDocPmsPoDetailDos"  parameterType="java.lang.String"  resultType="com.resto.shop.web.dto.DocPmsPoDetailDo">
+    SELECT
+        dpd.act_qty ,
+        dpd.plan_qty,
+        dpd.order_detail_status,
+        dpd.pms_header_id,
+        dpd.purchase_tax_money,
+        dpd.purchase_money,
+        dpd.purchase_real_money,
+        dpd.purchase_real_tax_money,
+        dpd.received_money,
+        dpd.received_tax_money,
+        mm.categoryOneName,
+        mm.categoryThirdName,
+        mm.categoryTwoName,
+        mm.cityName,
+        mm.materialName,
+        mm.districtName,
+        mm.materialCode,
+        mm.provinceName,
+        mm.materialType,
+        mm.specName,
+        mm.measureUnit,
+        mm.unitName,
+        mm.minMeasureUnit,
+        mm.minUnitName,
+        md.purchase_price
+FROM doc_pms_po_detail dpd
+INNER JOIN md_material_view mm ON dpd.material_id = mm.id
+LEFT JOIN md_supplier_price_detail md ON md.material_id = mm.id
+WHERE dpd.is_delete='0'
+  AND md.is_delete ='0'
+  AND md.sup_detail_status='12'
+  AND dpd.pms_header_id=#{scmDocPmsPoHeaderId}
+GROUP BY mm.materialCode
+</select>
+
+</mapper>

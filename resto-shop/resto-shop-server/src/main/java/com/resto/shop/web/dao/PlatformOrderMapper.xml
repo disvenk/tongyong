@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.PlatformOrderMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.PlatformOrder">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="type" property="type" jdbcType="INTEGER"/>
+    <result column="platform_order_id" property="platformOrderId" jdbcType="VARCHAR"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+    <result column="original_price" property="originalPrice" jdbcType="DECIMAL"/>
+    <result column="total_price" property="totalPrice" jdbcType="DECIMAL"/>
+    <result column="address" property="address" jdbcType="VARCHAR"/>
+    <result column="phone" property="phone" jdbcType="VARCHAR"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="order_create_time" property="orderCreateTime" jdbcType="TIMESTAMP"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="pay_type" property="payType" jdbcType="VARCHAR"/>
+    <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    <result column="production_status" property="productionStatus"/>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.resto.shop.web.model.PlatformOrder" extends="BaseResultMap">
+    <result column="source_text" property="sourceText" jdbcType="LONGVARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, type, platform_order_id, shop_detail_id, original_price, total_price, address, phone, name, order_create_time, create_time, pay_type, remark, production_status</sql>
+  <sql id="Blob_Column_List">source_text</sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">select 
+    <include refid="Base_Column_List"/> , 
+    <include refid="Blob_Column_List"/> from tb_platform_order where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from tb_platform_order where id = #{id,jdbcType=VARCHAR}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.PlatformOrder">insert into tb_platform_order (id, type, platform_order_id, shop_detail_id, original_price, total_price, address, phone, name, order_create_time, create_time, pay_type, remark, source_text) values (#{id,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{platformOrderId,jdbcType=VARCHAR}, #{shopDetailId,jdbcType=VARCHAR}, #{originalPrice,jdbcType=DECIMAL}, #{totalPrice,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{orderCreateTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{payType,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{sourceText,jdbcType=LONGVARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.PlatformOrder">insert into tb_platform_order 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="type != null">type,</if>  
+      <if test="platformOrderId != null">platform_order_id,</if>  
+      <if test="shopDetailId != null">shop_detail_id,</if>  
+      <if test="originalPrice != null">original_price,</if>  
+      <if test="totalPrice != null">total_price,</if>  
+      <if test="address != null">address,</if>  
+      <if test="phone != null">phone,</if>  
+      <if test="name != null">name,</if>  
+      <if test="orderCreateTime != null">order_create_time,</if>  
+      <if test="createTime != null">create_time,</if>  
+      <if test="payType != null">pay_type,</if>  
+      <if test="remark != null">remark,</if>  
+      <if test="sourceText != null">source_text,</if>
+      <if test="productionStatus != null">production_status,</if>
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>  
+      <if test="type != null">#{type,jdbcType=INTEGER},</if>  
+      <if test="platformOrderId != null">#{platformOrderId,jdbcType=VARCHAR},</if>  
+      <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if>  
+      <if test="originalPrice != null">#{originalPrice,jdbcType=DECIMAL},</if>  
+      <if test="totalPrice != null">#{totalPrice,jdbcType=DECIMAL},</if>  
+      <if test="address != null">#{address,jdbcType=VARCHAR},</if>  
+      <if test="phone != null">#{phone,jdbcType=VARCHAR},</if>  
+      <if test="name != null">#{name,jdbcType=VARCHAR},</if>  
+      <if test="orderCreateTime != null">#{orderCreateTime,jdbcType=TIMESTAMP},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="payType != null">#{payType,jdbcType=VARCHAR},</if>  
+      <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>  
+      <if test="sourceText != null">#{sourceText,jdbcType=LONGVARCHAR},</if>
+      <if test="productionStatus != null">#{productionStatus},</if>
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.PlatformOrder">update tb_platform_order 
+    <set> 
+      <if test="type != null">type = #{type,jdbcType=INTEGER},</if>  
+      <if test="platformOrderId != null">platform_order_id = #{platformOrderId,jdbcType=VARCHAR},</if>  
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if>  
+      <if test="originalPrice != null">original_price = #{originalPrice,jdbcType=DECIMAL},</if>  
+      <if test="totalPrice != null">total_price = #{totalPrice,jdbcType=DECIMAL},</if>  
+      <if test="address != null">address = #{address,jdbcType=VARCHAR},</if>  
+      <if test="phone != null">phone = #{phone,jdbcType=VARCHAR},</if>  
+      <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>  
+      <if test="orderCreateTime != null">order_create_time = #{orderCreateTime,jdbcType=TIMESTAMP},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="payType != null">pay_type = #{payType,jdbcType=VARCHAR},</if>  
+      <if test="remark != null">remark = #{remark,jdbcType=VARCHAR},</if>  
+      <if test="sourceText != null">source_text = #{sourceText,jdbcType=LONGVARCHAR},</if>
+      <if test="productionStatus != null">production_status = #{productionStatus},</if>
+    </set> where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.resto.shop.web.model.PlatformOrder">update tb_platform_order set type = #{type,jdbcType=INTEGER}, platform_order_id = #{platformOrderId,jdbcType=VARCHAR}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR}, original_price = #{originalPrice,jdbcType=DECIMAL}, total_price = #{totalPrice,jdbcType=DECIMAL}, address = #{address,jdbcType=VARCHAR}, phone = #{phone,jdbcType=VARCHAR}, name = #{name,jdbcType=VARCHAR}, order_create_time = #{orderCreateTime,jdbcType=TIMESTAMP}, create_time = #{createTime,jdbcType=TIMESTAMP}, pay_type = #{payType,jdbcType=VARCHAR}, remark = #{remark,jdbcType=VARCHAR}, source_text = #{sourceText,jdbcType=LONGVARCHAR} where id = #{id,jdbcType=VARCHAR}</update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.PlatformOrder">update tb_platform_order set type = #{type,jdbcType=INTEGER}, platform_order_id = #{platformOrderId,jdbcType=VARCHAR}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR}, original_price = #{originalPrice,jdbcType=DECIMAL}, total_price = #{totalPrice,jdbcType=DECIMAL}, address = #{address,jdbcType=VARCHAR}, phone = #{phone,jdbcType=VARCHAR}, name = #{name,jdbcType=VARCHAR}, order_create_time = #{orderCreateTime,jdbcType=TIMESTAMP}, create_time = #{createTime,jdbcType=TIMESTAMP}, pay_type = #{payType,jdbcType=VARCHAR}, remark = #{remark,jdbcType=VARCHAR} where id = #{id,jdbcType=VARCHAR}</update>
+  <select id="selectList" resultType="PlatformOrder">select * from tb_platform_order</select>
+
+  <select id="selectByPlatformOrderId" resultType="PlatformOrder">
+    select * from tb_platform_order where platform_order_id = #{platformOrderId}
+    <if test="type != null">
+      and type = #{type}
+    </if>
+
+  </select>
+
+  <resultMap id="PlatformOrderDetailMap" type="com.resto.shop.web.model.PlatformOrder" >
+          <id column="id" property="id" jdbcType="VARCHAR"/>
+          <result column="type" property="type" jdbcType="INTEGER"/>
+          <result column="platform_order_id" property="platformOrderId" jdbcType="VARCHAR"/>
+          <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+          <result column="original_price" property="originalPrice" jdbcType="DECIMAL"/>
+          <result column="total_price" property="totalPrice" jdbcType="DECIMAL"/>
+          <result column="address" property="address" jdbcType="VARCHAR"/>
+          <result column="phone" property="phone" jdbcType="VARCHAR"/>
+          <result column="name" property="name" jdbcType="VARCHAR"/>
+          <result column="order_create_time" property="orderCreateTime" jdbcType="TIMESTAMP"/>
+          <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+          <result column="pay_type" property="payType" jdbcType="VARCHAR"/>
+          <result column="remark" property="remark" jdbcType="VARCHAR"/>
+          <result column="production_status" property="productionStatus"/>
+          <collection property="platformOrderDetails" javaType="List" ofType="com.resto.shop.web.model.PlatformOrderDetail">
+              <id column="did" property="id" jdbcType="VARCHAR"/>
+              <result column="dplatform_order_id" property="platformOrderId" jdbcType="VARCHAR"/>
+              <result column="dname" property="name" jdbcType="VARCHAR"/>
+              <result column="price" property="price" jdbcType="DECIMAL"/>
+              <result column="quantity" property="quantity" jdbcType="INTEGER"/>
+              <result column="show_name" property="showName" jdbcType="VARCHAR"/>
+          </collection>
+  </resultMap>
+
+  <resultMap id="countMap" type="com.resto.brand.web.dto.PlatformReportDto">
+    <result column="allcount" property="allCount" jdbcType="INTEGER"/>
+    <result column="allprice" property="allPrice" jdbcType="DECIMAL"/>
+    <result column="elmcount" property="elmCount" jdbcType="INTEGER"/>
+    <result column="elmprice" property="elmPrice" jdbcType="DECIMAL"/>
+    <result column="mtcount" property="mtCount" jdbcType="INTEGER"/>
+    <result column="mtprice" property="mtPrice" jdbcType="DECIMAL"/>
+    <result column="bdcount" property="bdCount" jdbcType="INTEGER"/>
+    <result column="bdprice" property="bdPrice" jdbcType="DECIMAL"/>
+  </resultMap>
+  <select id="selectByshopDetailId" resultMap="countMap">
+    SELECT COUNT(p.shop_detail_id) allcount,SUM(p.total_price) allprice,
+		   COUNT(CASE WHEN p.type=1 THEN p.shop_detail_id ELSE null END) elmcount,SUM(CASE WHEN p.type=1 THEN p.total_price ELSE null END) elmprice,
+		   COUNT(CASE WHEN p.type=2 THEN p.shop_detail_id ELSE null END) mtcount,SUM(CASE WHEN p.type=2 THEN p.total_price ELSE null END) mtprice,
+		   COUNT(CASE WHEN p.type=3 THEN p.shop_detail_id ELSE null END) bdcount,SUM(CASE WHEN p.type=3 THEN p.total_price ELSE null END) bdprice
+    FROM tb_platform_order p WHERE p.shop_detail_id=#{shopDetailId} AND <![CDATA[ p.create_time >= #{beginDate} AND p.create_time <= #{endDate}]]>
+  </select>
+
+
+    <select id="selectPlatFormErrorOrderList" resultType="PlatformOrder">
+        SELECT * FROM tb_platform_order WHERE
+        shop_detail_id=#{shopId} AND <![CDATA[ create_time >= #{dateBegin} AND create_time <= #{dateEnd}]]>
+        and production_status = 0 and `type` = 1 order by create_time;
+    </select>
+
+</mapper>

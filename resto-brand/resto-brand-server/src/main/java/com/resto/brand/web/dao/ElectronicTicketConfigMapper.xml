@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.ElectronicTicketConfigMapper">
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.ElectronicTicketConfig">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+    <result column="appKey" property="appkey" jdbcType="VARCHAR"/>
+    <result column="appSecret" property="appsecret" jdbcType="VARCHAR"/>
+    <result column="address" property="address" jdbcType="VARCHAR"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="operator" property="operator" jdbcType="VARCHAR"/>
+    <result column="payee_register_no" property="payeeRegisterNo" jdbcType="VARCHAR"/>
+    <result column="payee_checker" property="payeeChecker" jdbcType="VARCHAR"/>
+    <result column="payee_receiver" property="payeeReceiver" jdbcType="VARCHAR"/>
+    <result column="payee_phone" property="payeePhone" jdbcType="VARCHAR"/>
+    <result column="email" property="email" jdbcType="VARCHAR"/>
+    <result column="authorization_key" property="authorizationKey" jdbcType="VARCHAR"/>
+    <result column="bank" property="bank" jdbcType="VARCHAR"/>
+    <result column="bank_num" property="bankNum" jdbcType="VARCHAR"/>
+    <result column="wechat_pay_num" property="wechatPayNum" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, brand_id, appKey, appSecret, address, name, operator, payee_register_no, payee_checker, payee_receiver, payee_phone,email,authorization_key,bank,bank_num,wechat_pay_num</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from electronic_ticket_config where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from electronic_ticket_config where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.brand.web.model.ElectronicTicketConfig">insert into electronic_ticket_config (id, brand_id, appKey, appSecret, address, `name`, operator, payee_register_no, payee_checker, payee_receiver, payee_phone,bank,bank_num,wechat_pay_num) values (#{id,jdbcType=BIGINT}, #{brandId,jdbcType=VARCHAR}, #{appkey,jdbcType=VARCHAR}, #{appsecret,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{payeeRegisterNo,jdbcType=VARCHAR}, #{payeeChecker,jdbcType=VARCHAR}, #{payeeReceiver,jdbcType=VARCHAR}, #{payeePhone,jdbcType=VARCHAR}),#{bank,jdbcType=VARCHAR}),#{bankNum,jdbcType=VARCHAR},#{wechatPayNum,jdbcType=VARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.ElectronicTicketConfig">insert into electronic_ticket_config 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="brandId != null">brand_id,</if>  
+      <if test="appkey != null">appKey,</if>  
+      <if test="appsecret != null">appSecret,</if>  
+      <if test="address != null">address,</if>  
+      <if test="name != null">name,</if>  
+      <if test="operator != null">operator,</if>  
+      <if test="payeeRegisterNo != null">payee_register_no,</if>  
+      <if test="payeeChecker != null">payee_checker,</if>  
+      <if test="payeeReceiver != null">payee_receiver,</if>  
+      <if test="payeePhone != null">payee_phone,</if>
+      <if test="email != null">email,</if>
+      <if test="authorizationKey != null">authorization_key,</if>
+      <if test="bank != null">bank,</if>
+      <if test="bankNum != null">bank_num,</if>
+      <if test="wechatPayNum != null">wechat_pay_num,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>  
+      <if test="appkey != null">#{appkey,jdbcType=VARCHAR},</if>  
+      <if test="appsecret != null">#{appsecret,jdbcType=VARCHAR},</if>  
+      <if test="address != null">#{address,jdbcType=VARCHAR},</if>  
+      <if test="name != null">#{name,jdbcType=VARCHAR},</if>  
+      <if test="operator != null">#{operator,jdbcType=VARCHAR},</if>  
+      <if test="payeeRegisterNo != null">#{payeeRegisterNo,jdbcType=VARCHAR},</if>  
+      <if test="payeeChecker != null">#{payeeChecker,jdbcType=VARCHAR},</if>  
+      <if test="payeeReceiver != null">#{payeeReceiver,jdbcType=VARCHAR},</if>  
+      <if test="payeePhone != null">#{payeePhone,jdbcType=VARCHAR},</if>
+      <if test="email != null">#{email,jdbcType=VARCHAR},</if>
+      <if test="authorizationKey != null">#{authorizationKey,jdbcType=VARCHAR},</if>
+      <if test="bank != null">#{bank,jdbcType=VARCHAR},</if>
+      <if test="bankNum != null">#{bankNum,jdbcType=VARCHAR},</if>
+      <if test="wechatPayNum != null">#{wechat_pay_num,jdbcType=VARCHAR},</if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.ElectronicTicketConfig">update electronic_ticket_config 
+    <set> 
+      <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>  
+      <if test="appkey != null">appKey = #{appkey,jdbcType=VARCHAR},</if>  
+      <if test="appsecret != null">appSecret = #{appsecret,jdbcType=VARCHAR},</if>  
+      <if test="address != null">address = #{address,jdbcType=VARCHAR},</if>  
+      <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>  
+      <if test="operator != null">operator = #{operator,jdbcType=VARCHAR},</if>  
+      <if test="payeeRegisterNo != null">payee_register_no = #{payeeRegisterNo,jdbcType=VARCHAR},</if>  
+      <if test="payeeChecker != null">payee_checker = #{payeeChecker,jdbcType=VARCHAR},</if>  
+      <if test="payeeReceiver != null">payee_receiver = #{payeeReceiver,jdbcType=VARCHAR},</if>  
+      <if test="payeePhone != null">payee_phone = #{payeePhone,jdbcType=VARCHAR},</if>
+      <if test="email != null">email = #{email,jdbcType=VARCHAR},</if>
+      <if test="authorizationKey != null">authorization_key = #{authorizationKey,jdbcType=VARCHAR},</if>
+      <if test="bank != null">bank = #{bank,jdbcType=VARCHAR},</if>
+      <if test="bankNum != null">bank_num = #{bankNum,jdbcType=VARCHAR},</if>
+      <if test="wechatPayNum != null">wechat_pay_num = #{wechatPayNum,jdbcType=VARCHAR},</if>
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.ElectronicTicketConfig">update electronic_ticket_config set brand_id = #{brandId,jdbcType=VARCHAR}, appKey = #{appkey,jdbcType=VARCHAR}, appSecret = #{appsecret,jdbcType=VARCHAR}, address = #{address,jdbcType=VARCHAR}, `name` = #{name,jdbcType=VARCHAR}, operator = #{operator,jdbcType=VARCHAR}, payee_register_no = #{payeeRegisterNo,jdbcType=VARCHAR}, payee_checker = #{payeeChecker,jdbcType=VARCHAR}, payee_receiver = #{payeeReceiver,jdbcType=VARCHAR}, payee_phone = #{payeePhone,jdbcType=VARCHAR},email = #{email,jdbcType=VARCHAR},authorization_key = #{authorizationKey,jdbcType=VARCHAR},bank = #{bank,jdbcType=VARCHAR},bank_num = #{bankNum,jdbcType=VARCHAR},wechat_pay_num = #{wechat_pay_num,jdbcType=VARCHAR} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="ElectronicTicketConfig">select * from electronic_ticket_config</select>
+
+  <select id="selectByBrandId" resultType="com.resto.brand.web.model.ElectronicTicketConfig">
+    select * from electronic_ticket_config where brand_id=#{brandId}
+  </select>
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.service.shop.mapper.OrderPaymentItemMapper">
+    <resultMap id="BaseResultMap" type="com.resto.service.shop.entity.OrderPaymentItem">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="pay_time" property="payTime" jdbcType="TIMESTAMP"/>
+        <result column="pay_value" property="payValue" jdbcType="DECIMAL"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="payment_mode_id" property="paymentModeId" jdbcType="INTEGER"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+        <result column="is_use_bonus" property="isUseBonus"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.resto.service.shop.entity.OrderPaymentItem" extends="BaseResultMap">
+        <result column="result_data" property="resultData" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">id, pay_time, pay_value, remark, payment_mode_id, order_id, is_use_bonus</sql>
+    <sql id="Blob_Column_List">result_data</sql>
+
+    <insert id="insertSelective" parameterType="com.resto.service.shop.entity.OrderPaymentItem">
+        insert into
+          tb_order_payment_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="payTime != null">pay_time,</if>
+            pay_value,
+            <if test="remark != null">remark,</if>
+            <if test="paymentModeId != null">payment_mode_id,</if>
+            <if test="orderId != null">order_id,</if>
+            <if test="resultData != null">result_data,</if>
+            <if test="isUseBonus != null">is_use_bonus,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+            now(),
+            <if test="payValue != null">#{payValue,jdbcType=DECIMAL},</if>
+            <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>
+            <if test="paymentModeId != null">#{paymentModeId},</if>
+            <if test="orderId != null">#{orderId,jdbcType=VARCHAR},</if>
+            <if test="resultData != null">#{resultData,jdbcType=LONGVARCHAR},</if>
+            <if test="isUseBonus != null">#{isUseBonus},</if>
+        </trim>
+    </insert>
+
+    <select id="selectByOrderId" resultType="OrderPaymentItem">
+        select * from tb_order_payment_item where order_id=#{orderId}
+    </select>
+
+    <delete id="deleteByOrderId" parameterType="java.lang.String">
+      delete from tb_order_payment_item where order_id = #{orderId} and payment_mode_id != 3
+    </delete>
+
+    <insert id="insertByBeforePay" parameterType="com.resto.service.shop.entity.OrderPaymentItem" useGeneratedKeys="true"
+            keyProperty="id">insert into tb_order_payment_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="payTime != null">pay_time,</if>
+            pay_value,
+            <if test="remark != null">remark,</if>
+            <if test="paymentModeId != null">payment_mode_id,</if>
+            <if test="orderId != null">order_id,</if>
+            <if test="resultData != null">result_data,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+            now(),
+            <if test="payValue != null">#{payValue,jdbcType=DECIMAL},</if>
+            <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>
+            <if test="paymentModeId != null">#{paymentModeId},</if>
+            <if test="orderId != null">#{orderId,jdbcType=VARCHAR},</if>
+            <if test="resultData != null">#{resultData,jdbcType=LONGVARCHAR},</if>
+        </trim>
+    </insert>
+
+</mapper>

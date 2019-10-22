@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.WechatConfigMapper">
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.WechatConfig">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="appid" property="appid" jdbcType="VARCHAR"/>
+    <result column="appsecret" property="appsecret" jdbcType="VARCHAR"/>
+    <result column="card_id" property="cardId" jdbcType="VARCHAR"/>
+    <result column="mchid" property="mchid" jdbcType="VARCHAR"/>
+    <result column="mchkey" property="mchkey" jdbcType="VARCHAR"/>
+    <result column="pay_cert_path" property="payCertPath" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, appid, appsecret,card_id, mchid, mchkey,pay_cert_path</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select <include refid="Base_Column_List"/> from wechat_config where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <update id="deleteByPrimaryKey" parameterType="java.lang.String">
+  	update wechat_config set state = 0 where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <insert id="insert" parameterType="com.resto.brand.web.model.WechatConfig">insert into wechat_config (id, appid, appsecret,state) values (#{id,jdbcType=VARCHAR}, #{appid,jdbcType=VARCHAR}, #{appsecret,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR})</insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.WechatConfig">insert into wechat_config 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="appid != null">appid,</if>  
+      <if test="appsecret != null">appsecret,</if>
+      <if test="cardId != null">card_id,</if>
+      <if test="mchid != null">mchid,</if>  
+      <if test="mchkey != null">mchkey,</if> 
+      <if test="payCertPath != null">pay_cert_path,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>  
+      <if test="appid != null">#{appid,jdbcType=VARCHAR},</if>  
+      <if test="appsecret != null">#{appsecret,jdbcType=VARCHAR},</if>
+      <if test="cardId != null">#{cardId,jdbcType=VARCHAR},</if>
+      <if test="mchid != null">#{mchid,jdbcType=VARCHAR},</if>  
+      <if test="mchkey != null">#{mchkey,jdbcType=VARCHAR},</if> 
+      <if test="payCertPath != null">#{payCertPath,jdbcType=VARCHAR},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.WechatConfig">update wechat_config 
+    <set> 
+      <if test="appid != null">appid = #{appid,jdbcType=VARCHAR},</if>  
+      <if test="appsecret != null">appsecret = #{appsecret,jdbcType=VARCHAR},</if>
+      <if test="cardId != null">card_id = #{cardId,jdbcType=VARCHAR},</if>
+      <if test="mchid != null">mchid = #{mchid,jdbcType=VARCHAR},</if>  
+      <if test="mchkey != null">mchkey = #{mchkey,jdbcType=VARCHAR},</if> 
+      <if test="payCertPath != null and payCertPath != ''">pay_cert_path = #{payCertPath,jdbcType=VARCHAR},</if>
+    </set> where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.WechatConfig">
+  	update wechat_config set appid = #{appid}, appsecret = #{appsecret},card_id = #{cardId}, mchid = #{mchid}, mchkey = #{mchkey},pay_cert_path = #{payCertPath} where id = #{id}
+  </update>
+  <select id="selectList" resultType="WechatConfig">
+  	SELECT w.id, w.appid, w.appsecret,w.card_id, w.mchid, w.mchkey ,w.pay_cert_path,b.brand_name FROM wechat_config w LEFT JOIN brand b on
+  	 w.id = b.wechat_config_id where w.state = 1 and b.state = 1 
+  </select>
+  <select id="selectByBrandId" resultType="WechatConfig">
+  	select w.* from wechat_config w,brand b 
+  	where b.wechat_config_id=w.id and b.id=#{0}
+  </select>
+</mapper>

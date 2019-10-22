@@ -1,0 +1,445 @@
+.restaurant-content {
+	position: relative;
+}
+
+.restaurant-menu {
+	position: fixed;
+	z-index: 2;
+	height: 100%;
+	border-right: 1px solid #ddd;
+	background: #f7f7f7;
+	width: 25%;
+	transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1);
+	-webkit-transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1);
+	transition-duration: 0ms;
+	-webkit-transition-duration: 0ms;
+	transform: translate(0px, 0px) translateZ(0px);
+}
+
+.menuLogo {
+	background: #595959;
+}
+
+.menuLogo>p {
+	color: #fff;
+	padding: 10px 20px;
+}
+.menuLogo>p>button {
+    position: absolute;
+    padding: 5px 0px;
+    right: 15px;
+    top: 5px;
+}
+
+.article-family-list {
+	color: #fff;
+}
+
+.article-family-list >div {
+	padding: 10px 5px;
+	text-align: center;
+}
+
+.article-family-list >div>a {
+	color: #FFF;
+}
+
+.article-family-list >div.active>a {
+	color: #09071C;
+}
+
+.article-family-list >div.active {
+	background: #fff;
+	border-right-color: #fff;
+	border-left: 2px solid #A5A5A5;
+}
+
+.article-family-list >div>a>i {
+	width: 18px;
+	height: 18px;
+	line-height: 18px;
+	display: inline-block;
+	border-radius: 50%;
+	text-align: center;
+	color: #fff;
+	background: #C81623;
+	font-size: 14px;
+	margin-right: 2px;
+	font-style: normal;
+	position: absolute;
+	top: 8px;
+	right: 5px;
+}
+
+.menu-cart {
+	background: #E7E7E7;
+	height: 35px;
+	bottom: 75px;
+	width: 100%;
+	text-align: center;
+	padding: 5px 0;
+}
+
+.menu-cart span>i {
+	height: 18px;
+	width: 18px;
+	border: 2px solid #c81623;
+	display: inline-block;
+	border-radius: 50%;
+	line-height: 18px;
+	text-align: center;
+	font-style: normal;
+	color: #c81623;
+	font-weight: bold;
+	margin: 0 3px;
+}
+
+.menu-cart>a>span {
+	font-size: 0.8rem;
+	color: #FFF;
+}
+
+.menu-cart>a>i:last-child {
+	font-size: 1.2rem;
+	color: #fff;
+	font-style: normal;
+}
+
+.restaurant-food {
+	position: absolute;
+	left: 25%;
+	width: 75%;
+	background: #fff;
+}
+
+.restaurant-food .numberControl {
+	position: absolute;
+	bottom: 3px;
+	right: 3px;
+	/*   background: rgba(152, 152, 152, 0.75); */
+	padding: 5px;
+	border-radius: 4px;
+}
+
+.restaurant-food .numberControl i.iconfont {
+	font-size: 35px;
+	color: #fff;
+	cursor: pointer;
+}
+
+.restaurant-food .numberControl i.minusNumber {
+	font-size: 22px;
+	color: #ccc
+}
+
+.buyNumber {
+	position: relative;
+	margin-right: -1px;
+	height: 28px;
+	z-index: 1;
+	display: inline-block;
+	text-align: center;
+	vertical-align: top;
+	line-height: 32px;
+	color: #fff;
+	font-size: 18px;
+	padding: 0 5px;
+}
+
+.menu-cart button {
+	color: #FFFFFF;
+	text-align: center;
+	padding: 0 10px;
+	line-height: 35px;
+	width: 74px;
+	background: #1C1C28;
+	border-radius: 4px;
+	box-shadow: 0 0 2px #474747;
+	position: absolute;
+	right: 10px;
+}
+
+.menu-cart i {
+	font-style: normal;
+}
+
+.menu-cart div {
+	width: 67%;
+	position: absolute;
+	left: 10px;
+	background: #fff;
+	padding: 8px;
+	border-radius: 4px;
+}
+
+
+
+
+/*
+.mUnitPriceoney:after {content: "/份";margin: 0  0 0 2px;font-size:16px;} */
+
+.foodList {
+	height: 150px;
+	background: #fff;
+	position: relative;
+	overflow: hidden;
+	padding:0px 2px 2px 2px;
+}
+
+.foodList img {
+	width: 100%;
+	height: 100%
+}
+
+.foodList p {
+	position: absolute;
+	top: 0;
+	background: rgba(0, 0, 0, 0.52);
+	color: #fff;
+	line-height: 32px;
+	width: 100%;
+	text-indent: 14px;
+}
+
+.foodList>p>span {
+	float: right;
+	padding-right: 20px;
+}
+
+.foodList>p>span>i {
+	font-size: 24px;
+	font-style: normal;
+}
+
+.foodList .cartControl {
+	position: absolute;
+	bottom: 48px;
+	right: 10px;
+}
+
+.foodList .cartControl span:first-child {
+	width: 24px;
+	height: 24px;
+	background: #F00;
+	display: inline-block;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 24px;
+	color: #fff;
+	font-size: 14px;
+}
+
+.foodList .cartControl span:nth-child(2),
+.foodList .cartControl span:nth-child(3) {
+	width: 26px;
+	height: 26px;
+	background: #000;
+	display: inline-block;
+	border: 1px solid #fff;
+	vertical-align: top;
+	color: #fff;
+	text-align: center;
+	line-height: 26px;
+	font-size: 28px;
+}
+
+.cartConfirm p {
+	width: 75%;
+	height: 36px;
+	background: #fff;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.foodList-mask {
+	z-index: 10000;
+	position: fixed;
+	_position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+	-moz-opacity: 0.8;
+}
+
+.foodList-content {
+	width: 80%;
+	z-index: 100001;
+	position: fixed;
+	top: 10%;
+	left: 0;
+	background: #fff;
+	margin: -200px 0 0 -180px;
+	box-shadow: 1px 1px 6px 3px rgba(0, 0, 0, .2);
+	text-align: center;
+	right: 0;
+	margin: auto;
+}
+
+#notice-dialog .foodList-content {
+	height:350px;
+}
+
+.foodList-content-bt {
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	display: -webkit-box;
+	width: 100%;
+	box-sizing: border-box;
+	-webkit-box-align: center;
+	border-top: 1px solid #e0e0e0;
+	height: 42px;
+	line-height: 42px;
+	position: absolute;
+	bottom: 0;
+}
+
+.foodList-content-bt button {
+	color: #C81623;
+	text-align: center;
+	width: 100%;
+	line-height: 42px;
+	background: transparent;
+	display: block;
+	margin: 0 !important;
+	-webkit-box-flex: 1;
+}
+
+.foodList-content-title {
+	overflow: hidden;
+	height: 170px;
+	padding: 2px;
+}
+
+.foodList-content-title img {
+	width: 100%;
+}
+
+.foodList-content-sale {
+	font-size: 0.875rem;
+	color: #8E8E8E;
+	border-top: 1px solid #e0e0e0;
+	line-height: 1rem;
+	padding-top: 4px;
+}
+
+.foodList-content-center {
+	height: 120px;
+	padding: 10px;
+	text-align: left;
+}
+
+.foodList-content-center h3 {
+	text-align: left;
+	line-height: 2rem;
+	font-size: 1rem;
+}
+
+.foodList-content-center p {
+	font-size: 0.875rem;
+	color: #6E6E6E;
+	line-height: 1.25rem;
+}
+
+.foodList-content-center h4:nth-child(3) {
+	font-size: 1rem;
+	color: #6E6E6E;
+	line-height: 1.75rem;
+	padding-top: 6px;
+}
+
+.foodList-content .art-number {
+	color: black;
+}
+
+
+/* 门店选择 */
+
+.tangshiChoice h2 {
+	text-align: center;
+	line-height: 56px;
+	background: #E8E8E8;
+	height: 56px;
+	border-bottom: 1px solid #ccc;
+	color: #1C1C28;
+	font-size: 16px;
+	box-shadow: 0 1px 2px #ccc;
+}
+
+
+/* .store-list>li{margin:0;position:relative;margin-right:10px;min-width:32px;padding:12px 9px;margin-bottom:15px;color:#000;border-color:#999;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background-color:transparent;border:2px solid #D5D5D5;border-radius:3px;text-align:center;font-size:12px;} */
+
+
+/* .store-list>li.active{color:#1C1C28;border-color:#1C1C28;} */
+
+
+/* .store-list>li.active::after{content:' ';position:absolute;bottom:-1px;right:-1px;background:bottom right;height:21px;width:21px;background-image:url("../images/storeChoice.png");background-repeat:no-repeat;} */
+
+.storeMap {
+	height: 300px;
+	background: #D5D5D5;
+}
+
+.timeChoice,
+.timeQuantum {
+	background: #fff;
+	padding: 10px 0px
+}
+
+.timeChoice {
+	width: 50%;
+	float: left;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+.timeQuantum {
+	width: 50%;
+	float: right;
+}
+
+.timeChoice .timeChoice-title {
+	margin-top: 2px;
+	font-weight: 400;
+	font-size: 1em;
+	display: inline-block;
+	padding-left: 10px;
+}
+
+.timeChoice .timeChoice-content {
+	color: #666;
+	text-align: right;
+	display: inline-block;
+	float: right;
+}
+
+.timeChoice-content i {}
+
+.timeChoice .delivery-time {
+	-ms-appearance: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	border: none;
+	background: 0 0;
+	line-height: 1.6;
+	color: #666;
+}
+
+.part:after {
+	content: "/份";
+	margin: 0 0 0 2px;
+	font-size: 16px;
+}
+
+
+/* 机型适配相应 */
+
+@media screen and (max-width: 320px) {
+	.menu-cart div {
+		padding: 6px 8px;
+		width: 63%;
+	}	
+}

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.MealTempAttrMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.MealTempAttr">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="sort" property="sort" jdbcType="INTEGER"/>
+    <result column="meal_temp_id" property="mealTempId" jdbcType="INTEGER"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, name, sort, meal_temp_id</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">select 
+    <include refid="Base_Column_List"/> from tb_meal_temp_attr where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">delete from tb_meal_temp_attr where id = #{id,jdbcType=INTEGER}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.MealTempAttr">insert into tb_meal_temp_attr (id, name, sort, meal_temp_id) values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{mealTempId,jdbcType=INTEGER})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.MealTempAttr">insert into tb_meal_temp_attr 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="name != null">name,</if>  
+      <if test="sort != null">sort,</if>  
+      <if test="mealTempId != null">meal_temp_id,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=INTEGER},</if>  
+      <if test="name != null">#{name,jdbcType=VARCHAR},</if>  
+      <if test="sort != null">#{sort,jdbcType=INTEGER},</if>  
+      <if test="mealTempId != null">#{mealTempId,jdbcType=INTEGER},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.MealTempAttr">update tb_meal_temp_attr 
+    <set> 
+      <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>  
+      <if test="sort != null">sort = #{sort,jdbcType=INTEGER},</if>  
+      <if test="mealTempId != null">meal_temp_id = #{mealTempId,jdbcType=INTEGER},</if> 
+    </set> where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.MealTempAttr">update tb_meal_temp_attr set name = #{name,jdbcType=VARCHAR}, sort = #{sort,jdbcType=INTEGER}, meal_temp_id = #{mealTempId,jdbcType=INTEGER} where id = #{id,jdbcType=INTEGER}</update>
+  <select id="selectList" resultType="MealTempAttr">select * from tb_meal_temp_attr</select>
+  <delete id="deleteByTempId">
+  	delete from tb_meal_temp_attr where meal_temp_id=#{0}
+  </delete>
+  
+   <select id="selectByTempId" resultType="MealTempAttr">
+  	select * from tb_meal_temp_attr where meal_temp_id=#{0}
+  </select>
+  
+  <insert id="insertBatch">
+  	 insert into tb_meal_temp_attr (name, sort, meal_temp_id) values 
+  	 <foreach collection="attrs" separator="," item="attr">
+  	 	(#{attr.name},#{attr.sort},#{tempId})
+  	 </foreach>
+  </insert>
+</mapper>

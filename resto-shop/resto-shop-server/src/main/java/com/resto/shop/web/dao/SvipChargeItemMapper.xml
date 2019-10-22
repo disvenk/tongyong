@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.SvipChargeItemMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.SvipChargeItem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="payment_money" property="paymentMoney" jdbcType="DECIMAL" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="charge_order_id" property="chargeOrderId" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.resto.shop.web.model.SvipChargeItem" extends="BaseResultMap" >
+    <result column="pay_data" property="payData" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, payment_money, create_time, charge_order_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    pay_data
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_svip_charge_item
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_svip_charge_item
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.SvipChargeItem" >
+    insert into tb_svip_charge_item (id, payment_money, create_time, 
+      charge_order_id, pay_data)
+    values (#{id,jdbcType=VARCHAR}, #{paymentMoney,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{chargeOrderId,jdbcType=VARCHAR}, #{payData,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.SvipChargeItem" >
+    insert into tb_svip_charge_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="paymentMoney != null" >
+        payment_money,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="chargeOrderId != null" >
+        charge_order_id,
+      </if>
+      <if test="payData != null" >
+        pay_data,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMoney != null" >
+        #{paymentMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chargeOrderId != null" >
+        #{chargeOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="payData != null" >
+        #{payData,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.SvipChargeItem" >
+    update tb_svip_charge_item
+    <set >
+      <if test="paymentMoney != null" >
+        payment_money = #{paymentMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chargeOrderId != null" >
+        charge_order_id = #{chargeOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="payData != null" >
+        pay_data = #{payData,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.resto.shop.web.model.SvipChargeItem" >
+    update tb_svip_charge_item
+    set payment_money = #{paymentMoney,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      charge_order_id = #{chargeOrderId,jdbcType=VARCHAR},
+      pay_data = #{payData,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.SvipChargeItem" >
+    update tb_svip_charge_item
+    set payment_money = #{paymentMoney,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      charge_order_id = #{chargeOrderId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

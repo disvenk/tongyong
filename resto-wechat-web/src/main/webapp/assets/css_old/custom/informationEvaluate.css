@@ -1,0 +1,70 @@
+#container{
+				position: relative;
+				background: white;
+				padding: 20px;
+			}
+			#container:after{
+				content: "";display:block;  width: 100%;
+			  height: 20px;
+			  background: #fff;
+			  background-image: -webkit-gradient(linear,50% 0,0 100%,from(transparent), color-stop(.5,transparent),color-stop(.5,#E7E7E7),to(#E7E7E7)), -webkit-gradient(linear,50% 0,100% 100%,from(transparent), color-stop(.5,transparent),color-stop(.5,#E7E7E7),to(#E7E7E7));
+			  background-image: -moz-linear-gradient(50% 0 -45deg,transparent,transparent 50%,#E7E7E7 50%,#E7E7E7), -moz-linear-gradient(50% 0 -135deg,transparent,transparent 50%,#E7E7E7 50%,#E7E7E7);
+			  background-size:10px 3px;
+			  background-repeat: repeat-x;
+			  background-position: 0 100%;position: absolute;
+			  left: 0;
+			  bottom: 0;
+			}
+			.a5-star{
+				margin-bottom: 10px;
+			}
+			.hrSpan{
+				color:#999999;
+			}
+			.hrSpan>.text{
+				text-align: center;
+				margin-top: -22px;
+			}
+			.hrSpan>.text>span{
+				background: white;
+				padding: 0px 18px;
+				font-size: 14px;
+			}
+			.title{
+				text-align: center;
+				font-size: 20px;
+				padding: 10px 0px;
+			}
+			.articlenames{
+				padding: 10px 0px 25px 0px;
+			}
+			.articlenames>span{
+				display: block;
+				float: left;
+				color:#000;
+				background: #E7E7E7;
+				padding: 8px 8px;
+				margin-top: 8px;
+				margin-left: 5px;
+			}
+			.articlenames.good>.active{
+				background: #c81623;
+				color:#fff;
+			}
+			.articlenames.bad>.active{
+				background: #000;
+				color:#fff;
+			}
+			#eveluate-text{
+				border: 0;
+				margin-top: 10px;
+				width: 100%;
+				outline:none;
+				resize:none;
+				height: 120px;
+			}
+			.message{
+				font-size: 14px;
+				color:#999999;
+				margin-bottom: 5px;
+			}

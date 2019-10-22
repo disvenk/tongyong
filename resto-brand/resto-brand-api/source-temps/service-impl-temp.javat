@@ -1,0 +1,24 @@
+package com.resto.brand.web.service.impl;
+
+import com.resto.brand.core.generic.GenericDao;
+import com.resto.brand.core.generic.GenericServiceImpl;
+import com.resto.brand.web.dao.{{modelName}}Mapper;
+import com.resto.brand.web.model.{{modelName}};
+import com.resto.brand.web.service.{{modelName}}Service;
+import org.springframework.stereotype.Component;
+import com.alibaba.dubbo.config.annotation.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Component
+@Service
+public class {{modelName}}ServiceImpl extends GenericServiceImpl<{{modelName}}, {{primaryKey}}> implements {{modelName}}Service {
+
+    @Autowired
+    private {{modelName}}Mapper {{modelNameLower}}Mapper;
+
+    @Override
+    public GenericDao<{{modelName}}, {{primaryKey}}> getDao() {
+        return {{modelNameLower}}Mapper;
+    } 
+
+}

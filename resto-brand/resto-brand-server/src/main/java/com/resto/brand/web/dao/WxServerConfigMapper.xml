@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.WxServerConfigMapper">
+
+    <resultMap id="BaseResultMap" type="com.resto.brand.web.model.WxServerConfig">
+        <id column="id" property="id" />
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="appid" property="appid" jdbcType="VARCHAR"/>
+        <result column="appsecret" property="appsecret" jdbcType="VARCHAR"/>
+        <result column="mchid" property="mchid" jdbcType="VARCHAR"/>
+        <result column="mchkey" property="mchkey" jdbcType="VARCHAR"/>
+        <result column="pay_cert_path" property="payCertPath" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="getConfigList" resultType="WxServerConfig">
+        select * from wxserver_config where deleted_flag = 1
+    </select>
+
+
+    <sql id="Base_Column_List">id,name, appid, appsecret, mchid, mchkey,pay_cert_path</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select <include refid="Base_Column_List"/> from wxserver_config where id = #{id}
+    </select>
+
+
+    <insert id="insertSelective" parameterType="com.resto.brand.web.model.WxServerConfig">insert into wxserver_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="appid != null">appid,</if>
+            <if test="appsecret != null">appsecret,</if>
+            <if test="mchid != null">mchid,</if>
+            <if test="mchkey != null">mchkey,</if>
+            <if test="payCertPath != null">pay_cert_path,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+            <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+            <if test="appid != null">#{appid,jdbcType=VARCHAR},</if>
+            <if test="appsecret != null">#{appsecret,jdbcType=VARCHAR},</if>
+            <if test="mchid != null">#{mchid,jdbcType=VARCHAR},</if>
+            <if test="mchkey != null">#{mchkey,jdbcType=VARCHAR},</if>
+            <if test="payCertPath != null">#{payCertPath,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.WxServerConfig">update wxserver_config
+        <set>
+            <if test="appid != null">appid = #{appid,jdbcType=VARCHAR},</if>
+            <if test="name != null">`name` = #{name,jdbcType=VARCHAR},</if>
+            <if test="appsecret != null">appsecret = #{appsecret,jdbcType=VARCHAR},</if>
+            <if test="mchid != null">mchid = #{mchid,jdbcType=VARCHAR},</if>
+            <if test="mchkey != null">mchkey = #{mchkey,jdbcType=VARCHAR},</if>
+            <if test="payCertPath != null">pay_cert_path = #{payCertPath,jdbcType=VARCHAR},</if>
+        </set> where id = #{id}
+    </update>
+
+
+    <update id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        update wxserver_config set deleted_flag = 0 where id = #{id}
+    </update>
+</mapper>

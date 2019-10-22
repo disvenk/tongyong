@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.report.RedPacketMapperReport">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.RedPacket">
+      <id column="id" property="id"/>
+      <result column="red_money" property="redMoney"/>
+      <result column="create_time" property="createTime"/>
+      <result column="finish_time" property="finishTime"/>
+      <result column="customer_id" property="customerId"/>
+      <result column="brand_id" property="brandId"/>
+      <result column="shop_detail_id" property="shopDetailId"/>
+      <result column="red_remainder_money" property="redRemainderMoney"/>
+      <result column="red_type" property="redType"/>
+      <result column="order_id" property="orderId"/>
+      <result column="state" property="state"/>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+        id, red_money, create_time, finish_time, customer_id, brand_id, shop_detail_id, red_remainder_money, red_type, order_id, state
+  </sql>
+
+    <select id="selectRedPacketLog" resultType="com.resto.brand.web.dto.RedPacketDto">
+        SELECT
+        r.shop_detail_id shopDetailId,
+        COUNT(1) redCount,
+        SUM(r.red_money) redMoney,
+        IFNULL(SUM(r.useCount),0) useRedCount,
+        IFNULL(SUM(r.useMoney),0) useRedMoney
+        FROM
+        (
+        SELECT
+            trp.shop_detail_id,
+            trp.red_money,
+            IF(COUNT(1) = 1 and top.id is null,0,COUNT(1)) useCount,
+            SUM(top.pay_value) useMoney
+        FROM
+            tb_red_packet trp
+        LEFT JOIN tb_order_payment_item top ON top.to_pay_id = trp.id
+        AND top.pay_time &gt;= CONCAT(#{useBeginDate}, ' 00:00:00')
+        AND top.pay_time &lt;= CONCAT(#{useEndDate}, ' 23:59:59')
+        WHERE
+            trp.red_type IN (${redType})
+            AND trp.create_time &gt;= CONCAT(#{grantBeginDate}, ' 00:00:00')
+            AND trp.create_time &lt;= CONCAT(#{grantEndDate}, ' 23:59:59')
+            GROUP BY trp.id
+        ) r
+        GROUP BY
+        r.shop_detail_id
+    </select>
+
+    <select id="selectUseRedOrder" resultType="java.util.Map">
+        SELECT
+        IFNULL(SUM(r.orderCount),0) useRedOrderCount,
+        IFNULL(SUM(r.order_money), 0) useRedOrderMoney
+        FROM
+        (
+        SELECT
+        IF(td.parent_order_id IS NULL,1,0) orderCount,
+        td.order_money
+        FROM
+        tb_order td
+        INNER JOIN tb_order_payment_item top ON td.id = top.order_id
+        WHERE
+        td.order_state IN (2, 10, 11, 12)
+        AND td.production_status in (2,3,4)
+        AND top.pay_time &gt;= CONCAT(#{useBeginDate},' 00:00:00')
+        AND top.pay_time &lt;= CONCAT(#{useEndDate},' 23:59:59')
+        AND top.to_pay_id in (
+        <if test="chargeOrder != null">
+            select tco.id from tb_charge_order tco
+            where tco.order_state = 1
+            and tco.reward_money > 0
+            and tco.create_time &gt;= CONCAT(#{grantBeginDate},' 00:00:00')
+            and tco.create_time &lt;= CONCAT(#{grantEndDate},' 23:59:59')
+            and tco.shop_detail_id = #{shopDetailId}
+        </if>
+        <if test="redPacket != null">
+            select trp.id from tb_red_packet trp
+            where trp.red_type in (${redType})
+            and trp.create_time &gt;=  CONCAT(#{grantBeginDate},' 00:00:00')
+            and trp.create_time &lt;=  CONCAT(#{grantEndDate},' 23:59:59')
+            and trp.shop_detail_id = #{shopDetailId}
+        </if>
+        <if test="getNumber != null">
+            select tgn.id from tb_get_number tgn
+            where tgn.state in (3)
+            and tgn.final_money > 0
+            and tgn.create_time &gt;=  CONCAT(#{grantBeginDate},' 00:00:00')
+            and tgn.create_time &lt;=  CONCAT(#{grantEndDate},' 23:59:59')
+            and tgn.shop_detail_id = #{shopDetailId}
+        </if>
+        <if test="coupon != null">
+            select id from tb_coupon
+            where using_time &gt;=  CONCAT(#{useBeginDate},' 00:00:00')
+            and using_time &lt;=  CONCAT(#{useEndDate},' 23:59:59')
+            and is_used = 1
+            and coupon_type = ${couponTypeInt}
+        </if>
+        )
+        GROUP BY td.id
+        ) r
+    </select>
+</mapper>

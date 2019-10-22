@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.HungerOrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.HungerOrder">
+        <id column="id" property="id"/>
+        <result column="address" property="address"/>
+        <result column="consignee" property="consignee"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="deliver_fee" property="deliverFee"/>
+        <result column="deliver_time" property="deliverTime"/>
+        <result column="description" property="description"/>
+        <result column="invoice" property="invoice"/>
+        <result column="is_book" property="isBook"/>
+        <result column="is_online_paid" property="isOnlinePaid"/>
+        <result column="order_id" property="orderId"/>
+        <result column="phone_list" property="phoneList"/>
+        <result column="phoneList" property="phoneList"/>
+        <result column="restaurant_id" property="restaurantId"/>
+        <result column="restaurant_name" property="restaurantName"/>
+        <result column="restaurant_number" property="restaurantNumber"/>
+        <result column="status_code" property="statusCode"/>
+        <result column="total_price" property="totalPrice"/>
+        <result column="original_price" property="originalPrice"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="delivery_geo" property="deliveryGeo"/>
+        <result column="type" property="type"/>
+        <result column="article_sum" property="sum"/>
+        <result column="delivery_poi_address" property="deliveryPoiAddress"/>
+        <result column="detail_count" property="detailCount"/>
+        <result column="shop_detail_id" property="shopDetailId"/>
+        <collection property="details" javaType="List" ofType="HungerOrderDetail">
+            <id column="detail_id" property="id"/>
+            <result column="detail_name" property="name"/>
+            <result column="detail_price" property="price"/>
+            <result column="detail_quantity" property="quantity"/>
+            <result column="detail_specs" property="specs"/>
+        </collection>
+    </resultMap>
+
+    <!--插入饿了吗订单-->
+    <insert id="insertHungerOrder" parameterType="HungerOrder" useGeneratedKeys="true" keyProperty="id">
+     insert into tb_hunger_order
+     (address,consignee,created_at,deliver_fee,deliver_time,description,invoice,is_book,is_online_paid,order_id,phone_list,
+     restaurant_id,restaurant_name,restaurant_number,status_code,total_price,original_price,user_id,user_name,delivery_geo,delivery_poi_address)
+     values (
+      #{address},#{consignee},#{createdAt},#{deliverFee},#{deliverTime},#{description},#{invoice},#{isBook},#{isOnlinePaid},#{orderId}
+      ,#{phoneList},#{restaurantId},#{restaurantName},#{restaurantNumber},#{statusCode},#{totalPrice},#{originalPrice},#{userId},
+    #{userName},#{deliveryGeo},#{deliveryPoiAddress}
+     )
+  </insert>
+
+
+    <!--插入饿了吗额外项-->
+    <insert id="insertHungerExtra" useGeneratedKeys="true" keyProperty="id" parameterType="HungerOrderExtra">
+        insert into tb_hunger_order_extra
+        (order_id,name,price,description,extra_id,category_id,type,quantity)
+        values (#{orderId},#{name},#{price},#{description},#{extraId},#{categoryId},#{type},#{quantity});
+    </insert>
+
+
+    <insert id="insertHungerGroup" parameterType="HungerOrderGroup" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_hunger_order_group
+        (order_id)
+        values (#{orderId})
+    </insert>
+
+    <insert id="insertHungerOrderDetail" useGeneratedKeys="true" keyProperty="id" parameterType="HungerOrderDetail">
+        insert into tb_hunger_order_detail
+        (order_id,group_id,category_id,name,price,article_id,quantity,tp_food_id,specs)
+        values (#{orderId},#{groupId},#{categoryId},#{name},#{price},#{articleId},#{quantity},#{tpFoodId},#{specs})
+    </insert>
+
+    <insert id="insertHungerOrderGarnish" useGeneratedKeys="true" keyProperty="id" parameterType="HungerOrderGarnish">
+        insert into tb_hunger_order_garnish
+        (parent_id,order_id,group_id,category_id,name,price,article_id,quantity,tp_food_id)
+        values (
+        #{parentId},#{orderId},#{groupId},#{categoryId},#{name},#{price},#{articleId},#{quantity},#{tpFoodId}
+        )
+    </insert>
+
+    <update id="updateHungerOrder">
+        update tb_hunger_order
+        set status_code = #{state}
+        where order_id = #{orderId}
+    </update>
+
+    <select id="selectDetailsById" resultType="HungerOrderDetail">
+        select * from tb_hunger_order_detail where order_id = #{id}
+    </select>
+
+    <select id="selectByOrderId" resultType="HungerOrder">
+        select * from tb_hunger_order where order_id = #{orderId}
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+      select t.address,t.`name` as consignee,t.create_time as created_at,t.remark as description,
+t.platform_order_id as order_id,t.phone as phone_list,t.shop_detail_id
+         ,t2.show_name as detail_name,t2.price as detail_price,t2.quantity as detail_quantity
+          ,
+           (select sum(tb_platform_order_detail.quantity) as article_sum from tb_platform_order_detail where tb_platform_order_detail.platform_order_id = t.platform_order_id)
+           as article_sum
+          from tb_platform_order t
+          left join tb_platform_order_detail t2 on t.platform_order_id = t2.platform_order_id
+         where t.id = #{id}
+    </select>
+
+    <select id="getOutFoodList" resultMap="BaseResultMap">
+select t.id,t.type
+,t.address,t.`name` as consignee,t.create_time as created_at,t.remark as description,
+t.platform_order_id as order_id,t.phone as phone_list,sum(t2.quantity) as article_sum,
+t.total_price
+from tb_platform_order t
+left join tb_platform_order_detail t2 on t.platform_order_id = t2.platform_order_id
+where t.shop_detail_id = #{shopId}
+and DATE_FORMAT(NOW(),'%d %b %y') = DATE_FORMAT(t.create_time,'%d %b %y')
+GROUP BY t.id
+    </select>
+
+    <select id="getExtra" resultType="HungerOrderExtra">
+        select * from tb_hunger_order_extra
+        where order_id = #{orderId}
+    </select>
+</mapper>

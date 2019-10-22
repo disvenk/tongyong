@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.brand.web.dao.VersionPosShopDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.VersionPosShopDetail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR" />
+    <result column="shopDetail_id" property="shopdetailId" jdbcType="VARCHAR" />
+    <result column="version_no" property="versionNo" jdbcType="VARCHAR" />
+    <result column="download_address" property="downloadAddress" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="version_id" property="versionId" jdbcType="INTEGER" />
+    <result column="voluntarily" property="voluntarily" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, brand_id, shopDetail_id, version_no, download_address,type,version_id,voluntarily
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from version_newpos_shopdetail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from version_newpos_shopdetail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.resto.brand.web.model.VersionPosShopDetail" >
+    insert into version_newpos_shopdetail (id, brand_id, shopDetail_id,
+    version_no, download_address, type,version_id,voluntarily
+    )
+    values (#{id,jdbcType=INTEGER}, #{brandId,jdbcType=VARCHAR}, #{shopdetailId,jdbcType=VARCHAR},
+    #{versionNo,jdbcType=VARCHAR}, #{downloadAddress,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER},#{versionId,jdbcType=INTEGER},#{voluntarily,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.VersionPosShopDetail" >
+    insert into version_newpos_shopdetail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="shopdetailId != null" >
+        shopDetail_id,
+      </if>
+      <if test="versionNo != null" >
+        version_no,
+      </if>
+      <if test="downloadAddress != null" >
+        download_address,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="versionId != null" >
+        version_id,
+      </if>
+      <if test="voluntarily != null" >
+        voluntarily,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopdetailId != null" >
+        #{shopdetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="versionNo != null" >
+        #{versionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadAddress != null" >
+        #{downloadAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="versionId != null" >
+        #{versionId,jdbcType=INTEGER},
+      </if>
+      <if test="voluntarily != null" >
+        #{voluntarily,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.VersionPosShopDetail" >
+    update version_newpos_shopdetail
+    <set >
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopdetailId != null" >
+        shopDetail_id = #{shopdetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="versionNo != null" >
+        version_no = #{versionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadAddress != null" >
+        download_address = #{downloadAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="versionId != null" >
+        version_id = #{versionId,jdbcType=INTEGER},
+      </if>
+      <if test="voluntarily != null" >
+        voluntarily = #{voluntarily,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.VersionPosShopDetail" >
+    update version_newpos_shopdetail
+    set brand_id = #{brandId,jdbcType=VARCHAR},
+    shopDetail_id = #{shopdetailId,jdbcType=VARCHAR},
+    version_no = #{versionNo,jdbcType=VARCHAR},
+    download_address = #{downloadAddress,jdbcType=VARCHAR},
+    type = #{type,jdbcType=INTEGER},
+    version_id=#{versionId,jdbcType=INTEGER},
+    voluntarily = #{voluntarily,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectList" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from version_newpos_shopdetail;
+  </select>
+  <select id="selectByBrandIdAndShopDetailId" resultMap="BaseResultMap">
+    <!-- select <include refid="Base_Column_List"/> from version_newpos_shopdetail where brand_id=#{brandId} and shopDetail_id=#{shopDetailId}-->
+    SELECT vb.id, vb.brand_id, vb.shopDetail_id,vb.version_no, vb.download_address, vb.type,vb.version_id,vb.voluntarily,v.message FROM version_newpos_shopdetail vb,tb_version v WHERE vb.brand_id=#{brandId} and vb.shopDetail_id=#{shopDetailId} and vb.version_id=v.id ;
+  </select>
+  <select id="selectByBrandId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from version_newpos_shopdetail where brand_id=#{brandId}
+  </select>
+  <delete id="deleteByBrandId">
+    delete from version_newpos_shopdetail
+    where brand_id = #{brandId,jdbcType=VARCHAR}
+  </delete>
+  <update id="updateVersionNOAndDownloadAddressByVersionId">
+    update version_newpos_shopdetail
+    set version_no = #{versionNo,jdbcType=VARCHAR},
+    download_address = #{downloadAddress,jdbcType=VARCHAR},
+    type=#{substituteMode,jdbcType=INTEGER},
+    voluntarily=#{voluntarily,jdbcType=INTEGER}
+    where version_id = #{versionId,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteByVersionId">
+    delete from version_newpos_shopdetail where version_id=#{versionId,jdbcType=INTEGER}
+  </delete>
+  <select id="selectByVersionId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from version_newpos_shopdetail where version_id=#{versionId,jdbcType=INTEGER}
+  </select>
+
+  <update id="updatePosVersion">
+    UPDATE version_newpos_shopdetail SET version_no=#{shopVersion} WHERE brand_id=#{brandId} AND shopDetail_id=#{shopdetailId}
+  </update>
+
+</mapper>

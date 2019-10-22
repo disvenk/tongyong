@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.ERoleMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.ERole">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+    <result column="status" property="status" />
+    <result column="role_sign" property="roleSign" />
+    <result column="action_scope" property="actionScope" />
+  </resultMap>
+
+  <sql id="Base_Column_List">id, role_name, status, role_sign, action_scope</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from tb_role where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from tb_role where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.ERole">insert into tb_role (id, role_name, status, role_sign, action_scope) values (#{id,jdbcType=BIGINT}, #{roleName,jdbcType=VARCHAR}, #{status}, #{roleSign}, #{actionScope})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.ERole">insert into tb_role 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="roleName != null">role_name,</if>  
+      <if test="status != null">status,</if>
+      <if test="roleSign != null">role_sign,</if>
+      <if test="actionScope != null">action_scope,</if>
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="roleName != null">#{roleName,jdbcType=VARCHAR},</if>  
+      <if test="status != null">#{status},</if>
+      <if test="roleSign != null">#{roleSign,jdbcType=VARCHAR},</if>
+      <if test="actionScope != null">#{actionScope},</if>
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.ERole">update tb_role 
+    <set> 
+      <if test="roleName != null">role_name = #{roleName,jdbcType=VARCHAR},</if>  
+      <if test="status != null">status = #{status},</if>
+      <if test="roleSign != null">role_sign = #{roleSign,jdbcType=VARCHAR},</if>
+      <if test="actionScope != null">action_scope = #{actionScope},</if>
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.ERole">update tb_role set role_name = #{roleName,jdbcType=VARCHAR}, status = #{status}, role_sign = #{roleSign,jdbcType=VARCHAR}, action_scope = #{actionScope} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="ERole">select * from tb_role</select>
+
+  <select id="selectByStauts" resultType="ERole">select * from tb_role where status = 1</select>
+
+</mapper>

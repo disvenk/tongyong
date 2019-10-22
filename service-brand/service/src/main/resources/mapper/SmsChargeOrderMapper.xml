@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.service.brand.mapper.SmsChargeOrderMapper">
+
+	<select id="selectList" resultType="SmsChargeOrder">
+		select
+		id,brand_id,create_time,push_order_time,charge_money,sms_unit_price,number,ticket_id,pay_type,order_status,remark
+		from sms_charge_order where status = 1
+	</select>
+	
+	<select id="selectByBrandId" parameterType="java.lang.String" resultType="SmsChargeOrder">
+		select sco.id,sco.brand_id,b.brand_name,sco.create_time,sco.push_order_time,sco.charge_money,sco.sms_unit_price,sco.number,
+		sco.ticket_id,sco.pay_type,sco.order_status,sco.remark from sms_charge_order sco LEFT JOIN brand b ON sco.brand_id = b.id
+		WHERE status = 1 and sco.brand_id = #{brandId} ORDER BY sco.create_time DESC
+	</select>
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultType="SmsChargeOrder">
+		select
+		id,brand_id,create_time,push_order_time,charge_money,sms_unit_price,number,pay_type,ticket_id,order_status,remark
+		from sms_charge_order
+		where status = 1 and id = #{id}
+	</select>
+
+	<insert id="insertSelective" parameterType="SmsChargeOrder">
+		insert into sms_charge_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="brandId != null">
+				brand_id,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="pushOrderTime != null">
+				push_order_time,
+			</if>
+			<if test="chargeMoney != null">
+				charge_money,
+			</if>
+			<if test="smsUnitPrice != null">
+				sms_unit_price,
+			</if>
+			<if test="number != null">
+				number,
+			</if>
+			<if test="tradeNo != null">
+				trade_no,
+			</if>
+			<if test="ticketId != null">
+				ticket_id,
+			</if>
+			<if test="payType != null">
+				pay_type,
+			</if>
+			<if test="orderStatus != null">
+				order_status,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="brandId != null">
+				#{brandId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="pushOrderTime != null">
+				#{pushOrderTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="chargeMoney != null">
+				#{chargeMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="smsUnitPrice != null">
+				#{smsUnitPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="number != null">
+				#{number,jdbcType=INTEGER},
+			</if>
+			<if test="tradeNo != null">
+				#{tradeNo,jdbcType=VARCHAR},
+			</if>
+			<if test="ticketId != null">
+				#{ticketId,jdbcType=VARCHAR},
+			</if>
+			<if test="payType != null">
+				#{payType,jdbcType=INTEGER},
+			</if>
+			<if test="orderStatus != null">
+				#{orderStatus,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="SmsChargeOrder">
+		update sms_charge_order
+		<set>
+			<if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>
+			<if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+			<if test="pushOrderTime != null">push_order_time = #{pushOrderTime,jdbcType=TIMESTAMP},</if>
+			<if test="chargeMoney != null">charge_money = #{chargeMoney,jdbcType=DECIMAL},</if>
+			<if test="smsUnitPrice != null">sms_unit_price = #{smsUnitPrice,jdbcType=DECIMAL},</if>
+			<if test="number != null">number = #{number,jdbcType=INTEGER},</if>
+			<if test="tradeNo != null">trade_no = #{tradeNo,jdbcType=VARCHAR},</if>
+			<if test="ticketId != null">ticket_id = #{ticketId,jdbcType=VARCHAR},</if>
+			<if test="payType != null">pay_type = #{payType,jdbcType=INTEGER}, </if>
+			<if test="orderStatus != null">order_status = #{orderStatus,jdbcType=INTEGER},</if>
+			<if test="remark != null">remark = #{remark,jdbcType=VARCHAR},</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="deleteByPrimaryKey" parameterType="java.lang.String">
+		update sms_charge_order set status = 0 where id = #{id}
+	</update>
+	
+	<!-- 查询订单状态为未支付，并且支付方式为银行卡支付的所有商家的短信订单 -->
+	<select id="selectOtherPay"  resultType="SmsChargeOrder">
+		SELECT sco.id ,sco.brand_id ,sco.create_time,b.brand_name,sco.push_order_time,sco.charge_money,sco.sms_unit_price,sco.number,sco.order_status,sco.trade_no from sms_charge_order sco 
+		left join brand b on sco.brand_id=b.id WHERE sco.pay_type=3
+		and sco.status = 1 
+	</select>
+	
+	<!-- 查询所有存在的订单详情  支付宝和微信是已支付状态 银行卡是微支付和已支付都可以-->
+	<select id="selectListData"  resultType="SmsChargeOrder">
+		SELECT sco.id ,sco.brand_id ,sco.create_time,sco.pay_type,b.brand_name,sco.push_order_time,sco.charge_money,sco.sms_unit_price,sco.number,sco.order_status,sco.trade_no from sms_charge_order sco 
+		left join brand b on sco.brand_id=b.id WHERE sco.status = 1 and (((sco.pay_type in ('1','2')) and sco.order_status=1) or sco.pay_type=3)
+	</select>
+</mapper>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.service.brand.mapper.OrderRemarkMapper">
+    <resultMap id="BaseResultMap" type="com.resto.service.brand.entity.OrderRemark" >
+        <id column="id" property="id"/>
+        <result column="remark_name" property="remarkName"/>
+        <result column="sort" property="sort"/>
+        <result column="state" property="state"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, remark_name, sort, state, create_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+          <include refid="Base_Column_List"/>
+        from tb_order_remark where id = #{id}
+    </select>
+
+    <insert id="insertSelective" parameterType="com.resto.service.brand.entity.OrderRemark">
+        insert into tb_order_remark
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="remarkName != null">
+                remark_name,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="remarkName != null">
+                #{remarkName},
+            </if>
+            <if test="sort != null">
+                #{sort},
+            </if>
+            <if test="state != null">
+                #{state},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.service.brand.entity.OrderRemark">
+        update tb_order_remark
+        <set>
+            <if test="remarkName != null">
+                remark_name = #{remarkName},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+            <if test="state != null">
+                state = #{state},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from tb_order_remark where id = #{id}
+    </delete>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        select * from tb_order_remark ORDER BY sort asc
+    </select>
+
+    <select id="selectOrderRemarks" resultType="com.resto.service.brand.entity.OrderRemark">
+        select * from tb_order_remark where state = 1 ORDER BY sort asc
+    </select>
+</mapper>

@@ -1,0 +1,171 @@
+html, body {
+	font-family: "微软雅黑";
+	background: #fff;
+	height: 100%;
+	position: relative;
+	overflow-x: hidden;
+}
+
+.main {
+	position: relative;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+	color: #fff;
+}
+
+.header {
+	background-color: #000;
+	font-size: 3rem;
+	position: relative;
+	height: 10%;
+	display: table;
+	width: 100%;
+}
+
+.middle {
+	display: table-cell;
+	vertical-align: middle;
+	width: 100%;
+}
+
+.main-content {
+	position: relative;
+	height: 70%;
+}
+
+.title {
+	position: relative;
+	height: 10%;
+	width: 100%;
+	display: table;
+}
+
+.footer {
+	background-color: #464646;
+	font-size: 2rem;
+	position: relative;
+	height: 10%;
+	width: 100%;
+	display: table;
+}
+
+.presentNumber {
+	width: 34%;
+	float: left;
+	height: 100%;
+	background-color: #27ae60;
+}
+
+.numTitle {
+	font-size: 2rem;
+	width: 34%;
+}
+
+.waitingTitle {
+	font-size: 2rem;
+	width: 66%;
+}
+
+.isWaiting {
+	width: 66%;
+	float: left;
+	height: 100%;
+	background-color: #2980b9;
+}
+
+.flex-container-column {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+	height: 100%;
+	position: relative;
+}
+
+.flex-container-column .tableType {
+	flex: 1;
+	margin-bottom: 2rem;
+	font-size: 2rem;
+}
+
+.flex-container-column .tableType.min {
+	flex: 1;
+	margin-bottom: 1.8rem;
+	font-size: 1.8rem;
+}
+
+.flex-container-column .tableNumber {
+	flex: 1;
+	margin-bottom: 7rem;
+	font-size: 7rem;
+}
+
+.flex-container-column .tableNumber.min {
+	flex: 1;
+	margin-bottom: 5rem;
+	font-size: 5rem;
+}
+
+.flex-container-column .tableMoney {
+	flex: 1;
+	margin-bottom: 2rem;
+	font-size: 2rem;
+}
+
+.flex-container-column .tableMoney.min {
+	flex: 1;
+	margin-bottom: 1.8rem;
+	font-size: 1.8rem;
+}
+
+.flex-container-column span {
+	position: relative;
+	top: 50%;
+}
+
+.flex-container-column span.min {
+	position: relative;
+	top: 20%;
+}
+
+.flex-container-column .table .sixth {
+	position: relative;
+}
+
+.flex-container-row {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	height: 100%;
+	position: relative;
+}
+
+.waitingRow {
+	display: block;
+	flex: 1;
+}
+
+
+/** socket 连接状态   begin **/
+@-webkit-keyframes twinkling{
+  0% {
+      opacity: 0; 
+  }
+  100% {
+      opacity: 1; 
+  }
+}
+.round_break {
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	font-size: 20px;
+	line-heigth: 16px;
+	text-align: center;
+	color: #d9534f;
+	text-decoration: none;
+	-webkit-animation: twinkling 1s infinite ease-in-out;
+}
+/** socket 连接状态   end **/

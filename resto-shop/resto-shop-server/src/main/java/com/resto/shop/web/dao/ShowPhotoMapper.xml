@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.ShowPhotoMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.ShowPhoto">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="show_type" property="showType" jdbcType="INTEGER"/>
+    <result column="title" property="title" jdbcType="VARCHAR"/>
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+    <result column="photo_square" property="photoSquare"/>
+    <result column="show_sort" property="showSort"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, show_type, title, pic_url, shop_detail_id, photo_square, show_sort</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">select 
+    <include refid="Base_Column_List"/> from tb_show_photo where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">delete from tb_show_photo where id = #{id,jdbcType=INTEGER}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.ShowPhoto">insert into tb_show_photo (id, show_type, title, pic_url, shop_detail_id, show_sort, photo_square) values (#{id,jdbcType=INTEGER}, #{showType,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, #{shopDetailId,jdbcType=VARCHAR}, #{showSort,jdbcType=INTEGER}, #{photoSquare})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.ShowPhoto">insert into tb_show_photo 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="showType != null">show_type,</if>  
+      <if test="title != null">title,</if>  
+      <if test="picUrl != null">pic_url,</if>  
+      <if test="shopDetailId != null">shop_detail_id,</if>
+      <if test="showSort != null">show_sort,</if>
+      <if test="photoSquare != null">photo_square,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=INTEGER},</if>  
+      <if test="showType != null">#{showType,jdbcType=INTEGER},</if>  
+      <if test="title != null">#{title,jdbcType=VARCHAR},</if>  
+      <if test="picUrl != null">#{picUrl,jdbcType=VARCHAR},</if>  
+      <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if>
+      <if test="showSort != null">#{showSort,jdbcType=INTEGER},</if>
+      <if test="photoSquare != null">#{photoSquare},</if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.ShowPhoto">update tb_show_photo 
+    <set> 
+      <if test="showType != null">show_type = #{showType,jdbcType=INTEGER},</if>  
+      <if test="title != null">title = #{title,jdbcType=VARCHAR},</if>  
+      <if test="picUrl != null">pic_url = #{picUrl,jdbcType=VARCHAR},</if>  
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if>
+      <if test="showSort != null">show_sort = #{showSort,jdbcType=INTEGER},</if>
+      photo_square = null
+    </set> where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.ShowPhoto">update tb_show_photo set show_type = #{showType,jdbcType=INTEGER}, title = #{title,jdbcType=VARCHAR}, pic_url = #{picUrl,jdbcType=VARCHAR}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},shop_sort = #{shopSort,jdbcType=INTEGER}, photo_square = null where id = #{id,jdbcType=INTEGER}</update>
+  <select id="selectList" resultType="ShowPhoto">select * from tb_show_photo</select>
+  <select id="selectListByShopId" resultType="ShowPhoto">
+  	select * from tb_show_photo where shop_detail_id = #{shopId}
+  	GROUP BY title
+  	order by show_type,show_sort
+  </select>
+
+  <update id="updatePhotoSquare" parameterType="com.resto.shop.web.model.ShowPhoto">
+    update tb_show_photo
+    set photo_square = #{photoSquare}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

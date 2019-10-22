@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.ChargePaymentMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.ChargePayment">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="payment_money" property="paymentMoney" jdbcType="DECIMAL"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="charge_order_id" property="chargeOrderId" jdbcType="VARCHAR"/>
+    <result column="is_use_bonus" property="isUseBonus"/>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.resto.shop.web.model.ChargePayment" extends="BaseResultMap">
+    <result column="pay_data" property="payData" jdbcType="LONGVARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, payment_money, create_time, charge_order_id, is_use_bonus</sql>
+  <sql id="Blob_Column_List">pay_data</sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">select 
+    <include refid="Base_Column_List"/> , 
+    <include refid="Blob_Column_List"/> from tb_charge_payment where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">delete from tb_charge_payment where id = #{id,jdbcType=VARCHAR}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.ChargePayment">insert into tb_charge_payment (id, payment_money, create_time, charge_order_id, pay_data, is_use_bonus) values (#{id,jdbcType=VARCHAR}, #{paymentMoney,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{chargeOrderId,jdbcType=VARCHAR}, #{payData,jdbcType=LONGVARCHAR}, #{isUseBonus})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.ChargePayment">insert into tb_charge_payment 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="paymentMoney != null">payment_money,</if>  
+      <if test="createTime != null">create_time,</if>  
+      <if test="chargeOrderId != null">charge_order_id,</if>  
+      <if test="payData != null">pay_data,</if>
+        <if test="isUseBonus != null">is_use_bonus,</if>
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>  
+      <if test="paymentMoney != null">#{paymentMoney,jdbcType=DECIMAL},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="chargeOrderId != null">#{chargeOrderId,jdbcType=VARCHAR},</if>  
+      <if test="payData != null">#{payData,jdbcType=LONGVARCHAR},</if>
+        <if test="isUseBonus != null">#{isUseBonus},</if>
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.ChargePayment">update tb_charge_payment 
+    <set> 
+      <if test="paymentMoney != null">payment_money = #{paymentMoney,jdbcType=DECIMAL},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="chargeOrderId != null">charge_order_id = #{chargeOrderId,jdbcType=VARCHAR},</if>  
+      <if test="payData != null">pay_data = #{payData,jdbcType=LONGVARCHAR},</if>
+        <if test="isUseBonus != null">is_use_bonus = #{isUseBonus},</if>
+    </set> where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.resto.shop.web.model.ChargePayment">update tb_charge_payment set payment_money = #{paymentMoney,jdbcType=DECIMAL}, create_time = #{createTime,jdbcType=TIMESTAMP}, charge_order_id = #{chargeOrderId,jdbcType=VARCHAR}, pay_data = #{payData,jdbcType=LONGVARCHAR} where id = #{id,jdbcType=VARCHAR}</update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.ChargePayment">update tb_charge_payment set payment_money = #{paymentMoney,jdbcType=DECIMAL}, create_time = #{createTime,jdbcType=TIMESTAMP}, charge_order_id = #{chargeOrderId,jdbcType=VARCHAR} where id = #{id,jdbcType=VARCHAR}</update>
+  <select id="selectList" resultType="ChargePayment">select * from tb_charge_payment</select>
+
+	<!-- 所有品牌充值记录 -->
+	<select id="selectRechargeLog" resultType="com.resto.brand.web.dto.RechargeLogDto">
+		SELECT
+			COUNT(id) AS rechargeCount,
+			SUM(charge_money) AS rechargeNum,
+			SUM(reward_money) AS rechargeGaNum,
+			(
+				SELECT
+					SUM(charge_money)
+				FROM
+					tb_charge_order
+				WHERE
+					order_state = 1
+				AND type = 1
+				AND
+				<![CDATA[ create_time>#{begin} AND create_time<#{end}]]>
+				AND brand_id = #{brandId}
+			) AS rechargeWeChat,
+			(
+				SELECT
+					SUM(charge_money)
+				FROM
+					tb_charge_order
+				WHERE
+					order_state = 1
+				AND type = 0
+				AND
+				<![CDATA[ create_time>#{begin} AND create_time<#{end}]]>
+				AND brand_id = #{brandId}
+			) AS rechargePos,
+			SUM(charge_money) - SUM(charge_balance) AS rechargeCsNum,
+
+			IF (
+				number_day_now > 0,
+				SUM(
+					reward_money - (number_day_now - 1) * arrival_amount + end_amount
+				),
+				SUM(
+					reward_money - reward_balance
+				)
+			) AS rechargeGaCsNum,
+			 SUM(charge_balance) AS rechargeSpNum,
+			 SUM(reward_balance) AS rechargeGaSpNum
+			 FROM
+				tb_charge_order
+			 WHERE
+				order_state = 1
+			 AND
+			 <![CDATA[ create_time>#{begin} AND create_time<#{end}]]>
+			 AND brand_id = #{brandId}
+			 GROUP BY
+				brand_id = #{brandId}
+	</select>
+
+	<!-- 得到品牌下所有店铺的充值记录 -->
+	<select id="selectShopRechargeLog" resultType="com.resto.brand.web.dto.RechargeLogDto">
+		SELECT COUNT(1) AS shopCount,
+			SUM(charge_money) AS shopNum,
+			SUM(reward_money) AS shopGaNum,
+			(
+				SELECT
+					SUM(charge_money)
+				FROM
+					tb_charge_order
+				WHERE
+					order_state = 1
+				AND type = 1
+				AND
+				<![CDATA[ create_time>#{begin} AND create_time<#{end}]]>
+				AND shop_detail_id = #{shopId}
+			) AS shopWeChat,
+			(
+				SELECT
+					SUM(charge_money)
+				FROM
+					tb_charge_order
+				WHERE
+					order_state = 1
+				AND type = 0
+				AND
+				<![CDATA[ create_time>#{begin} AND create_time<#{end}]]>
+				AND shop_detail_id = #{shopId}
+			) AS shopPos,
+			SUM(charge_money)-SUM(charge_balance) AS shopCsNum,
+			IF (
+				number_day_now > 0,
+				SUM(
+					reward_money - (number_day_now - 1) * arrival_amount + end_amount
+				),
+				SUM(
+					reward_money - reward_balance
+				)
+			) AS shopGaCsNum
+			FROM
+					tb_charge_order
+			WHERE
+				order_state = 1
+			AND
+				<![CDATA[ create_time>#{begin} AND create_time<#{end}]]>
+				AND shop_detail_id = #{shopId}
+		GROUP BY
+				shop_detail_id = #{shopId}
+	</select>
+    <select id="selectPayData" parameterType="java.lang.String" resultType="com.resto.shop.web.model.ChargePayment">
+        select tcp.* from tb_charge_payment tcp
+        inner join tb_charge_order tco
+        on tcp.charge_order_id = tco.id
+        where tcp.is_use_bonus = 0
+        and shop_detail_id = #{shopId}
+        LIMIT 1
+    </select>
+
+	<select id="selectByChargeOrderId" resultType="ChargePayment">
+		select * from tb_charge_payment where charge_order_id = #{chargeOrderId}
+	</select>
+
+</mapper>

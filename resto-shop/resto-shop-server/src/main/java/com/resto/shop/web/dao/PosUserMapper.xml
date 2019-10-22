@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.PosUserMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.PosUser">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="password" property="password" jdbcType="VARCHAR"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR"/>
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR"/>
+    <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+    <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, name, password, create_time, create_user_id, update_time, update_user_id, shop_detail_id, brand_id</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from tb_pos_user where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from tb_pos_user where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.PosUser">insert into tb_pos_user (id, name, password, create_time, create_user_id, update_time, update_user_id, shop_detail_id, brand_id ) values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, #{shopDetailId,jdbcType=VARCHAR}, #{brandId,jdbcType=VARCHAR} )</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.PosUser">insert into tb_pos_user 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="name != null">name,</if>  
+      <if test="password != null">password,</if>  
+      <if test="createTime != null">create_time,</if>  
+      <if test="createUserId != null">create_user_id,</if>  
+      <if test="updateTime != null">update_time,</if>  
+      <if test="updateUserId != null">update_user_id,</if>  
+      <if test="shopDetailId != null">shop_detail_id,</if>  
+      <if test="brandId != null">brand_id,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="name != null">#{name,jdbcType=VARCHAR},</if>  
+      <if test="password != null">#{password,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="createUserId != null">#{createUserId,jdbcType=VARCHAR},</if>  
+      <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>  
+      <if test="updateUserId != null">#{updateUserId,jdbcType=VARCHAR},</if>  
+      <if test="shopDetailId != null">#{shopDetailId,jdbcType=VARCHAR},</if>  
+      <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.PosUser">update tb_pos_user 
+    <set> 
+      <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>  
+      <if test="password != null">password = #{password,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>  
+      <if test="createUserId != null">create_user_id = #{createUserId,jdbcType=VARCHAR},</if>  
+      <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>  
+      <if test="updateUserId != null">update_user_id = #{updateUserId,jdbcType=VARCHAR},</if>  
+      <if test="shopDetailId != null">shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},</if>  
+      <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if> 
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.PosUser">update tb_pos_user set name = #{name,jdbcType=VARCHAR}, password = #{password,jdbcType=VARCHAR}, create_time = #{createTime,jdbcType=TIMESTAMP}, create_user_id = #{createUserId,jdbcType=VARCHAR}, update_time = #{updateTime,jdbcType=TIMESTAMP}, update_user_id = #{updateUserId,jdbcType=VARCHAR}, shop_detail_id = #{shopDetailId,jdbcType=VARCHAR}, brand_id = #{brandId,jdbcType=VARCHAR} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="PosUser">select * from tb_pos_user</select>
+</mapper>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.NewCustomCouponMapper">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.NewCustomCoupon">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="coupon_value" property="couponValue" jdbcType="DECIMAL"/>
+        <result column="coupon_validay" property="couponValiday" jdbcType="INTEGER"/>
+        <result column="coupon_number" property="couponNumber" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="use_with_account" property="useWithAccount" jdbcType="BIT"/>
+        <result column="coupon_name" property="couponName" jdbcType="VARCHAR"/>
+        <result column="coupon_min_money" property="couponMinMoney" jdbcType="DECIMAL"/>
+        <result column="begin_time" property="beginTime" jdbcType="TIME"/>
+        <result column="end_time" property="endTime" jdbcType="TIME"/>
+        <result column="is_activty" property="isActivty" jdbcType="BIT"/>
+        <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+        <result column="distribution_mode_id" property="distributionModeId" jdbcType="INTEGER"/>
+        <result column="recommend_delay_time" property="recommendDelayTime" />
+        <result column="distance_birthday_day" property="distanceBirthdayDay"/>
+        <result column="real_time_coupon_begin_time" property="realTimeCouponBeginTime"/>
+        <result column="real_time_coupon_end_time" property="realTimeCouponEndTime"/>
+        <result column="is_brand" property="isBrand"/>
+        <result column="minimum_amount" property="minimumAmount"/>
+        <result column="next_hour" property="nextHour"/>
+        <result column="coupon_photo" property="couponPhoto" jdbcType="VARCHAR"/>
+        <result column="deduction_type" property="deductionType"/>
+    </resultMap>
+    <sql id="Base_Column_List">id, name, coupon_value, coupon_validay, coupon_number, create_time, use_with_account, coupon_name, coupon_min_money, begin_time, end_time, is_activty, brand_id, distribution_mode_id
+,recommend_delay_time,distance_birthday_day,real_time_coupon_begin_time,real_time_coupon_end_time,is_brand,minimum_amount,next_hour,coupon_photo,deduction_type</sql>
+    <select id="selectByPrimaryKey" resultType="com.resto.shop.web.model.NewCustomCoupon" parameterType="java.lang.Long">
+       select  * from tb_new_custom_coupon where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from tb_new_custom_coupon where id = #{id,jdbcType=BIGINT}</delete>
+    <insert id="insert" parameterType="com.resto.shop.web.model.NewCustomCoupon">insert into tb_new_custom_coupon (id, name, coupon_value, coupon_validay, coupon_number, create_time, use_with_account, coupon_name, coupon_min_money, begin_time, end_time, is_activty, brand_id, distribution_mode_id,coupon_photo,deduction_type) values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{couponValue,jdbcType=DECIMAL}, #{couponValiday,jdbcType=INTEGER}, #{couponNumber,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{useWithAccount,jdbcType=BIT}, #{couponName,jdbcType=VARCHAR}, #{couponMinMoney,jdbcType=DECIMAL}, #{beginTime,jdbcType=TIME}, #{endTime,jdbcType=TIME}, #{isActivty,jdbcType=BIT}, #{brandId,jdbcType=VARCHAR}, #{distributionModeId,jdbcType=INTEGER},#{couponPhoto},#{deductionType})</insert>
+    <insert id="insertSelective" parameterType="com.resto.shop.web.model.NewCustomCoupon">insert into tb_new_custom_coupon
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="couponValue != null">coupon_value,</if>
+            <if test="couponValiday != null">coupon_validay,</if>
+            <if test="couponNumber != null">coupon_number,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="useWithAccount != null">use_with_account,</if>
+            <if test="couponName != null">coupon_name,</if>
+            <if test="couponMinMoney != null">coupon_min_money,</if>
+            <if test="beginTime != null">begin_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="isActivty != null">is_activty,</if>
+            <if test="brandId != null">brand_id,</if>
+            <if test="distributionModeId != null">distribution_mode_id,</if>
+            <if test="timeConsType != null">time_cons_type,</if>
+            <if test="beginDateTime != null">begin_date_time,</if>
+            <if test="endDateTime != null">end_date_time,</if>
+            <if test="couponType != null">coupon_type,</if>
+            <if test="shopDetailId != null">shop_detail_id,</if>
+            <if test="isBrand != null">is_brand,</if>
+            <if test="recommendDelayTime != null">recommend_delay_time,</if>
+            <if test="distanceBirthdayDay != null">distance_birthday_day,</if>
+            <if test="realTimeCouponBeginTime != null">real_time_coupon_begin_time,</if>
+            <if test="realTimeCouponEndTime != null">real_time_coupon_end_time,</if>
+            <if test="minimumAmount != null">minimum_amount,</if>
+            <if test="nextHour != null">next_hour,</if>
+            <if test="couponPhoto != null">coupon_photo,</if>
+            <if test="deductionType != null">deduction_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=BIGINT},</if>
+            <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+            <if test="couponValue != null">#{couponValue,jdbcType=DECIMAL},</if>
+            <if test="couponValiday != null">#{couponValiday,jdbcType=INTEGER},</if>
+            <if test="couponNumber != null">#{couponNumber,jdbcType=INTEGER},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="useWithAccount != null">#{useWithAccount,jdbcType=BIT},</if>
+            <if test="couponName != null">#{couponName,jdbcType=VARCHAR},</if>
+            <if test="couponMinMoney != null">#{couponMinMoney,jdbcType=DECIMAL},</if>
+            <if test="beginTime != null">#{beginTime,jdbcType=TIME},</if>
+            <if test="endTime != null">#{endTime,jdbcType=TIME},</if>
+            <if test="isActivty != null">#{isActivty,jdbcType=BIT},</if>
+            <if test="brandId != null">#{brandId,jdbcType=VARCHAR},</if>
+            <if test="distributionModeId != null">#{distributionModeId,jdbcType=INTEGER},</if>
+            <if test="timeConsType != null">#{timeConsType},</if>
+            <if test="beginDateTime != null">#{beginDateTime},</if>
+            <if test="endDateTime != null">#{endDateTime},</if>
+            <if test="couponType != null">#{couponType},</if>
+            <if test="shopDetailId != null">#{shopDetailId},</if>
+            <if test="isBrand != null">#{isBrand},</if>
+            <if test="recommendDelayTime != null">#{recommendDelayTime},</if>
+            <if test="distanceBirthdayDay != null">#{distanceBirthdayDay},</if>
+            <if test="realTimeCouponBeginTime != null">#{realTimeCouponBeginTime},</if>
+            <if test="realTimeCouponEndTime != null">#{realTimeCouponEndTime},</if>
+            <if test="minimumAmount != null">#{minimumAmount},</if>
+            <if test="nextHour != null">#{nextHour},</if>
+            <if test="couponPhoto != null">#{couponPhoto},</if>
+            <if test="deductionType != null">#{deductionType},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.NewCustomCoupon">update tb_new_custom_coupon
+        <set>
+            <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>
+            <if test="couponValue != null">coupon_value = #{couponValue,jdbcType=DECIMAL},</if>
+            <if test="couponValiday != null">coupon_validay = #{couponValiday,jdbcType=INTEGER},</if>
+            <if test="couponNumber != null">coupon_number = #{couponNumber,jdbcType=INTEGER},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="useWithAccount != null">use_with_account = #{useWithAccount,jdbcType=BIT},</if>
+            <if test="couponName != null">coupon_name = #{couponName,jdbcType=VARCHAR},</if>
+            <if test="couponMinMoney != null">coupon_min_money = #{couponMinMoney,jdbcType=DECIMAL},</if>
+            <if test="beginTime != null">begin_time = #{beginTime,jdbcType=TIME},</if>
+            <if test="endTime != null">end_time = #{endTime,jdbcType=TIME},</if>
+            <if test="isActivty != null">is_activty = #{isActivty,jdbcType=BIT},</if>
+            <if test="brandId != null">brand_id = #{brandId,jdbcType=VARCHAR},</if>
+            <if test="distributionModeId != null">time_cons_type = #{distributionModeId,jdbcType=INTEGER},</if>
+            <if test="timeConsType != null">time_cons_type = #{timeConsType},</if>
+            <if test="beginDateTime != null">begin_date_time = #{beginDateTime},</if>
+            <if test="endDateTime != null">end_date_time = #{endDateTime},</if>
+            <if test="couponType != null">coupon_type = #{couponType},</if>
+            <if test="isBrand != null">is_brand = #{isBrand},</if>
+            <if test="recommendDelayTime != null">recommend_delay_time = #{recommendDelayTime},</if>
+            <if test="distanceBirthdayDay != null">distance_birthday_day = #{distanceBirthdayDay},</if>
+            <if test="realTimeCouponBeginTime != null">real_time_coupon_begin_time = #{realTimeCouponBeginTime},</if>
+            <if test="realTimeCouponEndTime != null">real_time_coupon_end_time = #{realTimeCouponEndTime},</if>
+            <if test="minimumAmount != null">minimum_amount = #{minimumAmount},</if>
+            <if test="nextHour != null">next_hour = #{nextHour},</if>
+            <if test="couponPhoto != null">coupon_photo = #{couponPhoto},</if>
+            <if test="shopDetailId != null">shop_detail_id = #{shopDetailId},</if>
+            <if test="deductionType != null">deduction_type = #{deductionType},</if>
+        </set> where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.NewCustomCoupon">
+        update tb_new_custom_coupon set name = #{name,jdbcType=VARCHAR}, coupon_value = #{couponValue,jdbcType=DECIMAL}, coupon_validay = #{couponValiday,jdbcType=INTEGER}, coupon_number = #{couponNumber,jdbcType=INTEGER}, create_time = #{createTime,jdbcType=TIMESTAMP}, use_with_account = #{useWithAccount,jdbcType=BIT}, coupon_name = #{couponName,jdbcType=VARCHAR}, coupon_min_money = #{couponMinMoney,jdbcType=DECIMAL}, begin_time = #{beginTime,jdbcType=TIME}, end_time = #{endTime,jdbcType=TIME}, is_activty = #{isActivty,jdbcType=BIT}, brand_id = #{brandId,jdbcType=VARCHAR}, distribution_mode_id = #{distributionModeId,jdbcType=INTEGER}, distance_birthday_day = #{distanceBirthdayDay},coupon_photo=#{couponPhoto},deduction_type=#{deductionType} where id = #{id,jdbcType=BIGINT}</update>
+    <select id="selectList" resultType="NewCustomCoupon">select * from tb_new_custom_coupon</select>
+
+    <select id="selectListByBrandIdAndIsActive" resultType="NewCustomCoupon">
+        select id,name,coupon_value,coupon_validay,coupon_number,create_time,shop_detail_id,brand_id,is_brand,
+        use_with_account,coupon_name,coupon_min_money,begin_time,end_time,is_activty,brand_id,distribution_mode_id,time_cons_type,begin_date_time,end_date_time,push_day
+        ,recommend_delay_time,real_time_coupon_begin_time,real_time_coupon_end_time,coupon_photo
+        from tb_new_custom_coupon where brand_id=#{brandId} and coupon_type = #{couponType} and is_activty=1
+    </select>
+
+    <select id="selectListByBrandId" resultType="NewCustomCoupon">
+        select id,name,coupon_value,coupon_validay,coupon_number,create_time,coupon_type,shop_detail_id,is_brand,coupon_photo,
+        use_with_account,coupon_name,coupon_min_money,begin_time,end_time,is_activty,brand_id,distribution_mode_id,time_cons_type,begin_date_time,end_date_time,
+        recommend_delay_time,distance_birthday_day,DATE_FORMAT(real_time_coupon_begin_time,'%Y-%m-%d %H:%i:%s') realTimeCouponBeginTimeString,
+        DATE_FORMAT(real_time_coupon_end_time,'%Y-%m-%d %H:%i:%s') realTimeCouponEndTimeString,minimum_amount,next_hour
+        from tb_new_custom_coupon where ((brand_id=#{brandId}
+        and is_brand = 1 ) or ( is_brand = 0 and shop_detail_id = #{shopId} )) and coupon_type != 7
+    </select>
+
+    <select id="selectProductCouponListByBrandId" resultType="NewCustomCoupon">
+        select id,name,coupon_value,coupon_validay,coupon_number,create_time,coupon_type,shop_detail_id,is_brand,coupon_photo,
+        use_with_account,coupon_name,coupon_min_money,begin_time,end_time,is_activty,brand_id,distribution_mode_id,time_cons_type,begin_date_time,end_date_time,
+        recommend_delay_time,distance_birthday_day,DATE_FORMAT(real_time_coupon_begin_time,'%Y-%m-%d %H:%i:%s') realTimeCouponBeginTimeString,
+        DATE_FORMAT(real_time_coupon_end_time,'%Y-%m-%d %H:%i:%s') realTimeCouponEndTimeString,minimum_amount,next_hour,deduction_type
+        from tb_new_custom_coupon where coupon_type=7 and ((brand_id=#{brandId}
+        and is_brand = 1 ) or  is_brand = 0 )
+    </select>
+
+    <select id="selectListByShopId" resultType="NewCustomCoupon">
+        select id,name,coupon_value,coupon_validay,coupon_number,create_time,coupon_type,coupon_photo,
+        use_with_account,coupon_name,coupon_min_money,begin_time,end_time,is_activty,brand_id,distribution_mode_id,time_cons_type,begin_date_time,end_date_time
+        from tb_new_custom_coupon where shop_detail_id=#{shopId}
+    </select>
+
+
+    <select id="selectListByCouponType" resultType="NewCustomCoupon">
+        select id,name,coupon_value,coupon_validay,coupon_number,create_time,coupon_type,coupon_photo,
+        use_with_account,coupon_name,coupon_min_money,begin_time,end_time,is_activty,brand_id,distribution_mode_id,time_cons_type,begin_date_time,end_date_time,
+        recommend_delay_time
+        from tb_new_custom_coupon where brand_id=#{brandId} and coupon_type = #{couponType} and is_activty=1
+    </select>
+
+
+    <select id="selectListByCouponTypeAndShopId" resultType="NewCustomCoupon">
+        select id,name,coupon_value,coupon_validay,coupon_number,create_time,coupon_type,coupon_photo,
+        use_with_account,coupon_name,coupon_min_money,begin_time,end_time,is_activty,brand_id,distribution_mode_id,time_cons_type,begin_date_time,end_date_time,
+        recommend_delay_time
+        from tb_new_custom_coupon where shop_detail_id=#{shopId} and coupon_type = #{couponType} and is_activty=1 and is_brand=0
+    </select>
+
+    <select id="selectListByShopIdAndIsActive" resultType="NewCustomCoupon">
+        select id,name,coupon_value,coupon_validay,coupon_number,create_time,coupon_photo,
+        use_with_account,coupon_name,coupon_min_money,shop_detali_id,begin_time,end_time,is_activty,brand_id,distribution_mode_id,time_cons_type,begin_date_time,end_date_time
+        from tb_new_custom_coupon where shop_detail_id=#{shopId} and coupon_type = #{couponType} and is_activty=1
+    </select>
+
+    <select id="selectListByCouponTypeAndBrandId" resultType="NewCustomCoupon">
+        select id,name,coupon_value,coupon_validay,coupon_number,create_time,coupon_type,coupon_photo,
+        use_with_account,coupon_name,coupon_min_money,begin_time,end_time,is_activty,brand_id,distribution_mode_id,time_cons_type,begin_date_time,end_date_time,
+        recommend_delay_time
+        from tb_new_custom_coupon where brand_id=#{brandId} and coupon_type = #{couponType} and is_activty=1 and is_brand=1
+    </select>
+
+    <select id="selectBirthCoupon" resultType="NewCustomCoupon">
+        select * from tb_new_custom_coupon where coupon_type = 2 and is_activty = 1
+    </select>
+
+    <select id="selectRealTimeCoupon" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from tb_new_custom_coupon where coupon_type = 4 and (is_brand = 1 or shop_detail_id = #{shopId})
+        and is_activty = 1 and real_time_coupon_begin_time &lt;= #{nowDate} and real_time_coupon_end_time &gt;= #{nowDate}
+        <if test="realTimeCouponIds != null">
+            and id not in (${realTimeCouponIds})
+        </if>
+    </select>
+
+    <select id="selectConsumptionRebateCoupon" resultType="NewCustomCoupon">
+        select * from tb_new_custom_coupon where coupon_type = 6 and is_activty = 1
+        and (is_brand = 1 or shop_detail_id = #{shopId})
+    </select>
+</mapper>

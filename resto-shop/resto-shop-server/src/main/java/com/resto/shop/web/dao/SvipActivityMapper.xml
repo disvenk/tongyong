@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.SvipActivityMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.SvipActivity" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="activity_name" property="activityName" jdbcType="VARCHAR" />
+    <result column="begin_date_time" property="beginDateTime" jdbcType="TIMESTAMP" />
+    <result column="end_date_time" property="endDateTime" jdbcType="TIMESTAMP" />
+    <result column="svip_price" property="svipPrice" jdbcType="DECIMAL" />
+    <result column="svip_expire" property="svipExpire" jdbcType="INTEGER" />
+    <result column="activity_img_type" property="activityImgType" jdbcType="TINYINT" />
+    <result column="activity_img" property="activityImg" jdbcType="VARCHAR" />
+    <result column="activity_status" property="activityStatus" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="system_img_type" property="systemImgType" jdbcType="TINYINT" />
+    <result column="svip_expire_type" property="svipExpireType" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, activity_name, begin_date_time, end_date_time, svip_price, svip_expire,activity_img_type, activity_img,
+    activity_status, create_time,system_img_type,svip_expire_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_svip_activity
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectList" resultType="com.resto.shop.web.model.SvipActivity">SELECT * from tb_svip_activity</select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_svip_activity
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.SvipActivity" >
+    insert into tb_svip_activity (id, activity_name, begin_date_time, 
+      end_date_time, svip_price, svip_expire, activity_img_type,
+      activity_img, activity_status, create_time,system_img_type,svip_expire_type
+      )
+    values (#{id,jdbcType=VARCHAR}, #{activityName,jdbcType=VARCHAR}, #{beginDateTime,jdbcType=TIMESTAMP}, 
+      #{endDateTime,jdbcType=TIMESTAMP}, #{svipPrice,jdbcType=DECIMAL}, #{svipExpire,jdbcType=INTEGER},#{activityImgType,jdbcType=TINYINT},
+      #{activityImg,jdbcType=VARCHAR}, #{activityStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{systemImgType}, #{svipExpireType}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.SvipActivity" >
+    insert into tb_svip_activity
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="activityName != null" >
+        activity_name,
+      </if>
+      <if test="beginDateTime != null" >
+        begin_date_time,
+      </if>
+      <if test="endDateTime != null" >
+        end_date_time,
+      </if>
+      <if test="svipPrice != null" >
+        svip_price,
+      </if>
+      <if test="svipExpire != null" >
+        svip_expire,
+      </if>
+      <if test="activityImgType != null" >
+        activity_img_type,
+      </if>
+      <if test="activityImg != null" >
+        activity_img,
+      </if>
+      <if test="activityStatus != null" >
+        activity_status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="systemImgType != null" >
+        system_img_type,
+      </if>
+      <if test="svipExpireType != null" >
+        svip_expire_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="activityName != null" >
+        #{activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDateTime != null" >
+        #{beginDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDateTime != null" >
+        #{endDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="svipPrice != null" >
+        #{svipPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="svipExpire != null" >
+        #{svipExpire,jdbcType=INTEGER},
+      </if>
+      <if test="activityImgType != null" >
+        #{activityImgType},
+      </if>
+      <if test="activityImg != null" >
+        #{activityImg,jdbcType=VARCHAR},
+      </if>
+      <if test="activityStatus != null" >
+        #{activityStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="systemImgType != null" >
+        #{systemImgType},
+      </if>
+      <if test="svipExpireType != null" >
+        #{svipExpireType}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.SvipActivity" >
+    update tb_svip_activity
+    <set >
+      <if test="activityName != null" >
+        activity_name = #{activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDateTime != null" >
+        begin_date_time = #{beginDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDateTime != null" >
+        end_date_time = #{endDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="svipPrice != null" >
+        svip_price = #{svipPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="svipExpire != null" >
+        svip_expire = #{svipExpire,jdbcType=INTEGER},
+      </if>
+      <if test="activityImgType != null" >
+        activity_img_type = #{activityImgType},
+      </if>
+      <if test="activityImg != null" >
+        activity_img = #{activityImg,jdbcType=VARCHAR},
+      </if>
+      <if test="activityStatus != null" >
+        activity_status = #{activityStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="systemImgType != null" >
+      system_img_type = #{systemImgType},
+    </if>
+      <if test="svipExpireType != null" >
+        svip_expire_type = #{svipExpireType},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.SvipActivity" >
+    update tb_svip_activity
+    set activity_name = #{activityName,jdbcType=VARCHAR},
+      begin_date_time = #{beginDateTime,jdbcType=TIMESTAMP},
+      end_date_time = #{endDateTime,jdbcType=TIMESTAMP},
+      svip_price = #{svipPrice,jdbcType=DECIMAL},
+      svip_expire = #{svipExpire,jdbcType=INTEGER},
+      activity_img_type = #{activityImgType},
+      activity_img = #{activityImg,jdbcType=VARCHAR},
+      activity_status = #{activityStatus,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      svip_expire_type = #{svipExpireType}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getOpendAct" resultType="java.lang.Long">
+    select count(1) from tb_svip_activity where activity_status=1
+  </select>
+
+  <select id="getAct" resultType="com.resto.shop.web.model.SvipActivity">
+    select <include refid="Base_Column_List"/> from tb_svip_activity where activity_status=1 and end_date_time>now()
+  </select>
+
+  <select id="getMyself" resultType="java.lang.Long">
+    select count(1) from tb_svip_activity where id=#{id} and activity_status=1
+  </select>
+</mapper>

@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.MdRulArticleBomDetailHistoryDao">
+
+<resultMap id="mdRulArticleBomDetailHistoryResult" type="com.resto.shop.web.model.MdRulArticleBomDetailHistory">
+    <result column="id" property="id"/>
+    <result column="state" property="state"/>
+    <result column="article_bom_head_id" property="articleBomHeadId"/>
+    <result column="min_measure_unit" property="minMeasureUnit"/>
+    <result column="unit_name" property="unitName"/>
+    <result column="material_type" property="materialType"/>
+    <result column="material_name" property="materialName"/>
+    <result column="spec_name" property="specName"/>
+    <result column="material_code" property="materialCode"/>
+    <result column="material_id" property="materialId"/>
+    <result column="loss_factor" property="lossFactor"/>
+    <result column="act_loss_factor" property="actLossFactor"/>
+    <result column="material_count" property="materialCount"/>
+    <result column="creater_id" property="createrId"/>
+    <result column="creater_name" property="createrName"/>
+    <result column="gmt_create" property="gmtCreate"/>
+    <result column="gmt_modified" property="gmtModified"/>
+    <result column="version" property="version"/>
+    <result column="start_effect" property="startEffect"/>
+    <result column="end_effect" property="endEffect"/>
+</resultMap>
+
+<sql id="mdRulArticleBomDetailHistory_columns">
+    id,
+    state,
+    article_bom_head_id,
+    min_measure_unit,
+    unit_name,
+    material_type,
+    material_name,
+    spec_name,
+    material_code,
+    material_id,
+    loss_factor,
+    act_loss_factor,
+    material_count,
+    creater_id,
+    creater_name,
+    gmt_create,
+    gmt_modified,
+    version,
+    start_effect,
+    end_effect
+</sql>
+
+<sql id="mdRulArticleBomDetailHistory_sqlForInsert">
+    state,
+    article_bom_head_id,
+    min_measure_unit,
+    unit_name,
+    material_type,
+    material_name,
+    spec_name,
+    material_code,
+    material_id,
+    loss_factor,
+    act_loss_factor,
+    material_count,
+    creater_id,
+    creater_name,
+    gmt_create,
+    gmt_modified,
+    version,
+    start_effect,
+    end_effect
+</sql>
+
+<sql id="mdRulArticleBomDetailHistory_columnsForInsert">
+    #{state},
+    #{articleBomHeadId},
+    #{minMeasureUnit},
+    #{unitName},
+    #{materialType},
+    #{materialName},
+    #{specName},
+    #{materialCode},
+    #{materialId},
+    #{lossFactor},
+    #{actLossFactor},
+    #{materialCount},
+    #{createrId},
+    #{createrName},
+    now(),
+    now(),
+    #{version},
+    #{startEffect},
+    #{endEffect}
+</sql>
+
+<sql id="mdRulArticleBomDetailHistory_setterForUpdate">
+    <set>
+        gmt_modified = now(),
+        <if test="id != null">
+            id = #{id},
+        </if>
+        <if test="state != null">
+            state = #{state},
+        </if>
+        <if test="articleBomHeadId != null">
+            article_bom_head_id = #{articleBomHeadId},
+        </if>
+        <if test="minMeasureUnit != null">
+            min_measure_unit = #{minMeasureUnit},
+        </if>
+        <if test="unitName != null">
+            unit_name = #{unitName},
+        </if>
+        <if test="materialType != null">
+            material_type = #{materialType},
+        </if>
+        <if test="materialName != null">
+            material_name = #{materialName},
+        </if>
+        <if test="specName != null">
+            spec_name = #{specName},
+        </if>
+        <if test="materialCode != null">
+            material_code = #{materialCode},
+        </if>
+        <if test="materialId != null">
+            material_id = #{materialId},
+        </if>
+        <if test="lossFactor != null">
+            loss_factor = #{lossFactor},
+        </if>
+        <if test="actLossFactor != null">
+            act_loss_factor = #{actLossFactor},
+        </if>
+        <if test="materialCount != null">
+            material_count = #{materialCount},
+        </if>
+        <if test="createrId != null">
+            creater_id = #{createrId},
+        </if>
+        <if test="createrName != null">
+            creater_name = #{createrName},
+        </if>
+        <if test="version != null">
+            version = #{version},
+        </if>
+        <if test="startEffect != null">
+            start_effect = #{startEffect},
+        </if>
+        <if test="endEffect != null">
+            end_effect = #{endEffect},
+        </if>
+    </set>
+</sql>
+
+<sql id="mdRulArticleBomDetailHistory_selector">
+    select
+    <include refid="mdRulArticleBomDetailHistory_columns"/>
+    from md_rul_article_bom_detail_history
+</sql>
+
+<sql id="mdRulArticleBomDetailHistory_query_segment">
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+        <if test="data.id != null">
+            AND id = #{data.id}
+        </if>
+        <if test="data.state != null">
+            AND state = #{data.state}
+        </if>
+        <if test="data.articleBomHeadId != null">
+            AND article_bom_head_id = #{data.articleBomHeadId}
+        </if>
+        <if test="data.minMeasureUnit != null">
+            AND min_measure_unit = #{data.minMeasureUnit}
+        </if>
+        <if test="data.unitName != null">
+            AND unit_name = #{data.unitName}
+        </if>
+        <if test="data.materialType != null">
+            AND material_type = #{data.materialType}
+        </if>
+        <if test="data.materialName != null">
+            AND material_name = #{data.materialName}
+        </if>
+        <if test="data.specName != null">
+            AND spec_name = #{data.specName}
+        </if>
+        <if test="data.materialCode != null">
+            AND material_code = #{data.materialCode}
+        </if>
+        <if test="data.materialId != null">
+            AND material_id = #{data.materialId}
+        </if>
+        <if test="data.lossFactor != null">
+            AND loss_factor = #{data.lossFactor}
+        </if>
+        <if test="data.actLossFactor != null">
+            AND act_loss_factor = #{data.actLossFactor}
+        </if>
+        <if test="data.materialCount != null">
+            AND material_count = #{data.materialCount}
+        </if>
+        <if test="data.createrId != null">
+            AND creater_id = #{data.createrId}
+        </if>
+        <if test="data.createrName != null">
+            AND creater_name = #{data.createrName}
+        </if>
+        <if test="data.gmtCreate != null">
+            AND gmt_create = #{data.gmtCreate}
+        </if>
+        <if test="data.gmtModified != null">
+            AND gmt_modified = #{data.gmtModified}
+        </if>
+        <if test="data.version != null">
+            AND version = #{data.version}
+        </if>
+        <if test="data.startEffect != null">
+            AND start_effect = #{data.startEffect}
+        </if>
+        <if test="data.endEffect != null">
+            AND end_effect = #{data.endEffect}
+        </if>
+        <if test="ins != null and ins != ''">
+            AND
+            <foreach collection="ins" item="item" open="(" separator="and" close=")">
+                ${item.column} in
+                <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                    ${item}
+                </foreach>
+            </foreach>
+        </if>
+        <if test="notIns != null and notIns != ''">
+            AND
+            <foreach collection="notIns" item="item" open="(" separator="and" close=")">
+                ${item.column} not in
+                <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                    ${item}
+                </foreach>
+            </foreach>
+        </if>
+        <if test="equals != null and equals != ''">
+            AND
+            <foreach collection="equals" item="item" open="(" separator="and" close=")">
+                ${item.column} = ${item.value}
+            </foreach>
+        </if>
+        <if test="notEquals != null and notEquals != ''">
+            AND
+            <foreach collection="notEquals" item="item" open="(" separator="and" close=")">
+                ${item.column} != ${item.value}
+            </foreach>
+        </if>
+        <if test="lts != null and lts != ''">
+            AND
+            <foreach collection="lts" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ < ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="gts != null and gts != ''">
+            AND
+            <foreach collection="gts" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ > ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="likes != null and likes != ''">
+            AND
+            <foreach collection="likes" item="item" open="(" separator="and" close=")">
+                ${item.column} like concat('%', ${item.value}, '%')
+            </foreach>
+        </if>
+        <if test="ltes != null and ltes != ''">
+            AND
+            <foreach collection="ltes" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ <= ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="gtes != null and gtes != ''">
+            AND
+            <foreach collection="gtes" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ >= ]]> ${item.value}
+            </foreach>
+        </if>
+        <if test="ranges != null and ranges != ''">
+            AND
+            <foreach collection="ranges" item="item" open="(" separator="and" close=")">
+                ${item.column} <![CDATA[ >= ]]> #{item.from} and ${item.column} <![CDATA[ < ]]> #{item.to}
+            </foreach>
+        </if>
+        AND is_delete = 0
+    </trim>
+</sql>
+
+
+<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.MdRulArticleBomDetailHistory">
+    insert into md_rul_article_bom_detail_history
+    (
+        <include refid="mdRulArticleBomDetailHistory_sqlForInsert"/>
+        ,is_delete
+    )
+    values
+    (
+        <include refid="mdRulArticleBomDetailHistory_columnsForInsert"/>
+        ,0
+    )
+</insert>
+
+<update id="update" parameterType="com.resto.shop.web.model.MdRulArticleBomDetailHistory">
+    update md_rul_article_bom_detail_history
+    <include refid="mdRulArticleBomDetailHistory_setterForUpdate" />
+    where id = #{id}
+    and is_delete = 0
+</update>
+
+
+<update id="updateByQuery" parameterType="com.resto.shop.web.model.MdRulArticleBomDetailHistory">
+    update md_rul_article_bom_detail_history
+    <set>
+        gmt_modified = now(),
+        <if test="update.id != null">
+            id = #{update.id},
+        </if>
+        <if test="update.state != null">
+            state = #{update.state},
+        </if>
+        <if test="update.articleBomHeadId != null">
+            article_bom_head_id = #{update.articleBomHeadId},
+        </if>
+        <if test="update.minMeasureUnit != null">
+            min_measure_unit = #{update.minMeasureUnit},
+        </if>
+        <if test="update.unitName != null">
+            unit_name = #{update.unitName},
+        </if>
+        <if test="update.materialType != null">
+            material_type = #{update.materialType},
+        </if>
+        <if test="update.materialName != null">
+            material_name = #{update.materialName},
+        </if>
+        <if test="update.specName != null">
+            spec_name = #{update.specName},
+        </if>
+        <if test="update.materialCode != null">
+            material_code = #{update.materialCode},
+        </if>
+        <if test="update.materialId != null">
+            material_id = #{update.materialId},
+        </if>
+        <if test="update.lossFactor != null">
+            loss_factor = #{update.lossFactor},
+        </if>
+        <if test="update.actLossFactor != null">
+            act_loss_factor = #{update.actLossFactor},
+        </if>
+        <if test="update.materialCount != null">
+            material_count = #{update.materialCount},
+        </if>
+        <if test="update.createrId != null">
+            creater_id = #{update.createrId},
+        </if>
+        <if test="update.createrName != null">
+            creater_name = #{update.createrName},
+        </if>
+        <if test="update.version != null">
+            version = #{update.version},
+        </if>
+        <if test="update.startEffect != null">
+            start_effect = #{update.startEffect},
+        </if>
+        <if test="update.endEffect != null">
+            end_effect = #{update.endEffect},
+        </if>
+    </set>
+    <include refid="mdRulArticleBomDetailHistory_query_segment"/>
+</update>
+
+
+<insert id="insertOrUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.MdRulArticleBomDetailHistory">
+    insert into md_rul_article_bom_detail_history
+    (
+        <include refid="mdRulArticleBomDetailHistory_sqlForInsert"/>
+        ,is_delete
+    )
+    values
+    (
+        <include refid="mdRulArticleBomDetailHistory_columnsForInsert"/>
+        ,0
+    )
+    on duplicate key update
+    gmt_modified = now()
+    <if test="id != null">
+        ,id = #{id}
+    </if>
+    <if test="state != null">
+        ,state = #{state}
+    </if>
+    <if test="articleBomHeadId != null">
+        ,article_bom_head_id = #{articleBomHeadId}
+    </if>
+    <if test="minMeasureUnit != null">
+        ,min_measure_unit = #{minMeasureUnit}
+    </if>
+    <if test="unitName != null">
+        ,unit_name = #{unitName}
+    </if>
+    <if test="materialType != null">
+        ,material_type = #{materialType}
+    </if>
+    <if test="materialName != null">
+        ,material_name = #{materialName}
+    </if>
+    <if test="specName != null">
+        ,spec_name = #{specName}
+    </if>
+    <if test="materialCode != null">
+        ,material_code = #{materialCode}
+    </if>
+    <if test="materialId != null">
+        ,material_id = #{materialId}
+    </if>
+    <if test="lossFactor != null">
+        ,loss_factor = #{lossFactor}
+    </if>
+    <if test="actLossFactor != null">
+        ,act_loss_factor = #{actLossFactor}
+    </if>
+    <if test="materialCount != null">
+        ,material_count = #{materialCount}
+    </if>
+    <if test="createrId != null">
+        ,creater_id = #{createrId}
+    </if>
+    <if test="createrName != null">
+        ,creater_name = #{createrName}
+    </if>
+    <if test="version != null">
+        ,version = #{version}
+    </if>
+    <if test="startEffect != null">
+        ,start_effect = #{startEffect}
+    </if>
+    <if test="endEffect != null">
+        ,end_effect = #{endEffect}
+    </if>
+</insert>
+
+<!-- Delete -->
+<update id="delete">
+    update md_rul_article_bom_detail_history
+    set is_delete = 1, gmt_modified = now()
+    <include refid="mdRulArticleBomDetailHistory_query_segment"/>
+</update>
+<update id="deleteById">
+    update md_rul_article_bom_detail_history
+    set is_delete = 1, gmt_modified = now()
+    where id = #{id}
+</update>
+
+
+
+
+
+<!-- query class -->
+<sql id="mdRulArticleBomDetailHistory_groupBy">
+    <if test="groupBys != null and groupBys != ''">
+        group by
+        <foreach collection="groupBys" item="item" open="" separator="," close="">
+            ${item}
+        </foreach>
+    </if>
+</sql>
+
+<sql id="mdRulArticleBomDetailHistory_orderby">
+    <if test="orderBys != null and orderBys != ''">
+        order by
+        <foreach collection="orderBys" item="item" open="" separator="," close="">
+            ${item.column} ${item.direction}
+        </foreach>
+    </if>
+</sql>
+
+
+<select id="query" resultMap="mdRulArticleBomDetailHistoryResult" parameterType="com.resto.shop.web.model.MdRulArticleBomDetailHistory">
+    <include refid="mdRulArticleBomDetailHistory_selector"/>
+    <include refid="mdRulArticleBomDetailHistory_query_segment"/>
+    <include refid="mdRulArticleBomDetailHistory_groupBy"/>
+    <include refid="mdRulArticleBomDetailHistory_orderby"/>
+</select>
+
+<select id="query4Page" resultMap="mdRulArticleBomDetailHistoryResult" parameterType="com.resto.shop.web.model.MdRulArticleBomDetailHistory">
+    <include refid="mdRulArticleBomDetailHistory_selector"/>
+    <include refid="mdRulArticleBomDetailHistory_query_segment"/>
+    <include refid="mdRulArticleBomDetailHistory_groupBy"/>
+    <include refid="mdRulArticleBomDetailHistory_orderby"/>
+    limit ${startRowForMysql}, ${pageSize}
+</select>
+
+
+<select id="count" resultType="java.lang.Long">
+    SELECT COUNT(1) FROM md_rul_article_bom_detail_history
+    <include refid="mdRulArticleBomDetailHistory_query_segment"/>
+</select>
+
+<select id="getById" resultMap="mdRulArticleBomDetailHistoryResult">
+    <include refid="mdRulArticleBomDetailHistory_selector"/>
+    where id = #{id}
+    and is_delete = 0
+</select>
+
+<select id="getByIdForUpdate" resultMap="mdRulArticleBomDetailHistoryResult">
+    <include refid="mdRulArticleBomDetailHistory_selector"/>
+    where id = #{id}
+    and is_delete = 0
+    for update
+</select>
+
+</mapper>

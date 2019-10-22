@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.shop.web.dao.MdSupplierDao">
+
+    <resultMap id="mdSupplierResult" type="com.resto.shop.web.model.MdSupplier">
+        <result column="id" property="id"/>
+        <result column="state" property="state"/>
+        <result column="sup_code" property="supCode"/>
+        <result column="supplier_type" property="supplierType"/>
+        <result column="product_types" property="productTypes"/>
+        <result column="shop_detail_id" property="shopDetailId"/>
+        <result column="sup_alias_name" property="supAliasName"/>
+        <result column="top_mobile" property="topMobile"/>
+        <result column="top_email" property="topEmail"/>
+        <result column="top_contact" property="topContact"/>
+        <result column="sup_name" property="supName"/>
+        <result column="note" property="note"/>
+        <result column="bank_name" property="bankName"/>
+        <result column="bank_account" property="bankAccount"/>
+        <result column="version" property="version"/>
+        <result column="creater_id" property="createrId"/>
+        <result column="creater_name" property="createrName"/>
+        <result column="updater_id" property="updaterId"/>
+        <result column="updater_name" property="updaterName"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+        <result column="tax_number" property="taxNumber"/>
+        <result column="top_position" property="topPosition"/>
+    </resultMap>
+
+    <sql id="mdSupplier_columns">
+        id,
+        state,
+        sup_code,
+        supplier_type,
+        product_types,
+        shop_detail_id,
+        sup_alias_name,
+        top_mobile,
+        top_email,
+        top_contact,
+        sup_name,
+        note,
+        bank_name,
+        bank_account,
+        version,
+        creater_id,
+        creater_name,
+        updater_id,
+        updater_name,
+        gmt_create,
+        gmt_modified,
+        tax_number,
+        top_position
+    </sql>
+
+    <sql id="mdSupplier_sqlForInsert">
+        state,
+        sup_code,
+        supplier_type,
+        product_types,
+        shop_detail_id,
+        sup_alias_name,
+        top_mobile,
+        top_email,
+        top_contact,
+        sup_name,
+        note,
+        bank_name,
+        bank_account,
+        version,
+        creater_id,
+        creater_name,
+        updater_id,
+        updater_name,
+        gmt_create,
+        gmt_modified,
+        tax_number,
+        top_position
+    </sql>
+
+    <sql id="mdSupplier_columnsForInsert">
+        #{state},
+        #{supCode},
+        #{supplierType},
+        #{productTypes},
+        #{shopDetailId},
+        #{supAliasName},
+        #{topMobile},
+        #{topEmail},
+        #{topContact},
+        #{supName},
+        #{note},
+        #{bankName},
+        #{bankAccount},
+        #{version},
+        #{createrId},
+        #{createrName},
+        #{updaterId},
+        #{updaterName},
+        now(),
+        now(),
+        #{taxNumber},
+        #{topPosition}
+    </sql>
+
+    <sql id="mdSupplier_setterForUpdate">
+        <set>
+            gmt_modified = now(),
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="state != null">
+                state = #{state},
+            </if>
+            <if test="supCode != null">
+                sup_code = #{supCode},
+            </if>
+            <if test="supplierType != null">
+                supplier_type = #{supplierType},
+            </if>
+            <if test="productTypes != null">
+                product_types = #{productTypes},
+            </if>
+            <if test="shopDetailId != null">
+                shop_detail_id = #{shopDetailId},
+            </if>
+            <if test="supAliasName != null">
+                sup_alias_name = #{supAliasName},
+            </if>
+            <if test="topMobile != null">
+                top_mobile = #{topMobile},
+            </if>
+            <if test="topEmail != null">
+                top_email = #{topEmail},
+            </if>
+            <if test="topContact != null">
+                top_contact = #{topContact},
+            </if>
+            <if test="supName != null">
+                sup_name = #{supName},
+            </if>
+            <if test="note != null">
+                note = #{note},
+            </if>
+            <if test="bankName != null">
+                bank_name = #{bankName},
+            </if>
+            <if test="bankAccount != null">
+                bank_account = #{bankAccount},
+            </if>
+            <if test="version != null">
+                version = #{version},
+            </if>
+            <if test="createrId != null">
+                creater_id = #{createrId},
+            </if>
+            <if test="createrName != null">
+                creater_name = #{createrName},
+            </if>
+            <if test="updaterId != null">
+                updater_id = #{updaterId},
+            </if>
+            <if test="updaterName != null">
+                updater_name = #{updaterName},
+            </if>
+            <if test="taxNumber != null">
+                tax_number = #{taxNumber},
+            </if>
+            <if test="topPosition != null">
+                top_position = #{topPosition},
+            </if>
+        </set>
+    </sql>
+
+    <sql id="mdSupplier_selector">
+        select
+        <include refid="mdSupplier_columns"/>
+        from md_supplier
+    </sql>
+
+    <sql id="mdSupplier_query_segment">
+        <trim prefix="WHERE" prefixOverrides="AND|OR">
+            <if test="data.id != null">
+                AND id = #{data.id}
+            </if>
+            <if test="data.state != null">
+                AND state = #{data.state}
+            </if>
+            <if test="data.supCode != null">
+                AND sup_code = #{data.supCode}
+            </if>
+            <if test="data.supplierType != null">
+                AND supplier_type = #{data.supplierType}
+            </if>
+            <if test="data.productTypes != null">
+                AND product_types = #{data.productTypes}
+            </if>
+            <if test="data.shopDetailId != null">
+                AND shop_detail_id = #{data.shopDetailId}
+            </if>
+            <if test="data.supAliasName != null">
+                AND sup_alias_name = #{data.supAliasName}
+            </if>
+            <if test="data.topMobile != null">
+                AND top_mobile = #{data.topMobile}
+            </if>
+            <if test="data.topEmail != null">
+                AND top_email = #{data.topEmail}
+            </if>
+            <if test="data.topContact != null">
+                AND top_contact = #{data.topContact}
+            </if>
+            <if test="data.supName != null">
+                AND sup_name = #{data.supName}
+            </if>
+            <if test="data.note != null">
+                AND note = #{data.note}
+            </if>
+            <if test="data.bankName != null">
+                AND bank_name = #{data.bankName}
+            </if>
+            <if test="data.bankAccount != null">
+                AND bank_account = #{data.bankAccount}
+            </if>
+            <if test="data.version != null">
+                AND version = #{data.version}
+            </if>
+            <if test="data.createrId != null">
+                AND creater_id = #{data.createrId}
+            </if>
+            <if test="data.createrName != null">
+                AND creater_name = #{data.createrName}
+            </if>
+            <if test="data.updaterId != null">
+                AND updater_id = #{data.updaterId}
+            </if>
+            <if test="data.updaterName != null">
+                AND updater_name = #{data.updaterName}
+            </if>
+            <if test="data.gmtCreate != null">
+                AND gmt_create = #{data.gmtCreate}
+            </if>
+            <if test="data.gmtModified != null">
+                AND gmt_modified = #{data.gmtModified}
+            </if>
+            <if test="data.taxNumber != null">
+                AND tax_number = #{data.taxNumber}
+            </if>
+            <if test="data.topPosition != null">
+                AND top_position = #{data.topPosition}
+            </if>
+            <if test="ins != null and ins != ''">
+                AND
+                <foreach collection="ins" item="item" open="(" separator="and" close=")">
+                    ${item.column} in
+                    <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                        ${item}
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="notIns != null and notIns != ''">
+                AND
+                <foreach collection="notIns" item="item" open="(" separator="and" close=")">
+                    ${item.column} not in
+                    <foreach collection="item.values" item="item" open="(" separator="," close=")">
+                        ${item}
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="equals != null and equals != ''">
+                AND
+                <foreach collection="equals" item="item" open="(" separator="and" close=")">
+                    ${item.column} = ${item.value}
+                </foreach>
+            </if>
+            <if test="notEquals != null and notEquals != ''">
+                AND
+                <foreach collection="notEquals" item="item" open="(" separator="and" close=")">
+                    ${item.column} != ${item.value}
+                </foreach>
+            </if>
+            <if test="lts != null and lts != ''">
+                AND
+                <foreach collection="lts" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ < ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="gts != null and gts != ''">
+                AND
+                <foreach collection="gts" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ > ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="likes != null and likes != ''">
+                AND
+                <foreach collection="likes" item="item" open="(" separator="and" close=")">
+                    ${item.column} like concat('%', ${item.value}, '%')
+                </foreach>
+            </if>
+            <if test="ltes != null and ltes != ''">
+                AND
+                <foreach collection="ltes" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ <= ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="gtes != null and gtes != ''">
+                AND
+                <foreach collection="gtes" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ >= ]]> ${item.value}
+                </foreach>
+            </if>
+            <if test="ranges != null and ranges != ''">
+                AND
+                <foreach collection="ranges" item="item" open="(" separator="and" close=")">
+                    ${item.column} <![CDATA[ >= ]]> #{item.from} and ${item.column} <![CDATA[ < ]]> #{item.to}
+                </foreach>
+            </if>
+            AND is_delete = 0
+        </trim>
+    </sql>
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.MdSupplier">
+        insert into md_supplier
+        (
+        <include refid="mdSupplier_sqlForInsert"/>
+        ,is_delete
+        )
+        values
+        (
+        <include refid="mdSupplier_columnsForInsert"/>
+        ,0
+        )
+    </insert>
+
+    <update id="update" parameterType="com.resto.shop.web.model.MdSupplier">
+        update md_supplier
+        <include refid="mdSupplier_setterForUpdate" />
+        where id = #{id}
+        and is_delete = 0
+    </update>
+
+
+    <update id="updateByQuery" parameterType="com.resto.shop.web.model.MdSupplier">
+        update md_supplier
+        <set>
+            gmt_modified = now(),
+            <if test="update.id != null">
+                id = #{update.id},
+            </if>
+            <if test="update.state != null">
+                state = #{update.state},
+            </if>
+            <if test="update.supCode != null">
+                sup_code = #{update.supCode},
+            </if>
+            <if test="update.supplierType != null">
+                supplier_type = #{update.supplierType},
+            </if>
+            <if test="update.productTypes != null">
+                product_types = #{update.productTypes},
+            </if>
+            <if test="update.shopDetailId != null">
+                shop_detail_id = #{update.shopDetailId},
+            </if>
+            <if test="update.supAliasName != null">
+                sup_alias_name = #{update.supAliasName},
+            </if>
+            <if test="update.topMobile != null">
+                top_mobile = #{update.topMobile},
+            </if>
+            <if test="update.topEmail != null">
+                top_email = #{update.topEmail},
+            </if>
+            <if test="update.topContact != null">
+                top_contact = #{update.topContact},
+            </if>
+            <if test="update.supName != null">
+                sup_name = #{update.supName},
+            </if>
+            <if test="update.note != null">
+                note = #{update.note},
+            </if>
+            <if test="update.bankName != null">
+                bank_name = #{update.bankName},
+            </if>
+            <if test="update.bankAccount != null">
+                bank_account = #{update.bankAccount},
+            </if>
+            <if test="update.version != null">
+                version = #{update.version},
+            </if>
+            <if test="update.createrId != null">
+                creater_id = #{update.createrId},
+            </if>
+            <if test="update.createrName != null">
+                creater_name = #{update.createrName},
+            </if>
+            <if test="update.updaterId != null">
+                updater_id = #{update.updaterId},
+            </if>
+            <if test="update.updaterName != null">
+                updater_name = #{update.updaterName},
+            </if>
+            <if test="update.taxNumber != null">
+                tax_number = #{update.taxNumber},
+            </if>
+            <if test="update.topPosition != null">
+                top_position = #{update.topPosition},
+            </if>
+        </set>
+        <include refid="mdSupplier_query_segment"/>
+    </update>
+
+
+    <insert id="insertOrUpdate" useGeneratedKeys="true" keyProperty="id" parameterType="com.resto.shop.web.model.MdSupplier">
+        insert into md_supplier
+        (
+        <include refid="mdSupplier_sqlForInsert"/>
+        ,is_delete
+        )
+        values
+        (
+        <include refid="mdSupplier_columnsForInsert"/>
+        ,0
+        )
+        on duplicate key update
+        gmt_modified = now()
+        <if test="id != null">
+            ,id = #{id}
+        </if>
+        <if test="state != null">
+            ,state = #{state}
+        </if>
+        <if test="supCode != null">
+            ,sup_code = #{supCode}
+        </if>
+        <if test="supplierType != null">
+            ,supplier_type = #{supplierType}
+        </if>
+        <if test="productTypes != null">
+            ,product_types = #{productTypes}
+        </if>
+        <if test="shopDetailId != null">
+            ,shop_detail_id = #{shopDetailId}
+        </if>
+        <if test="supAliasName != null">
+            ,sup_alias_name = #{supAliasName}
+        </if>
+        <if test="topMobile != null">
+            ,top_mobile = #{topMobile}
+        </if>
+        <if test="topEmail != null">
+            ,top_email = #{topEmail}
+        </if>
+        <if test="topContact != null">
+            ,top_contact = #{topContact}
+        </if>
+        <if test="supName != null">
+            ,sup_name = #{supName}
+        </if>
+        <if test="note != null">
+            ,note = #{note}
+        </if>
+        <if test="bankName != null">
+            ,bank_name = #{bankName}
+        </if>
+        <if test="bankAccount != null">
+            ,bank_account = #{bankAccount}
+        </if>
+        <if test="version != null">
+            ,version = #{version}
+        </if>
+        <if test="createrId != null">
+            ,creater_id = #{createrId}
+        </if>
+        <if test="createrName != null">
+            ,creater_name = #{createrName}
+        </if>
+        <if test="updaterId != null">
+            ,updater_id = #{updaterId}
+        </if>
+        <if test="updaterName != null">
+            ,updater_name = #{updaterName}
+        </if>
+        <if test="taxNumber != null">
+            ,tax_number = #{taxNumber}
+        </if>
+        <if test="topPosition != null">
+            ,top_position = #{topPosition}
+        </if>
+    </insert>
+
+    <!-- Delete -->
+    <update id="delete">
+        update md_supplier
+        set is_delete = 1, gmt_modified = now()
+        <include refid="mdSupplier_query_segment"/>
+    </update>
+    <update id="deleteById">
+        update md_supplier
+        set is_delete = 1, gmt_modified = now()
+        where id = #{id}
+    </update>
+
+
+    <delete id="deletePhysicalById">
+        delete from md_supplier
+        where id = #{id}
+    </delete>
+
+
+
+
+    <!-- query class -->
+    <sql id="mdSupplier_groupBy">
+        <if test="groupBys != null and groupBys != ''">
+            group by
+            <foreach collection="groupBys" item="item" open="" separator="," close="">
+                ${item}
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="mdSupplier_orderby">
+        <if test="orderBys != null and orderBys != ''">
+            order by
+            <foreach collection="orderBys" item="item" open="" separator="," close="">
+                ${item.column} ${item.direction}
+            </foreach>
+        </if>
+    </sql>
+
+
+    <select id="query" resultMap="mdSupplierResult" parameterType="com.resto.shop.web.model.MdSupplier">
+        <include refid="mdSupplier_selector"/>
+        <include refid="mdSupplier_query_segment"/>
+        <include refid="mdSupplier_groupBy"/>
+        <include refid="mdSupplier_orderby"/>
+    </select>
+
+    <select id="query4Page" resultMap="mdSupplierResult" parameterType="com.resto.shop.web.model.MdSupplier">
+        <include refid="mdSupplier_selector"/>
+        <include refid="mdSupplier_query_segment"/>
+        <include refid="mdSupplier_groupBy"/>
+        <include refid="mdSupplier_orderby"/>
+        limit ${startRowForMysql}, ${pageSize}
+    </select>
+
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM md_supplier
+        <include refid="mdSupplier_query_segment"/>
+    </select>
+
+    <select id="getById" resultMap="mdSupplierResult">
+        <include refid="mdSupplier_selector"/>
+        where id = #{id}
+        and is_delete = 0
+    </select>
+
+    <select id="getByIdForUpdate" resultMap="mdSupplierResult">
+        <include refid="mdSupplier_selector"/>
+        where id = #{id}
+        and is_delete = 0
+        for update
+    </select>
+
+
+    <select id="queryJoin4Page" resultType="com.resto.shop.web.dto.MdSupplierAndContactDo">
+          SELECT
+                sup.id,
+                sup.sup_code AS 'supCode',
+                sup.note AS 'note',
+                sup.sup_name AS 'supName',
+                sup.sup_alias_name AS 'supAliasName',
+                sup.product_types AS 'materialTypes',
+                sup.supplier_type AS 'supplier_type',
+                sup.bank_account AS 'bankAccount',
+                sup.bank_name AS 'bankName',
+                sup.version AS 'version',
+                sup.top_contact AS 'topContact',
+                sup.top_email AS 'TopEmail',
+                sup.top_mobile AS 'TopMobile',
+                sup.top_position AS 'topPosition',
+                sup.tax_number AS 'taxNumber',
+                sup.state,
+                sc.contact AS 'contact',
+                sc.id as 'supContactId',
+                sc.email AS 'email',
+                sc.mobile AS 'mobile',
+                sc.is_top as 'isTop',
+                sc.position as 'position'
+            FROM
+                md_supplier sup  INNER JOIN md_supplier_contact sc ON sup.id = sc.supplier_id
+            WHERE
+                sup.shop_detail_id =#{shopDetailId}
+            <if test="state != null">
+                and state = #{state}
+            </if>
+            AND sup.is_delete = '0'
+            AND sc.is_delete ='0'
+
+    </select>
+
+
+    <select id="querySupplierAndSupPrice" resultType="com.resto.shop.web.dto.SupplierAndSupPriceDo">
+        SELECT
+               ms.id  as 'supplierId',
+               ms.sup_name as 'supName',
+               mp.id  as 'supPriceId',
+               mp.price_name as 'priceName',
+               ms.top_contact as 'topContact'
+           from md_supplier ms
+           LEFT JOIN md_supplier_price_head mp
+           on ms.id=mp.supplier_id
+           and ms.shop_detail_id=mp.shop_detail_id
+           where
+              ms.state=1
+             and mp.sup_status=12
+             and ms.is_delete = '0'
+             AND mp.is_delete ='0'
+             and ms.shop_detail_id=#{shopDetailId};
+    </select>
+
+
+
+
+    <select id="querySupplierAndPmsHeadDo" resultType="com.resto.shop.web.dto.SupplierAndPmsHeadDo">
+
+            SELECT
+                msp.id  as 'supplierId',
+                msp.sup_name as 'supName',
+                dh.id  as 'pmsHeadId',
+                dh.order_name as 'pmsOrderName',
+                msp.top_contact as 'topContact',
+                msp.top_email as 'topEmail',
+                msp.top_mobile as 'topMobile'
+            from md_supplier msp
+            LEFT JOIN  doc_pms_po_header dh ON dh.supplier_id=msp.id
+            where
+                msp.state=1
+                and dh.order_status=12
+                and msp.is_delete = '0'
+                AND dh.is_delete ='0'
+                and msp.shop_detail_id=#{shopDetailId};
+
+    </select>
+
+
+
+
+
+</mapper>

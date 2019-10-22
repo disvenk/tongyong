@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.brand.web.dao.DatabaseConfigMapper">
+  <resultMap id="BaseResultMap" type="com.resto.brand.web.model.DatabaseConfig">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="url" property="url" jdbcType="VARCHAR"/>
+    <result column="driver_class_name" property="driverClassName" jdbcType="VARCHAR"/>
+    <result column="username" property="username" jdbcType="VARCHAR"/>
+    <result column="password" property="password" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, name, url, driver_class_name, username, password, create_time, update_time</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">select 
+    <include refid="Base_Column_List"/> from database_config where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <update id="deleteByPrimaryKey" parameterType="java.lang.String">
+  	update database_config set state = 0 where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <insert id="insert" parameterType="com.resto.brand.web.model.DatabaseConfig">
+  	insert into database_config (id, name, url, driver_class_name, create_time ) values (#{id}, #{name}, #{url},
+  	 #{driverClassName}, #{createTime} )
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.brand.web.model.DatabaseConfig">
+  	insert into database_config 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="name != null">name,</if>  
+      <if test="url != null">url,</if>  
+      <if test="driverClassName != null">driver_class_name,</if>
+      <if test="createTime != null">create_time,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=VARCHAR},</if>  
+      <if test="name != null">#{name,jdbcType=VARCHAR},</if>  
+      <if test="url != null">#{url,jdbcType=VARCHAR},</if>  
+      <if test="driverClassName != null">#{driverClassName,jdbcType=VARCHAR},</if>
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.brand.web.model.DatabaseConfig">update database_config 
+    <set> 
+      <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>  
+      <if test="url != null">url = #{url,jdbcType=VARCHAR},</if>  
+      <if test="driverClassName != null">driver_class_name = #{driverClassName,jdbcType=VARCHAR},</if>
+    </set> where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.brand.web.model.DatabaseConfig">
+  	update database_config set name = #{name}, url = #{url}, driver_class_name = #{driverClassName}, update_time = #{updateTime} where id = #{id}
+  </update>
+  <select id="selectList" resultType="DatabaseConfig">
+	  SELECT d.id, d.name, d.url, d.driver_class_name, d.username, d.password, d.create_time, d.update_time,b.brand_name
+		 from database_config d LEFT JOIN brand b on d.id=b.database_config_id where d.state = 1 and b.state = 1
+  </select>
+  <select id="selectByBrandId" resultType="DatabaseConfig">
+  	SELECT d.* FROM database_config d, brand b WHERE b.database_config_id = d.id AND b.id=#{0} 
+  </select>
+</mapper>

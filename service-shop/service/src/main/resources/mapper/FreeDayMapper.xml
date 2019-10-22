@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.service.shop.mapper.FreeDayMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.service.shop.entity.FreeDay" >
+    <id column="free_day" property="freeDay" jdbcType="DATE" />
+  </resultMap>
+  
+  <select id="selectByDate" resultType="FreeDay">
+  	select * from tb_free_day
+  	where free_day=#{0} and shop_detail_id=#{1}
+  </select>
+
+  
+</mapper>

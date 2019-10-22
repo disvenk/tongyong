@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.PermissionMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.Permission">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="permission_name" property="permissionName" jdbcType="VARCHAR"/>
+    <result column="permission_sign" property="permissionSign" jdbcType="VARCHAR"/>
+    <result column="sort" property="sort" jdbcType="INTEGER"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, permission_name, permission_sign, sort</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from tb_permission where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from tb_permission where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.Permission">insert into tb_permission (id, permission_name, permission_sign, sort) values (#{id,jdbcType=BIGINT}, #{permissionName,jdbcType=VARCHAR}, #{permissionSign,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER})</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.Permission">insert into tb_permission 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="permissionName != null">permission_name,</if>  
+      <if test="permissionSign != null">permission_sign,</if>  
+      <if test="sort != null">sort,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="permissionName != null">#{permissionName,jdbcType=VARCHAR},</if>  
+      <if test="permissionSign != null">#{permissionSign,jdbcType=VARCHAR},</if>  
+      <if test="sort != null">#{sort,jdbcType=INTEGER},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.Permission">update tb_permission 
+    <set> 
+      <if test="permissionName != null">permission_name = #{permissionName,jdbcType=VARCHAR},</if>  
+      <if test="permissionSign != null">permission_sign = #{permissionSign,jdbcType=VARCHAR},</if>  
+      <if test="sort != null">sort = #{sort,jdbcType=INTEGER},</if> 
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.Permission">update tb_permission set permission_name = #{permissionName,jdbcType=VARCHAR}, permission_sign = #{permissionSign,jdbcType=VARCHAR}, sort = #{sort,jdbcType=INTEGER} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="Permission">select * from tb_permission</select>
+</mapper>

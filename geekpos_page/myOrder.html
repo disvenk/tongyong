@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>我的号单</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui">
+	    <meta name="format-detection" content="telephone=no"/>
+	    <meta name="x5-orientation"content="portrait">
+	    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+	    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    	<META HTTP-EQUIV="expires" CONTENT="0">
+    	<link href="//cdn.bootcss.com/weui/1.1.1/style/weui.css" rel="stylesheet">
+    	<link href="//cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet">
+    	<link rel="stylesheet" type="text/css" href="css/wait-table.css"/> 
+
+	</head>
+	<body id="app">
+		<!--loading-->
+		<div class="weui_loading_alert" v-if="waitLoading">
+		    <div class="weui_mask_wait" style="background-color: #fff;"></div>
+		    <div class="weui_toast_wait">
+				<img src="images/loading.gif" />
+				<div style="text-align: center;color: #bababa;font-size: 14px;">正在加载中...</div>
+		    </div>
+		</div>
+		
+		<!--广告轮播图-->		
+		<div class="swiper-container banner" style="border-bottom:none;">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" v-for="p in pictureList">
+                    <img :src="p.pictureUrl" />
+                </div>                  
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+		<div class="shopName">
+            <p>
+            	<img class="photoImg" src="images/shop.png"/>
+            	<span style="vertical-align: middle;">{{shop.name}}</span>
+            </p>
+        </div>
+        
+        <div class="waitNumber">
+<!--        	<span class="nowCallNumber" style="position: absolute;">您的等位号</span>-->
+        	<div class="weui_flex_item">            	
+				<span class="nowCount">{{getNumber.codeValue}}</span>
+            	<span class="nowWaitTime">已等待{{Math.floor((new Date().getTime() - getNumber.createTime.time + 60000)/(60*1000))}}分钟</span>
+            </div>
+        </div>
+        <div class="waitNumberInfor">
+            <div class="weui_flex_item" style="border-right: 1px solid #F2F2F2;">
+            	<span class="nowCallCount">当前叫号</span>
+				<span class="nowCallCount" v-if="!nowGetNumber" style="color: #333333;">暂无</span>
+            	<span class="nowNumber" v-if="nowGetNumber">{{nowGetNumber.codeValue}}</span>
+            </div>
+			<div class="weui_flex_item" style="border-right: initial;">
+            	<span class="nowCallCount">等位桌数</span>
+            	<span class="nowNumber">{{count}}</span>
+           	</div>
+        </div>
+        <div class="reminder">
+        	<div>
+        		<p>
+					<img class="errorImg" src="images/errorImg.png"/>
+					<span style="vertical-align: middle;color: #222222;">温馨提示</span>
+				</p>
+				<ul style="margin-left: 40px;color: #999999;">
+					<li>过号请重新取号，感谢您的理解和支持</li>
+					<li>我们会尽快为您安排入座就餐，请耐心等待</li>
+					<li>您可以现在在线点单，或者入座后直接扫码点单</li>
+				</ul>
+        	</div>									
+		</div>      
+		<div class="number_btn" style="border-top: 5px solid #F2F2F2;">
+			<div class="middle">
+				<button type="button" class="weui-btn" id="getNumber" @click="goCreateOrder">前往点单</button>
+			</div>
+		</div>		
+		<weui-dialog :show.sync="wMessage.show" :msg="wMessage.message" :type="wMessage.type"></weui-dialog>
+		
+		<script src="//cdn.bootcss.com/vue/1.0.25/vue.min.js"></script>
+		<script src="//cdn.bootcss.com/Swiper/3.4.2/js/swiper.min.js"></script>
+		<script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+		<script src="//cdn.bootcss.com/iScroll/5.2.0/iscroll.min.js"></script>
+		<script src="js/base.js?v=2333"></script>
+		<script src="js/components.js?v=2333"></script>
+		<script src="js/util2.js?v=2333"></script>
+		<script src="js/common.js?v=2333"></script>
+		<script type="text/javascript">
+			var wxUrl = baseUrl;
+			baseUrl = baseUrl + "/geekqueuing";
+			document.addEventListener('touchmove', function (e) {
+				e.preventDefault();
+			}, false);					
+			
+			var vm = new Vue({
+		        el: "#app",
+		        data: function () {
+		            return {
+						shop: {},
+						getNumber: {},
+						nowGetNumber: {},
+						count: 0,
+						wMessage: {show: 0, message: "",type:null},
+						pictureList:[],
+						waitLoading:true,
+		            }
+		        },
+		        created:function(){
+					var that = this;
+					getShopInformation(getParam("brandId"), getParam("shopId"), function (res) {
+						that.shop = res.data;
+						getNumberInfo(getParam("id"), function (r) {
+							that.getNumber = r;
+							getBeforeNumberByCodeId(getParam("id"), getParam("shopId"), function (t) {
+								that.nowGetNumber = t.nowGetNmber;
+								that.count = t.count + 1;
+							});							
+							getPictureList(getParam("shopId"), function (res) {						
+								that.pictureList = res;	
+								that.waitLoading = false;
+							});
+							if("getNumberSuccess" == getParam("type")){
+								if(that.getNumber.codeValue){
+									that.showAlter("取号成功",1, 2000);
+								}else{
+									that.showAlter("取号失败",2, 2000);
+								}
+							}
+						})
+					});															
+		        },
+		        methods:{
+		        	showAlter: function (msg ,type, time) {
+			            this.wMessage.show = 1;
+			            this.wMessage.type = type;
+			            this.wMessage.message = msg;
+			            var that = this;
+			            setTimeout(function () {
+			                that.wMessage.show = 0;
+			            }, time || 1000);
+			        },
+			        goCreateOrder:function(){
+						if(this.getNumber.state == 1){
+							location.href = wxUrl+"/wechat/index?shopId="+this.shop.id+"&type=jiaohao&waitId="+getParam("id");
+						}else{
+							location.href = wxUrl+"/wechat/index?shopId="+this.shop.id+"&type=wait&waitId="+getParam("id");
+						}
+			        }
+		        },
+		        ready:function(){
+					var that = this;
+					setTimeout(function(){
+						Vue.nextTick(function () {
+							new Swiper('.swiper-container', {
+								pagination : '.swiper-pagination',
+								direction : 'horizontal',
+								autoplay : 3000,
+								loop : true
+							});
+						})
+					},1000);					
+				}
+		    })	
+		</script>
+		
+	</body>
+</html>

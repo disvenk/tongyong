@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.WeItemMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.WeItem">
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR"/>
+    <result column="create_time" property="createTime" jdbcType="DATE"/>
+    <result column="item_count" property="itemCount" jdbcType="INTEGER"/>
+    <result column="item_total" property="itemTotal" jdbcType="DECIMAL"/>
+    <result column="item_name" property="itemName" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List">id, shop_id, create_time, item_count, item_total, item_name</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">select 
+    <include refid="Base_Column_List"/> from we_item where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">delete from we_item where id = #{id,jdbcType=BIGINT}</delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.WeItem">insert into we_item (id, shop_id, create_time, item_count, item_total, item_name ) values (#{id,jdbcType=BIGINT}, #{shopId,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, #{itemCount,jdbcType=INTEGER}, #{itemTotal,jdbcType=DECIMAL}, #{itemName,jdbcType=VARCHAR} )</insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.WeItem">insert into we_item 
+    <trim prefix="(" suffix=")" suffixOverrides=","> 
+      <if test="id != null">id,</if>  
+      <if test="shopId != null">shop_id,</if>  
+      <if test="createTime != null">create_time,</if>  
+      <if test="itemCount != null">item_count,</if>  
+      <if test="itemTotal != null">item_total,</if>  
+      <if test="itemName != null">item_name,</if> 
+    </trim>  
+    <trim prefix="values (" suffix=")" suffixOverrides=","> 
+      <if test="id != null">#{id,jdbcType=BIGINT},</if>  
+      <if test="shopId != null">#{shopId,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">#{createTime,jdbcType=DATE},</if>  
+      <if test="itemCount != null">#{itemCount,jdbcType=INTEGER},</if>  
+      <if test="itemTotal != null">#{itemTotal,jdbcType=DECIMAL},</if>  
+      <if test="itemName != null">#{itemName,jdbcType=VARCHAR},</if> 
+    </trim> 
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.WeItem">update we_item 
+    <set> 
+      <if test="shopId != null">shop_id = #{shopId,jdbcType=VARCHAR},</if>  
+      <if test="createTime != null">create_time = #{createTime,jdbcType=DATE},</if>  
+      <if test="itemCount != null">item_count = #{itemCount,jdbcType=INTEGER},</if>  
+      <if test="itemTotal != null">item_total = #{itemTotal,jdbcType=DECIMAL},</if>  
+      <if test="itemName != null">item_name = #{itemName,jdbcType=VARCHAR},</if> 
+    </set> where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.WeItem">update we_item set shop_id = #{shopId,jdbcType=VARCHAR}, create_time = #{createTime,jdbcType=DATE}, item_count = #{itemCount,jdbcType=INTEGER}, item_total = #{itemTotal,jdbcType=DECIMAL}, item_name = #{itemName,jdbcType=VARCHAR} where id = #{id,jdbcType=BIGINT}</update>
+  <select id="selectList" resultType="WeItem">select * from we_item</select>
+    <select id="selectByShopIdAndTime" resultType="WeItem">
+        SELECT id,shop_id,create_time,item_count,item_total,item_name
+        FROM we_item
+        WHERE    <![CDATA[
+        create_time=#{beginTime}
+       ]]>  AND shop_id =#{shopId}
+    </select>
+
+    <delete id="deleteByIds" parameterType="java.util.List">
+        DELETE FROM we_item WHERE id IN
+        <foreach collection="ids" index="index" item="item"  open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+
+</mapper>

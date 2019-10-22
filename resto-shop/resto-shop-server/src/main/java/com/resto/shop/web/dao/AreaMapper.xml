@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.resto.shop.web.dao.AreaMapper">
+    <resultMap id="BaseResultMap" type="com.resto.shop.web.model.Area">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="print_id" property="printId"/>
+        <result column="is_delete" property="isDelete"/>
+        <result column="create_time" property="createTime"/>
+        <result column="shop_detail_id" jdbcType="VARCHAR" property="shopDetailId"/>
+
+        <result column="printer_name" property="printerName"/>
+
+    </resultMap>
+
+
+    <select id="getAreaList" resultMap="BaseResultMap">
+        select t.id,t.name,t.print_id,t.create_time,t2.name as printer_name from tb_area t
+        left join tb_printer t2 on t2.id = t.print_id
+        where t.shop_detail_id = #{shopId} and t.is_delete = 0
+    </select>
+
+    <update id="deleteByPrimaryKey">
+        update tb_area set is_delete = 1
+        where id = #{id}
+    </update>
+
+
+    <update id="updateByPrimaryKeySelective">
+        update tb_area
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="printId != null">print_id = #{printId},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <insert id="insertSelective">
+        insert into tb_area
+        (`name`,print_id,shop_detail_id)
+        values (#{name},#{printId},#{shopDetailId})
+    </insert>
+
+    <select id="selectByPrimaryKey" resultType="Area">
+        select id,`name`,print_id from tb_area
+        where id = #{id}
+    </select>
+
+    <update id="deleteArea">
+        update tb_area
+        set print_id = null
+        where print_id = #{printId}
+    </update>
+</mapper>

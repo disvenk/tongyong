@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.shop.web.dao.ArticleUnitMapper">
+  <resultMap id="BaseResultMap" type="com.resto.shop.web.model.ArticleUnit">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sort" jdbcType="DECIMAL" property="sort" />
+    <result column="tb_article_attr_id" jdbcType="INTEGER" property="tbArticleAttrId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, sort, tb_article_attr_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_article_unit
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_article_unit
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.resto.shop.web.model.ArticleUnit">
+    insert into tb_article_unit (id, name, sort, 
+      tb_article_attr_id)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sort,jdbcType=DECIMAL}, 
+      #{tbArticleAttrId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.shop.web.model.ArticleUnit">
+    insert into tb_article_unit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="tbArticleAttrId != null">
+        tb_article_attr_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=DECIMAL},
+      </if>
+      <if test="tbArticleAttrId != null">
+        #{tbArticleAttrId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.shop.web.model.ArticleUnit">
+    update tb_article_unit
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=DECIMAL},
+      </if>
+      <if test="tbArticleAttrId != null">
+        tb_article_attr_id = #{tbArticleAttrId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.resto.shop.web.model.ArticleUnit">
+    update tb_article_unit
+    set name = #{name,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=DECIMAL},
+      tb_article_attr_id = #{tbArticleAttrId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectList" resultType="ArticleUnit">select * from tb_article_unit</select>
+  
+  <!-- 根据 属性ID 查询规格 -->
+  <select id="selectListByAttrId" resultType="ArticleUnit" parameterType="String">
+  	select * from tb_article_unit where tb_article_attr_id = #{attrId} and state = 1
+  </select>
+  
+  <!-- 根据 属性 ID 删除 规格信息 -->
+  <delete id="deleteByAttrId" parameterType="java.lang.Integer">
+    UPDATE tb_article_unit set state=0 where tb_article_attr_id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertByAuto" parameterType="ArticleUnit" useGeneratedKeys="true" keyProperty="id">
+insert into tb_article_unit (name, sort,
+      tb_article_attr_id)
+    values ( #{name,jdbcType=VARCHAR}, #{sort,jdbcType=DECIMAL},
+      #{tbArticleAttrId,jdbcType=INTEGER})
+  </insert>
+
+  <select id="selectSame" resultType="ArticleUnit">
+    select * from tb_article_unit where name = #{name} and tb_article_attr_id = #{attrId}
+  </select>
+
+  <select id="selectByShopId" resultType="ArticleUnit">
+    SELECT au.id,au.`name`,au.sort,au.tb_article_attr_id,au.state from tb_article_unit au LEFT JOIN
+     tb_article_attr aa on au.tb_article_attr_id = aa.id
+where aa.shop_detail_id =  #{shopId}
+  </select>
+  
+  <select id="selectArticleUnitDetailByShopId" resultType="ArticleUnitDetail">
+        SELECT aud.id,aud.unit_detail_id,aud.article_unit_id,aud.price,aud.is_used,aud.sort from tb_article_unit_detail aud
+     LEFT JOIN tb_unit_detail ud on aud.unit_detail_id = ud.id LEFT JOIN tb_unit u on ud.unit_id = u.id
+     where u.shop_detail_id = #{shopId}
+  </select>
+
+  <select id="selectArticleUnitNewByShopId" resultType="ArticleUnitNew">
+    SELECT aun.id,aun.article_id,aun.unit_id,aun.choice_type,aun.is_used from tb_article_unit_new aun
+     LEFT JOIN tb_unit u on aun.unit_id = u.id where u.shop_detail_id = #{shopId}
+  </select>
+
+</mapper>

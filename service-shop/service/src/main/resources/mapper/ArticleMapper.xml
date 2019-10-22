@@ -1,0 +1,1000 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.resto.service.shop.mapper.ArticleMapper">
+    <resultMap id="BaseResultMap" type="com.resto.service.shop.entity.Article">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="name_alias" property="nameAlias" jdbcType="VARCHAR"/>
+        <result column="name_short" property="nameShort" jdbcType="VARCHAR"/>
+        <result column="photo_big" property="photoBig" jdbcType="VARCHAR"/>
+        <result column="photo_small" property="photoSmall" jdbcType="VARCHAR"/>
+        <result column="ingredients" property="ingredients" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="is_empty" property="isEmpty" jdbcType="BIT"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="activated" property="activated" jdbcType="BIT"/>
+        <result column="state" property="state" jdbcType="BIT"/>
+        <result column="remain_number" property="remainNumber" jdbcType="INTEGER"/>
+        <result column="sale_number" property="saleNumber" jdbcType="BIGINT"/>
+        <result column="show_sale_number" property="showSaleNumber" jdbcType="BIGINT"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="shop_detail_id" property="shopDetailId" jdbcType="VARCHAR"/>
+        <result column="article_family_id" property="articleFamilyId" jdbcType="VARCHAR"/>
+        <result column="create_user_id" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="DECIMAL"/>
+        <result column="fans_price" property="fansPrice" jdbcType="DECIMAL"/>
+        <result column="has_mult_price" property="hasMultPrice" jdbcType="BIT"/>
+        <result column="has_unit" property="hasUnit" jdbcType="VARCHAR"/>
+        <result column="peference" property="peference" jdbcType="VARCHAR"/>
+        <result column="unit" property="unit" jdbcType="VARCHAR"/>
+        <result column="show_big" property="showBig" jdbcType="BIT"/>
+        <result column="control_color" property="controlColor" jdbcType="VARCHAR"/>
+        <result column="show_desc" property="showDesc" jdbcType="BIT"/>
+        <result column="is_remind" property="isRemind" jdbcType="BIT"/>
+        <result column="article_type" property="articleType" jdbcType="INTEGER"/>
+        <result column="stock_working_day" property="stockWorkingDay" jdbcType="INTEGER"/>
+        <result column="stock_weekend" property="stockWeekend" jdbcType="INTEGER"/>
+        <result column="current_working_stock" property="currentWorkingStock" jdbcType="INTEGER"/>
+        <result column="recommend_id" property="recommendId"/>
+        <result column="newUnit" property="newUnit"/>
+        <result column="is_hidden" property="isHidden"/>
+        <result column="recommendCount" property="recommendCount"/>
+        <result column="eleme_name" property="elemeName"/>
+        <result column="photo_square" property="photoSquare"/>
+        <result column="meal_fee_number" property="mealFeeNumber"/>
+        <result column="is_main_food" property="isMainFood"/>
+        <result column="virtual_id" property="virtualId"></result>
+        <result column="initials" property="initials"></result>
+        <result column="photo_type" property="photoType"></result>
+        <result column="photo_little" property="photoLittle"></result>
+        <result column="open_catty" property="openCatty"></result>
+        <result column="catty_money" property="cattyMoney"></result>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, name, name_alias, name_short, photo_big, photo_small, ingredients, description,
+        is_empty, sort, activated, state, remain_number, sale_number, show_sale_number, update_time,
+        create_time, shop_detail_id, article_family_id, create_user_id, update_user_id, price,
+        fans_price, has_mult_price, has_unit, peference, unit, show_big, control_color,show_desc,
+        is_remind,article_type,stock_working_day,stock_weekend,current_working_stock,
+        recommend_id,is_hidden,eleme_name,photo_square,meal_fee_number,is_main_food,virtual_id,initials,
+        photo_type,photo_little,open_catty,catty_money
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_article
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from tb_article
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.resto.service.shop.entity.Article">
+        insert into tb_article (id, name, name_alias,
+        name_short, photo_big, photo_small,
+        ingredients, description, is_empty,
+        sort, activated, state,
+        remain_number, sale_number, show_sale_number,
+        update_time, create_time, shop_detail_id,
+        article_family_id, create_user_id, update_user_id,
+        price, fans_price, has_mult_price,
+        has_unit, peference, unit,
+        show_big, control_color, show_desc,
+        is_remind,article_type,stock_working_day,stock_weekend,
+        recommend_id,is_hidden,pId,eleme_name,photo_square,meal_fee_number,
+        is_main_food,virtual_id,initials,photo_type,photo_little)
+        values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{nameAlias,jdbcType=VARCHAR},
+        #{nameShort,jdbcType=VARCHAR}, #{photoBig,jdbcType=VARCHAR}, #{photoSmall,jdbcType=VARCHAR},
+        #{ingredients,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{isEmpty,jdbcType=BIT},
+        #{sort,jdbcType=INTEGER}, #{activated,jdbcType=BIT}, #{state,jdbcType=BIT},
+        #{remainNumber,jdbcType=INTEGER}, #{saleNumber,jdbcType=BIGINT}, #{showSaleNumber,jdbcType=BIGINT},
+        #{updateTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{shopDetailId,jdbcType=VARCHAR},
+        #{articleFamilyId,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{updateUserId,jdbcType=VARCHAR},
+        #{price,jdbcType=DECIMAL}, #{fansPrice,jdbcType=DECIMAL}, #{hasMultPrice,jdbcType=BIT},
+        #{hasUnit,jdbcType=VARCHAR}, #{peference,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR},
+        #{showBig,jdbcType=BIT}, #{controlColor,jdbcType=VARCHAR}, #{showDesc,jdbcType=BIT},
+        #{isRemind,jdbcType=BIT},#{articleType},#{stockWorkingDay,jdbcType=INTEGER},#{stockWeekend,jdbcType=INTEGER},
+        #{recommendId,jdbcType=VARCHAR},#{isHidden,jdbcType=BIT},#{pId},#{elemeName,jdbcType=VARCHAR},
+        #{photoSquare},#{mealFeeNumber},#{isMainFood},#{virtualId,jdbcType=INTEGER},#{initials},
+        #{photoType},#{photoLittle})
+    </insert>
+    <insert id="insertSelective" parameterType="com.resto.service.shop.entity.Article">
+        insert into tb_article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="nameAlias != null">
+                name_alias,
+            </if>
+            <if test="nameShort != null">
+                name_short,
+            </if>
+            <if test="photoBig != null">
+                photo_big,
+            </if>
+            <if test="photoSmall != null">
+                photo_small,
+            </if>
+            <if test="ingredients != null">
+                ingredients,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="isEmpty != null">
+                is_empty,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="activated != null">
+                activated,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="remainNumber != null">
+                remain_number,
+            </if>
+            <if test="saleNumber != null">
+                sale_number,
+            </if>
+            <if test="showSaleNumber != null">
+                show_sale_number,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="shopDetailId != null">
+                shop_detail_id,
+            </if>
+            <if test="articleFamilyId != null">
+                article_family_id,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="updateUserId != null">
+                update_user_id,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="fansPrice != null">
+                fans_price,
+            </if>
+            <if test="hasMultPrice != null">
+                has_mult_price,
+            </if>
+            <if test="hasUnit != null">
+                has_unit,
+            </if>
+            <if test="peference != null">
+                peference,
+            </if>
+            <if test="unit != null">
+                unit,
+            </if>
+            <if test="showBig != null">
+                show_big,
+            </if>
+            <if test="controlColor != null">
+                control_color,
+            </if>
+            <if test="showDesc != null">
+                show_desc,
+            </if>
+            <if test="isRemind != null">
+                is_remind,
+            </if>
+            <if test="articleType != null">
+                article_type,
+            </if>
+            <if test="stockWorkingDay != null">
+                stock_working_day,
+            </if>
+            <if test="stockWeekend != null">
+                stock_weekend,
+            </if>
+            <if test="recommendId != null">
+                recommend_id,
+            </if>
+            <if test="isHidden != null">
+                is_hidden,
+            </if>
+            <if test="elemeName != null">
+                eleme_name,
+            </if>
+            <if test="photoSquare != null">
+                photo_square,
+            </if>
+            <if test="mealFeeNumber != null">
+                meal_fee_number,
+            </if>
+            <if test="isMainFood != null">
+                is_main_food,
+            </if>
+            <if test="virtualId != null">
+                virtual_id,
+            </if>
+            <if test="initials != null">
+                initials,
+            </if>
+            <if test="photoType != null">
+                photo_type,
+            </if>
+            <if test="photoLittle != null">
+                photo_little,
+            </if>
+            <if test="openCatty != null">
+                open_catty,
+            </if>
+            <if test="cattyMoney != null">
+                catty_money,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="nameAlias != null">
+                #{nameAlias,jdbcType=VARCHAR},
+            </if>
+            <if test="nameShort != null">
+                #{nameShort,jdbcType=VARCHAR},
+            </if>
+            <if test="photoBig != null">
+                #{photoBig,jdbcType=VARCHAR},
+            </if>
+            <if test="photoSmall != null">
+                #{photoSmall,jdbcType=VARCHAR},
+            </if>
+            <if test="ingredients != null">
+                #{ingredients,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="isEmpty != null">
+                #{isEmpty,jdbcType=BIT},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="activated != null">
+                #{activated,jdbcType=BIT},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=BIT},
+            </if>
+            <if test="remainNumber != null">
+                #{remainNumber,jdbcType=INTEGER},
+            </if>
+            <if test="saleNumber != null">
+                #{saleNumber,jdbcType=BIGINT},
+            </if>
+            <if test="showSaleNumber != null">
+                #{showSaleNumber,jdbcType=BIGINT},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="shopDetailId != null">
+                #{shopDetailId,jdbcType=VARCHAR},
+            </if>
+            <if test="articleFamilyId != null">
+                #{articleFamilyId,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUserId != null">
+                #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="fansPrice != null">
+                #{fansPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="hasMultPrice != null">
+                #{hasMultPrice,jdbcType=BIT},
+            </if>
+            <if test="hasUnit != null">
+                #{hasUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="peference != null">
+                #{peference,jdbcType=VARCHAR},
+            </if>
+            <if test="unit != null">
+                #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="showBig != null">
+                #{showBig,jdbcType=BIT},
+            </if>
+            <if test="controlColor != null">
+                #{controlColor,jdbcType=VARCHAR},
+            </if>
+            <if test="showDesc != null">
+                #{showDesc,jdbcType=BIT},
+            </if>
+            <if test="isRemind != null">
+                #{isRemind,jdbcType=BIT},
+            </if>
+            <if test="articleType != null">
+                #{articleType},
+            </if>
+            <if test="stockWorkingDay != null">
+                #{stockWorkingDay},
+            </if>
+            <if test="stockWeekend != null">
+                #{stockWeekend},
+            </if>
+            <if test="recommendId != null">
+                #{recommendId},
+            </if>
+            <if test="isHidden != null">
+                #{isHidden},
+            </if>
+            <if test="elemeName != null">
+                #{elemeName},
+            </if>
+            <if test="photoSquare != null">
+                #{photoSquare},
+            </if>
+            <if test="mealFeeNumber != null">
+                #{mealFeeNumber},
+            </if>
+            <if test="isMainFood != null">
+                #{isMainFood},
+            </if>
+            <if test="virtualId != null">
+                #{virtualId,jdbcType=INTEGER},
+            </if>
+            <if test="initials != null">
+                #{initials},
+            </if>
+            <if test="photoType != null">
+                #{photoType},
+            </if>
+            <if test="photoLittle != null">
+                #{photoLittle},
+            </if>
+            <if test="openCatty != null">
+                #{openCatty},
+            </if>
+            <if test="cattyMoney != null">
+                #{cattyMoney},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.resto.service.shop.entity.Article">
+        update tb_article
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="nameAlias != null">
+                name_alias = #{nameAlias,jdbcType=VARCHAR},
+            </if>
+            <if test="nameShort != null">
+                name_short = #{nameShort,jdbcType=VARCHAR},
+            </if>
+            <if test="photoBig != null">
+                photo_big = #{photoBig,jdbcType=VARCHAR},
+            </if>
+            <if test="photoSmall != null">
+                photo_small = #{photoSmall,jdbcType=VARCHAR},
+            </if>
+            <if test="ingredients != null">
+                ingredients = #{ingredients,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="isEmpty != null">
+                is_empty = #{isEmpty,jdbcType=BIT},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="activated != null">
+                activated = #{activated,jdbcType=BIT},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=BIT},
+            </if>
+            <if test="remainNumber != null">
+                remain_number = #{remainNumber,jdbcType=INTEGER},
+            </if>
+            <if test="saleNumber != null">
+                sale_number = #{saleNumber,jdbcType=BIGINT},
+            </if>
+            <if test="showSaleNumber != null">
+                show_sale_number = #{showSaleNumber,jdbcType=BIGINT},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="shopDetailId != null">
+                shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},
+            </if>
+            <if test="articleFamilyId != null">
+                article_family_id = #{articleFamilyId,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUserId != null">
+                update_user_id = #{updateUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DECIMAL},
+            </if>
+            fans_price = #{fansPrice,jdbcType=DECIMAL},
+            <if test="hasMultPrice != null">
+                has_mult_price = #{hasMultPrice,jdbcType=BIT},
+            </if>
+            <if test="hasUnit != null">
+                has_unit = #{hasUnit,jdbcType=VARCHAR},
+            </if>
+            peference = #{peference,jdbcType=VARCHAR},
+            <if test="unit != null">
+                unit = #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="showBig != null">
+                show_big = #{showBig,jdbcType=BIT},
+            </if>
+            <if test="controlColor != null">
+                control_color = #{controlColor,jdbcType=VARCHAR},
+            </if>
+            <if test="showDesc != null">
+                show_desc = #{showDesc,jdbcType=BIT},
+            </if>
+            <if test="isRemind != null">
+                is_remind = #{isRemind,jdbcType=BIT},
+            </if>
+            <if test="articleType != null">
+                article_type = #{articleType},
+            </if>
+            <if test="stockWorkingDay != null">
+                stock_working_day = #{stockWorkingDay},
+            </if>
+            <if test="stockWeekend != null">
+                stock_weekend = #{stockWeekend},
+            </if>
+            <if test="currentWorkingStock != null">
+                current_working_stock = #{currentWorkingStock},
+            </if>
+            <if test="recommendId != null">
+                recommend_id = #{recommendId},
+            </if>
+            <if test="isHidden != null">
+                is_hidden = #{isHidden},
+            </if>
+            <if test="elemeName != null">
+                eleme_name = #{elemeName},
+            </if>
+            <if test="mealFeeNumber != null">
+                meal_fee_number = #{mealFeeNumber},
+            </if>
+            <if test="isMainFood != null">
+                is_main_food = #{isMainFood},
+            </if>
+            <if test="virtualId != null and virtualId != -1">
+                virtual_id = #{virtualId},
+            </if>
+            <if test="virtualId == -1">
+                virtual_id = null,
+            </if>
+            <if test="initials != null">
+                initials = #{initials},
+            </if>
+            <if test="photoType != null">
+                photo_type = #{photoType},
+            </if>
+            <if test="photoLittle != null">
+                photo_little = #{photoLittle},
+            </if>
+            <if test="openCatty != null">
+                open_catty = #{openCatty},
+            </if>
+            <if test="cattyMoney != null">
+                catty_money = #{cattyMoney},
+            </if>
+            photo_square = null
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.resto.service.shop.entity.Article">
+        update tb_article
+        set name = #{name,jdbcType=VARCHAR},
+        name_alias = #{nameAlias,jdbcType=VARCHAR},
+        name_short = #{nameShort,jdbcType=VARCHAR},
+        photo_big = #{photoBig,jdbcType=VARCHAR},
+        photo_small = #{photoSmall,jdbcType=VARCHAR},
+        ingredients = #{ingredients,jdbcType=VARCHAR},
+        description = #{description,jdbcType=VARCHAR},
+        is_empty = #{isEmpty,jdbcType=BIT},
+        sort = #{sort,jdbcType=INTEGER},
+        activated = #{activated,jdbcType=BIT},
+        state = #{state,jdbcType=BIT},
+        remain_number = #{remainNumber,jdbcType=INTEGER},
+        sale_number = #{saleNumber,jdbcType=BIGINT},
+        show_sale_number = #{showSaleNumber,jdbcType=BIGINT},
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        shop_detail_id = #{shopDetailId,jdbcType=VARCHAR},
+        article_family_id = #{articleFamilyId,jdbcType=VARCHAR},
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+        update_user_id = #{updateUserId,jdbcType=VARCHAR},
+        price = #{price,jdbcType=DECIMAL},
+        fans_price = #{fansPrice,jdbcType=DECIMAL},
+        has_mult_price = #{hasMultPrice,jdbcType=BIT},
+        has_unit = #{hasUnit,jdbcType=VARCHAR},
+        peference = #{peference,jdbcType=VARCHAR},
+        unit = #{unit,jdbcType=VARCHAR},
+        show_big = #{showBig,jdbcType=BIT},
+        control_color = #{controlColor,jdbcType=VARCHAR},
+        show_desc = #{showDesc,jdbcType=BIT},
+        is_remind = #{isRemind,jdbcType=BIT},
+        article_type = #{articleType},
+        stock_working_day = #{stockWorkingDay,jdbcType=INTEGER},
+        stock_weekend = #{stockWeekend,jdbcType=INTEGER},
+        current_working_stock = #{currentWorkingStock,jdbcType=INTEGER},
+        recommend_id = #{recommendId,jdbcType=VARCHAR},
+        is_hidden = #{isHidden,jdbcType=BIT},
+        meal_fee_number = #{mealFeeNumber},
+        is_main_food = #{isMainFood},
+        virtual_id = #{virtualId},
+        initials = #{initials},
+        photo_type = #{photoType},
+        photo_little = #{photoLittle},
+        photo_square = null
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <resultMap type="com.resto.service.shop.entity.Article" id="selectResultMap" autoMapping="true">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <association property="articleFamily" javaType="com.resto.service.shop.entity.ArticleFamily">
+            <result column="articleFamilyName" property="name"/>
+        </association>
+    </resultMap>
+
+    <select id="selectList" resultMap="selectResultMap">
+        select ar.*,arf.name as articleFamilyName from tb_article ar
+        left join tb_article_family arf on ar.article_family_id=arf.id
+        where state=1
+        <if test="shopId!=null and shopId!=''">
+            and ar.shop_detail_id = #{shopId}
+        </if> order by ar.sort
+    </select>
+    <select id="selectListByShopIdAndDistributionId" resultType="Article">
+        SELECT a.id,a.name,a.control_color,a.is_remind,a.show_desc,
+        a.show_big,	a.description,a.photo_small,a.is_empty,a.meal_fee_number,
+        a.sort,a.remain_number,a.article_family_id,a.price,a.recommend_id,a.is_hidden,a.virtual_id,
+        a.fans_price,a.has_unit,a.unit,a.article_type,a.likes,a.current_working_stock,
+        a.photo_type,a.photo_little,a.open_catty,a.catty_money,
+        (select  count(1) from tb_article_unit_new where article_id = a.id) as newUnit,
+        if(a.recommend_id is not null,1,0) as recommendCount
+        FROM tb_article a,tb_article_family f
+        WHERE a.article_family_id=f.id AND f.distribution_mode_id=#{distributionModeId} AND a.state=1 AND a.activated=1
+        AND a.shop_detail_id=#{currentShopId}
+        ORDER BY photo_type, sort
+    </select>
+    <select id="selectListByShopIdRecommendCategory" resultType="Article">
+        SELECT
+            a.id,
+            a. NAME,
+            a.control_color,
+            a.is_remind,
+            a.show_desc,
+            a.show_big,
+            a.description,
+            a.photo_small,
+            a.is_empty,
+            a.meal_fee_number,
+            a.sort,
+            a.remain_number,
+            a.article_family_id,
+            a.price,
+            a.recommend_id,
+            a.is_hidden,
+            a.virtual_id,
+            a.fans_price,
+            a.has_unit,
+            a.unit,
+            a.article_type,
+            a.likes,
+            a.photo_type,
+            a.photo_little,
+            a.open_catty,
+            a.catty_money,
+            a.current_working_stock,
+          f.recommend_sort,
+            (
+                SELECT
+                    count(1)
+                FROM
+                    tb_article_unit_new
+                WHERE
+                    article_id = a.id
+            ) AS newUnit,
+
+        IF (
+            a.recommend_id IS NOT NULL,
+            1,
+            0
+        ) AS recommendCount
+        FROM
+            tb_recommend_category o,
+            tb_recommend_category_article f,
+            tb_article a
+        WHERE
+        o.id=f.recommend_category_id
+        AND a.id = f.article_id
+        AND a.shop_detail_id = #{0}
+        AND f.recommend_category_id = #{1}
+        AND a.state=1
+        AND a.activated=1
+        ORDER BY
+        -- IF(o.type = 0, a.likes, f.recommend_sort)
+        CASE
+        WHEN o.type = 0 THEN a.likes END DESC,
+        CASE
+        WHEN o.type = 1 THEN f.recommend_sort END
+    </select>
+    <select id="selectBySupportTimeId" resultType="Article">
+        select a.id,a.name,a.description,MAX(st.discount) discount from tb_article a
+        LEFT JOIN tb_article_support_time ast on a.id = ast.article_id  and ast.support_time_id in
+        <foreach collection="times" separator="," item="id" open="(" close=")">
+            #{id}
+        </foreach>
+        LEFT JOIN tb_support_time st on ast.support_time_id = st.id
+        where  a.shop_detail_id =#{shopId} and a.state=1 and discount is not null GROUP BY a.id;
+    </select>
+
+    <!-- 根据是否谷清查询菜品信息 -->
+    <select id="selectListByIsEmpty" resultType="Article">
+  	SELECT a.id,a.peference,a.name,a.is_empty,f.name articleFamilyName from tb_article a LEFT JOIN tb_article_family f on
+  	 a.article_family_id = f.id where a.activated = 1 and a.is_empty = #{isEmpty} and a.shop_detail_id = #{shopId}
+  	 and a.state=1
+  </select>
+
+
+    <!-- 根据菜品Id 设置谷清 -->
+    <update id="changeEmpty">
+	update tb_article set is_empty = #{isEmpty} where id = #{articleId}
+  </update>
+
+    <update id="addLikes">
+  	update tb_article set likes = likes+1 where id=#{0}
+  </update>
+    <update id="updateLikes">
+  	update tb_article set likes = #{1} where id=#{0}
+  </update>
+
+    <update id="initSuitStock">
+
+update tb_article t ,
+(
+select min(stock_working_day_count) as stock_working_day_count,
+min(stock_weekend_count) as stock_weekend_count,
+article_name,id from (select max(t4.stock_weekend) as stock_weekend_count ,max(t4.stock_working_day) as stock_working_day_count,
+t2.name,t.name as article_name,t.id from tb_article t
+INNER JOIN tb_meal_attr t2 on t2.article_id = t.id
+INNER JOIN tb_meal_item t3 on t3.meal_attr_id = t2.id
+INNER JOIN tb_article t4 on t4.id = t3.article_id
+where t.article_type = 2
+
+GROUP BY t2.name
+) as r
+GROUP BY article_name
+) as b
+set t.stock_weekend = b.stock_weekend_count,
+t.stock_working_day = b.stock_working_day_count
+where t.id = b.id
+  </update>
+
+
+    <update id="initSize">
+    update tb_article t ,(
+select article_id, sum(stock_working_day) as stock_working_day_count,
+sum(stock_weekend) as stock_weekend_count
+ from tb_article_price
+GROUP BY article_id
+) as t2
+set t.stock_weekend = t2.stock_weekend_count,
+t.stock_working_day = t2.stock_working_day_count
+where t.id = t2.article_id
+  </update>
+
+    <update id="clearStock">
+    update tb_article
+        set is_empty = 1  , empty_remark = #{emptyRemark}
+        where id = #{articleId}
+
+  </update>
+
+    <update id="editStock">
+        update tb_article
+        <set>
+            current_working_stock = #{count} , empty_remark = #{emptyRemark}
+            <if test="count == 0 ">
+                ,is_empty = 1
+            </if>
+        </set>
+
+        where id = #{articleId}
+    </update>
+
+    <update id="editPriceStock">
+    update tb_article_price
+    set current_working_stock = #{count}  , empty_remark = #{emptyRemark}
+    where id = #{articleId}
+  </update>
+
+    <update id="initSizeCurrent">
+    update tb_article t ,(
+    select article_id, sum(current_working_stock) as current_working_stock_count
+    from tb_article_price
+    GROUP BY article_id
+    ) as t2
+    set t.current_working_stock = t2.current_working_stock_count
+    ,t.is_empty = if(t2.current_working_stock_count = 0,1,0),
+    t.empty_remark = if(t2.current_working_stock_count = 0,'【自动沽清】菜品所有规格都已售罄',NULL)
+    where t.id = t2.article_id
+  </update>
+
+    <update id="cleanPriceAll">
+    update tb_article_price
+    set current_working_stock = 0 , empty_remark = #{emptyRemark}
+    where article_id = #{articleId}
+  </update>
+
+    <update id="clearMain">
+    update tb_article ,
+ (select article_id from tb_article_price where id = #{articleId} ) as b
+set current_working_stock = 0
+, is_empty = 1 , empty_remark = #{emptyRemark}
+where id = b.article_id
+and (select count(1) from tb_article_price where article_id = b.article_id ) = (select count(1) from
+tb_article_price where article_id = b.article_id  and current_working_stock = 0)
+  </update>
+
+    <update id="initEmpty">
+    update tb_article
+    set is_empty = 0 , empty_remark = NULL where current_working_stock > 0
+  </update>
+
+    <update id="setActivate">
+		UPDATE tb_article set activated = #{activated} where id  = #{articleId}
+	</update>
+
+
+    <select id="getSingoArticle" resultType="Article">
+        select tb_article_family.name as articleFamilyName,
+        tb_article.id,tb_article.name,tb_article.sort,ifnull(fans_price,price) as  price
+        from tb_article
+        left join tb_article_family on tb_article.article_family_id = tb_article_family.id
+        where state =1
+        and article_type =1
+        and tb_article.id not in (select article_id from tb_article_price GROUP BY article_id)
+        and tb_article.shop_detail_id = #{shopId}
+        and tb_article.id not in (SELECT article_id from tb_article_unit_new)
+    </select>
+
+    <select id="getSingoArticleAll" resultType="Article">
+        select tb_article_family.name as articleFamilyName,
+        tb_article.id,tb_article.name,tb_article.sort,ifnull(fans_price,price) as  price
+        from tb_article
+        left join tb_article_family on tb_article.article_family_id = tb_article_family.id
+        where state =1
+        and tb_article.shop_detail_id = #{shopId}
+    </select>
+
+    <update id="deleteRecommendId">
+        update tb_article
+        set recommend_id = null
+        where recommend_id = #{recommendId}
+    </update>
+
+    <select id="selectPidAndShopId" resultType="java.lang.Integer">
+        select count(1) from tb_article where shop_detail_id = #{shopId} and pId = #{articleId}
+        and state = 1
+    </select>
+
+    <select id="getArticleByMeal" resultType="Article">
+select * from tb_article where id in (  select article_id from tb_meal_item where meal_attr_id in
+(select id from tb_meal_attr where article_id = #{articleId})
+GROUP BY article_id
+) and state = 1
+    </select>
+
+    <select id="selectByPid" resultType="Article">
+        select * from tb_article where pId= #{pId} and shop_detail_id = #{shopId}
+        and state = 1
+    </select>
+
+    <select id="selectByName" resultType="Article">
+        select * from  tb_article where eleme_name like CONCAT('%',#{name},'%')   and state = 1
+        and shop_detail_id = #{shopId}
+    </select>
+
+    <select id="delCheckArticle" resultType="Article">
+        select t4.name from tb_article t
+        left join tb_meal_item t2 on t2.article_id = t.id
+        left join tb_meal_attr t3 on t3.id = t2.meal_attr_id
+        left join tb_article t4 on t4.id = t3.article_id
+        where t2.article_id = #{id}
+        and t4.state = 1 and t4.article_type = 2
+    </select>
+
+    <update id="updatePhotoSquare" parameterType="com.resto.service.shop.entity.Article">
+    update tb_article
+    set photo_square = #{photoSquare}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <update id="addArticleLikes">
+        update tb_article
+        set likes = likes + 1
+        where id = #{articleId}
+    </update>
+
+    <select id="selectsingleItem" parameterType="java.lang.String" resultMap="BaseResultMap">
+    	select ar.*,arf.name 
+		as articleFamilyName from tb_article ar
+		left join tb_article_family arf  
+		on ar.article_family_id=arf.id
+		where ar.state=1 and ar.article_type = 1
+		and ar.id not in (select article_id from tb_article_price group by article_id)
+		and ar.unit_id is null
+		and ar.id not in (select article_id from tb_article_unit_new group by article_id)
+		and ar.shop_detail_id = #{shopId}
+    </select>
+
+
+    <select id="getArticleListByFamily" resultType="Article">
+        SELECT * from tb_article a
+        LEFT JOIN tb_article_support_time ast on a.id = ast.article_id  and ast.support_time_id in
+        <foreach collection="times" separator="," item="id" open="(" close=")">
+            #{id}
+        </foreach>
+        LEFT JOIN tb_support_time st on ast.support_time_id = st.id
+        where a.activated = 1 and a.state = 1 and a.shop_detail_id = #{shopId}
+        and a.article_family_id = #{articleFamilyId} and discount is not null
+        order by a.sort LIMIT #{currentPage},#{showCount}
+    </select>
+
+    <select id="selectArticleList" resultType="Article">
+        select * from tb_article
+    </select>
+
+    <update id="updateInitialsById">
+        update tb_article set initials = #{initials} where id = #{articleId}
+    </update>
+
+    <select id="selectArticleOrderCount" parameterType="java.util.Map" resultType="java.util.Map">
+        CALL
+        <if test="shopDetailId != null">
+            proc_article_order_count_shop(#{beginDate},#{endDate},${type},#{shopDetailId})
+        </if>
+        <if test="shopDetailId == null">
+            proc_article_order_count(#{beginDate},#{endDate},${type})
+        </if>
+    </select>
+
+    <select id="selectArticleSort" parameterType="java.util.Map" resultType="java.lang.String">
+        select ta.id articleId
+        from tb_article ta
+        inner join tb_article_family taf
+        on ta.article_family_id = taf.id
+        where ta.id in
+        <foreach collection="articleIds" item="articleId" open="(" separator="," close=")">
+            #{articleId}
+        </foreach>
+        ORDER BY taf.peference asc, ta.sort asc
+    </select>
+
+    <select id="selectnewPosListByFamillyId" resultType="Article">
+        SELECT * from tb_article a
+        LEFT JOIN tb_article_support_time ast on a.id = ast.article_id  and ast.support_time_id in
+        <foreach collection="times" separator="," item="id" open="(" close=")">
+            #{id}
+        </foreach>
+        LEFT JOIN tb_support_time st on ast.support_time_id = st.id
+        where a.activated = 1 and a.state = 1 and a.shop_detail_id = #{shopId}
+        and a.article_family_id = #{articleFamilyId} and discount is not null
+        order by a.sort
+    </select>
+
+    <select id="selectHasResourcePhotoList" resultType="Article">
+      SELECT * FROM tb_article WHERE photo_small like '%http://%'
+    </select>
+
+    <update id="updateArticleStock">
+        update tb_article
+        <set>
+            <if test="type=='minus'">
+                current_working_stock = current_working_stock - #{count}
+            </if>
+            <if test="type == 'add'">
+                current_working_stock = current_working_stock + #{count}
+            </if>
+        </set>
+        where id = #{articleId}
+        <if test="type=='minus'">
+            and current_working_stock - #{count} >= 0
+        </if>
+    </update>
+
+    <update id="setEmpty">
+        update tb_article
+        set is_empty = 1 , empty_remark = '【系统自动沽清】菜品已售馨'
+        where id = #{articleId}
+
+    </update>
+
+    <update id="setEmptyFail">
+        update tb_article
+        set is_empty = 0 , empty_remark = NULL
+        where id = #{articleId}
+    </update>
+
+    <update id="setStockBySuit">
+
+        update tb_article t ,
+        (
+        select min(count) as count,article_name,id from (select max(t4.current_working_stock) as count ,t2.id as attr_id, t2.name,t.name as article_name,t.id from tb_article t
+        INNER JOIN tb_meal_attr t2 on t2.article_id = t.id
+        INNER JOIN tb_meal_item t3 on t3.meal_attr_id = t2.id
+        INNER JOIN tb_article t4 on t4.id = t3.article_id
+        where t.article_type in(2,3) and t.shop_detail_id = #{shopId} and t.state = 1
+        GROUP BY t2.id
+        ) as r
+        GROUP BY article_name
+        ) as b
+        set t.current_working_stock = b.count,
+        t.is_empty = if(b.count = 0,1,0),t.empty_remark = if(b.count = 0,'【系统自动沽清】套餐某子菜品售罄',NULL)
+        where t.id = b.id
+
+    </update>
+
+    <select id="getStockBySuit" resultType="com.resto.service.shop.entity.Article">
+        select min(count) as count,article_name,id,is_empty from (select max(t4.current_working_stock) as count ,t2.id as attr_id, t2.name,t.name as article_name,t.id
+        ,t.is_empty from tb_article t
+        INNER JOIN tb_meal_attr t2 on t2.article_id = t.id
+        INNER JOIN tb_meal_item t3 on t3.meal_attr_id = t2.id
+        INNER JOIN tb_article t4 on t4.id = t3.article_id
+        where t.article_type in(2,3) and t.shop_detail_id = #{shopId} and t.state = 1
+        GROUP BY t2.id
+        ) as r
+        GROUP BY article_name
+    </select>
+
+
+    <select id="selectSumByMonthlySales" resultType="java.lang.Integer">
+        select COALESCE(sum(count),0) from tb_order_item
+        where article_id like CONCAT(#{articleId},'%') and create_time like CONCAT('%',#{time},'%')
+    </select>
+
+</mapper>

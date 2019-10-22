@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.resto.service.shop.mapper.ReceiptMapper" >
+  <resultMap id="BaseResultMap" type="com.resto.service.shop.entity.Receipt" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="order_money" property="orderMoney" jdbcType="DECIMAL" />
+    <result column="receipt_money" property="receiptMoney" jdbcType="DECIMAL" />
+    <result column="receipt_title_id" property="receiptTitleId" jdbcType="BIGINT" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="orderMap" type="com.resto.service.shop.entity.ReceiptOrder">
+    <result column="order_number" property="orderNumber" jdbcType="VARCHAR"/>
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP"/>
+    <result column="order_money" property="orderMoney" jdbcType="DECIMAL"/>
+    <result column="receipt_money" property="receiptMoney" jdbcType="DECIMAL"/>
+    <result column="state" property="state" jdbcType="INTEGER"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, order_number, pay_time, order_money, receipt_money, receipt_title_id, state,
+    create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_receipt
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_receipt
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.resto.service.shop.entity.Receipt" >
+    insert into tb_receipt (id, order_number, pay_time, 
+      "order_money", receipt_money, receipt_title_id, 
+      state, create_time, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{orderNumber,jdbcType=VARCHAR}, #{payTime,jdbcType=TIMESTAMP}, 
+      #{orderMoney,jdbcType=DECIMAL}, #{receiptMoney,jdbcType=DECIMAL}, #{receiptTitleId,jdbcType=BIGINT}, 
+      #{state,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.resto.service.shop.entity.Receipt" >
+    insert into tb_receipt
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderNumber != null" >
+        order_number,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+      <if test="orderMoney != null" >
+        order_money,
+      </if>
+      <if test="receiptMoney != null" >
+        receipt_money,
+      </if>
+      <if test="receiptTitleId != null" >
+        receipt_title_id,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderNumber != null" >
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderMoney != null" >
+        #{orderMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="receiptMoney != null" >
+        #{receiptMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="receiptTitleId != null" >
+        #{receiptTitleId,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.resto.service.shop.entity.Receipt" >
+    update tb_receipt
+    <set >
+      <if test="orderNumber != null" >
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderMoney != null" >
+        "order_money" = #{orderMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="receiptMoney != null" >
+        receipt_money = #{receiptMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="receiptTitleId != null" >
+        receipt_title_id = #{receiptTitleId,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateState" parameterType="com.resto.service.shop.entity.Receipt" >
+    update tb_receipt
+    <set >
+      <if test="orderNumber != null" >
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderMoney != null" >
+        "order_money" = #{orderMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="receiptMoney != null" >
+        receipt_money = #{receiptMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="receiptTitleId != null" >
+        receipt_title_id = #{receiptTitleId,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.resto.service.shop.entity.Receipt" >
+    update tb_receipt
+    set order_number = #{orderNumber,jdbcType=VARCHAR},
+    pay_time = #{payTime,jdbcType=TIMESTAMP},
+    "order_money" = #{orderMoney,jdbcType=DECIMAL},
+    receipt_money = #{receiptMoney,jdbcType=DECIMAL},
+    receipt_title_id = #{receiptTitleId,jdbcType=BIGINT},
+    state = #{state,jdbcType=INTEGER},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!--查询申请发票订单-->
+  <select id="selectApplyReceiptOrderList" resultMap="orderMap">
+    SELECT t1.order_number order_number,t1.pay_time pay_time,t1.order_money order_money,ceil(t1.receipt_money) receipt_money FROM
+    (SELECT
+    o.serial_number order_number,
+    (SELECT p.pay_time FROM tb_order_payment_item p WHERE p.order_id=o.id AND p.payment_mode_id IN (1, 5, 6, 10, 12, 16) ORDER BY p.pay_time DESC LIMIT 0,1) pay_time,
+    (CASE WHEN o.amount_with_children>0.00 THEN o.amount_with_children ELSE o.order_money END) order_money,
+    (SELECT SUM(p.pay_value) FROM tb_order_payment_item p WHERE p.order_id=o.id AND p.payment_mode_id IN (1, 5, 6, 10, 12, 16)) receipt_money
+    FROM
+    tb_order o
+    WHERE o.production_status IN (2, 3, 4)
+    AND o.order_state IN (2, 10, 11, 12)
+    AND o.serial_number NOT IN (SELECT r.order_number FROM tb_receipt r)
+    AND o.customer_id=#{customerId,jdbcType=VARCHAR}
+    AND o.shop_detail_id=#{shopId,jdbcType=VARCHAR}
+    ORDER BY pay_time DESC) t1
+    WHERE t1.receipt_money!=0.00
+  </select>
+
+  <!--查询单笔订单所有支付金额-->
+  <select id="selectReceiptMoney" resultMap="orderMap">
+    SELECT
+    (CASE WHEN o.amount_with_children>0.00 THEN o.amount_with_children ELSE o.order_money END) order_money,
+    ceil(SUM(p.pay_value)) receipt_money
+    FROM
+    tb_order o,
+    tb_order_payment_item p
+    WHERE p.order_id = o.id
+    AND o.serial_number = #{orderNumber,jdbcType=VARCHAR}
+  </select>
+
+  <!--查询发票历史记录-->
+  <select id="selectReceiptOrderList" resultMap="orderMap">
+    SELECT
+    r.order_number order_number,
+    r.pay_time pay_time,
+    r.order_money order_money,
+    r.receipt_money receipt_money,
+    r.state state
+    FROM
+    tb_order o,tb_receipt r
+    WHERE r.order_number=o.serial_number
+    AND o.customer_id=#{customerId,jdbcType=VARCHAR}
+    AND o.shop_detail_id=#{shopId,jdbcType=VARCHAR}
+    AND r.receipt_money != 0.00
+    ORDER BY pay_time DESC
+  </select>
+</mapper>
